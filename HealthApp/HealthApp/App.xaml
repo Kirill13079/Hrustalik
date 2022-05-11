@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="WhiteSmoke">#f2f2f2</Color>
+            <Color x:Key="Mediumblue">#0624d9</Color>
+            <Color x:Key="Royalblue">#1a4ada</Color>
+            <Color x:Key="RoyalblueSmoke">#3b70da</Color>
+            <Color x:Key="Lightsteelblue">#9aaff2</Color>
+            <Color x:Key="White">#ffffff</Color>
+            <Color x:Key="Black">#3f3f3f</Color>
+
+            <OnPlatform x:Key="EntryFontSize"
+                        x:TypeArguments="x:Double"
+                        Android="15"
+                        iOS="15" />
+
+            <OnPlatform x:Key="LablelFontSize"
+                        x:TypeArguments="x:Double"
+                        Android="14"
+                        iOS="15" />
+            
+            <OnPlatform x:Key="HeaderLablelFontSize"
+                        x:TypeArguments="x:Double"
+                        Android="20"
+                        iOS="15" />
+
+            <OnPlatform x:Key="ButtonFontSize"
+                        x:TypeArguments="x:Double"
+                        Android="18"
+                        iOS="18" />
+
+            <Style x:Key="EntryFrame" TargetType="Frame">
+                <Setter Property="HasShadow" Value="False"/>
+                <Setter Property="HeightRequest" Value="70"/>
+                <Setter Property="Padding" Value="20,0"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource WhiteSmoke}"/>
+                <Setter Property="BorderColor" Value="{DynamicResource WhiteSmoke}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="StartAndExpand"/>
+            </Style>
+            <Style x:Key="SearchFrame" TargetType="Frame">
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="Padding" Value="20,0"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource White}"/>
+                <Setter Property="BorderColor" Value="{DynamicResource White}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="StartAndExpand"/>
+            </Style>
+            <Style x:Key="ButtonFrame" TargetType="Frame">
+                <Setter Property="HasShadow" Value="False"/>
+                <Setter Property="HeightRequest" Value="70"/>
+                <Setter Property="Padding" Value="0,0"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource Mediumblue}"/>
+                <Setter Property="BorderColor" Value="{DynamicResource Mediumblue}"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

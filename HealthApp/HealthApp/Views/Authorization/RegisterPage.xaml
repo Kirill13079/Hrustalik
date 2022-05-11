@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthApp.Views.Authorization.RegisterPage"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:tool="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:vm="clr-namespace:HealthApp.ViewModels.Authorization">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel x:Name="vm"/>
+    </ContentPage.BindingContext>
+
+    <Grid HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand"
+          BackgroundColor="{DynamicResource White}">
+        <ScrollView HorizontalOptions="FillAndExpand"
+                    VerticalScrollBarVisibility="Never">
+            <Grid RowDefinitions="60, 20*, 80*" 
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand"
+                  Margin="40, 20">
+                <Grid ColumnDefinitions="60,*">
+                    <Frame BackgroundColor="{DynamicResource Mediumblue}"
+                           tool:TouchEffect.NativeAnimation="True"
+                           HasShadow="False"
+                           CornerRadius="30">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToBackPageCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </Grid>
+                <Label Grid.Row="1"  
+                       Text="logo" 
+                       Margin="0,0" 
+                       TextColor="#0623d9" 
+                       HorizontalOptions="CenterAndExpand"
+                       FontSize="20"
+                       FontFamily="ExtraBold"
+                       VerticalOptions="Center"/>
+                <Grid Grid.Row="2" 
+                      HorizontalOptions="FillAndExpand" 
+                      VerticalOptions="StartAndExpand" 
+                      Margin="0">
+                    <StackLayout Spacing="20">
+                        <Label Text="Создайте аккаунт"
+                               TextColor="{DynamicResource Mediumblue}"
+                               FontSize="30"
+                               FontFamily="ExtraBold"/>
+                        <Frame Style="{DynamicResource EntryFrame}">
+                            <Entry Placeholder="Email"
+                                   Text="{Binding Email}"
+                                   FontSize="{DynamicResource Key=EntryFontSize}"
+                                   FontFamily="Regular"
+                                   PlaceholderColor="{DynamicResource Lightsteelblue}"
+                                   HorizontalOptions="FillAndExpand"/>
+                        </Frame>
+                        <Frame Style="{DynamicResource EntryFrame}">
+                            <Entry Placeholder="Пароль"
+                                   Text="{Binding Password}"
+                                   FontSize="{DynamicResource Key=EntryFontSize}"
+                                   FontFamily="Regular"
+                                   PlaceholderColor="{DynamicResource Lightsteelblue}"
+                                   HorizontalOptions="FillAndExpand"/>
+                        </Frame>
+                        <Frame Style="{DynamicResource EntryFrame}">
+                            <Entry Placeholder="Подтвердите пароль"
+                                   Text="{Binding ConfirmPassword}"
+                                   FontSize="{DynamicResource Key=EntryFontSize}"
+                                   FontFamily="Regular"
+                                   PlaceholderColor="{DynamicResource Lightsteelblue}"
+                                   HorizontalOptions="FillAndExpand"/>
+                        </Frame>
+                        <Frame Style="{DynamicResource ButtonFrame}"
+                               tool:TouchEffect.NativeAnimation="True">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <Label Text="Создать аккаунт"  
+                                   FontFamily="Light" 
+                                   TextColor="{DynamicResource White}"  
+                                   HorizontalOptions="Center"
+                                   FontSize="{DynamicResource Key=ButtonFontSize}"
+                                   VerticalOptions="Center"
+                                   InputTransparent="True"/>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

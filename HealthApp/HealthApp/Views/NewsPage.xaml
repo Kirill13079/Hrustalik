@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:vm="clr-namespace:HealthApp.ViewModels" 
+             xmlns:converters="clr-namespace:HealthApp.Converts"
+             x:Class="HealthApp.Views.NewsPage">
+
+    <ContentPage.BindingContext>
+        <vm:NewsViewModel x:Name="vm"/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToStringConverter x:Key="RecordHeightConvertert" 
+                                              FalseString="100"
+                                              TrueString="180"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="Auto, Auto, Auto, *"
+          RowSpacing="0">
+        <Grid ColumnDefinitions="*, *, *" 
+              Padding="20, 20"
+              BackgroundColor="{DynamicResource Mediumblue}">
+            <Label Text="&#xf009;"
+                   FontFamily="AwesomeSolid"
+                   FontSize="{DynamicResource Key=EntryFontSize}"
+                   TextColor="{DynamicResource White}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Start"/>
+            <Label Grid.Column="1"
+                   Text="Новости" 
+                   FontFamily="ExtraBold"
+                   TextColor="{DynamicResource White}"
+                   FontSize="20"
+                   HorizontalOptions="CenterAndExpand"/>
+            <Label Grid.Column="2" Text="&#xf02e;"
+                   FontFamily="AwesomeSolid"
+                   FontSize="{DynamicResource Key=EntryFontSize}"
+                   TextColor="{DynamicResource White}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="End"/>
+        </Grid>
+        <Frame Grid.Row="1"
+               HasShadow="False"
+               HeightRequest="5"
+               CornerRadius="0"
+               BackgroundColor="{DynamicResource Mediumblue}">
+        </Frame>
+        <Frame Grid.Row="2" 
+               Style="{DynamicResource SearchFrame}"
+               HasShadow="True"
+               Margin="20,0"
+               TranslationY="-30">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="&#xf002;"
+                       FontFamily="AwesomeSolid"
+                       FontSize="{DynamicResource Key=EntryFontSize}"
+                       TextColor="{DynamicResource RoyalblueSmoke}"
+                       VerticalOptions="CenterAndExpand"/>
+                <Entry Placeholder="Поиск"
+                       FontSize="{DynamicResource Key=EntryFontSize}"
+                       FontFamily="Regular"
+                       PlaceholderColor="{DynamicResource RoyalblueSmoke}"
+                       HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+        </Frame>
+        <ScrollView Grid.Row="3" 
+                    VerticalScrollBarVisibility="Never" 
+                    Padding="0,0,0,30">
+            <Grid RowDefinitions="Auto, Auto, Auto" 
+                  RowSpacing="20">
+                <Grid HeightRequest="230">
+                    <Image Source="{Binding HotRecord.Image}" Aspect="AspectFill"/>
+                </Grid>
+                <Grid HeightRequest="230">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="Transparent"
+                                      Offset="0.1"/>
+                            <GradientStop Color="Black"
+                                      Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                </Grid>
+                <Grid HeightRequest="230">
+                    <StackLayout Margin="30" 
+                                 VerticalOptions="End" 
+                                 HorizontalOptions="Start">
+                        <Label Text="Поплуярное" 
+                               TextColor="{DynamicResource White}"
+                               FontSize="{DynamicResource Key=LablelFontSize}"
+                               FontFamily="Regular"/>
+                        <Grid ColumnDefinitions="Auto,*"
+                              RowDefinitions="*, Auto"
+                              Padding="5">
+                            <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Text="{Binding HotRecord.Name}"
+                                       FontSize="{DynamicResource Key=HeaderLablelFontSize}" 
+                                       FontFamily="ExtraBold"
+                                       TextColor="{DynamicResource White}">
+                            </Label>
+                            <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       Text="{Binding HotRecord.Publication}"
+                                       TextColor="{DynamicResource White}"
+                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                       FontFamily="Regular">
+                            </Label>
+                            <StackLayout Grid.Row="1"
+                                         Grid.Column="1"
+                                         Orientation="Horizontal">
+                                <Label Text="&#xf017;"
+                                       FontFamily="AwesomeSolid"
+                                       FontSize="{DynamicResource Key=EntryFontSize}"
+                                       TextColor="{DynamicResource White}"
+                                       VerticalOptions="EndAndExpand"
+                                       HorizontalOptions="EndAndExpand"/>
+                                <Label Text="{Binding HotRecord.DateAdded}"
+                                       TextColor="{DynamicResource White}"
+                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                       HorizontalOptions="End"                                    
+                                       FontFamily="Regular"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </Grid>
+                <StackLayout Grid.Row="1"
+                             VerticalOptions="Center"
+                             Spacing="20"
+                             Margin="20,0">
+                    <CollectionView SelectionMode="None"
+                                    ItemsSource="{Binding Records}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <Label Text="Новостей нет"/>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HeightRequest="{Binding IsNews, Converter={StaticResource RecordHeightConvertert}}">
+                                    <Frame IsVisible="{Binding IsNews}"
+                                           HasShadow="False"
+                                           Padding="0"
+                                           CornerRadius="15"
+                                           IsClippedToBounds="True">
+                                        <Image Source="{Binding Image}" Aspect="AspectFill"/>
+                                    </Frame>
+                                    <Frame IsVisible="{Binding IsNews}"
+                                           HasShadow="False"
+                                           Padding="0"
+                                           CornerRadius="15">
+                                        <Frame.Background>
+                                            <LinearGradientBrush EndPoint="0,1">
+                                                <GradientStop Color="Transparent"
+                                                              Offset="0.1"/>
+                                                <GradientStop Color="Black"
+                                                              Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Frame.Background>
+                                    </Frame>
+                                    <Frame IsVisible="{Binding IsNews}"
+                                           HasShadow="False"
+                                           Padding="0"
+                                           CornerRadius="15"
+                                           Margin="10,10" 
+                                           BackgroundColor="Transparent">
+                                        <Grid ColumnDefinitions="Auto,*"
+                                              RowDefinitions="50, *, Auto"
+                                              Padding="5">
+                                            <Grid ColumnDefinitions="50,*">
+                                                <Frame BackgroundColor="{DynamicResource Mediumblue}"
+                                                       HasShadow="False"
+                                                       Padding="0"
+                                                       CornerRadius="30">
+                                                    <Label Text="&#xf04b;"
+                                                           Margin="5,0,0,0"
+                                                           FontFamily="AwesomeSolid"
+                                                           VerticalOptions="Center"
+                                                           HorizontalOptions="Center" 
+                                                           TextColor="{DynamicResource White}"></Label>
+                                                </Frame>
+                                            </Grid>
+                                            <Label Grid.Row="1"
+                                                   Grid.Column="0"
+                                                   Grid.ColumnSpan="2"
+                                                   Text="{Binding Name}"
+                                                   FontSize="{DynamicResource Key=LablelFontSize}" 
+                                                   FontFamily="ExtraBold"
+                                                   TextColor="{DynamicResource White}">
+                                            </Label>
+                                            <Label Grid.Row="2"
+                                                   Grid.Column="0"
+                                                   Text="{Binding Publication}"
+                                                   TextColor="{DynamicResource White}"
+                                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                                   FontFamily="Regular">
+                                            </Label>
+                                            <Label Grid.Row="2"
+                                                   Grid.Column="1"
+                                                   Text="{Binding DateAdded}"
+                                                   TextColor="{DynamicResource White}"
+                                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                                   HorizontalOptions="End"
+                                                   FontFamily="Regular">
+                                            </Label>
+                                        </Grid>
+                                    </Frame>
+                                    <Frame IsVisible="{Binding IsArticle}"
+                                           HasShadow="False"
+                                           BackgroundColor="{DynamicResource WhiteSmoke}"
+                                           CornerRadius="15"
+                                           Padding="10">
+                                        <Grid ColumnDefinitions="30*,70*">
+                                            <Frame IsClippedToBounds="True"
+                                                   Padding="0"
+                                                   CornerRadius="10"
+                                                   HasShadow="False">
+                                                <Image Source="{Binding Image}" Aspect="Fill"/>
+                                            </Frame>
+                                            <Grid Grid.Column="1"
+                                                  ColumnDefinitions="*,*"
+                                                  RowDefinitions="Auto,*,Auto"
+                                                  RowSpacing="0"
+                                                  Margin="10,0,0,0">
+                                                <Label Grid.ColumnSpan="2"
+                                                       Text="{Binding Category.Name}"
+                                                       TextColor="{DynamicResource RoyalblueSmoke}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       FontFamily="Regular"/>
+                                                <Label Grid.Row="1"
+                                                       Grid.Column="0"
+                                                       Grid.ColumnSpan="2"
+                                                       FontFamily="ExtraBold"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       TextColor="{DynamicResource Black}"
+                                                       Text="{Binding Name}"/>
+                                                <Label Grid.Row="2"
+                                                       Grid.Column="0"
+                                                       Text="{Binding Publication}"
+                                                       TextColor="{DynamicResource RoyalblueSmoke}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       FontFamily="Regular"/>
+                                                <Label Grid.Row="2"
+                                                       Grid.Column="1"
+                                                       Text="{Binding DateAdded}"
+                                                       TextColor="{DynamicResource RoyalblueSmoke}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       HorizontalOptions="End"
+                                                       FontFamily="Regular"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>
