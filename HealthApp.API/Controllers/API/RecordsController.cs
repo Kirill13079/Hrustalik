@@ -24,6 +24,33 @@ namespace HealthApp.API.Controllers.API
         {
             var arrivals = _context.Records
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    .Where(x => !x.IsHot)
+                    .Where(x => !x.IsArticle)
+                    .Include(x => x.Category);
+
+            return Ok(await arrivals.ToListAsync());
+        }
+
+        [HttpGet]
+        [Route(ApiRoutes.GetHotRecord)]
+        public IActionResult GetHotRecord()
+        {
+            var arrival = _context.Records
+                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    .Where(x => x.IsHot)
+                    .Include(x => x.Category)
+                    .FirstOrDefault();
+
+            return Ok(arrival);
+        }
+
+        [HttpGet]
+        [Route(ApiRoutes.GetArticleRecords)]
+        public async Task<IActionResult> GetArticleRecords()
+        {
+            var arrivals = _context.Records
+                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    .Where(x => x.IsArticle)
                     .Include(x => x.Category);
 
             return Ok(await arrivals.ToListAsync());

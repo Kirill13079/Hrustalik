@@ -41,14 +41,14 @@
         <Tab Title="Новости" Icon="home.png">
             <ShellContent ContentTemplate="{DataTemplate views:NewsPage}"/>
         </Tab>
-        <Tab Title="Категории" Icon="shopping.png">
-            <ShellContent ContentTemplate="{DataTemplate views:NewsPage}"/>
+        <Tab Title="Популярное" Icon="shopping.png">
+            <ShellContent ContentTemplate="{DataTemplate views:PopularNewsPage}"/>
         </Tab>
-        <Tab Title="Популярное" Icon="heart.png">
-            <ShellContent ContentTemplate="{DataTemplate views:NewsPage}"/>
+        <Tab Title="Закладки" Icon="heart.png">
+            <ShellContent ContentTemplate="{DataTemplate views:PopularNewsPage}"/>
         </Tab>
-        <Tab Title="Закладки" Icon="user.png">
-            <ShellContent ContentTemplate="{DataTemplate views:NewsPage}"/>
+        <Tab Title="Категории" Icon="user.png">
+            <ShellContent ContentTemplate="{DataTemplate views:PopularNewsPage}"/>
         </Tab>
     </FlyoutItem>
     <MenuItem Text="Выйти"/>

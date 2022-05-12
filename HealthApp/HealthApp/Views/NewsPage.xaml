@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    <Grid RowDefinitions="Auto, Auto, Auto, *"
+    <Grid RowDefinitions="Auto, Auto, *"
           RowSpacing="0">
         <Grid ColumnDefinitions="*, *, *" 
               Padding="20, 20"
@@ -47,11 +47,10 @@
                CornerRadius="0"
                BackgroundColor="{DynamicResource Mediumblue}">
         </Frame>
-        <Frame Grid.Row="2" 
+        <Frame Grid.Row="1" 
                Style="{DynamicResource SearchFrame}"
                HasShadow="True"
-               Margin="20,0"
-               TranslationY="-30">
+               Margin="20,0,20,10">
             <StackLayout Orientation="Horizontal">
                 <Label Text="&#xf002;"
                        FontFamily="AwesomeSolid"
@@ -65,7 +64,7 @@
                        HorizontalOptions="FillAndExpand"/>
             </StackLayout>
         </Frame>
-        <ScrollView Grid.Row="3" 
+        <ScrollView Grid.Row="2" 
                     VerticalScrollBarVisibility="Never" 
                     Padding="0,0,0,30">
             <Grid RowDefinitions="Auto, Auto, Auto" 
@@ -87,10 +86,6 @@
                     <StackLayout Margin="30" 
                                  VerticalOptions="End" 
                                  HorizontalOptions="Start">
-                        <Label Text="Поплуярное" 
-                               TextColor="{DynamicResource White}"
-                               FontSize="{DynamicResource Key=LablelFontSize}"
-                               FontFamily="Regular"/>
                         <Grid ColumnDefinitions="Auto,*"
                               RowDefinitions="*, Auto"
                               Padding="5">

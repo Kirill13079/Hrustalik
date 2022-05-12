@@ -10,5 +10,7 @@
         public const string GetCustomer = "api/user/customer";
 
         public const string GetRecords = "api/record/news";
+        public const string GetArticleRecords = "api/record/article";
+        public const string GetHotRecord = "api/record/hot";
     }
 }

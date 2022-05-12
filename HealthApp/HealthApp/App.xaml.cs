@@ -1,5 +1,8 @@
-﻿using HealthApp.Views.Authorization;
+﻿using HealthApp.Service;
+using HealthApp.Views;
+using HealthApp.Views.Authorization;
 using System;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,11 +15,22 @@ namespace HealthApp
 {
     public partial class App : Application
     {
+        public Util Util { get; set; }
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new AnonymousPage());
+            Util = new Util();
+
+            if (Preferences.Get("ExistingUser", false))
+            {
+                MainPage = new AppShell();
+            }
+            else 
+            {
+                MainPage = new NavigationPage(new AnonymousPage());
+            }
         }
 
         protected override void OnStart()

@@ -1,5 +1,6 @@
 ﻿using HealthApp.Common.Model.Helper;
 using HealthApp.Common.Model.Request;
+using HealthApp.Common.Model.Response;
 using HealthApp.Service;
 using HealthApp.Views;
 using HealthApp.Views.Authorization;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HealthApp.ViewModels.Authorization
@@ -86,6 +88,13 @@ namespace HealthApp.ViewModels.Authorization
 
             if (!string.IsNullOrWhiteSpace(response))
             {
+                var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
+
+                AppInstance.Util.Customer = loginResponse.Customer;
+
+                Preferences.Set("token", loginResponse.Token);
+                Preferences.Set("ExistingUser", true);
+
                 AppInstance.MainPage = new AppShell();
             }
             else
