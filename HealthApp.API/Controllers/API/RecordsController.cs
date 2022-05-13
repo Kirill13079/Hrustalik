@@ -55,5 +55,17 @@ namespace HealthApp.API.Controllers.API
 
             return Ok(await arrivals.ToListAsync());
         }
+
+        [HttpGet]
+        [Route(ApiRoutes.GetPopularRecord)]
+        public IActionResult GetPopularRecords()
+        {
+            var arrivals = _context.Records
+                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    .Where(x => x.IsHot)
+                    .Include(x => x.Category);
+
+            return Ok(arrivals);
+        }
     }
 }

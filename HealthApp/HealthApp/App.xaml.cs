@@ -1,10 +1,8 @@
 ﻿using HealthApp.Service;
 using HealthApp.Views;
 using HealthApp.Views.Authorization;
-using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 [assembly: ExportFont("FontAwesome-Regular.ttf", Alias = "AwesomeRegular")]
 [assembly: ExportFont("FontAwesome-Solid.ttf", Alias = "AwesomeSolid")]

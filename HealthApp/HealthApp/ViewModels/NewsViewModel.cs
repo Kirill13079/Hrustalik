@@ -14,7 +14,7 @@ namespace HealthApp.ViewModels
     {
         public List<Record> Records { get; set; } = new List<Record>();
 
-        public Record HotRecord { get; set; }
+        public Record HotRecord { get; set; } = new Record();
 
         public NewsViewModel()
         {

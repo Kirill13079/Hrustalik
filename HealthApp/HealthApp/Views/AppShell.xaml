@@ -6,6 +6,7 @@
        Shell.FlyoutHeaderTemplate="{StaticResource FlyoutHeaderTemplate}"
        Shell.ItemTemplate="{StaticResource MenuTemplate}"
        Shell.MenuItemTemplate="{StaticResource MenuTemplate}"
+       Shell.TabBarIsVisible="False"
        x:Class="HealthApp.Views.AppShell">
     <Shell.Resources>
         <ResourceDictionary>
@@ -37,7 +38,7 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems" >
+    <FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Новости" Icon="home.png">
             <ShellContent ContentTemplate="{DataTemplate views:NewsPage}"/>
         </Tab>
