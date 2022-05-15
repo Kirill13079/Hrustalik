@@ -4,8 +4,6 @@
        xmlns:views="clr-namespace:HealthApp.Views"
        Shell.NavBarIsVisible="False"
        Shell.FlyoutHeaderTemplate="{StaticResource FlyoutHeaderTemplate}"
-       Shell.ItemTemplate="{StaticResource MenuTemplate}"
-       Shell.MenuItemTemplate="{StaticResource MenuTemplate}"
        Shell.TabBarIsVisible="False"
        x:Class="HealthApp.Views.AppShell">
     <Shell.Resources>
@@ -30,25 +28,20 @@
             </DataTemplate>
             <DataTemplate x:Key="MenuTemplate">
                 <StackLayout Orientation="Horizontal">
-                    <Image Margin="30,10,20,10" WidthRequest="22" HeightRequest="22"
-                           HorizontalOptions="Start" VerticalOptions="Center"/>
-                    <Label Text="Выйти" TextColor="#fe3a88" FontSize="15" VerticalOptions="Center"/>
+                    <Label TextColor="Black"></Label>
                 </StackLayout>
             </DataTemplate>
         </ResourceDictionary>
     </Shell.Resources>
 
     <FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="Новости" Icon="home.png">
+        <Tab Title="Новости">
             <ShellContent ContentTemplate="{DataTemplate views:NewsPage}"/>
         </Tab>
-        <Tab Title="Популярное" Icon="shopping.png">
-            <ShellContent ContentTemplate="{DataTemplate views:PopularNewsPage}"/>
+        <Tab Title="Категории">
+            <ShellContent ContentTemplate="{DataTemplate views:CategoryPage}"/>
         </Tab>
-        <Tab Title="Закладки" Icon="heart.png">
-            <ShellContent ContentTemplate="{DataTemplate views:PopularNewsPage}"/>
-        </Tab>
-        <Tab Title="Категории" Icon="user.png">
+        <Tab Title="Популярное">
             <ShellContent ContentTemplate="{DataTemplate views:PopularNewsPage}"/>
         </Tab>
     </FlyoutItem>

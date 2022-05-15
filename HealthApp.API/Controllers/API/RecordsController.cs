@@ -26,6 +26,7 @@ namespace HealthApp.API.Controllers.API
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => !x.IsHot)
                     .Where(x => !x.IsArticle)
+                    .Where(x => !x.IsYoutube)
                     .Include(x => x.Category);
 
             return Ok(await arrivals.ToListAsync());
@@ -57,12 +58,24 @@ namespace HealthApp.API.Controllers.API
         }
 
         [HttpGet]
-        [Route(ApiRoutes.GetPopularRecord)]
+        [Route(ApiRoutes.GetPopularRecords)]
         public IActionResult GetPopularRecords()
         {
             var arrivals = _context.Records
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
-                    .Where(x => x.IsHot)
+                    .Where(x => x.IsPopular)
+                    .Include(x => x.Category);
+
+            return Ok(arrivals);
+        }
+
+        [HttpGet]
+        [Route(ApiRoutes.GetYoutubeRecords)]
+        public IActionResult GetYoutubeRecords()
+        {
+            var arrivals = _context.Records
+                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    .Where(x => x.IsYoutube)
                     .Include(x => x.Category);
 
             return Ok(arrivals);

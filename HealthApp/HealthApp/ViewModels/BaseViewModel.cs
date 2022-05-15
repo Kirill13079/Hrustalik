@@ -16,7 +16,7 @@ namespace HealthApp.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand GoBackCommand => new Command(GoBack);
+        public ICommand GoBackCommand => new Command(GoBackCommandHandler);
 
         public void OnPropertyChanged([CallerMemberName] string name = "")
         {
@@ -49,7 +49,7 @@ namespace HealthApp.ViewModels
             Shell.Current.FlyoutIsPresented = false;
         }
 
-        public async void GoBack()
+        public async void GoBackCommandHandler()
         {
             await Shell.Current.Navigation.PopAsync();
         }

@@ -25,9 +25,14 @@ namespace HealthApp.ViewModels
         {
             var records = await GetRecordsAsync();
             var articleRecords = await GetArticleRecordsAsync();
+            var youtubeRecords = await GetYoutubeRecordsAsync();
             var hotRecord = await GetHotRecordAsync();
 
-            Records = records.Union(articleRecords).ToList();
+            Records = records
+                .Union(articleRecords)
+                .Union(youtubeRecords)
+                .ToList();
+
             HotRecord = hotRecord;
         }
 
@@ -77,6 +82,29 @@ namespace HealthApp.ViewModels
         private async Task<List<Record>> GetArticleRecordsAsync()
         {
             string url = BaseUrl + ApiRoutes.GetArticleRecords;
+
+            var result = await ApiCaller.Get(url);
+
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+
+                records.ForEach((record) =>
+                {
+                    record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
+                });
+
+                return records;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private async Task<List<Record>> GetYoutubeRecordsAsync()
+        {
+            string url = BaseUrl + ApiRoutes.GetYoutubeRecords;
 
             var result = await ApiCaller.Get(url);
 

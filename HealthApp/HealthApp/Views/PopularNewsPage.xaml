@@ -1,12 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthApp.Views.PopularNewsPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
+             xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+             xmlns:vm="clr-namespace:HealthApp.ViewModels"
+             x:Class="HealthApp.Views.PopularNewsPage"
+             xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ActiveIndicator" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="#0624d9" />
+            </Style>
+            <Style x:Key="InactiveIndicator" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="#d7e1fa" />
+                <Setter Property="OutlineColor" Value="Transparent" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.BindingContext>
+        <vm:PopularNewsViewModel x:Name="vm"/>
+    </ContentPage.BindingContext>
+    
+    <Grid RowDefinitions="Auto, *"
+          RowSpacing="0">
+        <Grid ColumnDefinitions="Auto, *, Auto" 
+              Padding="20, 20"
+              BackgroundColor="{DynamicResource White}">
+            <Label Text="&#xf009;"
+                   FontFamily="AwesomeSolid"
+                   FontSize="{DynamicResource Key=EntryFontSize}"
+                   TextColor="{DynamicResource Mediumblue}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Start"/>
+            <Label Grid.Column="1"
+                   Text="Популярное" 
+                   FontFamily="ExtraBold"
+                   TextColor="{DynamicResource Mediumblue}"
+                   FontSize="20"
+                   HorizontalOptions="CenterAndExpand"/>
+            <Label Grid.Column="2" Text="&#xf02e;"
+                   FontFamily="AwesomeSolid"
+                   FontSize="{DynamicResource Key=EntryFontSize}"
+                   TextColor="{DynamicResource Mediumblue}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="End"/>
+        </Grid>
+        
+        <ScrollView Grid.Row="1"
+                    VerticalScrollBarVisibility="Never">
+            <cards:CarouselView ItemsSource="{Binding Records}"
+                                SelectedIndex="1">
+                
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView>
+                            <Grid>
+                                <Frame HasShadow="False"
+                                       Margin="0, 0 , 0 ,40">
+                                    <Grid>
+                                        <Frame Padding="0"
+                                               CornerRadius="30"
+                                               HasShadow="False">
+                                            <Image Source="{Binding Image}" Aspect="AspectFill"/>
+                                        </Frame>
+                                        <Frame Padding="0"
+                                               CornerRadius="30"
+                                               HasShadow="False">
+                                            <Frame.Background>
+                                                <LinearGradientBrush EndPoint="0,1">
+                                                    <GradientStop Color="Transparent"
+                                                              Offset="0.1"/>
+                                                    <GradientStop Color="Black"
+                                                              Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Frame.Background>
+                                        </Frame>
+                                    </Grid>
+                                </Frame>
+
+
+                            </Grid>
+                        </ContentView>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+
+                <controls:IndicatorsControl 
+                    SelectedIndicatorStyle="{StaticResource ActiveIndicator}"
+                    UnselectedIndicatorStyle="{StaticResource InactiveIndicator}"/>
+                
+            </cards:CarouselView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

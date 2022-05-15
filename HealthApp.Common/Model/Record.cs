@@ -12,13 +12,21 @@ namespace HealthApp.Common.Model
 
         public string Description { get; set; }
 
+        public string TextXAML { get; set; }
+
         public string Image { get; set; }
+
+        public bool SmallSize { get; set; }
 
         public bool IsNews { get; set; }
 
         public bool IsHot { get; set; }
 
         public bool IsArticle { get; set; }
+
+        public bool IsPopular { get; set; }
+
+        public bool IsYoutube { get; set; }
 
         public DateTimeOffset DateAdded { get; set; }
 

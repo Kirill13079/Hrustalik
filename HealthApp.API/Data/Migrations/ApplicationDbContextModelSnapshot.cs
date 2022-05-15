@@ -180,10 +180,22 @@ namespace HealthApp.API.Data.Migrations
                     b.Property<bool>("IsNews")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsPopular")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsYoutube")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Publication")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SmallSize")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TextXAML")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

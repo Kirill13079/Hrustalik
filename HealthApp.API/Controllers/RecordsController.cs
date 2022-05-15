@@ -61,6 +61,15 @@ namespace HealthApp.API.Controllers
                 var category = _context.Categories
                     .FirstOrDefault(x => x.Id == int.Parse(Category));
 
+                if (record.IsYoutube || record.IsNews)
+                {
+                    record.SmallSize = false;
+                }
+                else if (record.IsArticle)
+                {
+                    record.SmallSize = true;
+                }
+
                 record.Category = category;
                 record.Image = fileName;
                 record.DateAdded = DateTimeOffset.Now;
@@ -104,6 +113,15 @@ namespace HealthApp.API.Controllers
             {
                 try
                 {
+                    if (record.IsYoutube || record.IsNews)
+                    {
+                        record.SmallSize = false;
+                    }
+                    else if (record.IsArticle)
+                    {
+                        record.SmallSize = true;
+                    }
+
                     record.DateAdded = DateTimeOffset.Now;
 
                     _context.Update(record);
