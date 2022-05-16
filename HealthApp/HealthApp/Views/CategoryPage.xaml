@@ -1,12 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthApp.Views.CategoryPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:vm="clr-namespace:HealthApp.ViewModels"
+             x:Class="HealthApp.Views.CategoryPage"
+             xmlns:tool="http://xamarin.com/schemas/2020/toolkit" >
+    <ContentPage.BindingContext>
+        <vm:CategoryViewModel x:Name="vm"/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *"
+          RowSpacing="0">
+        <Grid ColumnDefinitions="Auto, *, Auto" 
+              Padding="20, 20"
+              BackgroundColor="{DynamicResource White}">
+            <Label Text="&#xf009;"
+                   FontFamily="AwesomeSolid"
+                   FontSize="{DynamicResource Key=EntryFontSize}"
+                   TextColor="{DynamicResource Mediumblue}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Start"/>
+            <Label Grid.Column="1"
+                   Text="Категории" 
+                   FontFamily="ExtraBold"
+                   TextColor="{DynamicResource Mediumblue}"
+                   FontSize="20"
+                   HorizontalOptions="CenterAndExpand"/>
+            <Label Grid.Column="2" Text="&#xf02e;"
+                   FontFamily="AwesomeSolid"
+                   FontSize="{DynamicResource Key=EntryFontSize}"
+                   TextColor="{DynamicResource Mediumblue}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="End"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1"
+                    VerticalScrollBarVisibility="Never">
+            <CollectionView SelectionMode="None"
+                            ItemsSource="{Binding Categories}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="10,*"
+                              ColumnDefinitions="100,*"
+                              RowSpacing="0"
+                              Padding="20, 40, 20, 20"
+                              tool:TouchEffect.NativeAnimation="True">
+                            <Frame Grid.Column="0"
+                                   Grid.Row="0"
+                                   CornerRadius="30"
+                                   HasShadow="False"
+                                   BackgroundColor="{DynamicResource Lightsteelblue}">
+                            </Frame>
+                            <Label Grid.Column="0" 
+                                   Grid.Row="1" 
+                                   Grid.ColumnSpan="2"
+                                   Text="{Binding Name}"
+                                   TextColor="{DynamicResource Mediumblue}"
+                                   FontSize="24"
+                                   FontFamily="ExtraBold"
+                                   VerticalTextAlignment="Start"></Label>
+                            <Label Grid.Column="1" 
+                                   Grid.Row="1"
+                                   Text="&#xf105;"
+                                   TextColor="{DynamicResource Mediumblue}"
+                                   FontSize="24"
+                                   FontFamily="AwesomeSolid"
+                                   HorizontalTextAlignment="End"
+                                   VerticalTextAlignment="Start"></Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+
 </ContentPage>

@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView"
              xmlns:vm="clr-namespace:HealthApp.ViewModels"
              x:Class="HealthApp.Views.PopularNewsPage"
+             xmlns:tool="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView">
 
     <ContentPage.Resources>
@@ -52,7 +53,7 @@
                     VerticalScrollBarVisibility="Never">
             <cards:CarouselView ItemsSource="{Binding Records}"
                                 SelectedIndex="1">
-                
+
                 <cards:CarouselView.ItemTemplate>
                     <DataTemplate>
                         <ContentView>
@@ -77,19 +78,59 @@
                                                 </LinearGradientBrush>
                                             </Frame.Background>
                                         </Frame>
+                                        <Frame Padding="0"
+                                               CornerRadius="30"
+                                               HasShadow="False"
+                                               BackgroundColor="Transparent">
+                                            <Grid RowDefinitions="20*,80*">
+                                                <Label Text="{Binding Publication}" 
+                                                       FontSize="{DynamicResource Key=HeaderLablelFontSize}" 
+                                                       FontFamily="Regular"
+                                                       TextColor="{DynamicResource White}"
+                                                       VerticalOptions="Center"
+                                                       HorizontalTextAlignment="Center"/>
+                                                <StackLayout Grid.Row="1" 
+                                                             Orientation="Vertical"
+                                                             VerticalOptions="End"
+                                                             Spacing="20"
+                                                             Padding="20, 40">
+                                                    <Label Text="{Binding Name}" 
+                                                           FontSize="{DynamicResource Key=HeaderLablelFontSize}" 
+                                                           FontFamily="ExtraBold"
+                                                           TextColor="{DynamicResource White}"
+                                                           HorizontalTextAlignment="Center"/>
+                                                    <Label Text="{Binding Description}"
+                                                           FontSize="{DynamicResource Key=HeaderLablelFontSize}" 
+                                                           FontFamily="Regular"
+                                                           TextColor="{DynamicResource White}"
+                                                           HorizontalTextAlignment="Center"/>
+                                                    <Label Text="{Binding DateAdded}"
+                                                           FontSize="{DynamicResource Key=HeaderLablelFontSize}" 
+                                                           FontFamily="Regular"
+                                                           TextColor="{DynamicResource White}"
+                                                           HorizontalTextAlignment="Center"/>
+                                                    <Frame Style="{DynamicResource ButtonFrame}"
+                                                           tool:TouchEffect.NativeAnimation="True">
+                                                        <Label Text="Подробнее"  
+                                                               FontFamily="Light" 
+                                                               TextColor="{DynamicResource White}"  
+                                                               HorizontalOptions="Center"
+                                                               FontSize="{DynamicResource Key=ButtonFontSize}"
+                                                               VerticalOptions="Center"
+                                                               InputTransparent="True"/>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Frame>
                                     </Grid>
                                 </Frame>
-
-
                             </Grid>
                         </ContentView>
                     </DataTemplate>
                 </cards:CarouselView.ItemTemplate>
-
                 <controls:IndicatorsControl 
                     SelectedIndicatorStyle="{StaticResource ActiveIndicator}"
                     UnselectedIndicatorStyle="{StaticResource InactiveIndicator}"/>
-                
             </cards:CarouselView>
         </ScrollView>
     </Grid>

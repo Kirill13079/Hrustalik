@@ -126,10 +126,11 @@
                              VerticalOptions="Center"
                              Spacing="20"
                              Margin="20,0">
-                    <CollectionView SelectionMode="None"
+                    <CollectionView x:Name="RecordsList"
+                                    SelectionMode="None"
                                     ItemsSource="{Binding Records}">
                         <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
                         </CollectionView.ItemsLayout>
                         <CollectionView.EmptyView>
                             <Label Text="Новостей нет"/>

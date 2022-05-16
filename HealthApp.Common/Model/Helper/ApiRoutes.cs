@@ -14,5 +14,7 @@
         public const string GetHotRecord = "api/record/hot";
         public const string GetPopularRecords = "api/record/popular";
         public const string GetYoutubeRecords = "api/record/youtube";
+
+        public const string GetCategories = "api/category/list";
     }
 }

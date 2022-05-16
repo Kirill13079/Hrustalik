@@ -64,7 +64,8 @@ namespace HealthApp.API.Controllers.API
             var arrivals = _context.Records
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsPopular)
-                    .Include(x => x.Category);
+                    .Include(x => x.Category)
+                    .Take(5);
 
             return Ok(arrivals);
         }
