@@ -138,17 +138,23 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid RowDefinitions="*, Auto" HeightRequest="{Binding SmallSize, Converter={StaticResource RecordHeightConvertert}}">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectRecordCommand, Source={x:Reference RecordsList}}" 
+                                                              CommandParameter="{Binding}"/>
+                                    </Grid.GestureRecognizers>
                                     <Frame IsVisible="{Binding IsNews}"
                                            HasShadow="False"
                                            Padding="0"
                                            CornerRadius="15"
-                                           IsClippedToBounds="True">
+                                           IsClippedToBounds="True"
+                                           InputTransparent="True">
                                         <Image Source="{Binding Image}" Aspect="AspectFill"/>
                                     </Frame>
                                     <Frame IsVisible="{Binding IsNews}"
                                            HasShadow="False"
                                            Padding="0"
-                                           CornerRadius="15">
+                                           CornerRadius="15"
+                                           InputTransparent="True">
                                         <Frame.Background>
                                             <LinearGradientBrush EndPoint="0,1">
                                                 <GradientStop Color="Transparent"
@@ -163,7 +169,8 @@
                                            Padding="0"
                                            CornerRadius="15"
                                            Margin="10,10" 
-                                           BackgroundColor="Transparent">
+                                           BackgroundColor="Transparent"
+                                           InputTransparent="True">
                                         <Grid ColumnDefinitions="Auto,*"
                                               RowDefinitions="50, *, Auto"
                                               Padding="5">
@@ -210,7 +217,8 @@
                                            HasShadow="False"
                                            BackgroundColor="{DynamicResource WhiteSmoke}"
                                            CornerRadius="15"
-                                           Padding="10">
+                                           Padding="10"
+                                           InputTransparent="True">
                                         <Grid ColumnDefinitions="30*,70*">
                                             <Frame IsClippedToBounds="True"
                                                    Padding="0"
@@ -256,7 +264,8 @@
                                            HasShadow="False"
                                            Padding="0"
                                            CornerRadius="15"
-                                           IsClippedToBounds="True">
+                                           IsClippedToBounds="True"
+                                           InputTransparent="True">
                                         <Image Source="{Binding Image}" Aspect="AspectFill"/>
                                     </Frame>
                                     <Frame IsVisible="{Binding IsYoutube}"
@@ -264,7 +273,8 @@
                                            Padding="0"
                                            CornerRadius="15"
                                            Margin="10,10" 
-                                           BackgroundColor="Transparent">
+                                           BackgroundColor="Transparent"
+                                           InputTransparent="True">
                                         <Grid ColumnDefinitions="*, 60 ,*"
                                               RowDefinitions="*, 40, *"
                                               Padding="5">
@@ -289,7 +299,8 @@
                                            Text="{Binding Name}" 
                                            TextColor="{DynamicResource Black}"
                                            FontFamily="ExtraBold"
-                                           FontSize="{DynamicResource Key=LablelFontSize}"/>
+                                           FontSize="{DynamicResource Key=LablelFontSize}"
+                                           InputTransparent="True"/>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

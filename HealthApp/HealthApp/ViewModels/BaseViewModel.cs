@@ -16,7 +16,7 @@ namespace HealthApp.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand GoBackCommand => new Command(GoBackCommandHandler);
+        public ICommand GoBackPageCommand => new Command(GoBackCommandHandler);
 
         public void OnPropertyChanged([CallerMemberName] string name = "")
         {
@@ -25,17 +25,17 @@ namespace HealthApp.ViewModels
 
         public async void NavigateTo<T>(string route, T modelParametr, string title = null)
         {
-            var parametr = string.Empty;
+            var parameter = string.Empty;
 
             if (modelParametr != null)
             { 
-                parametr = JsonConvert.SerializeObject(modelParametr);
-                parametr = Uri.EscapeDataString(parametr);
+                parameter = JsonConvert.SerializeObject(modelParametr);
+                parameter = Uri.EscapeDataString(parameter);
             }
 
             var state = Shell.Current.CurrentState;
 
-            await Shell.Current.GoToAsync($"{state.Location}/{route}?parametr={parametr}&title={title}");
+            await Shell.Current.GoToAsync($"{state.Location}/{route}?parameter={parameter}&title={title}");
 
             Shell.Current.FlyoutIsPresented = false;
         }

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
@@ -15,6 +17,11 @@ namespace HealthApp.ViewModels
         public List<Record> Records { get; set; } = new List<Record>();
 
         public Record HotRecord { get; set; } = new Record();
+
+        public ICommand SelectRecordCommand => new Command((obj) =>
+        {
+            NavigateTo("record", (Record)obj);
+        });
 
         public NewsViewModel()
         {

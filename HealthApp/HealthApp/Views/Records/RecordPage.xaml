@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:vm="clr-namespace:HealthApp.ViewModels.Records"
+             xmlns:tool="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HealthApp.Views.Records.RecordPage">
+
+    <ContentPage.BindingContext>
+        <vm:RecordViewModel x:Name="vm"/>
+    </ContentPage.BindingContext>
+   
+    <ScrollView  VerticalScrollBarVisibility="Never" >
+        <Grid RowDefinitions="Auto,*"
+          RowSpacing="0">
+            <Grid HeightRequest="330">
+                <Image Source="{Binding CurrentRecord.Image}" Aspect="AspectFill"/>
+            </Grid>
+            <Frame HeightRequest="330"
+               HasShadow="False">
+                <Frame.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="Transparent"
+                                  Offset="0.1"/>
+                        <GradientStop Color="Black"
+                                  Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
+            <StackLayout Spacing="40" 
+                     Orientation="Vertical"
+                     Padding="20">
+                <Grid ColumnDefinitions="60,*">
+                    <Frame BackgroundColor="{DynamicResource Mediumblue}"
+                       tool:TouchEffect.NativeAnimation="True"
+                       HasShadow="False"
+                       Padding="0"
+                       HeightRequest="60"
+                       CornerRadius="30">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoBackPageCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <Label Text="&#xf104;"
+                           Margin="0,0,0,0"
+                           FontFamily="AwesomeSolid"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" 
+                           FontSize="30"
+                           TextColor="{DynamicResource White}"></Label>
+                    </Frame>
+                </Grid>
+                <Label Text="{Binding CurrentRecord.Name}"
+                   FontSize="{DynamicResource Key=HeaderLablelFontSize}" 
+                   FontFamily="ExtraBold"
+                   TextColor="{DynamicResource White}"
+                   VerticalOptions="EndAndExpand"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding CurrentRecord.Publication}"
+                       FontSize="{DynamicResource Key=LablelFontSize}" 
+                       FontFamily="Regular"
+                       TextColor="{DynamicResource White}"
+                       HorizontalOptions="Start"/>
+                    <Label Text="&#xf017;"
+                       FontFamily="AwesomeSolid"
+                       FontSize="{DynamicResource Key=EntryFontSize}"
+                       TextColor="{DynamicResource White}"
+                       VerticalOptions="EndAndExpand"
+                       HorizontalOptions="EndAndExpand"/>
+                    <Label Text="{Binding CurrentRecord.DateAdded}"
+                       TextColor="{DynamicResource White}"
+                       FontSize="{DynamicResource Key=LablelFontSize}"
+                       HorizontalOptions="End"                                    
+                       FontFamily="Regular"/>
+                </StackLayout>
+            </StackLayout>
+
+            <Grid Grid.Row="1"
+                  RowDefinitions="*,*">
+                <Button Text="load" Clicked="Button_Clicked"></Button>
+                <StackLayout Grid.Row="1" x:Name="BodyRecord" >
+                    
+                </StackLayout>
+            </Grid>
+            
+            
+            
+        </Grid>
+    </ScrollView>
+</ContentPage>

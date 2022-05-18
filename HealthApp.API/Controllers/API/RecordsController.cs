@@ -27,7 +27,8 @@ namespace HealthApp.API.Controllers.API
                     .Where(x => !x.IsHot)
                     .Where(x => !x.IsArticle)
                     .Where(x => !x.IsYoutube)
-                    .Include(x => x.Category);
+                    .Include(x => x.Category)
+                    .OrderBy(x => x.DateAdded);
 
             return Ok(await arrivals.ToListAsync());
         }

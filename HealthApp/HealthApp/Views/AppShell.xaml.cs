@@ -23,7 +23,7 @@ namespace HealthApp.Views
 
         private void RegisterRoutes()
         {
-            _routes.Add("AboutRecord", typeof(AboutRecordPage));
+            _routes.Add("record", typeof(RecordPage));
 
             foreach (var route in _routes)
             {

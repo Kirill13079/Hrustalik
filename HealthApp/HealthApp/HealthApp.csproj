@@ -65,7 +65,7 @@
     <EmbeddedResource Update="Views\PopularNewsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Records\AboutRecordPage.xaml">
+    <EmbeddedResource Update="Views\Records\RecordPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
