@@ -23,6 +23,16 @@ namespace HealthApp.ViewModels
             NavigateTo("record", (Record)obj);
         });
 
+        public ICommand SelectCategoryCommand => new Command((obj) =>
+        {
+            NavigateTo("categoryInfo", (Category)obj);
+        });
+
+        public ICommand SelectAuthorCommand => new Command((obj) =>
+        {
+            NavigateTo("authorInfo", (Author)obj);
+        });
+
         public NewsViewModel()
         {
             LoadRecords();
@@ -56,6 +66,7 @@ namespace HealthApp.ViewModels
                 records.ForEach((record) =>
                 {
                     record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
+                    record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
                 });
 
                 return records;
@@ -77,6 +88,7 @@ namespace HealthApp.ViewModels
                 var record = JsonConvert.DeserializeObject<Record>(result);
 
                 record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
+                record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
 
                 return record;
             }
@@ -99,6 +111,7 @@ namespace HealthApp.ViewModels
                 records.ForEach((record) =>
                 {
                     record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
+                    record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
                 });
 
                 return records;
@@ -122,6 +135,7 @@ namespace HealthApp.ViewModels
                 records.ForEach((record) =>
                 {
                     record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
+                    record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
                 });
 
                 return records;

@@ -53,13 +53,17 @@ namespace HealthApp.API.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Record record, [FromForm] string Category, IFormFile RecordImage)
+        public async Task<IActionResult> Create(Record record, [FromForm] string Category, [FromForm] string Author, IFormFile RecordImage)
         {
             if (ModelState.IsValid)
             {
                 string fileName = UploadImage(RecordImage);
+                
                 var category = _context.Categories
                     .FirstOrDefault(x => x.Id == int.Parse(Category));
+
+                var author = _context.Authors
+                    .FirstOrDefault(x => x.Id == int.Parse(Author));
 
                 if (record.IsYoutube || record.IsNews)
                 {
@@ -70,6 +74,7 @@ namespace HealthApp.API.Controllers
                     record.SmallSize = true;
                 }
 
+                record.Author = author;
                 record.Category = category;
                 record.Image = fileName;
                 record.DateAdded = DateTimeOffset.Now;
@@ -102,7 +107,7 @@ namespace HealthApp.API.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Record record)
+        public async Task<IActionResult> Edit(int id, Record record, [FromForm] string Category, [FromForm] string Author)
         {
             if (id != record.Id)
             {
@@ -113,6 +118,12 @@ namespace HealthApp.API.Controllers
             {
                 try
                 {
+                    var category = _context.Categories
+                        .FirstOrDefault(x => x.Id == int.Parse(Category));
+
+                    var author = _context.Authors
+                        .FirstOrDefault(x => x.Id == int.Parse(Author));
+
                     if (record.IsYoutube || record.IsNews)
                     {
                         record.SmallSize = false;
@@ -122,6 +133,8 @@ namespace HealthApp.API.Controllers
                         record.SmallSize = true;
                     }
 
+                    record.Author = author;
+                    record.Category = category;
                     record.DateAdded = DateTimeOffset.Now;
 
                     _context.Update(record);
@@ -139,6 +152,7 @@ namespace HealthApp.API.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 

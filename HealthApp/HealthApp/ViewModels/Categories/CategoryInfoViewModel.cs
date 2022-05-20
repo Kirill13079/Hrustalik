@@ -1,17 +1,16 @@
 ﻿using HealthApp.Common.Model;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace HealthApp.ViewModels.Records
+namespace HealthApp.ViewModels.Categories
 {
     [QueryProperty("Parameter", "parameter")]
     [QueryProperty("Title", "title")]
-    public class RecordViewModel : BaseViewModel
+    public class CategoryInfoViewModel
     {
-        public Record CurrentRecord { get; set; }
+        public Category CurrentCategory { get; set; }
 
         private string parameter;
         public string Parameter
@@ -20,7 +19,7 @@ namespace HealthApp.ViewModels.Records
             set
             {
                 parameter = Uri.UnescapeDataString(value);
-                CurrentRecord = JsonConvert.DeserializeObject<Record>(parameter);
+                CurrentCategory = CurrentCategory.DeserializeObject<Category>(parameter);
             }
         }
     }

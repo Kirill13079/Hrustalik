@@ -54,28 +54,37 @@
                    TextColor="{DynamicResource White}"
                    VerticalOptions="EndAndExpand"/>
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="{Binding CurrentRecord.Publication}"
-                       FontSize="{DynamicResource Key=LablelFontSize}" 
-                       FontFamily="Regular"
-                       TextColor="{DynamicResource White}"
-                       HorizontalOptions="Start"/>
+                    <Frame IsClippedToBounds="True"
+                           HeightRequest="30"
+                           WidthRequest="30"
+                           CornerRadius="15"
+                           HasShadow="False"
+                           Padding="0">
+                        <Image Source="{Binding CurrentRecord.Author.Logo}" Aspect="AspectFill"/>
+                    </Frame>
+                    <Label Text="{Binding CurrentRecord.Author.Name}"
+                           FontSize="{DynamicResource Key=LablelFontSize}" 
+                           FontFamily="Regular"
+                           TextColor="{DynamicResource White}"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"/>
                     <Label Text="&#xf017;"
-                       FontFamily="AwesomeSolid"
-                       FontSize="{DynamicResource Key=EntryFontSize}"
-                       TextColor="{DynamicResource White}"
-                       VerticalOptions="EndAndExpand"
-                       HorizontalOptions="EndAndExpand"/>
+                           FontFamily="AwesomeSolid"
+                           FontSize="{DynamicResource Key=EntryFontSize}"
+                           TextColor="{DynamicResource White}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="EndAndExpand"/>
                     <Label Text="{Binding CurrentRecord.DateAdded}"
-                       TextColor="{DynamicResource White}"
-                       FontSize="{DynamicResource Key=LablelFontSize}"
-                       HorizontalOptions="End"                                    
-                       FontFamily="Regular"/>
+                           TextColor="{DynamicResource White}"
+                           FontSize="{DynamicResource Key=LablelFontSize}"
+                           HorizontalOptions="End" 
+                           VerticalOptions="Center"
+                           FontFamily="Regular"/>
                 </StackLayout>
             </StackLayout>
 
             <Grid Grid.Row="1"
                   RowDefinitions="*,*">
-                <Button Text="load" Clicked="Button_Clicked"></Button>
                 <StackLayout Grid.Row="1" x:Name="BodyRecord" >
                     
                 </StackLayout>

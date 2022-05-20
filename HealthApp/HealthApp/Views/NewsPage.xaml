@@ -30,7 +30,7 @@
                    HorizontalOptions="Start"/>
             <Label Grid.Column="1"
                    Text="Новости" 
-                   FontFamily="ExtraBold"
+                   FontFamily="Medium"
                    TextColor="{DynamicResource White}"
                    FontSize="20"
                    HorizontalOptions="CenterAndExpand"/>
@@ -68,7 +68,7 @@
                     VerticalScrollBarVisibility="Never" 
                     Padding="0,0,0,30">
             <Grid RowDefinitions="Auto, Auto, Auto" 
-                  RowSpacing="20">
+                  RowSpacing="10">
                 <Grid HeightRequest="230">
                     <Image Source="{Binding HotRecord.Image}" Aspect="AspectFill"/>
                 </Grid>
@@ -90,20 +90,35 @@
                               RowDefinitions="*, Auto"
                               Padding="5">
                             <Label Grid.Row="0"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       Text="{Binding HotRecord.Name}"
-                                       FontSize="{DynamicResource Key=HeaderLablelFontSize}" 
-                                       FontFamily="ExtraBold"
-                                       TextColor="{DynamicResource White}">
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Text="{Binding HotRecord.Name}"
+                                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
+                                   MaxLines="5"
+                                   FontFamily="ExtraBold"
+                                   TextColor="{DynamicResource White}">
                             </Label>
-                            <Label Grid.Row="1"
-                                       Grid.Column="0"
-                                       Text="{Binding HotRecord.Publication}"
+                            <StackLayout Grid.Row="1"
+                                         Grid.Column="0"
+                                         Orientation="Horizontal">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectAuthorCommand}" CommandParameter="{Binding HotRecord.Author}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Frame IsClippedToBounds="True"
+                                       HeightRequest="30"
+                                       WidthRequest="30"
+                                       CornerRadius="15"
+                                       HasShadow="False"
+                                       Padding="0">
+                                    <Image Source="{Binding HotRecord.Author.Logo}" Aspect="AspectFill"/>
+                                </Frame>
+                                <Label Text="{Binding HotRecord.Author.Name}"
                                        TextColor="{DynamicResource White}"
                                        FontSize="{DynamicResource Key=LablelFontSize}"
+                                       VerticalOptions="CenterAndExpand"
                                        FontFamily="Regular">
-                            </Label>
+                                </Label>
+                            </StackLayout>
                             <StackLayout Grid.Row="1"
                                          Grid.Column="1"
                                          Orientation="Horizontal">
@@ -111,11 +126,12 @@
                                        FontFamily="AwesomeSolid"
                                        FontSize="{DynamicResource Key=EntryFontSize}"
                                        TextColor="{DynamicResource White}"
-                                       VerticalOptions="EndAndExpand"
+                                       VerticalOptions="Center"
                                        HorizontalOptions="EndAndExpand"/>
                                 <Label Text="{Binding HotRecord.DateAdded}"
                                        TextColor="{DynamicResource White}"
                                        FontSize="{DynamicResource Key=LablelFontSize}"
+                                       VerticalOptions="Center"
                                        HorizontalOptions="End"                                    
                                        FontFamily="Regular"/>
                             </StackLayout>
@@ -196,19 +212,38 @@
                                                    FontFamily="ExtraBold"
                                                    TextColor="{DynamicResource White}">
                                             </Label>
-                                            <Label Grid.Row="2"
-                                                   Grid.Column="0"
-                                                   Text="{Binding Publication}"
-                                                   TextColor="{DynamicResource White}"
-                                                   FontSize="{DynamicResource Key=LablelFontSize}"
-                                                   FontFamily="Regular">
-                                            </Label>
+                                            <Grid Grid.Row="2"
+                                                  Grid.Column="0"
+                                                  ColumnDefinitions="*,*"
+                                                  BackgroundColor="Red">
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
+                                                                              CommandParameter="{Binding Author}"/>
+                                                </Grid.GestureRecognizers>
+                                                <Frame Grid.Row="0" IsClippedToBounds="True"
+                                                       HeightRequest="30"
+                                                       WidthRequest="30"
+                                                       CornerRadius="15"
+                                                       HasShadow="False"
+                                                       Padding="0">
+                                                    <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                                </Frame>
+                                                <Label Grid.Row="0"
+                                                       Grid.Column="1"
+                                                       Text="{Binding Author.Name}"
+                                                       TextColor="{DynamicResource White}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       VerticalOptions="Center"
+                                                       FontFamily="Regular">
+                                                </Label>
+                                            </Grid>
                                             <Label Grid.Row="2"
                                                    Grid.Column="1"
                                                    Text="{Binding DateAdded}"
                                                    TextColor="{DynamicResource White}"
                                                    FontSize="{DynamicResource Key=LablelFontSize}"
                                                    HorizontalOptions="End"
+                                                   VerticalOptions="Center"
                                                    FontFamily="Regular">
                                             </Label>
                                         </Grid>
@@ -235,26 +270,44 @@
                                                        Text="{Binding Category.Name}"
                                                        TextColor="{DynamicResource RoyalblueSmoke}"
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
-                                                       FontFamily="Regular"/>
+                                                       FontFamily="Regular"
+                                                       BackgroundColor="Red">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectCategoryCommand,  Source={x:Reference RecordsList}}" 
+                                                                              CommandParameter="{Binding Category}"/>
+                                                    </Label.GestureRecognizers>
+                                                </Label>
                                                 <Label Grid.Row="1"
                                                        Grid.Column="0"
                                                        Grid.ColumnSpan="2"
-                                                       FontFamily="ExtraBold"
+                                                       FontFamily="Bold"
                                                        VerticalTextAlignment="Center"
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
                                                        TextColor="{DynamicResource Black}"
                                                        Text="{Binding Name}"/>
-                                                <Label Grid.Row="2"
-                                                       Grid.Column="0"
-                                                       Text="{Binding Publication}"
-                                                       TextColor="{DynamicResource RoyalblueSmoke}"
-                                                       FontSize="{DynamicResource Key=LablelFontSize}"
-                                                       FontFamily="Regular"/>
+                                                <StackLayout Grid.Row="2"
+                                                             Grid.Column="0"
+                                                             Orientation="Horizontal">
+                                                    <Frame IsClippedToBounds="True"
+                                                           HeightRequest="30"
+                                                           WidthRequest="30"
+                                                           CornerRadius="15"
+                                                           HasShadow="False"
+                                                           Padding="0">
+                                                        <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                                    </Frame>
+                                                    <Label Text="{Binding Author.Name}"
+                                                           TextColor="{DynamicResource RoyalblueSmoke}"
+                                                           FontSize="{DynamicResource Key=LablelFontSize}"
+                                                           VerticalOptions="Center"
+                                                           FontFamily="Regular"/>
+                                                </StackLayout>
                                                 <Label Grid.Row="2"
                                                        Grid.Column="1"
                                                        Text="{Binding DateAdded}"
                                                        TextColor="{DynamicResource RoyalblueSmoke}"
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       VerticalOptions="Center"
                                                        HorizontalOptions="End"
                                                        FontFamily="Regular"/>
                                             </Grid>
@@ -292,6 +345,22 @@
                                                            TextColor="{DynamicResource White}"></Label>
                                                 </Frame>
                                             </Grid>
+                                            <StackLayout Grid.Row="2"
+                                                         Grid.Column="0"
+                                                         Grid.ColumnSpan="3"
+                                                         Orientation="Horizontal">
+                                                <Grid RowDefinitions="30"
+                                                      VerticalOptions="End">
+                                                    <Frame IsClippedToBounds="True"
+                                                           WidthRequest="30"
+                                                           CornerRadius="15"
+                                                           HasShadow="False"
+                                                           Padding="0">
+                                                        <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                                    </Frame>
+                                                </Grid>
+          
+                                            </StackLayout>
                                         </Grid>
                                     </Frame>
                                     <Label IsVisible="{Binding IsYoutube}"

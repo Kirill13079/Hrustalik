@@ -8,7 +8,7 @@ namespace HealthApp.Common.Model
 
         public string Name { get; set; }
 
-        public string Publication { get; set; }
+        public Author Author { get; set; }
 
         public string Description { get; set; }
 
@@ -27,6 +27,8 @@ namespace HealthApp.Common.Model
         public bool IsPopular { get; set; }
 
         public bool IsYoutube { get; set; }
+
+        public string Source { get; set; }
 
         public DateTimeOffset DateAdded { get; set; }
 

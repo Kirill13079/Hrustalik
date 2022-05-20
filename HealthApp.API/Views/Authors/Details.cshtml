@@ -1,4 +1,4 @@
-﻿@model HealthApp.Common.Model.Record
+﻿@model HealthApp.Common.Model.Author
 
 @{
     ViewData["Title"] = "Details";
@@ -8,7 +8,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Record</h4>
+    <h4>Author</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -24,28 +24,22 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
+            @Html.DisplayNameFor(model => model.Link)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
+            @Html.DisplayFor(model => model.Link)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsNews)
+            @Html.DisplayNameFor(model => model.Logo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsNews)
+            @Html.DisplayFor(model => model.Logo)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsHot)
+            @Html.DisplayNameFor(model => model.Color)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsHot)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateAdded)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateAdded)
+            @Html.DisplayFor(model => model.Color)
         </dd>
     </dl>
 </div>

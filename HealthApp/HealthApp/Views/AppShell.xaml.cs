@@ -1,4 +1,6 @@
-﻿using HealthApp.Views.Records;
+﻿using HealthApp.Views.Authors;
+using HealthApp.Views.Categories;
+using HealthApp.Views.Records;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,8 @@ namespace HealthApp.Views
         private void RegisterRoutes()
         {
             _routes.Add("record", typeof(RecordPage));
+            _routes.Add("categoryInfo", typeof(CategoryInfoPage));
+            _routes.Add("authorInfo", typeof(AuthorInfoPage));
 
             foreach (var route in _routes)
             {

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:vm="clr-namespace:HealthApp.ViewModels.Authors"
+             x:Class="HealthApp.Views.Authors.AuthorInfoPage">
+
+    <ContentPage.BindingContext>
+        <vm:AuthorInfoViewModel x:Name="vm"/>
+    </ContentPage.BindingContext>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid RowDefinitions="Auto,*"
+              RowSpacing="0">
+            <Frame HeightRequest="130" 
+                   HasShadow="False"
+                   BackgroundColor="{Binding CurrentAuthor.Color}">
+            </Frame>
+            <StackLayout Spacing="40" 
+                     Orientation="Vertical"
+                     Padding="20">
+                <Grid ColumnDefinitions="60,*">
+                    <Frame BackgroundColor="{DynamicResource Mediumblue}"
+                       HasShadow="False"
+                       Padding="0"
+                       HeightRequest="60"
+                       CornerRadius="30">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoBackPageCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <Label Text="&#xf104;"
+                           Margin="0,0,0,0"
+                           FontFamily="AwesomeSolid"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" 
+                           FontSize="30"
+                           TextColor="{DynamicResource White}"></Label>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

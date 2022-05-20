@@ -6,9 +6,12 @@ using Xamarin.Forms;
 
 [assembly: ExportFont("FontAwesome-Regular.ttf", Alias = "AwesomeRegular")]
 [assembly: ExportFont("FontAwesome-Solid.ttf", Alias = "AwesomeSolid")]
-[assembly: ExportFont("Gilroy-ExtraBold.otf", Alias = "ExtraBold")]
-[assembly: ExportFont("Gilroy-Light.otf", Alias = "Light")]
-[assembly: ExportFont("gilroy-regular.ttf", Alias = "Regular")]
+[assembly: ExportFont("Gilroy-Black.ttf", Alias = "Black")]
+[assembly: ExportFont("Gilroy-Bold.ttf", Alias = "Bold")]
+[assembly: ExportFont("Gilroy-Extrabold.ttf", Alias = "ExtraBold")]
+[assembly: ExportFont("GGilroy-Light.ttf", Alias = "Light")]
+[assembly: ExportFont("Gilroy-Regular.ttf", Alias = "Regular")]
+[assembly: ExportFont("Gilroy-Medium.ttf", Alias = "Medium")]
 namespace HealthApp
 {
     public partial class App : Application

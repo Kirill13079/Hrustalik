@@ -14,15 +14,51 @@
   <ItemGroup>
     <None Remove="Resources\Fonts\FontAwesome-Regular.ttf" />
     <None Remove="Resources\Fonts\FontAwesome-Solid.ttf" />
-    <None Remove="Resources\Fonts\Gilroy-ExtraBold.otf" />
+    <None Remove="Resources\Fonts\Gilroy-Black.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-BlackItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Bold.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-BoldItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Extrabold.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-ExtraboldItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Heavy.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-HeavyItalic.ttf" />
     <None Remove="Resources\Fonts\Gilroy-Light.otf" />
+    <None Remove="Resources\Fonts\Gilroy-Light.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-LightItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Medium.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-MediumItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Regular.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-RegularItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Semibold.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-SemiboldItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Thin.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-ThinItalic.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-UltraLight.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Fonts\FontAwesome-Regular.ttf" />
     <EmbeddedResource Include="Resources\Fonts\FontAwesome-Solid.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Gilroy-ExtraBold.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Black.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-BlackItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Bold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-BoldItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Extrabold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-ExtraboldItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Heavy.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-HeavyItalic.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-Light.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Light.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-LightItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Medium.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-MediumItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-RegularItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Semibold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-SemiboldItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Thin.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-ThinItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-UltraLight.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +90,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Authorization\RegisterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authors\AuthorInfoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Categories\CategoryInfoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CategoryPage.xaml">

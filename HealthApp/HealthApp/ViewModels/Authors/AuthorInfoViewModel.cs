@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace HealthApp.ViewModels.Records
+namespace HealthApp.ViewModels.Authors
 {
     [QueryProperty("Parameter", "parameter")]
     [QueryProperty("Title", "title")]
-    public class RecordViewModel : BaseViewModel
+    public class AuthorInfoViewModel
     {
-        public Record CurrentRecord { get; set; }
+        public Author CurrentAuthor { get; set; }
 
         private string parameter;
         public string Parameter
@@ -20,7 +20,7 @@ namespace HealthApp.ViewModels.Records
             set
             {
                 parameter = Uri.UnescapeDataString(value);
-                CurrentRecord = JsonConvert.DeserializeObject<Record>(parameter);
+                CurrentAuthor = JsonConvert.DeserializeObject<Author>(parameter);
             }
         }
     }

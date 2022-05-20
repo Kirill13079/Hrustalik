@@ -28,6 +28,7 @@ namespace HealthApp.API.Controllers.API
                     .Where(x => !x.IsArticle)
                     .Where(x => !x.IsYoutube)
                     .Include(x => x.Category)
+                    .Include(x => x.Author)
                     .OrderBy(x => x.DateAdded);
 
             return Ok(await arrivals.ToListAsync());
@@ -41,6 +42,7 @@ namespace HealthApp.API.Controllers.API
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsHot)
                     .Include(x => x.Category)
+                    .Include(x => x.Author)
                     .FirstOrDefault();
 
             return Ok(arrival);
@@ -53,7 +55,8 @@ namespace HealthApp.API.Controllers.API
             var arrivals = _context.Records
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsArticle)
-                    .Include(x => x.Category);
+                    .Include(x => x.Category)
+                    .Include(x => x.Author);
 
             return Ok(await arrivals.ToListAsync());
         }
@@ -66,6 +69,7 @@ namespace HealthApp.API.Controllers.API
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsPopular)
                     .Include(x => x.Category)
+                    .Include(x => x.Author)
                     .Take(5);
 
             return Ok(arrivals);
@@ -78,7 +82,32 @@ namespace HealthApp.API.Controllers.API
             var arrivals = _context.Records
                     .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsYoutube)
-                    .Include(x => x.Category);
+                    .Include(x => x.Category)
+                    .Include(x => x.Author);
+
+            return Ok(arrivals);
+        }
+
+        [HttpGet]
+        [Route(ApiRoutes.GetCategoryRecords)]
+        public IActionResult GetCategoryRecords(int? id)
+        {
+            var arrivals = _context.Records
+                    .Where(x => x.Category.Id == id)
+                    .Include(x => x.Category)
+                    .Include(x => x.Author);
+
+            return Ok(arrivals);
+        }
+
+        [HttpGet]
+        [Route(ApiRoutes.GetAuthorRecords)]
+        public IActionResult GetAuthorRecords(int? id)
+        {
+            var arrivals = _context.Records
+                    .Where(x => x.Author.Id == id)
+                    .Include(x => x.Category)
+                    .Include(x => x.Author);
 
             return Ok(arrivals);
         }

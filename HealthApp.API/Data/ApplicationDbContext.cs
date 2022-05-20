@@ -14,9 +14,14 @@ namespace HealthApp.API.Data
         }
 
         public DbSet<Customer> Customers { get; set; }
+
         public DbSet<Record> Records { get; set; }
+
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<Bookmark> Bookmarks { get; set; }
+
+        public DbSet<Author> Authors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
