@@ -66,11 +66,11 @@
         </Frame>
         <ScrollView Grid.Row="2" 
                     VerticalScrollBarVisibility="Never" 
-                    Padding="0,0,0,30">
+                    Padding="0,0,0,0">
             <Grid RowDefinitions="Auto, Auto, Auto" 
                   RowSpacing="10">
                 <Grid HeightRequest="230">
-                    <Image Source="{Binding HotRecord.Image}" Aspect="AspectFill"/>
+                    <Image Source="{Binding HotRecord.Image}" Aspect="AspectFill" />
                 </Grid>
                 <Grid HeightRequest="230">
                     <Grid.Background>
@@ -102,7 +102,8 @@
                                          Grid.Column="0"
                                          Orientation="Horizontal">
                                 <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SelectAuthorCommand}" CommandParameter="{Binding HotRecord.Author}"/>
+                                    <TapGestureRecognizer Command="{Binding SelectAuthorCommand}" 
+                                                          CommandParameter="{Binding HotRecord.Author}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Frame IsClippedToBounds="True"
                                        HeightRequest="30"
@@ -214,8 +215,7 @@
                                             </Label>
                                             <Grid Grid.Row="2"
                                                   Grid.Column="0"
-                                                  ColumnDefinitions="*,*"
-                                                  BackgroundColor="Red">
+                                                  ColumnDefinitions="30,*">
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
                                                                               CommandParameter="{Binding Author}"/>
@@ -267,11 +267,10 @@
                                                   RowSpacing="0"
                                                   Margin="10,0,0,0">
                                                 <Label Grid.ColumnSpan="2"
-                                                       Text="{Binding Category.Name}"
+                                                       Text="{Binding Category.Name, StringFormat='#{0}'}"
                                                        TextColor="{DynamicResource RoyalblueSmoke}"
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
-                                                       FontFamily="Regular"
-                                                       BackgroundColor="Red">
+                                                       FontFamily="Bold">
                                                     <Label.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.SelectCategoryCommand,  Source={x:Reference RecordsList}}" 
                                                                               CommandParameter="{Binding Category}"/>
@@ -285,9 +284,13 @@
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
                                                        TextColor="{DynamicResource Black}"
                                                        Text="{Binding Name}"/>
-                                                <StackLayout Grid.Row="2"
-                                                             Grid.Column="0"
-                                                             Orientation="Horizontal">
+                                                <Grid Grid.Row="2"
+                                                      Grid.Column="0"
+                                                      ColumnDefinitions="30,*">
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
+                                                                              CommandParameter="{Binding Author}"/>
+                                                    </Grid.GestureRecognizers>
                                                     <Frame IsClippedToBounds="True"
                                                            HeightRequest="30"
                                                            WidthRequest="30"
@@ -296,12 +299,12 @@
                                                            Padding="0">
                                                         <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
                                                     </Frame>
-                                                    <Label Text="{Binding Author.Name}"
+                                                    <Label Grid.Column="1" Text="{Binding Author.Name}"
                                                            TextColor="{DynamicResource RoyalblueSmoke}"
                                                            FontSize="{DynamicResource Key=LablelFontSize}"
                                                            VerticalOptions="Center"
                                                            FontFamily="Regular"/>
-                                                </StackLayout>
+                                                </Grid>
                                                 <Label Grid.Row="2"
                                                        Grid.Column="1"
                                                        Text="{Binding DateAdded}"
@@ -351,6 +354,10 @@
                                                          Orientation="Horizontal">
                                                 <Grid RowDefinitions="30"
                                                       VerticalOptions="End">
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
+                                                                              CommandParameter="{Binding Author}"/>
+                                                    </Grid.GestureRecognizers>
                                                     <Frame IsClippedToBounds="True"
                                                            WidthRequest="30"
                                                            CornerRadius="15"

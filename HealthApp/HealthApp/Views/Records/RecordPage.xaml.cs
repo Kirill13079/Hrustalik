@@ -1,28 +1,37 @@
-﻿
+﻿using HealthApp.Common.Model;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HealthApp.Views.Records
 {
+    [QueryProperty("Parameter", "parameter")]
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecordPage : ContentPage
     {
+        public string Parameter
+        {
+            set
+            {
+                vm.CurrentRecord = JsonConvert.DeserializeObject<Record>(Uri.UnescapeDataString(value));
+
+                LoadContent();
+            }
+        }
+
         public RecordPage()
         {
-       
             InitializeComponent();
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        public void LoadContent()
         {
-            string xaml = "<StackLayout><Label Text=\"Xamarin Forms\" FontSize=\"24\" Background=\"Red\"/></StackLayout>";
-            BodyRecord.LoadFromXaml(xaml);
+            BodyRecord.Children.Clear();
+
+            ContentView viewLoad = new ContentView().LoadFromXaml(vm.CurrentRecord.TextXAML);
+
+            BodyRecord.Children.Add(viewLoad);
         }
     }
 }

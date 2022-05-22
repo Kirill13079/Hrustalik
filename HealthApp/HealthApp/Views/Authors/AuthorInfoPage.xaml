@@ -8,35 +8,160 @@
         <vm:AuthorInfoViewModel x:Name="vm"/>
     </ContentPage.BindingContext>
 
-    <ScrollView VerticalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,*"
-              RowSpacing="0">
-            <Frame HeightRequest="130" 
-                   HasShadow="False"
-                   BackgroundColor="{Binding CurrentAuthor.Color}">
-            </Frame>
-            <StackLayout Spacing="40" 
-                     Orientation="Vertical"
-                     Padding="20">
-                <Grid ColumnDefinitions="60,*">
-                    <Frame BackgroundColor="{DynamicResource Mediumblue}"
+    <Grid RowDefinitions="60,*"
+          RowSpacing="0">
+        <Frame HasShadow="False"
+               BackgroundColor="{DynamicResource Mediumblue}"
+               Padding="20, 0, 0, 0"
+               CornerRadius="0">
+            <Grid ColumnDefinitions="60,*">
+                <Frame BackgroundColor="Transparent"
                        HasShadow="False"
-                       Padding="0"
-                       HeightRequest="60"
-                       CornerRadius="30">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoBackPageCommand}"/>
-                        </Frame.GestureRecognizers>
-                        <Label Text="&#xf104;"
+                       Padding="0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackPageCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="&#xf104;"
                            Margin="0,0,0,0"
                            FontFamily="AwesomeSolid"
                            VerticalOptions="Center"
-                           HorizontalOptions="Center" 
+                           HorizontalOptions="Start" 
                            FontSize="30"
                            TextColor="{DynamicResource White}"></Label>
-                    </Frame>
+                </Frame>
+            </Grid>
+        </Frame>
+        <ScrollView Grid.Row="1"
+                    VerticalScrollBarVisibility="Never">
+            <Grid RowDefinitions="Auto,*"
+                  RowSpacing="0">
+                <Grid HeightRequest="-1" 
+                      Padding="20"
+                      BackgroundColor="{DynamicResource Mediumblue}">
+                    <Grid ColumnDefinitions="*, 80">
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="{Binding CurrentAuthor.Name}" 
+                                   TextColor="{DynamicResource White}"
+                                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
+                                   VerticalOptions="EndAndExpand"
+                                   FontFamily="ExtraBold"/>
+                            <Label Text="{Binding CurrentAuthor.Description}" 
+                                   TextColor="{DynamicResource White}"
+                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                   VerticalOptions="End"
+                                   FontFamily="Regular"/>
+                            <Label Text="{Binding CurrentAuthor.Link}" 
+                                   TextColor="{DynamicResource White}"
+                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                   TextDecorations="Underline"
+                                   VerticalOptions="End"
+                                   FontFamily="Regular">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLinkCommand}"
+                                                          CommandParameter="{Binding CurrentAuthor.Link}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                        <Grid Grid.Column="1"
+                              RowDefinitions="80"
+                              ColumnDefinitions="80"
+                              VerticalOptions="EndAndExpand"
+                              HorizontalOptions="EndAndExpand">
+                            <Frame HasShadow="False"
+                                   IsClippedToBounds="True"
+                                   HeightRequest="80"
+                                   WidthRequest="80"
+                                   Padding="0"
+                                   CornerRadius="40"
+                                   BackgroundColor="Red">
+                                <Image Source="{Binding CurrentAuthor.Logo}" Aspect="AspectFill"></Image>
+                            </Frame>
+                        </Grid>
+                    </Grid>
                 </Grid>
-            </StackLayout>
-        </Grid>
-    </ScrollView>
+                <StackLayout Grid.Row="1"
+                             VerticalOptions="Center"
+                             Spacing="20"
+                             Margin="20, 20, 20, 0">
+                    <CollectionView x:Name="RecordsList"
+                                    SelectionMode="None"
+                                    ItemsSource="{Binding AuthorRecords}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <Label Text="Нет публикаций у автора"/>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BackgroundColor="{DynamicResource Mediumblue}"
+                                       CornerRadius="15"
+                                       HasShadow="False"
+                                       HeightRequest="150"
+                                       Padding="0">
+                                    <Grid ColumnDefinitions="30*,70*">
+                                        <Frame Grid.Column="0"
+                                               HasShadow="False"
+                                               BackgroundColor="Transparent"
+                                               IsClippedToBounds="True"
+                                               CornerRadius="15"
+                                               Padding="0">
+                                            <Image Source="{Binding Image}" Aspect="AspectFill"></Image>
+                                        </Frame>
+                                        <Frame Grid.Column="0"
+                                               HasShadow="False"
+                                               TranslationX="0">
+                                            <Frame.Background>
+                                                <LinearGradientBrush EndPoint="1,0">
+                                                    <GradientStop Color="Transparent"
+                                                              Offset="0.1"/>
+                                                    <GradientStop Color="{DynamicResource Mediumblue}"
+                                                              Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Frame.Background>
+                                        </Frame>
+                                        <StackLayout Grid.Column="1"
+                                                     Orientation="Vertical"
+                                                     Padding="10">
+                                            <Label Text="{Binding Name}"
+                                                   TextColor="{DynamicResource White}"
+                                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                                   FontFamily="Bold"
+                                                   MaxLines="5"/>
+                                            <StackLayout Orientation="Horizontal"
+                                                         VerticalOptions="EndAndExpand">
+                                                <Grid ColumnDefinitions="30,*">
+                                                    <Frame Grid.Row="0" 
+                                                           IsClippedToBounds="True"                                                        
+                                                           HeightRequest="30"
+                                                           WidthRequest="30"
+                                                           CornerRadius="15"
+                                                           HasShadow="False"
+                                                           Padding="0">
+                                                        <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                                    </Frame>
+                                                    <Label Grid.Row="0"
+                                                           Grid.Column="1"
+                                                           Text="{Binding Author.Name}"
+                                                           LineBreakMode="TailTruncation"
+                                                           TextColor="{DynamicResource White}"
+                                                           FontSize="{DynamicResource Key=LablelFontSize}"
+                                                           VerticalOptions="Center"
+                                                           FontFamily="Regular">
+                                                    </Label>
+                                                </Grid>
+                                                <Label Text="save" 
+                                                       VerticalOptions="Center" 
+                                                       HorizontalOptions="EndAndExpand"></Label>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
 </ContentPage>

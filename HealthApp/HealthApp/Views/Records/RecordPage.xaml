@@ -82,16 +82,11 @@
                            FontFamily="Regular"/>
                 </StackLayout>
             </StackLayout>
-
-            <Grid Grid.Row="1"
-                  RowDefinitions="*,*">
-                <StackLayout Grid.Row="1" x:Name="BodyRecord" >
-                    
+            <Grid Grid.Row="1">
+                <StackLayout x:Name="BodyRecord" 
+                             Padding="20">
                 </StackLayout>
             </Grid>
-            
-            
-            
         </Grid>
     </ScrollView>
 </ContentPage>
