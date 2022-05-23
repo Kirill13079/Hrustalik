@@ -33,13 +33,14 @@ namespace HealthApp.ViewModels.Authors
             {
                 parameter = Uri.UnescapeDataString(value);
                 CurrentAuthor = JsonConvert.DeserializeObject<Author>(parameter);
+
                 LoadRecords();
             }
         }
 
         public async void LoadRecords()
         {
-            await Task.Delay(100);
+            await Task.Delay(250);
 
             var records = await GetAuthorRecordsAsync();
 

@@ -40,6 +40,30 @@ namespace HealthApp.ViewModels
             Shell.Current.FlyoutIsPresented = false;
         }
 
+        public async void NavigateTo<T, U>(string route, T modelParametr, U selectParameter)
+        {
+            var modelParameter = string.Empty;
+            var selectParametr = string.Empty;
+
+            if (modelParametr != null)
+            {
+                modelParameter = JsonConvert.SerializeObject(modelParametr);
+                modelParameter = Uri.EscapeDataString(modelParameter);
+            }
+
+            if (selectParameter != null)
+            {
+                selectParametr = JsonConvert.SerializeObject(selectParameter);
+                selectParametr = Uri.EscapeDataString(selectParametr);
+            }
+
+            var state = Shell.Current.CurrentState;
+
+            await Shell.Current.GoToAsync($"{state.Location}/{route}?parameter={modelParameter}&select={selectParametr}");
+
+            Shell.Current.FlyoutIsPresented = false;
+        }
+
         public async void NavigateTo(string route, string title = null)
         {
             var state = Shell.Current.CurrentState;

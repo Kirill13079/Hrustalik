@@ -99,7 +99,7 @@
                                                    MaxLines="5"/>
                                             <StackLayout Orientation="Horizontal"
                                                          VerticalOptions="EndAndExpand">
-                                                <Grid ColumnDefinitions="30,*">
+                                                <Grid ColumnDefinitions="30,100">
                                                     <Frame Grid.Row="0" 
                                                            IsClippedToBounds="True"                                                        
                                                            HeightRequest="30"

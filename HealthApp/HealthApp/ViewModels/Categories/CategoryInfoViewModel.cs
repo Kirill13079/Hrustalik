@@ -33,7 +33,7 @@ namespace HealthApp.ViewModels.Categories
 
         public async void LoadRecords()
         {
-            await Task.Delay(100);
+            await Task.Delay(250);
 
             var records = await GetCategoryRecordsAsync();
 

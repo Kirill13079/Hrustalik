@@ -48,6 +48,7 @@ namespace HealthApp.ViewModels
             Records = records
                 .Union(articleRecords)
                 .Union(youtubeRecords)
+                .OrderByDescending(x => x.Id)
                 .ToList();
 
             HotRecord = hotRecord;
