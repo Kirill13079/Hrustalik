@@ -7,6 +7,7 @@ using HealthApp.Common.Model.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -105,6 +106,50 @@ namespace HealthApp.API.Controllers.API
 
             return NotFound("Invalid Credentials");
         }
+
+        [HttpPost]
+        [Route(ApiRoutes.AddBookmark)]
+        public async Task<ActionResult> AddBookmark([FromBody] Bookmark bookmark)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            if (bookmark == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            bookmark.Customer = _context.Customers
+                .FirstOrDefault(x => x.Email == user.Email);
+
+            if (bookmark.Customer != null)
+            {
+                _context.Entry(bookmark.Record).State = EntityState.Unchanged;
+                _context.Entry(bookmark.Customer).State = EntityState.Unchanged;
+                _context.Entry(bookmark.Record.Category).State = EntityState.Unchanged;
+                _context.Entry(bookmark.Record.Author).State = EntityState.Unchanged;
+
+                _context.Bookmarks.Add(bookmark);
+
+                await _context.SaveChangesAsync();
+
+                return Ok(bookmark.Id);
+            }
+            else 
+            {
+                return NotFound("Invalid Customer");
+            }
+        }
+
 
         [HttpGet(ApiRoutes.GetCustomer)]
         public async Task<ActionResult> GetCustomer()

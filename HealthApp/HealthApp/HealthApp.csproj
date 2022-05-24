@@ -34,6 +34,14 @@
     <None Remove="Resources\Fonts\Gilroy-Thin.ttf" />
     <None Remove="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <None Remove="Resources\Fonts\Gilroy-UltraLight.ttf" />
+    <None Remove="Resources\Icons\arrow.svg" />
+    <None Remove="Resources\Icons\bookmark.svg" />
+    <None Remove="Resources\Icons\clock.svg" />
+    <None Remove="Resources\Icons\menu.svg" />
+    <None Remove="Resources\Icons\play.svg" />
+    <None Remove="Resources\Icons\share.svg" />
+    <None Remove="Resources\Icons\text.svg" />
+    <None Remove="Resources\Icons\web.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +67,14 @@
     <EmbeddedResource Include="Resources\Fonts\Gilroy-Thin.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-UltraLight.ttf" />
+    <EmbeddedResource Include="Resources\Icons\arrow.svg" />
+    <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
+    <EmbeddedResource Include="Resources\Icons\clock.svg" />
+    <EmbeddedResource Include="Resources\Icons\menu.svg" />
+    <EmbeddedResource Include="Resources\Icons\play.svg" />
+    <EmbeddedResource Include="Resources\Icons\share.svg" />
+    <EmbeddedResource Include="Resources\Icons\text.svg" />
+    <EmbeddedResource Include="Resources\Icons\web.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +82,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />

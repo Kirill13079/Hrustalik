@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HealthApp.Extensions;
+using System;
 using System.Globalization;
-using System.Text;
 using Xamarin.Forms;
 
 namespace HealthApp.Converts
@@ -14,7 +13,7 @@ namespace HealthApp.Converts
             {
                 var date = (DateTimeOffset)value;
 
-                return date.UtcDateTime;
+                return date.UtcDateTime.ToRelativeDateString(true);
             }
 
             return value;

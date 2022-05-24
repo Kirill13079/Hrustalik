@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:vm="clr-namespace:HealthApp.ViewModels" 
              xmlns:converters="clr-namespace:HealthApp.Converts"
+             xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:tool="http://xamarin.com/schemas/2020/toolkit" 
              x:Class="HealthApp.Views.NewsPage">
 
     <ContentPage.BindingContext>
@@ -12,66 +14,38 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolToStringConverter x:Key="RecordHeightConvertert" 
-                                              FalseString="200"
+                                              FalseString="230"
                                               TrueString="120"/>
             <converters:DateConvert x:Key="DateConvertert"/>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <Grid RowDefinitions="Auto, Auto, *"
+
+    <Grid RowDefinitions="Auto, *"
           RowSpacing="0">
         <Grid ColumnDefinitions="Auto, *, Auto" 
-              Padding="20, 20"
+              Padding="20, 10"
               BackgroundColor="{DynamicResource Mediumblue}">
-            <Label Text="&#xf009;"
-                   FontFamily="AwesomeSolid"
-                   FontSize="{DynamicResource Key=EntryFontSize}"
-                   TextColor="{DynamicResource White}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="Start"
-                   BackgroundColor="Red"
-                   Padding="20">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                </Label.GestureRecognizers>
-            </Label>
+            <svg:SvgCachedImage WidthRequest="30" 
+                                HeightRequest="30" 
+                                Source="resource://HealthApp.Resources.Icons.menu.svg">
+                <svg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Menu_Tapped"/>
+                </svg:SvgCachedImage.GestureRecognizers>
+            </svg:SvgCachedImage>
             <Label Grid.Column="1"
                    Text="Новости" 
                    FontFamily="Medium"
                    TextColor="{DynamicResource White}"
                    FontSize="20"
-                   HorizontalOptions="CenterAndExpand"/>
-            <Label Grid.Column="2" Text="&#xf02e;"
-                   FontFamily="AwesomeSolid"
-                   FontSize="{DynamicResource Key=EntryFontSize}"
-                   TextColor="{DynamicResource White}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="End"/>
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="Center"/>
+            <svg:SvgCachedImage Grid.Column="2" 
+                                WidthRequest="30" 
+                                HeightRequest="30" 
+                                Source="resource://HealthApp.Resources.Icons.bookmark.svg">
+            </svg:SvgCachedImage>
         </Grid>
-        <Frame Grid.Row="1"
-               HasShadow="False"
-               HeightRequest="5"
-               CornerRadius="0"
-               BackgroundColor="{DynamicResource Mediumblue}">
-        </Frame>
-        <Frame Grid.Row="1" 
-               Style="{DynamicResource SearchFrame}"
-               HasShadow="True"
-               Margin="20,0,20,10">
-            <StackLayout Orientation="Horizontal">
-                <Label Text="&#xf002;"
-                       FontFamily="AwesomeSolid"
-                       FontSize="{DynamicResource Key=EntryFontSize}"
-                       TextColor="{DynamicResource RoyalblueSmoke}"
-                       VerticalOptions="CenterAndExpand"/>
-                <Entry Placeholder="Поиск"
-                       FontSize="{DynamicResource Key=EntryFontSize}"
-                       FontFamily="Regular"
-                       PlaceholderColor="{DynamicResource RoyalblueSmoke}"
-                       HorizontalOptions="FillAndExpand"/>
-            </StackLayout>
-        </Frame>
-        <ScrollView Grid.Row="2" 
+        <ScrollView Grid.Row="1" 
                     VerticalScrollBarVisibility="Never" >
             <Grid RowSpacing="10">
                 <StackLayout VerticalOptions="Center"
@@ -88,66 +62,73 @@
                                     <Grid.Background>
                                         <LinearGradientBrush EndPoint="0,1">
                                             <GradientStop Color="Transparent"
-                                      Offset="0.1"/>
+                                                          Offset="0.1"/>
                                             <GradientStop Color="Black"
-                                      Offset="1.0"/>
+                                                          Offset="1.0"/>
                                         </LinearGradientBrush>
                                     </Grid.Background>
                                 </Grid>
                                 <Grid HeightRequest="230">
-                                    <StackLayout Margin="30" 
+                                    <StackLayout Margin="25, 20" 
                                                  VerticalOptions="End" 
                                                  HorizontalOptions="Start">
-                                        <Grid ColumnDefinitions="Auto,*"
-                                              RowDefinitions="*, Auto"
-                                              Padding="5">
-                                            <Label Grid.Row="0"
-                                                   Grid.Column="0"
-                                                   Grid.ColumnSpan="2"
-                                                   Text="{Binding HotRecord.Name}"
-                                                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
-                                                   MaxLines="5"
-                                                   FontFamily="ExtraBold"
-                                                   TextColor="{DynamicResource White}">
-                                            </Label>
-                                            <StackLayout Grid.Row="1"
-                                                         Grid.Column="0"
-                                                         Orientation="Horizontal">
-                                                <StackLayout.GestureRecognizers>
+                                        <Grid ColumnDefinitions="*, *"
+                                              RowDefinitions="*, 20"
+                                              RowSpacing="20">
+                                            <Grid Grid.Row="0"
+                                                  Grid.Column="0"
+                                                  Grid.ColumnSpan="2"
+                                                  VerticalOptions="End">
+                                                <Label Text="{Binding HotRecord.Name}"
+                                                       FontSize="{DynamicResource Key=HeaderLablelFontSize}"
+                                                       FontFamily="Bold"
+                                                       TextColor="{DynamicResource White}">
+                                                </Label>
+                                            </Grid>
+                                            <Grid Grid.Row="1"
+                                                  ColumnDefinitions="20,*"
+                                                  RowDefinitions="20"
+                                                  Grid.Column="0"
+                                                  VerticalOptions="End">
+                                                <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding SelectAuthorCommand}" 
                                                           CommandParameter="{Binding HotRecord.Author}"/>
-                                                </StackLayout.GestureRecognizers>
+                                                </Grid.GestureRecognizers>
                                                 <Frame IsClippedToBounds="True"
-                                                       HeightRequest="30"
-                                                       WidthRequest="30"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
                                                        CornerRadius="15"
                                                        HasShadow="False"
                                                        Padding="0">
                                                     <Image Source="{Binding HotRecord.Author.Logo}" Aspect="AspectFill"/>
                                                 </Frame>
-                                                <Label Text="{Binding HotRecord.Author.Name}"
+                                                <Label Grid.Column="1" 
+                                                       Text="{Binding HotRecord.Author.Name}"
+                                                       LineBreakMode="TailTruncation"
                                                        TextColor="{DynamicResource White}"
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
-                                                       VerticalOptions="CenterAndExpand"
+                                                       VerticalOptions="Center"
                                                        FontFamily="Regular">
                                                 </Label>
-                                            </StackLayout>
-                                            <StackLayout Grid.Row="1"
-                                                         Grid.Column="1"
-                                                         Orientation="Horizontal">
-                                                <Label Text="&#xf017;"
-                                                       FontFamily="AwesomeSolid"
-                                                       FontSize="{DynamicResource Key=EntryFontSize}"
-                                                       TextColor="{DynamicResource White}"
-                                                       VerticalOptions="Center"
-                                                       HorizontalOptions="EndAndExpand"/>
-                                                <Label Text="{Binding HotRecord.DateAdded, Converter={StaticResource DateConvertert}}"
+                                            </Grid>
+                                            <Grid Grid.Row="1"
+                                                  Grid.Column="1"
+                                                  ColumnDefinitions="20,*"
+                                                  VerticalOptions="End"
+                                                  HorizontalOptions="End">
+                                                <svg:SvgCachedImage WidthRequest="20" 
+                                                                    HeightRequest="20" 
+                                                                    Source="resource://HealthApp.Resources.Icons.clock.svg"
+                                                                    HorizontalOptions="Start">
+                                                </svg:SvgCachedImage>
+                                                <Label Grid.Column="1" 
+                                                       Text="{Binding HotRecord.DateAdded, Converter={StaticResource DateConvertert}}"
                                                        TextColor="{DynamicResource White}"
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
                                                        VerticalOptions="Center"
-                                                       HorizontalOptions="End"                                    
+                                                       HorizontalOptions="Start"                                    
                                                        FontFamily="Regular"/>
-                                            </StackLayout>
+                                            </Grid>
                                         </Grid>
                                     </StackLayout>
                                 </Grid>
@@ -163,7 +144,7 @@
                             <DataTemplate>
                                 <Grid RowDefinitions="*, Auto" 
                                       HeightRequest="{Binding SmallSize, Converter={StaticResource RecordHeightConvertert}}"
-                                      Padding="20,0,20,0">
+                                      Padding="20,0,20,10">
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding BindingContext.SelectRecordCommand, Source={x:Reference RecordsList}}" 
                                                               CommandParameter="{Binding}"/>
@@ -197,64 +178,75 @@
                                            Margin="10,10" 
                                            BackgroundColor="Transparent"
                                            InputTransparent="True">
-                                        <Grid ColumnDefinitions="Auto,*"
-                                              RowDefinitions="50, *, Auto"
+                                        <Grid ColumnDefinitions="*, *"
+                                              RowDefinitions="*, *, 20"
+                                              RowSpacing="20"
                                               Padding="5">
-                                            <Grid ColumnDefinitions="50,*">
+                                            <Grid ColumnDefinitions="50,*"
+                                                  RowDefinitions="50">
                                                 <Frame BackgroundColor="{DynamicResource Mediumblue}"
+                                                       IsClippedToBounds="True"
                                                        HasShadow="False"
-                                                       Padding="0"
+                                                       Padding="10"
                                                        CornerRadius="30">
-                                                    <Label Text="&#xf04b;"
-                                                           Margin="5,0,0,0"
-                                                           FontFamily="AwesomeSolid"
-                                                           VerticalOptions="Center"
-                                                           HorizontalOptions="Center" 
-                                                           TextColor="{DynamicResource White}"></Label>
+                                                    <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.play.svg"/>
                                                 </Frame>
                                             </Grid>
-                                            <Label Grid.Row="1"
-                                                   Grid.Column="0"
-                                                   Grid.ColumnSpan="2"
-                                                   Text="{Binding Name}"
-                                                   VerticalTextAlignment="Center"
-                                                   FontSize="{DynamicResource Key=LablelFontSize}" 
-                                                   FontFamily="ExtraBold"
-                                                   TextColor="{DynamicResource White}">
-                                            </Label>
-                                            <Grid Grid.Row="2"
+                                            <Grid Grid.Row="1"
                                                   Grid.Column="0"
-                                                  ColumnDefinitions="30,*">
+                                                  Grid.ColumnSpan="2"
+                                                  VerticalOptions="End">
+                                                <Label Text="{Binding Name}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       FontFamily="Bold"
+                                                       TextColor="{DynamicResource White}">
+                                                </Label>
+                                            </Grid>
+                                            <Grid Grid.Row="2"
+                                                  ColumnDefinitions="20,*"
+                                                  RowDefinitions="20"
+                                                  Grid.Column="0"
+                                                  VerticalOptions="End">
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
-                                                                              CommandParameter="{Binding Author}"/>
+                                                          CommandParameter="{Binding Author}"/>
                                                 </Grid.GestureRecognizers>
-                                                <Frame Grid.Row="0" IsClippedToBounds="True"
-                                                       HeightRequest="30"
-                                                       WidthRequest="30"
+                                                <Frame IsClippedToBounds="True"
+                                                       HeightRequest="20"
+                                                       WidthRequest="20"
                                                        CornerRadius="15"
                                                        HasShadow="False"
                                                        Padding="0">
                                                     <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
                                                 </Frame>
-                                                <Label Grid.Row="0"
-                                                       Grid.Column="1"
+                                                <Label Grid.Column="1" 
                                                        Text="{Binding Author.Name}"
+                                                       LineBreakMode="TailTruncation"
                                                        TextColor="{DynamicResource White}"
                                                        FontSize="{DynamicResource Key=LablelFontSize}"
                                                        VerticalOptions="Center"
                                                        FontFamily="Regular">
                                                 </Label>
                                             </Grid>
-                                            <Label Grid.Row="2"
-                                                   Grid.Column="1"
-                                                   Text="{Binding DateAdded, Converter={StaticResource DateConvertert}}"
-                                                   TextColor="{DynamicResource White}"
-                                                   FontSize="{DynamicResource Key=LablelFontSize}"
-                                                   HorizontalOptions="End"
-                                                   VerticalOptions="Center"
-                                                   FontFamily="Regular">
-                                            </Label>
+                                            <Grid Grid.Row="2"
+                                                  Grid.Column="1"
+                                                  ColumnDefinitions="20,*"
+                                                  VerticalOptions="End"
+                                                  HorizontalOptions="End">
+                                                <svg:SvgCachedImage  
+                                                                    WidthRequest="20" 
+                                                                    HeightRequest="20" 
+                                                                    Source="resource://HealthApp.Resources.Icons.clock.svg"
+                                                                    HorizontalOptions="Start">
+                                                </svg:SvgCachedImage>
+                                                <Label Grid.Column="1" 
+                                                       Text="{Binding DateAdded, Converter={StaticResource DateConvertert}}"
+                                                       TextColor="{DynamicResource White}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="Start"                                    
+                                                       FontFamily="Regular"/>
+                                            </Grid>
                                         </Grid>
                                     </Frame>
                                     <Frame IsVisible="{Binding IsArticle}"
@@ -263,18 +255,17 @@
                                            CornerRadius="15"
                                            Padding="10"
                                            InputTransparent="True">
-                                        <Grid ColumnDefinitions="30*,70*">
+                                        <Grid ColumnDefinitions="100, *">
                                             <Frame IsClippedToBounds="True"
                                                    Padding="0"
                                                    CornerRadius="10"
                                                    HasShadow="False">
-                                                <Image Source="{Binding Image}" Aspect="Fill"/>
+                                                <Image Source="{Binding Image}" Aspect="AspectFill"/>
                                             </Frame>
                                             <Grid Grid.Column="1"
-                                                  ColumnDefinitions="*,*"
-                                                  RowDefinitions="Auto,*,Auto"
-                                                  RowSpacing="0"
-                                                  Margin="10,0,0,0">
+                                                  ColumnDefinitions="*, *"
+                                                  RowDefinitions="*, *, 20"
+                                                  Padding="5">
                                                 <Label Grid.ColumnSpan="2"
                                                        Text="{Binding Category.Name, StringFormat='#{0}'}"
                                                        TextColor="{DynamicResource RoyalblueSmoke}"
@@ -285,34 +276,42 @@
                                                                               CommandParameter="{Binding Category}"/>
                                                     </Label.GestureRecognizers>
                                                 </Label>
-                                                <Label Grid.Row="1"
-                                                       Grid.Column="0"
-                                                       Grid.ColumnSpan="2"
-                                                       FontFamily="Bold"
-                                                       VerticalTextAlignment="Center"
-                                                       FontSize="{DynamicResource Key=LablelFontSize}"
-                                                       TextColor="{DynamicResource Black}"
-                                                       Text="{Binding Name}"/>
-                                                <Grid Grid.Row="2"
+                                                <Grid Grid.Row="1"
                                                       Grid.Column="0"
-                                                      ColumnDefinitions="30,*">
+                                                      Grid.ColumnSpan="2"
+                                                      VerticalOptions="Start">
+                                                    <Label Text="{Binding Name}"
+                                                           FontSize="{DynamicResource Key=LablelFontSize}"
+                                                           LineBreakMode="TailTruncation"
+                                                           FontFamily="Bold"
+                                                           TextColor="{DynamicResource Black}">
+                                                    </Label>
+                                                </Grid>
+                                                <Grid Grid.Row="2"
+                                                      ColumnDefinitions="20,*"
+                                                      RowDefinitions="20"
+                                                      Grid.Column="0"
+                                                      VerticalOptions="End">
                                                     <Grid.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
                                                                               CommandParameter="{Binding Author}"/>
                                                     </Grid.GestureRecognizers>
                                                     <Frame IsClippedToBounds="True"
-                                                           HeightRequest="30"
-                                                           WidthRequest="30"
+                                                           HeightRequest="20"
+                                                           WidthRequest="20"
                                                            CornerRadius="15"
                                                            HasShadow="False"
                                                            Padding="0">
                                                         <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
                                                     </Frame>
-                                                    <Label Grid.Column="1" Text="{Binding Author.Name}"
-                                                           TextColor="{DynamicResource RoyalblueSmoke}"
+                                                    <Label Grid.Column="1" 
+                                                           Text="{Binding Author.Name}"
+                                                           LineBreakMode="TailTruncation"
+                                                           TextColor="{DynamicResource Black}"
                                                            FontSize="{DynamicResource Key=LablelFontSize}"
                                                            VerticalOptions="Center"
-                                                           FontFamily="Regular"/>
+                                                           FontFamily="Regular">
+                                                    </Label>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
@@ -339,62 +338,63 @@
                                                   Grid.Column="1">
                                                 <Frame BackgroundColor="Red"
                                                        HasShadow="False"
-                                                       Padding="0"
+                                                       Padding="5"
                                                        CornerRadius="10">
-                                                    <Label Text="&#xf04b;"
-                                                           Margin="5,0,0,0"
-                                                           FontFamily="AwesomeSolid"
-                                                           VerticalOptions="Center"
-                                                           HorizontalOptions="Center" 
-                                                           TextColor="{DynamicResource White}"></Label>
+                                                    <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.play.svg"/>
                                                 </Frame>
                                             </Grid>
-                                            <Frame Grid.Row="2"
-                                                   Padding="20,0"
-                                                   Grid.Column="0"
-                                                   Grid.ColumnSpan="3"
-                                                   CornerRadius="5"
-                                                   BackgroundColor="Transparent">
-                                                <Frame.Background>
-                                                    <LinearGradientBrush EndPoint="1,0">
-                                                        <GradientStop Color="{DynamicResource Mediumblue}"
-                                                              Offset="0.1"/>
-                                                        <GradientStop Color="Transparent"
-                                                              Offset="1.0"/>
-                                                    </LinearGradientBrush>
-                                                </Frame.Background>
-                                                <Grid ColumnDefinitions="30,Auto">
-                                                    <Grid.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
-                                                                              CommandParameter="{Binding Author}"/>
-                                                    </Grid.GestureRecognizers>
-                                                    <Grid Grid.Column="0" 
-                                                          RowDefinitions="30"
-                                                          VerticalOptions="Center">
-                                                        <Frame IsClippedToBounds="True"
-                                                               WidthRequest="30"
-                                                               CornerRadius="15"
-                                                               HasShadow="False"
-                                                               Padding="0">
-                                                            <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
-                                                        </Frame>
-                                                    </Grid>
-                                                    <Label Grid.Column="1" Text="{Binding Author.Name}"
-                                                           TextColor="{DynamicResource White}"
-                                                           FontSize="{DynamicResource Key=LablelFontSize}"
-                                                           VerticalOptions="Center"
-                                                           FontFamily="Regular"/>
-                                                </Grid>
-                                            </Frame>
                                         </Grid>
                                     </Frame>
-                                    <Label IsVisible="{Binding IsYoutube}"
-                                           Grid.Row="1" 
-                                           Text="{Binding Name}" 
-                                           TextColor="{DynamicResource Black}"
-                                           FontFamily="ExtraBold"
-                                           FontSize="{DynamicResource Key=LablelFontSize}"
-                                           InputTransparent="True"/>
+                                    <Frame IsVisible="{Binding IsYoutube}"
+                                           VerticalOptions="End"
+                                           HorizontalOptions="End"
+                                           BackgroundColor="{DynamicResource Mediumblue}"
+                                           CornerRadius="15"
+                                           Margin="10"
+                                           Padding="5">
+                                        <Grid  ColumnDefinitions="20,*">
+                                            <svg:SvgCachedImage  WidthRequest="20" 
+                                                             HeightRequest="20" 
+                                                             Source="resource://HealthApp.Resources.Icons.clock.svg"
+                                                             HorizontalOptions="Start">
+                                            </svg:SvgCachedImage>
+                                            <Label Grid.Column="1" 
+                                               Text="{Binding DateAdded, Converter={StaticResource DateConvertert}}"
+                                               TextColor="{DynamicResource White}"
+                                               FontSize="{DynamicResource Key=LablelFontSize}"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Start"                                    
+                                               FontFamily="Regular"/>
+                                        </Grid>
+                                    </Frame>
+                                    <Grid IsVisible="{Binding IsYoutube}" 
+                                          Grid.Row="1" 
+                                          Padding="5, 0"
+                                          ColumnDefinitions="20,*">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand, Source={x:Reference RecordsList}}" 
+                                                                  CommandParameter="{Binding Author}"></TapGestureRecognizer>
+                                        </Grid.GestureRecognizers>
+                                        <Grid RowDefinitions="20,0"
+                                              ColumnDefinitions="20"
+                                              VerticalOptions="Start">
+                                            <Frame IsClippedToBounds="True"
+                                                   CornerRadius="15"
+                                                   HasShadow="False"
+                                                   Padding="0">
+                                                <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                            </Frame>
+                                        </Grid>
+                                        <Label Grid.Column="1"
+                                               IsVisible="{Binding IsYoutube}"
+                                               Text="{Binding Name}" 
+                                               TextColor="{DynamicResource Black}"
+                                               FontFamily="Bold"
+                                               FontSize="{DynamicResource Key=LablelFontSize}"
+                                               InputTransparent="True"
+                                               VerticalOptions="StartAndExpand"
+                                               Padding="0"/>
+                                    </Grid>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

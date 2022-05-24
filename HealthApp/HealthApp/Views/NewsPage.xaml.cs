@@ -17,7 +17,7 @@ namespace HealthApp.Views
             InitializeComponent();
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private void Menu_Tapped(object sender, EventArgs e)
         {
             Shell.Current.FlyoutIsPresented = true;
         }
