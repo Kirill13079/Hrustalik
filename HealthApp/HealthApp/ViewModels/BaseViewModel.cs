@@ -1,4 +1,6 @@
-﻿using HealthApp.Common.Model.Helper;
+﻿using HealthApp.Common.Model;
+using HealthApp.Common.Model.Helper;
+using HealthApp.Service;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
@@ -16,7 +18,28 @@ namespace HealthApp.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand GoBackPageCommand => new Command(GoBackCommandHandler);
+        public ICommand GoBackPageCommand => new Command(async () => 
+        {
+            await Shell.Current.Navigation.PopAsync();
+        });
+
+        public ICommand AddBookmarkCommand => new Command(async (obj) => 
+        {
+            string url = BaseUrl + ApiRoutes.AddBookmark;
+
+            var bookmark = new Bookmark 
+            { 
+                Record = obj as Record
+            };
+
+            var result = await ApiCaller.Post(url, bookmark);
+
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                await AppInstance.MainPage.DisplayAlert("test", "test", "ok");
+            }
+
+        });
 
         public void OnPropertyChanged([CallerMemberName] string name = "")
         {
@@ -71,11 +94,6 @@ namespace HealthApp.ViewModels
             await Shell.Current.GoToAsync($"{state.Location}/{route}?title={title}");
 
             Shell.Current.FlyoutIsPresented = false;
-        }
-
-        public async void GoBackCommandHandler()
-        {
-            await Shell.Current.Navigation.PopAsync();
         }
     }
 }

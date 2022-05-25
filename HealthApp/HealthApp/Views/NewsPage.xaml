@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:HealthApp.ViewModels" 
              xmlns:converters="clr-namespace:HealthApp.Converts"
              xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:tool="http://xamarin.com/schemas/2020/toolkit" 
              x:Class="HealthApp.Views.NewsPage">
 
@@ -34,7 +35,7 @@
             </svg:SvgCachedImage>
             <Label Grid.Column="1"
                    Text="Новости" 
-                   FontFamily="Medium"
+                   FontFamily="Bold"
                    TextColor="{DynamicResource White}"
                    FontSize="20"
                    HorizontalOptions="CenterAndExpand"
@@ -56,7 +57,9 @@
                         <CollectionView.Header>
                             <Grid>
                                 <Grid HeightRequest="230">
-                                    <Image Source="{Binding HotRecord.Image}" Aspect="AspectFill" />
+                                    <ffimageloading:CachedImage Source="{Binding HotRecord.Image}" 
+                                                                DownsampleToViewSize="True" 
+                                                                Aspect="AspectFill"/>
                                 </Grid>
                                 <Grid HeightRequest="230">
                                     <Grid.Background>
@@ -100,7 +103,9 @@
                                                        CornerRadius="15"
                                                        HasShadow="False"
                                                        Padding="0">
-                                                    <Image Source="{Binding HotRecord.Author.Logo}" Aspect="AspectFill"/>
+                                                    <ffimageloading:CachedImage Source="{Binding HotRecord.Author.Logo}" 
+                                                                                DownsampleToViewSize="True" 
+                                                                                Aspect="AspectFill"/>
                                                 </Frame>
                                                 <Label Grid.Column="1" 
                                                        Text="{Binding HotRecord.Author.Name}"
@@ -155,7 +160,9 @@
                                            CornerRadius="15"
                                            IsClippedToBounds="True"
                                            InputTransparent="True">
-                                        <Image Source="{Binding Image}" Aspect="AspectFill"/>
+                                        <ffimageloading:CachedImage Source="{Binding Image}" 
+                                                                    DownsampleToViewSize="True" 
+                                                                    Aspect="AspectFill"/>
                                     </Frame>
                                     <Frame IsVisible="{Binding IsNews}"
                                            HasShadow="False"
@@ -217,7 +224,9 @@
                                                        CornerRadius="15"
                                                        HasShadow="False"
                                                        Padding="0">
-                                                    <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                                    <ffimageloading:CachedImage Source="{Binding Author.Logo}" 
+                                                                                DownsampleToViewSize="True" 
+                                                                                Aspect="AspectFill"/>
                                                 </Frame>
                                                 <Label Grid.Column="1" 
                                                        Text="{Binding Author.Name}"
@@ -260,7 +269,9 @@
                                                    Padding="0"
                                                    CornerRadius="10"
                                                    HasShadow="False">
-                                                <Image Source="{Binding Image}" Aspect="AspectFill"/>
+                                                <ffimageloading:CachedImage Source="{Binding Image}" 
+                                                                            DownsampleToViewSize="True" 
+                                                                            Aspect="AspectFill"/>
                                             </Frame>
                                             <Grid Grid.Column="1"
                                                   ColumnDefinitions="*, *"
@@ -283,6 +294,7 @@
                                                     <Label Text="{Binding Name}"
                                                            FontSize="{DynamicResource Key=LablelFontSize}"
                                                            LineBreakMode="TailTruncation"
+                                                           MaxLines="3"
                                                            FontFamily="Bold"
                                                            TextColor="{DynamicResource Black}">
                                                     </Label>
@@ -291,6 +303,7 @@
                                                       ColumnDefinitions="20,*"
                                                       RowDefinitions="20"
                                                       Grid.Column="0"
+                                                      Grid.ColumnSpan="2"
                                                       VerticalOptions="End">
                                                     <Grid.GestureRecognizers>
                                                         <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand,  Source={x:Reference RecordsList}}" 
@@ -302,7 +315,9 @@
                                                            CornerRadius="15"
                                                            HasShadow="False"
                                                            Padding="0">
-                                                        <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                                        <ffimageloading:CachedImage Source="{Binding Author.Logo}" 
+                                                                                    DownsampleToViewSize="True" 
+                                                                                    Aspect="AspectFill"/>
                                                     </Frame>
                                                     <Label Grid.Column="1" 
                                                            Text="{Binding Author.Name}"
@@ -322,7 +337,9 @@
                                            CornerRadius="15"
                                            IsClippedToBounds="True"
                                            InputTransparent="True">
-                                        <Image Source="{Binding Image}" Aspect="AspectFill"/>
+                                        <ffimageloading:CachedImage Source="{Binding Image}" 
+                                                                    DownsampleToViewSize="True" 
+                                                                    Aspect="AspectFill"/>
                                     </Frame>
                                     <Frame IsVisible="{Binding IsYoutube}"
                                            HasShadow="True"
@@ -371,18 +388,20 @@
                                           Grid.Row="1" 
                                           Padding="5, 0"
                                           ColumnDefinitions="20,*">
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand, Source={x:Reference RecordsList}}" 
-                                                                  CommandParameter="{Binding Author}"></TapGestureRecognizer>
-                                        </Grid.GestureRecognizers>
                                         <Grid RowDefinitions="20,0"
                                               ColumnDefinitions="20"
                                               VerticalOptions="Start">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand, Source={x:Reference RecordsList}}" 
+                                                                      CommandParameter="{Binding Author}"></TapGestureRecognizer>
+                                            </Grid.GestureRecognizers>
                                             <Frame IsClippedToBounds="True"
                                                    CornerRadius="15"
                                                    HasShadow="False"
                                                    Padding="0">
-                                                <Image Source="{Binding Author.Logo}" Aspect="AspectFill"/>
+                                                <ffimageloading:CachedImage Source="{Binding Author.Logo}" 
+                                                                            DownsampleToViewSize="True" 
+                                                                            Aspect="AspectFill"/>
                                             </Frame>
                                         </Grid>
                                         <Label Grid.Column="1"

@@ -44,6 +44,9 @@
         <Tab Title="Популярное">
             <ShellContent ContentTemplate="{DataTemplate views:PopularNewsPage}"/>
         </Tab>
+        <Tab Title="Закладки">
+            <ShellContent ContentTemplate="{DataTemplate views:BookmarkPage}"/>
+        </Tab>
     </FlyoutItem>
     <MenuItem Text="Выйти"/>
 </Shell>

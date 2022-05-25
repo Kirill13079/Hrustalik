@@ -8,6 +8,7 @@
         public const string Login = "api/user/login";
         public const string AddBookmark = "api/user/bookmark";
 
+        public const string GetBookmarks = "api/user/bookmark";
         public const string GetCustomer = "api/user/customer";
 
         public const string GetRecords = "api/record/news";

@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:HealthApp.ViewModels.Records"
              xmlns:tool="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:converters="clr-namespace:HealthApp.Converts"
              x:Class="HealthApp.Views.Records.RecordPage">
 
@@ -23,7 +24,9 @@
             <Grid RowDefinitions="330,*,Auto"
                   RowSpacing="0">
                 <Grid HeightRequest="330">
-                    <Image Source="{Binding CurrentRecord.Image}" Aspect="AspectFill"/>
+                    <ffimageloading:CachedImage Source="{Binding CurrentRecord.Image}" 
+                                                DownsampleToViewSize="True" 
+                                                Aspect="AspectFill"/>
                 </Grid>
                 <Frame HeightRequest="330"
                        HasShadow="False">
@@ -39,6 +42,9 @@
                 <StackLayout Margin="25, 20" 
                              VerticalOptions="End" 
                              HorizontalOptions="Start">
+                    <Button Text="В заклакди" Command="{Binding AddBookmarkCommand}" CommandParameter="{Binding CurrentRecord}">
+                        
+                    </Button>
                     <Grid ColumnDefinitions="*, *"
                           RowDefinitions="*, 20"
                           RowSpacing="20">
@@ -63,8 +69,9 @@
                                    CornerRadius="15"
                                    HasShadow="False"
                                    Padding="0">
-                                <Image Source="{Binding CurrentRecord.Author.Logo}" 
-                                       Aspect="AspectFill"/>
+                                <ffimageloading:CachedImage Source="{Binding CurrentRecord.Author.Logo}" 
+                                                            DownsampleToViewSize="True" 
+                                                            Aspect="AspectFill"/>
                             </Frame>
                             <Label Grid.Column="1" 
                                    Text="{Binding CurrentRecord.Author.Name}"

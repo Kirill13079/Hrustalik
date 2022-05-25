@@ -22,6 +22,8 @@ namespace HealthApp
         {
             InitializeComponent();
 
+            Device.SetFlags(new[] { "SwipeView_Experimental" });
+
             Util = new Util();
 
             if (Preferences.Get("ExistingUser", false))

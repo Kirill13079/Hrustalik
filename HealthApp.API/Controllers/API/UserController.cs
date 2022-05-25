@@ -150,6 +150,21 @@ namespace HealthApp.API.Controllers.API
             }
         }
 
+        [HttpGet]
+        [Route(ApiRoutes.GetBookmarks)]
+        public async Task<ActionResult> GetBookmarks()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var wishlist = _context.Bookmarks
+                .Where(x => x.Customer.Email == user.Email)
+                .Include(x => x.Record)
+                .Include(x => x.Record.Author)
+                .ToList();
+
+            return Ok(wishlist);
+        }
+
 
         [HttpGet(ApiRoutes.GetCustomer)]
         public async Task<ActionResult> GetCustomer()

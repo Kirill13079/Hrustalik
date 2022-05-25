@@ -13,7 +13,7 @@ namespace HealthApp.ViewModels.Records
     {
         public Record CurrentRecord { get; set; }
 
-        public ICommand ShareRecordCommand => new Command(async (obj) =>
+        public ICommand ShareRecordCommand => new Command(async () =>
         {
             await Share.RequestAsync(new ShareTextRequest
             {

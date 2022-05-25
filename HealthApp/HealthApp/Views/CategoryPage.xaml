@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:vm="clr-namespace:HealthApp.ViewModels"
              x:Class="HealthApp.Views.CategoryPage"
-             xmlns:tool="http://xamarin.com/schemas/2020/toolkit" >
+             xmlns:tool="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:ffTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    
     <ContentPage.BindingContext>
         <vm:CategoryViewModel x:Name="vm"/>
     </ContentPage.BindingContext>
@@ -11,29 +15,37 @@
     <Grid RowDefinitions="Auto, *"
           RowSpacing="0">
         <Grid ColumnDefinitions="Auto, *, Auto" 
-              Padding="20, 20"
+              Padding="20, 10"
               BackgroundColor="{DynamicResource White}">
-            <Label Text="&#xf009;"
-                   FontFamily="AwesomeSolid"
-                   FontSize="{DynamicResource Key=EntryFontSize}"
-                   TextColor="{DynamicResource Mediumblue}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="Start"/>
+            <svg:SvgCachedImage WidthRequest="30" 
+                                HeightRequest="30" 
+                                Source="resource://HealthApp.Resources.Icons.menu.svg">
+                <ffimageloading:CachedImage.Transformations>
+                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                                                          EnableSolidColor="true"/>
+                </ffimageloading:CachedImage.Transformations>
+                <svg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Menu_Tapped"/>
+                </svg:SvgCachedImage.GestureRecognizers>
+            </svg:SvgCachedImage>
             <Label Grid.Column="1"
                    Text="Категории" 
-                   FontFamily="ExtraBold"
+                   FontFamily="Bold"
                    TextColor="{DynamicResource Mediumblue}"
                    FontSize="20"
-                   HorizontalOptions="CenterAndExpand"/>
-            <Label Grid.Column="2" Text="&#xf02e;"
-                   FontFamily="AwesomeSolid"
-                   FontSize="{DynamicResource Key=EntryFontSize}"
-                   TextColor="{DynamicResource Mediumblue}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="End"/>
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="Center"/>
+            <svg:SvgCachedImage Grid.Column="2" 
+                                WidthRequest="30" 
+                                HeightRequest="30" 
+                                Source="resource://HealthApp.Resources.Icons.bookmark.svg">
+                <ffimageloading:CachedImage.Transformations>
+                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                                                          EnableSolidColor="true"/>
+                </ffimageloading:CachedImage.Transformations>
+            </svg:SvgCachedImage>
         </Grid>
-
-        <ScrollView Grid.Row="1"
+        <ScrollView Grid.Row="1" 
                     VerticalScrollBarVisibility="Never">
             <CollectionView SelectionMode="None"
                             ItemsSource="{Binding Categories}">
@@ -58,8 +70,8 @@
                                    Grid.ColumnSpan="2"
                                    Text="{Binding Name}"
                                    TextColor="{DynamicResource Mediumblue}"
-                                   FontSize="24"
-                                   FontFamily="ExtraBold"
+                                   FontSize="20"
+                                   FontFamily="Bold"
                                    VerticalTextAlignment="Start"></Label>
                             <Label Grid.Column="1" 
                                    Grid.Row="1"
@@ -75,5 +87,4 @@
             </CollectionView>
         </ScrollView>
     </Grid>
-
 </ContentPage>
