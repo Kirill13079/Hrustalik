@@ -11,149 +11,167 @@
         <vm:AuthorInfoViewModel x:Name="vm"/>
     </ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, *"
-          RowSpacing="0">
-        <Grid ColumnDefinitions="30, *, 30" 
-              Padding="20, 10"
-              BackgroundColor="{DynamicResource Mediumblue}">
+    <StackLayout Spacing="0">
+        <StackLayout Padding="20, 20"
+                     BackgroundColor="{DynamicResource White}"
+                     Orientation="Horizontal">
             <svg:SvgCachedImage WidthRequest="30" 
                                 HeightRequest="30" 
                                 Source="resource://HealthApp.Resources.Icons.arrow.svg">
+                <ffimageloading:CachedImage.Transformations>
+                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                                                          EnableSolidColor="true"/>
+                </ffimageloading:CachedImage.Transformations>
                 <svg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackPageCommand}"/>
                 </svg:SvgCachedImage.GestureRecognizers>
             </svg:SvgCachedImage>
-            <Label Grid.Column="1"
-                   Text="{Binding CurrentAuthor.Name}" 
-                   LineBreakMode="TailTruncation"
+            <Label Text="{Binding CurrentAuthor.Name}" 
                    FontFamily="Bold"
-                   TextColor="{DynamicResource White}"
+                   TextColor="{DynamicResource Mediumblue}"
                    FontSize="20"
-                   HorizontalOptions="Center"
+                   HorizontalOptions="CenterAndExpand"
+                   LineBreakMode="TailTruncation"
+                   MaxLines="1"
                    VerticalOptions="Center"/>
-        </Grid>
-        <ScrollView Grid.Row="1" 
-                    VerticalScrollBarVisibility="Never">
-            <Grid RowSpacing="10">
-                <StackLayout VerticalOptions="Center"
-                             Spacing="20">
-                    <CollectionView x:Name="RecordsList"
-                                    SelectionMode="None"
-                                    ItemsSource="{Binding AuthorRecords}">
-                        <CollectionView.Header>
-                            <Grid HeightRequest="-1" 
-                                  Padding="20"
-                                  BackgroundColor="{DynamicResource Mediumblue}">
-                                <Grid ColumnDefinitions="*, 80">
-                                    <StackLayout Orientation="Vertical">
-                                        <Label Text="{Binding CurrentAuthor.Description}" 
-                                               TextColor="{DynamicResource White}"
+            <Frame Grid.Column="2" 
+                   Style="{DynamicResource DefaultFrame}"
+                   BackgroundColor="Transparent"
+                   WidthRequest="30" 
+                   HeightRequest="30">
+            </Frame>
+        </StackLayout>
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <StackLayout VerticalOptions="Center"
+                         Spacing="20">
+                <CollectionView x:Name="RecordsList"
+                                SelectionMode="None"
+                                ItemsSource="{Binding AuthorRecords}">
+                    <CollectionView.Header>
+                        <Grid HeightRequest="-1"
+                              Padding="20,0"
+                              ColumnDefinitions="*, 80">
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="{Binding CurrentAuthor.Description}" 
+                                               TextColor="{DynamicResource Mediumblue}"
                                                FontSize="{DynamicResource Key=LablelFontSize}"
                                                VerticalOptions="End"
                                                FontFamily="Regular"/>
-                                        <Label Text="{Binding CurrentAuthor.Link}" 
-                                               TextColor="{DynamicResource White}"
+                                <Label Text="{Binding CurrentAuthor.Link}" 
+                                               TextColor="{DynamicResource Mediumblue}"
                                                FontSize="{DynamicResource Key=LablelFontSize}"
                                                TextDecorations="Underline"
                                                VerticalOptions="End"
                                                FontFamily="Regular">
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding OpenLinkCommand}"
-                                                          CommandParameter="{Binding CurrentAuthor.Link}"/>
-                                            </Label.GestureRecognizers>
-                                        </Label>
-                                    </StackLayout>
-                                    <Grid Grid.Column="1"
-                                          RowDefinitions="80"
-                                          ColumnDefinitions="80"
-                                          VerticalOptions="EndAndExpand"
-                                          HorizontalOptions="EndAndExpand">
-                                        <Frame HasShadow="False"
-                                               IsClippedToBounds="True"
-                                               HeightRequest="80"
-                                               WidthRequest="80"
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OpenLinkCommand}"
+                                                              CommandParameter="{Binding CurrentAuthor.Link}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                            <Grid Grid.Column="1"
+                                  RowDefinitions="80"
+                                  ColumnDefinitions="80"
+                                  VerticalOptions="StartAndExpand"
+                                  HorizontalOptions="EndAndExpand">
+                                <Frame HasShadow="False"
+                                       IsClippedToBounds="True"
+                                       HeightRequest="80"
+                                       WidthRequest="80"
+                                       Padding="0"
+                                       CornerRadius="40">
+                                    <ffimageloading:CachedImage Source="{Binding CurrentAuthor.Logo}" 
+                                                                DownsampleToViewSize="True" 
+                                                                Aspect="AspectFill"/>
+                                </Frame>
+                            </Grid>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" 
+                                           ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.EmptyView>
+                        <Label Text="У автора нет публикаций"/>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HeightRequest="130"
+                                  Padding="20,0,20,10">
+                                <Frame HasShadow="False"
+                                       Padding="0"
+                                       CornerRadius="15"
+                                       BackgroundColor="{DynamicResource WhiteSmoke}"
+                                       InputTransparent="True">
+                                    <StackLayout Orientation="Horizontal"
+                                                 Margin="10"
+                                                 Spacing="10">
+                                        <Frame IsClippedToBounds="True"
                                                Padding="0"
-                                               CornerRadius="40">
-                                            <ffimageloading:CachedImage Source="{Binding CurrentAuthor.Logo}" 
-                                                                        DownsampleToViewSize="True" 
+                                               WidthRequest="100"
+                                               CornerRadius="10"
+                                               HasShadow="False">
+                                            <ffimageloading:CachedImage Source="{Binding Image}" 
+                                                                        DownsampleToViewSize="False" 
                                                                         Aspect="AspectFill"/>
                                         </Frame>
-                                    </Grid>
-                                </Grid>
+                                        <StackLayout Orientation="Vertical"
+                                                     HorizontalOptions="FillAndExpand">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Category.Name, StringFormat='#{0}'}"
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1"
+                                                       TextColor="{DynamicResource RoyalblueSmoke}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       VerticalOptions="Start"
+                                                       FontFamily="Bold">
+                                                </Label>
+                                                <svg:SvgCachedImage WidthRequest="25" 
+                                                                    HeightRequest="25" 
+                                                                    HorizontalOptions="EndAndExpand"
+                                                                    Source="resource://HealthApp.Resources.Icons.bookmark.svg">
+                                                    <ffimageloading:CachedImage.Transformations>
+                                                        <ffTransformations:TintTransformation HexColor="#3b70da" 
+                                                                                              EnableSolidColor="true"/>
+                                                    </ffimageloading:CachedImage.Transformations>
+                                                </svg:SvgCachedImage>
+                                            </StackLayout>
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                                   FontFamily="Bold"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="3"
+                                                   TextColor="{DynamicResource Black}">
+                                            </Label>
+                                            <StackLayout Orientation="Horizontal"
+                                                         VerticalOptions="EndAndExpand">
+                                                <Frame IsClippedToBounds="True"
+                                                       WidthRequest="20"
+                                                       HasShadow="False"
+                                                       CornerRadius="10"
+                                                       Padding="0">
+                                                    <ffimageloading:CachedImage Source="{Binding Author.Logo}" 
+                                                                                    DownsampleToViewSize="True" 
+                                                                                    Aspect="AspectFill"/>
+                                                </Frame>
+                                                <Label Text="{Binding Author.Name}"
+                                                       TextColor="{DynamicResource Black}"
+                                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                                       VerticalOptions="Center"
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1"
+                                                       FontFamily="Regular"
+                                                       HorizontalOptions="FillAndExpand">
+                                                </Label>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
                             </Grid>
-                        </CollectionView.Header>
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" 
-                                               ItemSpacing="10"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.EmptyView>
-                            <Label Text="У автора нет публикаций"/>
-                        </CollectionView.EmptyView>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid RowDefinitions="*, Auto"
-                                      HeightRequest="120"
-                                      Padding="20,0,20,10">
-                                    <Frame HasShadow="False"
-                                           BackgroundColor="{DynamicResource WhiteSmoke}"
-                                           CornerRadius="15"
-                                           Padding="10"
-                                           InputTransparent="True">
-                                        <Grid ColumnDefinitions="100, *">
-                                            <Frame IsClippedToBounds="True"
-                                                   Padding="0"
-                                                   CornerRadius="10"
-                                                   HasShadow="False">
-                                                <ffimageloading:CachedImage Source="{Binding Image}" 
-                                                                            DownsampleToViewSize="False" 
-                                                                            Aspect="AspectFill"/>
-                                            </Frame>
-                                            <Grid Grid.Column="1"
-                                                  ColumnDefinitions="*, *"
-                                                  RowDefinitions="*, *, *"
-                                                  Padding="5">
-                                                <StackLayout Grid.ColumnSpan="2" 
-                                                             Orientation="Horizontal">
-                                                    <Label Text="{Binding Category.Name, StringFormat='#{0}'}"
-                                                           LineBreakMode="TailTruncation"
-                                                           MaxLines="1"
-                                                           TextColor="{DynamicResource RoyalblueSmoke}"
-                                                           FontSize="{DynamicResource Key=LablelFontSize}"
-                                                           VerticalOptions="Center"
-                                                           FontFamily="Bold">
-                                                    </Label>
-                                                    <svg:SvgCachedImage WidthRequest="30" 
-                                                                        HeightRequest="30" 
-                                                                        HorizontalOptions="EndAndExpand"
-                                                                        Source="resource://HealthApp.Resources.Icons.bookmark.svg">
-                                                        <ffimageloading:CachedImage.Transformations>
-                                                            <ffTransformations:TintTransformation HexColor="#3b70da" 
-                                                                                                  EnableSolidColor="true"/>
-                                                        </ffimageloading:CachedImage.Transformations>
-                                                    </svg:SvgCachedImage>
-                                                </StackLayout>
-                                                <Grid Grid.Row="1"
-                                                      Grid.Column="0"
-                                                      Grid.ColumnSpan="2"
-                                                      Grid.RowSpan="2"
-                                                      VerticalOptions="Start">
-                                                    <Label Text="{Binding Name}"
-                                                           FontSize="{DynamicResource Key=LablelFontSize}"
-                                                           FontFamily="Bold"
-                                                           LineBreakMode="TailTruncation"
-                                                           MaxLines="3"
-                                                           TextColor="{DynamicResource Black}">
-                                                    </Label>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Frame>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
-            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </ScrollView>
-    </Grid>
+    </StackLayout>
 </ContentPage>
