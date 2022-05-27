@@ -160,6 +160,7 @@ namespace HealthApp.API.Controllers.API
                 .Where(x => x.Customer.Email == user.Email)
                 .Include(x => x.Record)
                 .Include(x => x.Record.Author)
+                .Include(x => x.Record.Category)
                 .ToList();
 
             return Ok(wishlist);

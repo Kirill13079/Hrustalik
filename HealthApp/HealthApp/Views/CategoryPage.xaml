@@ -7,48 +7,48 @@
              xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
              xmlns:ffTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
-    
+
     <ContentPage.BindingContext>
         <vm:CategoryViewModel x:Name="vm"/>
     </ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto, *"
-          RowSpacing="0">
-        <Grid ColumnDefinitions="Auto, *, Auto" 
-              Padding="20, 10"
-              BackgroundColor="{DynamicResource White}">
+    <StackLayout Spacing="0">
+        <StackLayout Padding="20, 20"
+                     BackgroundColor="{DynamicResource Mediumblue}"
+                     Orientation="Horizontal">
             <svg:SvgCachedImage WidthRequest="30" 
                                 HeightRequest="30" 
                                 Source="resource://HealthApp.Resources.Icons.menu.svg">
                 <ffimageloading:CachedImage.Transformations>
-                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                    <ffTransformations:TintTransformation HexColor="#ffffff" 
                                                           EnableSolidColor="true"/>
                 </ffimageloading:CachedImage.Transformations>
                 <svg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Menu_Tapped"/>
                 </svg:SvgCachedImage.GestureRecognizers>
             </svg:SvgCachedImage>
-            <Label Grid.Column="1"
-                   Text="Категории" 
+            <Label Text="Категории" 
                    FontFamily="Bold"
-                   TextColor="{DynamicResource Mediumblue}"
-                   FontSize="20"
+                   TextColor="{DynamicResource White}"
+                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
                    HorizontalOptions="CenterAndExpand"
+                   LineBreakMode="TailTruncation"
+                   MaxLines="1"
                    VerticalOptions="Center"/>
             <svg:SvgCachedImage Grid.Column="2" 
                                 WidthRequest="30" 
                                 HeightRequest="30" 
                                 Source="resource://HealthApp.Resources.Icons.bookmark.svg">
                 <ffimageloading:CachedImage.Transformations>
-                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                    <ffTransformations:TintTransformation HexColor="#ffffff" 
                                                           EnableSolidColor="true"/>
                 </ffimageloading:CachedImage.Transformations>
             </svg:SvgCachedImage>
-        </Grid>
-        <ScrollView Grid.Row="1" 
-                    VerticalScrollBarVisibility="Never">
-            <CollectionView SelectionMode="None"
-                            ItemsSource="{Binding Categories}">
+        </StackLayout>
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <CollectionView x:Name="RecordsList" SelectionMode="None"
+                            ItemsSource="{Binding Categories}"
+                            Margin="0,10,0,0">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
@@ -57,8 +57,12 @@
                         <Grid RowDefinitions="10,*"
                               ColumnDefinitions="100,*"
                               RowSpacing="0"
-                              Padding="20, 40, 20, 20"
-                              tool:TouchEffect.NativeAnimation="True">
+                              tool:TouchEffect.NativeAnimation="True"
+                              Padding="20,10,20,20">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.SelectCategoryCommand, Source={x:Reference RecordsList}}" 
+                                                      CommandParameter="{Binding}"/>
+                            </Grid.GestureRecognizers>
                             <Frame Grid.Column="0"
                                    Grid.Row="0"
                                    CornerRadius="30"
@@ -70,21 +74,24 @@
                                    Grid.ColumnSpan="2"
                                    Text="{Binding Name}"
                                    TextColor="{DynamicResource Mediumblue}"
-                                   FontSize="20"
+                                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
                                    FontFamily="Bold"
                                    VerticalTextAlignment="Start"></Label>
-                            <Label Grid.Column="1" 
-                                   Grid.Row="1"
-                                   Text="&#xf105;"
-                                   TextColor="{DynamicResource Mediumblue}"
-                                   FontSize="24"
-                                   FontFamily="AwesomeSolid"
-                                   HorizontalTextAlignment="End"
-                                   VerticalTextAlignment="Start"></Label>
+                            <svg:SvgCachedImage Grid.Column="1" 
+                                                Grid.Row="1"  
+                                                WidthRequest="30" 
+                                                HeightRequest="30" 
+                                                Source="resource://HealthApp.Resources.Icons.rearrow.svg"
+                                                HorizontalOptions="End">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                                                                          EnableSolidColor="true"/>
+                                </ffimageloading:CachedImage.Transformations>
+                            </svg:SvgCachedImage>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </ScrollView>
-    </Grid>
+    </StackLayout>
 </ContentPage>

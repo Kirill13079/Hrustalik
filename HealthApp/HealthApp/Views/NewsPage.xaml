@@ -34,7 +34,7 @@
             <Label Text="Новости" 
                    FontFamily="Bold"
                    TextColor="{DynamicResource White}"
-                   FontSize="20"
+                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
                    HorizontalOptions="CenterAndExpand"
                    LineBreakMode="TailTruncation"
                    MaxLines="1"
@@ -184,7 +184,8 @@
                                                    IsClippedToBounds="True"
                                                    CornerRadius="25"
                                                    WidthRequest="50">
-                                                <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.play.svg"/>
+                                                <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.play.svg"
+                                                                    Margin="10"/>
                                             </Frame>
                                         </StackLayout>
                                         <Label Text="{Binding Name}"
@@ -319,19 +320,10 @@
                                        IsClippedToBounds="True"
                                        InputTransparent="True"
                                        BackgroundColor="Transparent">
-                                    <StackLayout VerticalOptions="Fill" 
+                                    <StackLayout VerticalOptions="EndAndExpand" 
                                                  HorizontalOptions="Fill"
                                                  Padding="0"
-                                                 Spacing="-50">
-                                        <Frame VerticalOptions="CenterAndExpand"
-                                               HorizontalOptions="CenterAndExpand"
-                                               Style="{DynamicResource DefaultFrame}"
-                                               BackgroundColor="Red"
-                                               WidthRequest="60"
-                                               IsClippedToBounds="True"
-                                               CornerRadius="10">
-                                            <svg:SvgCachedImage HeightRequest="40" Source="resource://HealthApp.Resources.Icons.play.svg"/>
-                                        </Frame>
+                                                 Spacing="0">
                                         <StackLayout VerticalOptions="End"
                                                      HeightRequest="30"
                                                      Padding="0"

@@ -7,12 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
     public class CategoryViewModel : BaseViewModel
     {
         public List<Category> Categories { get; set; }
+
+        public ICommand SelectCategoryCommand => new Command((obj) =>
+        {
+            NavigateTo("categoryInfo", (Category)obj);
+        });
 
         public CategoryViewModel()
         {

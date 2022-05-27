@@ -7,12 +7,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
     public class PopularNewsViewModel : BaseViewModel
     {
         public List<Record> Records { get; set; } = new List<Record>();
+
+        public ICommand SelectRecordCommand => new Command((obj) =>
+        {
+            NavigateTo("record", (Record)obj);
+        });
+
+        public ICommand SelectAuthorCommand => new Command((obj) =>
+        {
+            NavigateTo("authorInfo", (Author)obj);
+        });
 
         public PopularNewsViewModel()
         {
@@ -39,6 +51,7 @@ namespace HealthApp.ViewModels
                 records.ForEach((record) =>
                 {
                     record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
+                    record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
                 });
 
                 return records;

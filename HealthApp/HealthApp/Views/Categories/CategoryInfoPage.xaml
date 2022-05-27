@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:HealthApp.ViewModels.Categories" 
              xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ffTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="HealthApp.Views.Categories.CategoryInfoPage">
 
@@ -13,13 +14,13 @@
 
     <StackLayout Spacing="0">
         <StackLayout Padding="20, 20"
-                     BackgroundColor="{DynamicResource White}"
-                     Orientation="Horizontal">
+                     Orientation="Horizontal"
+                     BackgroundColor="{DynamicResource Mediumblue}">
             <svg:SvgCachedImage WidthRequest="30" 
                                 HeightRequest="30" 
                                 Source="resource://HealthApp.Resources.Icons.arrow.svg">
                 <ffimageloading:CachedImage.Transformations>
-                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                    <ffTransformations:TintTransformation HexColor="#ffffff" 
                                                           EnableSolidColor="true"/>
                 </ffimageloading:CachedImage.Transformations>
                 <svg:SvgCachedImage.GestureRecognizers>
@@ -28,8 +29,8 @@
             </svg:SvgCachedImage>
             <Label Text="{Binding CurrentCategory.Name}" 
                    FontFamily="Bold"
-                   TextColor="{DynamicResource Mediumblue}"
-                   FontSize="20"
+                   TextColor="{DynamicResource White}"
+                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
                    HorizontalOptions="CenterAndExpand"
                    LineBreakMode="TailTruncation"
                    MaxLines="1"
@@ -43,7 +44,8 @@
         </StackLayout>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout VerticalOptions="Center"
-                         Spacing="20">
+                         Spacing="20"
+                         Margin="0,20,0,0">
                 <CollectionView x:Name="RecordsList"
                                 SelectionMode="None"
                                 ItemsSource="{Binding CategoryRecords}">

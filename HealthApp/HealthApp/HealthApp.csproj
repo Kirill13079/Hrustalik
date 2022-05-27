@@ -39,6 +39,7 @@
     <None Remove="Resources\Icons\clock.svg" />
     <None Remove="Resources\Icons\menu.svg" />
     <None Remove="Resources\Icons\play.svg" />
+    <None Remove="Resources\Icons\rearrow.svg" />
     <None Remove="Resources\Icons\share.svg" />
     <None Remove="Resources\Icons\text.svg" />
     <None Remove="Resources\Icons\web.svg" />
@@ -72,6 +73,7 @@
     <EmbeddedResource Include="Resources\Icons\clock.svg" />
     <EmbeddedResource Include="Resources\Icons\menu.svg" />
     <EmbeddedResource Include="Resources\Icons\play.svg" />
+    <EmbeddedResource Include="Resources\Icons\rearrow.svg" />
     <EmbeddedResource Include="Resources\Icons\share.svg" />
     <EmbeddedResource Include="Resources\Icons\text.svg" />
     <EmbeddedResource Include="Resources\Icons\web.svg" />

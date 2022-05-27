@@ -13,13 +13,13 @@
 
     <StackLayout Spacing="0">
         <StackLayout Padding="20, 20"
-                     BackgroundColor="{DynamicResource White}"
+                     BackgroundColor="{DynamicResource Mediumblue}"
                      Orientation="Horizontal">
             <svg:SvgCachedImage WidthRequest="30" 
                                 HeightRequest="30" 
                                 Source="resource://HealthApp.Resources.Icons.arrow.svg">
                 <ffimageloading:CachedImage.Transformations>
-                    <ffTransformations:TintTransformation HexColor="#0624d9" 
+                    <ffTransformations:TintTransformation HexColor="#ffffff" 
                                                           EnableSolidColor="true"/>
                 </ffimageloading:CachedImage.Transformations>
                 <svg:SvgCachedImage.GestureRecognizers>
@@ -28,8 +28,8 @@
             </svg:SvgCachedImage>
             <Label Text="{Binding CurrentAuthor.Name}" 
                    FontFamily="Bold"
-                   TextColor="{DynamicResource Mediumblue}"
-                   FontSize="20"
+                   TextColor="{DynamicResource White}"
+                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
                    HorizontalOptions="CenterAndExpand"
                    LineBreakMode="TailTruncation"
                    MaxLines="1"
@@ -43,7 +43,8 @@
         </StackLayout>
         <ScrollView VerticalScrollBarVisibility="Never">
             <StackLayout VerticalOptions="Center"
-                         Spacing="20">
+                         Spacing="20"
+                         Margin="0,20,0,0">
                 <CollectionView x:Name="RecordsList"
                                 SelectionMode="None"
                                 ItemsSource="{Binding AuthorRecords}">

@@ -34,5 +34,30 @@ namespace HealthApp.Views
                 Routing.RegisterRoute(route.Key, route.Value);
             }
         }
+
+        //private bool redirected;
+
+        //protected override void OnNavigating(ShellNavigatingEventArgs args)
+        //{
+        //    if (Device.Android.Equals(Device.RuntimePlatform))
+        //    {
+        //        if (ShellNavigationSource.ShellSectionChanged.Equals(args.Source) && !redirected)
+        //        {
+        //            FlyoutIsPresented = true;
+        //        }
+        //        redirected = true;
+        //    }
+        //    base.OnNavigating(args);
+        //}
+
+        //protected override void OnNavigated(ShellNavigatedEventArgs args)
+        //{
+        //    if (Device.Android.Equals(Device.RuntimePlatform))
+        //    {
+        //        FlyoutIsPresented = false;
+        //        redirected = false;
+        //    }
+        //    base.OnNavigated(args);
+        //}
     }
 }
