@@ -15,6 +15,7 @@ namespace HealthApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AppShell : Shell
     {
+        private bool _startUp = true;
         private Dictionary<string, Type> _routes = new Dictionary<string, Type>();
 
         public AppShell()
@@ -35,29 +36,71 @@ namespace HealthApp.Views
             }
         }
 
-        //private bool redirected;
+        private DateTime LastFlyoutHiddenUtcDateTime { get; set; }
 
-        //protected override void OnNavigating(ShellNavigatingEventArgs args)
-        //{
-        //    if (Device.Android.Equals(Device.RuntimePlatform))
-        //    {
-        //        if (ShellNavigationSource.ShellSectionChanged.Equals(args.Source) && !redirected)
-        //        {
-        //            FlyoutIsPresented = true;
-        //        }
-        //        redirected = true;
-        //    }
-        //    base.OnNavigating(args);
-        //}
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
 
-        //protected override void OnNavigated(ShellNavigatedEventArgs args)
-        //{
-        //    if (Device.Android.Equals(Device.RuntimePlatform))
-        //    {
-        //        FlyoutIsPresented = false;
-        //        redirected = false;
-        //    }
-        //    base.OnNavigated(args);
-        //}
-    }
+            if (propertyName == nameof(FlyoutIsPresented))
+            {
+                if (!FlyoutIsPresented)
+                {
+                    LastFlyoutHiddenUtcDateTime = DateTime.UtcNow;
+                }
+            }
+        }
+
+        private bool WasNavigationCancelledToCloseFlyoutAndReRunAfterADelayToAvoidJitteryFlyoutCloseTransitionBug = false;
+
+        protected override async void OnNavigating(ShellNavigatingEventArgs args)
+        {
+            if (!WasNavigationCancelledToCloseFlyoutAndReRunAfterADelayToAvoidJitteryFlyoutCloseTransitionBug)
+            {
+                // if the above value is true, then this is the re-run navigation from the GoToAsync(args.Target) call below - skip this block this second pass through, as the flyout is now closed
+                if ((DateTime.UtcNow - LastFlyoutHiddenUtcDateTime).TotalMilliseconds < 1000)
+                {
+                    args.Cancel();
+
+                    FlyoutIsPresented = false;
+
+                    OnPropertyChanged(nameof(FlyoutIsPresented));
+
+                    await Task.Delay(300);
+
+                    WasNavigationCancelledToCloseFlyoutAndReRunAfterADelayToAvoidJitteryFlyoutCloseTransitionBug = true;
+
+                    // re-run the originally requested navigation
+                    await GoToAsync(args.Target);
+
+                    return;
+                }
+            }
+
+            WasNavigationCancelledToCloseFlyoutAndReRunAfterADelayToAvoidJitteryFlyoutCloseTransitionBug = false;
+
+            base.OnNavigating(args);
+        }
+	}
+
+    //protected override void OnNavigated(ShellNavigatedEventArgs args)
+    //{
+    //    base.OnNavigated(args);
+    //    _startUp = false;
+    //}
+
+    //protected async override void OnPropertyChanged(
+    //    [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+    //{
+    //    base.OnPropertyChanged(propertyName);
+    //    if (!_startUp && propertyName.Equals("CurrentState") 
+    //        && Device.RuntimePlatform == Device.Android)
+    //    {
+    //        FlyoutIsPresented = true;
+
+    //        await Task.Delay(300);
+
+    //        FlyoutIsPresented = false;
+    //    }
+    //}
 }

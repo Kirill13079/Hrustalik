@@ -46,93 +46,86 @@
             </svg:SvgCachedImage>
         </StackLayout>
         <ScrollView VerticalScrollBarVisibility="Never" >
-            <StackLayout VerticalOptions="Center"
-                         Spacing="20">
-                <CollectionView x:Name="RecordsList"
-                                SelectionMode="None"
-                                ItemsSource="{Binding Records}">
-                    <CollectionView.Header>
-                        <Grid RowDefinitions="230">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectRecordCommand}" 
-                                                      CommandParameter="{Binding HotRecord}"/>
-                            </Grid.GestureRecognizers>
-                            <Frame Style="{DynamicResource DefaultFrame}">
-                                <ffimageloading:CachedImage Source="{Binding HotRecord.Image}" 
-                                                                DownsampleToViewSize="True" 
-                                                                Aspect="AspectFill"/>
-                            </Frame>
-                            <Frame Style="{DynamicResource DefaultFrame}">
-                                <Frame.Background>
-                                    <LinearGradientBrush EndPoint="0,1">
-                                        <GradientStop Color="Transparent"
-                                                          Offset="0.1"/>
-                                        <GradientStop Color="Black"
-                                                          Offset="1.0"/>
-                                    </LinearGradientBrush>
-                                </Frame.Background>
-                            </Frame>
-                            <Frame Style="{DynamicResource DefaultFrame}"
-                                   BackgroundColor="Transparent">
-                                <StackLayout VerticalOptions="End" 
-                                             HorizontalOptions="Start"
-                                             Margin="25, 20">
-                                    <Label Text="{Binding HotRecord.Name}"
-                                           FontSize="{DynamicResource Key=HeaderLablelFontSize}"
-                                           FontFamily="Bold"
-                                           TextColor="{DynamicResource White}">
+            <StackLayout Orientation="Vertical">
+                <Grid RowDefinitions="230">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectRecordCommand}" 
+                                              CommandParameter="{Binding HotRecord}"/>
+                    </Grid.GestureRecognizers>
+                    <Frame Style="{DynamicResource DefaultFrame}">
+                        <ffimageloading:CachedImage Source="{Binding HotRecord.Image}" 
+                                                    DownsampleToViewSize="True" 
+                                                    Aspect="AspectFill"/>
+                    </Frame>
+                    <Frame Style="{DynamicResource DefaultFrame}">
+                        <Frame.Background>
+                            <LinearGradientBrush EndPoint="0,1">
+                                <GradientStop Color="Transparent"
+                                              Offset="0.1"/>
+                                <GradientStop Color="Black"
+                                              Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Frame.Background>
+                    </Frame>
+                    <Frame Style="{DynamicResource DefaultFrame}"
+                           BackgroundColor="Transparent">
+                        <StackLayout VerticalOptions="End" 
+                                     HorizontalOptions="Start"
+                                     Margin="25, 20">
+                            <Label Text="{Binding HotRecord.Name}"
+                                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
+                                   FontFamily="Bold"
+                                   TextColor="{DynamicResource White}">
+                            </Label>
+                            <StackLayout Orientation="Horizontal"
+                                         HeightRequest="20">
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectAuthorCommand}" 
+                                                              CommandParameter="{Binding HotRecord.Author}"/>
+                                    </StackLayout.GestureRecognizers>
+                                    <Frame IsClippedToBounds="True"
+                                           WidthRequest="20"
+                                           HasShadow="False"
+                                           CornerRadius="10"
+                                           Padding="0">
+                                        <ffimageloading:CachedImage Source="{Binding HotRecord.Author.Logo}" 
+                                                                    DownsampleToViewSize="True" 
+                                                                    Aspect="AspectFill"/>
+                                    </Frame>
+                                    <Label Grid.Column="1" 
+                                           Text="{Binding HotRecord.Author.Name}"
+                                           TextColor="{DynamicResource White}"
+                                           FontSize="{DynamicResource Key=LablelFontSize}"
+                                           VerticalOptions="Center"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           FontFamily="Regular"
+                                           HorizontalOptions="FillAndExpand">
                                     </Label>
-                                    <StackLayout Orientation="Horizontal"
-                                                 HeightRequest="20">
-                                        <StackLayout Orientation="Horizontal">
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SelectAuthorCommand}" 
-                                                                      CommandParameter="{Binding HotRecord.Author}"/>
-                                            </StackLayout.GestureRecognizers>
-                                            <Frame IsClippedToBounds="True"
-                                                   WidthRequest="20"
-                                                   HasShadow="False"
-                                                   CornerRadius="10"
-                                                   Padding="0">
-                                                <ffimageloading:CachedImage Source="{Binding HotRecord.Author.Logo}" 
-                                                                            DownsampleToViewSize="True" 
-                                                                            Aspect="AspectFill"/>
-                                            </Frame>
-                                            <Label Grid.Column="1" 
-                                                   Text="{Binding HotRecord.Author.Name}"
-                                                   TextColor="{DynamicResource White}"
-                                                   FontSize="{DynamicResource Key=LablelFontSize}"
-                                                   VerticalOptions="Center"
-                                                   LineBreakMode="TailTruncation"
-                                                   MaxLines="1"
-                                                   FontFamily="Regular"
-                                                   HorizontalOptions="FillAndExpand">
-                                            </Label>
-                                        </StackLayout>
-                                        <svg:SvgCachedImage WidthRequest="20" 
-                                                                HeightRequest="20" 
-                                                                Source="resource://HealthApp.Resources.Icons.clock.svg"
-                                                                HorizontalOptions="EndAndExpand">
-                                        </svg:SvgCachedImage>
-                                        <Label Grid.Column="1" 
-                                               Text="{Binding HotRecord.DateAdded, Converter={StaticResource DateConvertert}}"
-                                               TextColor="{DynamicResource White}"
-                                               FontSize="{DynamicResource Key=LablelFontSize}"
-                                               VerticalOptions="Center"                                  
-                                               FontFamily="Regular"/>
-                                    </StackLayout>
                                 </StackLayout>
-                            </Frame>
-                        </Grid>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" 
-                                           ItemSpacing="10"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.EmptyView>
+                                <svg:SvgCachedImage WidthRequest="20" 
+                                                    HeightRequest="20" 
+                                                    Source="resource://HealthApp.Resources.Icons.clock.svg"
+                                                    HorizontalOptions="EndAndExpand">
+                                </svg:SvgCachedImage>
+                                <Label Grid.Column="1" 
+                                       Text="{Binding HotRecord.DateAdded, Converter={StaticResource DateConvertert}}"
+                                       TextColor="{DynamicResource White}"
+                                       FontSize="{DynamicResource Key=LablelFontSize}"
+                                       VerticalOptions="Center"                                  
+                                       FontFamily="Regular"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+                <FlexLayout x:Name="RecordsList"
+                            Direction="Column"
+                            BindableLayout.ItemsSource="{Binding Records}">
+                    <BindableLayout.EmptyView>
                         <Label Text="Новостей нет"/>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <Grid HeightRequest="{Binding SmallSize, Converter={StaticResource RecordHeightConvertert}}"
                                   RowDefinitions="*, Auto"
@@ -275,7 +268,8 @@
                                                    MaxLines="3"
                                                    TextColor="{DynamicResource Black}">
                                             </Label>
-                                            <StackLayout Orientation="Horizontal">
+                                            <StackLayout Orientation="Horizontal"
+                                                         HeightRequest="20">
                                                 <StackLayout.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding BindingContext.SelectAuthorCommand, Source={x:Reference RecordsList}}" 
                                                                           CommandParameter="{Binding Author}"></TapGestureRecognizer>
@@ -386,8 +380,8 @@
                                 </Frame>
                             </Grid>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </StackLayout>
         </ScrollView>
     </StackLayout>

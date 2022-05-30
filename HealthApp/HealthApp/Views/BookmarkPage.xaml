@@ -42,16 +42,13 @@
             <StackLayout VerticalOptions="Center"
                          Spacing="20"
                          Margin="0,20,0,0">
-                <CollectionView x:Name="BookmarkRecordsList"
-                                SelectionMode="None"
-                                ItemsSource="{Binding Bookmarks}">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.EmptyView>
+                <FlexLayout x:Name="BookmarkRecordsList"
+                            Direction="Column"
+                            BindableLayout.ItemsSource="{Binding Bookmarks}">
+                    <BindableLayout.EmptyView>
                         <Label Text="Закладок нет"/>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
                                 <SwipeView.RightItems>
@@ -159,8 +156,8 @@
                                 </Grid>
                             </SwipeView>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </StackLayout>
         </ScrollView>
     </StackLayout>

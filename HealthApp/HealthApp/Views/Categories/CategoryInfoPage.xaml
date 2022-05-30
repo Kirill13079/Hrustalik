@@ -46,17 +46,13 @@
             <StackLayout VerticalOptions="Center"
                          Spacing="20"
                          Margin="0,20,0,0">
-                <CollectionView x:Name="RecordsList"
-                                SelectionMode="None"
-                                ItemsSource="{Binding CategoryRecords}">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" 
-                                           ItemSpacing="10"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.EmptyView>
+                <FlexLayout x:Name="RecordsList"
+                                Direction="Column"
+                                BindableLayout.ItemsSource="{Binding CategoryRecords}">
+                    <BindableLayout.EmptyView>
                         <Label Text="У категории нет публикаций"/>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <Grid HeightRequest="130"
                                   Padding="20,0,20,10">
@@ -106,7 +102,8 @@
                                                    TextColor="{DynamicResource Black}">
                                             </Label>
                                             <StackLayout Orientation="Horizontal"
-                                                         VerticalOptions="EndAndExpand">
+                                                         VerticalOptions="EndAndExpand"
+                                                         HeightRequest="20">
                                                 <Frame IsClippedToBounds="True"
                                                        WidthRequest="20"
                                                        HasShadow="False"
@@ -131,8 +128,8 @@
                                 </Frame>
                             </Grid>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </StackLayout>
         </ScrollView>
     </StackLayout>

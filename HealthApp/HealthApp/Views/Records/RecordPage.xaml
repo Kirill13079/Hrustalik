@@ -19,153 +19,150 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="70,*">
-        <ScrollView Grid.Row="0"
+        <ScrollView VerticalScrollBarVisibility="Never"
+                    Grid.Row="0"
                     Grid.RowSpan="2">
-            <StackLayout>
-                <ScrollView VerticalScrollBarVisibility="Never">
-                    <Grid RowDefinitions="330,*,Auto"
-                          RowSpacing="0">
-                        <Frame Padding="0">
-                            <ffimageloading:CachedImage Source="{Binding CurrentRecord.Image}" 
-                                                        DownsampleToViewSize="True" 
-                                                        Aspect="AspectFill"/>
-                        </Frame>
-                        <Frame HeightRequest="330"
-                               HasShadow="False">
-                            <Frame.Background>
-                                <LinearGradientBrush EndPoint="0,1">
-                                    <GradientStop Color="Transparent"
-                                                  Offset="0.1"/>
-                                    <GradientStop Color="Black"
-                                                  Offset="1.0"/>
-                                </LinearGradientBrush>
-                            </Frame.Background>
-                        </Frame>
-                        <StackLayout Orientation="Vertical"
-                                     VerticalOptions="FillAndExpand" 
-                                     Margin="20, 20">
-                            <Label Text="{Binding CurrentRecord.Name}"
-                                   FontSize="{DynamicResource Key=HeaderLablelFontSize}"
-                                   FontFamily="Bold"
+            <Grid RowDefinitions="330,*,Auto"
+                  RowSpacing="0">
+                <Frame Padding="0">
+                    <ffimageloading:CachedImage Source="{Binding CurrentRecord.Image}" 
+                                                DownsampleToViewSize="True" 
+                                                Aspect="AspectFill"/>
+                </Frame>
+                <Frame HeightRequest="330"
+                       HasShadow="False">
+                    <Frame.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="Transparent"
+                                          Offset="0.1"/>
+                            <GradientStop Color="Black"
+                                          Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Frame.Background>
+                </Frame>
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="FillAndExpand" 
+                             Margin="20, 20">
+                    <Label Text="{Binding CurrentRecord.Name}"
+                           FontSize="{DynamicResource Key=HeaderLablelFontSize}"
+                           FontFamily="Bold"
+                           TextColor="{DynamicResource White}"
+                           VerticalOptions="EndAndExpand"/>
+                    <StackLayout Orientation="Horizontal"
+                                 HeightRequest="20"
+                                 VerticalOptions="End">
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="Start">
+                            <Frame IsClippedToBounds="True"
+                                   WidthRequest="20"
+                                   HasShadow="False"
+                                   CornerRadius="10"
+                                   Padding="0">
+                                <ffimageloading:CachedImage Source="{Binding CurrentRecord.Author.Logo}" 
+                                                            DownsampleToViewSize="True" 
+                                                            Aspect="AspectFill"/>
+                            </Frame>
+                            <Label Grid.Column="1" 
+                                   Text="{Binding CurrentRecord.Author.Name}"
                                    TextColor="{DynamicResource White}"
-                                   VerticalOptions="EndAndExpand"/>
-                            <StackLayout Orientation="Horizontal"
-                                         HeightRequest="20"
-                                         VerticalOptions="End">
-                                <StackLayout Orientation="Horizontal"
-                                             HorizontalOptions="Start">
-                                    <Frame IsClippedToBounds="True"
-                                                   WidthRequest="20"
-                                                   HasShadow="False"
-                                                   CornerRadius="10"
-                                                   Padding="0">
-                                        <ffimageloading:CachedImage Source="{Binding CurrentRecord.Author.Logo}" 
-                                                                            DownsampleToViewSize="True" 
-                                                                            Aspect="AspectFill"/>
-                                    </Frame>
-                                    <Label Grid.Column="1" 
-                                                   Text="{Binding CurrentRecord.Author.Name}"
-                                                   TextColor="{DynamicResource White}"
-                                                   FontSize="{DynamicResource Key=LablelFontSize}"
-                                                   VerticalOptions="Center"
-                                                   LineBreakMode="TailTruncation"
-                                                   MaxLines="1"
-                                                   FontFamily="Regular"
-                                                   HorizontalOptions="FillAndExpand">
-                                    </Label>
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal"
-                                             HorizontalOptions="EndAndExpand">
-                                    <svg:SvgCachedImage WidthRequest="20" 
-                                                                HeightRequest="20" 
-                                                                Source="resource://HealthApp.Resources.Icons.clock.svg">
-                                    </svg:SvgCachedImage>
-                                    <Label Grid.Column="1" 
-                                               Text="{Binding CurrentRecord.DateAdded, Converter={StaticResource DateConvertert}}"
-                                               TextColor="{DynamicResource White}"
-                                               FontSize="{DynamicResource Key=LablelFontSize}"
-                                               VerticalOptions="Center"  
-                                               FontFamily="Regular"/>
-                                </StackLayout>
-                            </StackLayout>
+                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                   VerticalOptions="Center"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="1"
+                                   FontFamily="Regular"
+                                   HorizontalOptions="FillAndExpand">
+                            </Label>
                         </StackLayout>
-                        <StackLayout x:Name="BodyRecord"
-                                     Grid.Row="1"
-                                     Margin="20">
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="EndAndExpand">
+                            <svg:SvgCachedImage WidthRequest="20" 
+                                                HeightRequest="20" 
+                                                Source="resource://HealthApp.Resources.Icons.clock.svg">
+                            </svg:SvgCachedImage>
+                            <Label Grid.Column="1" 
+                                   Text="{Binding CurrentRecord.DateAdded, Converter={StaticResource DateConvertert}}"
+                                   TextColor="{DynamicResource White}"
+                                   FontSize="{DynamicResource Key=LablelFontSize}"
+                                   VerticalOptions="Center"  
+                                   FontFamily="Regular"/>
                         </StackLayout>
-                        <StackLayout Grid.Row="2"
-                                     Padding="20,0,20,20"
-                                     Spacing="20">
-                            <StackLayout HeightRequest="1" BackgroundColor="{DynamicResource Black}"/>
-                            <StackLayout Orientation="Horizontal"
-                                         Spacing="10">
-                                <StackLayout Orientation="Horizontal"
-                                             HeightRequest="50"
-                                             Spacing="0">
-                                    <Frame BackgroundColor="{DynamicResource WhiteSmoke}"
-                                           tool:TouchEffect.NativeAnimation="True"
-                                           HasShadow="False"
-                                           Padding="0"
-                                           Margin="0"
-                                           WidthRequest="50"
-                                           CornerRadius="25"
-                                           IsClippedToBounds="True">
-                                        <Frame.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding ShareRecordCommand}"/>
-                                        </Frame.GestureRecognizers>
-                                        <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.share.svg"  
-                                                            Margin="5,10,5,10"/>
-                                    </Frame>
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal"
-                                             HeightRequest="50"
-                                             Spacing="0">
-                                    <Frame BackgroundColor="{DynamicResource WhiteSmoke}"
-                                           tool:TouchEffect.NativeAnimation="True"
-                                           HasShadow="False"
-                                           Padding="0"
-                                           Margin="0"
-                                           WidthRequest="50"
-                                           CornerRadius="25"
-                                           IsClippedToBounds="True">
-                                        <Frame.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding OpenLinkCommand}"
-                                                                  CommandParameter="{Binding CurrentRecord.Source}"/>
-                                        </Frame.GestureRecognizers>
-                                        <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.web.svg"  
-                                                        Margin="5,10,5,10"/>
-                                    </Frame>
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal"
-                                             HorizontalOptions="EndAndExpand"
-                                             HeightRequest="50"
-                                             Spacing="0">
-                                    <Frame BackgroundColor="{DynamicResource WhiteSmoke}"
-                                           tool:TouchEffect.NativeAnimation="True"
-                                           HasShadow="False"
-                                           Padding="0"
-                                           Margin="0"
-                                           WidthRequest="50"
-                                           CornerRadius="25"
-                                           IsClippedToBounds="True">
-                                        <Frame.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AddBookmarkCommand}" 
-                                                                  CommandParameter="{Binding CurrentRecord}"/>
-                                        </Frame.GestureRecognizers>
-                                        <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.bookmark.svg"  
-                                                            Margin="5,10,5,10">
-                                            <ffimageloading:CachedImage.Transformations>
-                                                <ffTransformations:TintTransformation HexColor="#3f3f3f" 
-                                                                                      EnableSolidColor="true"/>
-                                            </ffimageloading:CachedImage.Transformations>
-                                        </svg:SvgCachedImage>
-                                    </Frame>
-                                </StackLayout>
-                            </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout x:Name="BodyRecord"
+                             Grid.Row="1"
+                             Margin="20">
+                </StackLayout>
+                <StackLayout Grid.Row="2"
+                             Padding="20,0,20,20"
+                             Spacing="20">
+                    <StackLayout HeightRequest="1" BackgroundColor="{DynamicResource Black}"/>
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="10">
+                        <StackLayout Orientation="Horizontal"
+                                     HeightRequest="50"
+                                     Spacing="0">
+                            <Frame BackgroundColor="{DynamicResource WhiteSmoke}"
+                                   tool:TouchEffect.NativeAnimation="True"
+                                   HasShadow="False"
+                                   Padding="0"
+                                   Margin="0"
+                                   WidthRequest="50"
+                                   CornerRadius="25"
+                                   IsClippedToBounds="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShareRecordCommand}"/>
+                                </Frame.GestureRecognizers>
+                                <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.share.svg"  
+                                                    Margin="5,10,5,10"/>
+                            </Frame>
                         </StackLayout>
-                    </Grid>
-                </ScrollView>
-            </StackLayout>
+                        <StackLayout Orientation="Horizontal"
+                                     HeightRequest="50"
+                                     Spacing="0">
+                            <Frame BackgroundColor="{DynamicResource WhiteSmoke}"
+                                   tool:TouchEffect.NativeAnimation="True"
+                                   HasShadow="False"
+                                   Padding="0"
+                                   Margin="0"
+                                   WidthRequest="50"
+                                   CornerRadius="25"
+                                   IsClippedToBounds="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLinkCommand}"
+                                                          CommandParameter="{Binding CurrentRecord.Source}"/>
+                                </Frame.GestureRecognizers>
+                                <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.web.svg"  
+                                                    Margin="5,10,5,10"/>
+                            </Frame>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="EndAndExpand"
+                                     HeightRequest="50"
+                                     Spacing="0">
+                            <Frame BackgroundColor="{DynamicResource WhiteSmoke}"
+                                   tool:TouchEffect.NativeAnimation="True"
+                                   HasShadow="False"
+                                   Padding="0"
+                                   Margin="0"
+                                   WidthRequest="50"
+                                   CornerRadius="25"
+                                   IsClippedToBounds="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AddBookmarkCommand}" 
+                                                          CommandParameter="{Binding CurrentRecord}"/>
+                                </Frame.GestureRecognizers>
+                                <svg:SvgCachedImage Source="resource://HealthApp.Resources.Icons.bookmark.svg"  
+                                                    Margin="5,10,5,10">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <ffTransformations:TintTransformation HexColor="#3f3f3f" 
+                                                                              EnableSolidColor="true"/>
+                                    </ffimageloading:CachedImage.Transformations>
+                                </svg:SvgCachedImage>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
         </ScrollView>
         <StackLayout Grid.Row="0"
                      Padding="20, 20, 0, 0"

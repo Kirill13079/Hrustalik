@@ -47,6 +47,9 @@
         <Tab Title="Закладки">
             <ShellContent ContentTemplate="{DataTemplate views:BookmarkPage}"/>
         </Tab>
+        <Tab Title="Lz">
+            <ShellContent ContentTemplate="{DataTemplate views:TestLayzyLoadViewPage}"/>
+        </Tab>
     </FlyoutItem>
     <MenuItem Text="Выйти"/>
 </Shell>

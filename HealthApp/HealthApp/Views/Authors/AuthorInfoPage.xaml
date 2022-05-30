@@ -45,57 +45,51 @@
             <StackLayout VerticalOptions="Center"
                          Spacing="20"
                          Margin="0,20,0,0">
-                <CollectionView x:Name="RecordsList"
-                                SelectionMode="None"
-                                ItemsSource="{Binding AuthorRecords}">
-                    <CollectionView.Header>
-                        <Grid HeightRequest="-1"
-                              Padding="20,0"
-                              ColumnDefinitions="*, 80">
-                            <StackLayout Orientation="Vertical">
-                                <Label Text="{Binding CurrentAuthor.Description}" 
-                                               TextColor="{DynamicResource Mediumblue}"
-                                               FontSize="{DynamicResource Key=LablelFontSize}"
-                                               VerticalOptions="End"
-                                               FontFamily="Regular"/>
-                                <Label Text="{Binding CurrentAuthor.Link}" 
-                                               TextColor="{DynamicResource Mediumblue}"
-                                               FontSize="{DynamicResource Key=LablelFontSize}"
-                                               TextDecorations="Underline"
-                                               VerticalOptions="End"
-                                               FontFamily="Regular">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding OpenLinkCommand}"
-                                                              CommandParameter="{Binding CurrentAuthor.Link}"/>
-                                    </Label.GestureRecognizers>
-                                </Label>
-                            </StackLayout>
-                            <Grid Grid.Column="1"
-                                  RowDefinitions="80"
-                                  ColumnDefinitions="80"
-                                  VerticalOptions="StartAndExpand"
-                                  HorizontalOptions="EndAndExpand">
-                                <Frame HasShadow="False"
-                                       IsClippedToBounds="True"
-                                       HeightRequest="80"
-                                       WidthRequest="80"
-                                       Padding="0"
-                                       CornerRadius="40">
-                                    <ffimageloading:CachedImage Source="{Binding CurrentAuthor.Logo}" 
-                                                                DownsampleToViewSize="True" 
-                                                                Aspect="AspectFill"/>
-                                </Frame>
-                            </Grid>
-                        </Grid>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" 
-                                           ItemSpacing="10"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.EmptyView>
+                <Grid HeightRequest="-1"
+                      Padding="20,0"
+                      ColumnDefinitions="*, 80">
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="{Binding CurrentAuthor.Description}" 
+                               TextColor="{DynamicResource Mediumblue}"
+                               FontSize="{DynamicResource Key=LablelFontSize}"
+                               VerticalOptions="End"
+                               FontFamily="Regular"/>
+                        <Label Text="{Binding CurrentAuthor.Link}" 
+                               TextColor="{DynamicResource Mediumblue}"
+                               FontSize="{DynamicResource Key=LablelFontSize}"
+                               TextDecorations="Underline"
+                               VerticalOptions="End"
+                               FontFamily="Regular">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenLinkCommand}"
+                                                      CommandParameter="{Binding CurrentAuthor.Link}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    <Grid Grid.Column="1"
+                          RowDefinitions="80"
+                          ColumnDefinitions="80"
+                          VerticalOptions="StartAndExpand"
+                          HorizontalOptions="EndAndExpand">
+                        <Frame HasShadow="False"
+                               IsClippedToBounds="True"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               Padding="0"
+                               CornerRadius="40">
+                            <ffimageloading:CachedImage Source="{Binding CurrentAuthor.Logo}" 
+                                                        DownsampleToViewSize="True" 
+                                                        Aspect="AspectFill"/>
+                        </Frame>
+                    </Grid>
+                </Grid>
+                <FlexLayout x:Name="RecordsList"
+                            Direction="Column"
+                            BindableLayout.ItemsSource="{Binding AuthorRecords}">
+                    <BindableLayout.EmptyView>
                         <Label Text="У автора нет публикаций"/>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <Grid HeightRequest="130"
                                   Padding="20,0,20,10">
@@ -145,7 +139,8 @@
                                                    TextColor="{DynamicResource Black}">
                                             </Label>
                                             <StackLayout Orientation="Horizontal"
-                                                         VerticalOptions="EndAndExpand">
+                                                         VerticalOptions="EndAndExpand"
+                                                         HeightRequest="20">
                                                 <Frame IsClippedToBounds="True"
                                                        WidthRequest="20"
                                                        HasShadow="False"
@@ -170,8 +165,8 @@
                                 </Frame>
                             </Grid>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </StackLayout>
         </ScrollView>
     </StackLayout>
