@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+       xmlns:views="clr-namespace:HealthApp.Views"
+       x:Class="HealthApp.AppShell"
+       Shell.BackgroundColor="{DynamicResource PageBackgroundColor}"
+       Shell.DisabledColor="{DynamicResource ShellDisabledColor}"
+       Shell.ForegroundColor="{DynamicResource ShellForegroundColor}"
+       Shell.NavBarHasShadow="False"
+       Shell.TabBarBackgroundColor="{DynamicResource ShellTabBarBackgroundColor}"
+       Shell.TabBarDisabledColor="{DynamicResource ShellTabBarDisabledColor}"
+       Shell.TabBarForegroundColor="{DynamicResource ShellTabBarForegroundColor}"
+       Shell.TabBarUnselectedColor="{DynamicResource ShellTabBarUnselectedColor}"
+       Shell.TitleColor="{DynamicResource ShellTitleColor}"
+       Shell.UnselectedColor="{DynamicResource ShellUnselectedColor}">
+
+    <TabBar>
+        <Tab Title="Новости">
+            <ShellContent>
+                <views:NewsPage/>
+            </ShellContent>
+        </Tab>
+        <Tab Title="Настройки">
+            <ShellContent>
+                <views:SettingsPage/>
+            </ShellContent>
+        </Tab>
+    </TabBar>
+</Shell>

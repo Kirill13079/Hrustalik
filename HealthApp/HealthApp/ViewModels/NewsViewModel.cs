@@ -1,6 +1,8 @@
 ﻿using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
+using HealthApp.Models;
 using HealthApp.Service;
+using MvvmHelpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,99 +11,139 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace HealthApp.ViewModels
 {
     public class NewsViewModel : BaseViewModel
     {
-        public List<Record> Records { get; set; } = new List<Record>();
+        private static readonly NewsViewModel _instance = new NewsViewModel();
 
-        public Record HotRecord { get; set; } = new Record();
+        private ObservableRangeCollection<TabModel> _tabItems;
+        public ObservableRangeCollection<TabModel> TabItems 
+        { 
+            get => _tabItems; 
+            set 
+            { 
+                _tabItems = value; 
+                OnPropertyChanged(); 
+            } 
+        }
 
-        public ICommand SelectRecordCommand => new Command((obj) =>
+        private TabModel _currentTab;
+        public TabModel CurrentTab 
         {
-            NavigateTo("record", (Record)obj);
-        });
+            get => _currentTab; 
+            set 
+            {
+                _currentTab = value; 
+                OnPropertyChanged(); 
+            } 
+        }
 
-        public ICommand SelectCategoryCommand => new Command((obj) =>
-        {
-            NavigateTo("categoryInfo", (Category)obj);
-        });
+        public static NewsViewModel Instance => _instance;
 
-        public ICommand SelectAuthorCommand => new Command((obj) =>
+        public ICommand RefreshCommand => new Command(async () => await RefreshTabContent());
+
+        public ICommand ReloadCommand => new Command(async () => await ReloadData());
+
+        public ICommand SelectActiveTabCommand => new Command((obj) => 
         {
-            NavigateTo("authorInfo", (Author)obj);
+            CurrentTab = (TabModel)obj;
         });
 
         public NewsViewModel()
         {
-            LoadRecords();
+            TabItems = new ObservableRangeCollection<TabModel>();
+            CurrentTab = new TabModel();
+
+            _ = GetData();
         }
 
-        private async void LoadRecords()
+        public async Task GetData()
         {
-            var records = await GetRecordsAsync();
-            var articleRecords = await GetArticleRecordsAsync();
-            var youtubeRecords = await GetYoutubeRecordsAsync();
-            var hotRecord = await GetHotRecordAsync();
-
-            Records = records
-                .Union(articleRecords)
-                .Union(youtubeRecords)
-                .OrderByDescending(x => x.Id)
-                .ToList();
-
-            HotRecord = hotRecord;
-        }
-
-        private async Task<List<Record>> GetRecordsAsync()
-        {
-            string url = BaseUrl + ApiRoutes.GetRecords;
-
-            var result = await ApiCaller.Get(url);
-
-            if (!string.IsNullOrWhiteSpace(result))
+            if (TabItems.Any())
             {
-                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+                TabItems.Clear();
+            }
 
-                records.ForEach((record) =>
-                {
-                    record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
-                    record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
+            var categories = await GetCategoriesAsync();
+
+            foreach (var category in categories)
+            {
+                TabItems.Add(new TabModel 
+                { 
+                    Title = category.Name, 
+                    CategoryId = category.Id 
                 });
-
-                return records;
             }
-            else 
+
+            CurrentTab = TabItems[0];
+
+            foreach (var tab in TabItems)
             {
-                return null;
+                await LoadContentData(tab).ConfigureAwait(false);
             }
         }
 
-        private async Task<Record> GetHotRecordAsync()
+        private async Task LoadContentData(TabModel tab, bool isRefreshing = false)
         {
-            string url = BaseUrl + ApiRoutes.GetHotRecord;
+            tab.HasError = false;
 
-            var result = await ApiCaller.Get(url);
-
-            if (!string.IsNullOrWhiteSpace(result))
+            try
             {
-                var record = JsonConvert.DeserializeObject<Record>(result);
+                if (tab.Records.Count == 0)
+                {
+                    tab.IsBusy = true;
 
-                record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
-                record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
+                    var articles = await GetCategoryRecordsAsync(tab.CategoryId);
 
-                return record;
+                    tab.Records.AddRange(articles);
+
+                    tab.IsBusy = false;
+                }
+                else if (isRefreshing)
+                {
+                    tab.IsRefreshing = true;
+
+                    var articles = await GetCategoryRecordsAsync(tab.CategoryId);
+
+                    tab.Records.ReplaceRange(articles);
+                    tab.IsRefreshing = false;
+
+                }
+
+                if (tab.Records.Count == 0)
+                {
+                    tab.IsRefreshing = false;
+                    tab.IsBusy = false;
+                    tab.HasError = true;
+                }
             }
-            else 
+            catch
             {
-                return null;
+                tab.IsRefreshing = false;
+                tab.IsBusy = false;
+                tab.HasError = true;
             }
         }
 
-        private async Task<List<Record>> GetArticleRecordsAsync()
+        private async Task RefreshTabContent()
         {
-            string url = BaseUrl + ApiRoutes.GetArticleRecords;
+            await LoadContentData(CurrentTab, isRefreshing: true);
+        }
+
+        private async Task ReloadData()
+        {
+            foreach (var tab in TabItems)
+            {
+                await LoadContentData(tab).ConfigureAwait(false);
+            }
+        }
+
+        private async Task<List<Record>> GetCategoryRecordsAsync(int categoryId)
+        {
+            string url = $"{ApiRoutes.BaseUrl}{ApiRoutes.GetCategoryRecords}?id={categoryId}";
 
             var result = await ApiCaller.Get(url);
 
@@ -111,8 +153,8 @@ namespace HealthApp.ViewModels
 
                 records.ForEach((record) =>
                 {
-                    record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
-                    record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
+                    record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
+                    record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
                 });
 
                 return records;
@@ -123,23 +165,17 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<List<Record>> GetYoutubeRecordsAsync()
+        private async Task<List<Category>> GetCategoriesAsync()
         {
-            string url = BaseUrl + ApiRoutes.GetYoutubeRecords;
+            string url = ApiRoutes.BaseUrl + ApiRoutes.GetCategories;
 
             var result = await ApiCaller.Get(url);
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+                var categories = JsonConvert.DeserializeObject<List<Category>>(result);
 
-                records.ForEach((record) =>
-                {
-                    record.Image = $"{BaseUrl}/RecordImages/{record.Image}";
-                    record.Author.Logo = $"{BaseUrl}/AuthorImages/{record.Author.Logo}";
-                });
-
-                return records;
+                return categories;
             }
             else
             {

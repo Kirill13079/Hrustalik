@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="HealthApp.Styles.DarkTheme">
+    <!--  Global  -->
+    <Color x:Key="PrimaryColor">Black</Color>
+    <Color x:Key="SecondaryColor">White</Color>
+    <Color x:Key="TertiaryColor">#434343</Color>
+    <Color x:Key="AccentColor">#d50000</Color>
+    <Color x:Key="PageBackgroundColor">#212121</Color>
+    <Color x:Key="ComponentColor">#2d2d2d</Color>
+    <Color x:Key="ImageBackgroundColor">#474747</Color>
+    <Color x:Key="SettingsBackgroundColor">#2b2b2b</Color>
+
+    <!--  Shell  -->
+    <Color x:Key="ShellDisabledColor">Gray</Color>
+    <Color x:Key="ShellBackgroundColor">#212121</Color>
+    <Color x:Key="ShellForegroundColor">White</Color>
+    <Color x:Key="ShellTabBarBackgroundColor">Black</Color>
+    <Color x:Key="ShellTabBarDisabledColor">Gray</Color>
+    <Color x:Key="ShellTabBarForegroundColor">White</Color>
+    <Color x:Key="ShellTabBarUnselectedColor">Gray</Color>
+    <Color x:Key="ShellTitleColor">#d50000</Color>
+    <Color x:Key="ShellUnselectedColor">Gray</Color>
+
+    <!--  Shimmer  -->
+    <Color x:Key="SkeletonColor">#434343</Color>
+
+    <!--  SearchBar  -->
+    <Color x:Key="SearcBarBackgroundColor">#484848</Color>
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Styles/Global.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

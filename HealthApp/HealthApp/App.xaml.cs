@@ -1,7 +1,5 @@
-﻿using HealthApp.Service;
-using HealthApp.Views;
-using HealthApp.Views.Authorization;
-using Xamarin.Essentials;
+﻿using HealthApp.Helpers;
+using HealthApp.Service;
 using Xamarin.Forms;
 
 [assembly: ExportFont("FontAwesome-Regular.ttf", Alias = "AwesomeRegular")]
@@ -22,22 +20,18 @@ namespace HealthApp
         {
             InitializeComponent();
 
-            Device.SetFlags(new[] { "SwipeView_Experimental" });
+            InitializeComponent();
+
+            Device.SetFlags(new[] { "SwipeView_Experimental", "CollectionView_Experimental" });
 
             Util = new Util();
 
-            if (Preferences.Get("ExistingUser", false))
-            {
-                MainPage = new AppShell();
-            }
-            else 
-            {
-                MainPage = new NavigationPage(new AnonymousPage());
-            }
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()
         {
+            ThemeHelper.GetAppTheme();
         }
 
         protected override void OnSleep()
