@@ -3,8 +3,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using FFImageLoading.Forms.Platform;
-using FFImageLoading.Svg.Forms;
 using PanCardView.Droid;
+using Acr.UserDialogs;
 
 namespace HealthApp.Droid
 {
@@ -20,6 +20,7 @@ namespace HealthApp.Droid
             CachedImageRenderer.Init(true);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             CardsViewRenderer.Preserve();
+            UserDialogs.Init(() => this);
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

@@ -38,10 +38,14 @@
     <None Remove="Resources\Icons\bookmark.svg" />
     <None Remove="Resources\Icons\clock.svg" />
     <None Remove="Resources\Icons\menu.svg" />
+    <None Remove="Resources\Icons\notifications.svg" />
     <None Remove="Resources\Icons\play.svg" />
     <None Remove="Resources\Icons\rearrow.svg" />
+    <None Remove="Resources\Icons\settings.svg" />
     <None Remove="Resources\Icons\share.svg" />
+    <None Remove="Resources\Icons\sms.svg" />
     <None Remove="Resources\Icons\text.svg" />
+    <None Remove="Resources\Icons\verified.svg" />
     <None Remove="Resources\Icons\web.svg" />
   </ItemGroup>
 
@@ -72,15 +76,20 @@
     <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
     <EmbeddedResource Include="Resources\Icons\clock.svg" />
     <EmbeddedResource Include="Resources\Icons\menu.svg" />
+    <EmbeddedResource Include="Resources\Icons\notifications.svg" />
     <EmbeddedResource Include="Resources\Icons\play.svg" />
     <EmbeddedResource Include="Resources\Icons\rearrow.svg" />
+    <EmbeddedResource Include="Resources\Icons\settings.svg" />
     <EmbeddedResource Include="Resources\Icons\share.svg" />
+    <EmbeddedResource Include="Resources\Icons\sms.svg" />
     <EmbeddedResource Include="Resources\Icons\text.svg" />
+    <EmbeddedResource Include="Resources\Icons\verified.svg" />
     <EmbeddedResource Include="Resources\Icons\web.svg" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CardsView" Version="2.8.1" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.564" />
+    <PackageReference Include="CardsView" Version="2.6.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
@@ -116,6 +125,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\NewsComponents\WideNewsViewCell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewsPage.xaml">

@@ -12,8 +12,7 @@ namespace HealthApp.AppSettings
         {
             AppTheme,
             User,
-            Interests,
-            IsLoggedIn,
+            token
         }
 
         public enum Theme

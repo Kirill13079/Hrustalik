@@ -1,8 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+             xmlns:convert="clr-namespace:HealthApp.Converts"
+             xmlns:controls="clr-namespace:HealthApp.Controls"
              x:Class="HealthApp.Views.SettingsPage"
              BackgroundColor="{DynamicResource ShellBackgroundColor}">
+
     <Shell.TitleView>
         <Grid BackgroundColor="{DynamicResource ShellBackgroundColor}">
             <Label FontAttributes="Bold"
@@ -12,10 +18,11 @@
                    VerticalOptions="Center" />
         </Grid>
     </Shell.TitleView>
+
     <ContentPage.Content>
         <ScrollView>
             <Grid RowSpacing="30"
-                  RowDefinitions="Auto,Auto,Auto,Auto"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                   VerticalOptions="Center">
                 <StackLayout Grid.Row="0">
                     <StackLayout.Triggers>
@@ -32,71 +39,63 @@
                                     Value="True" />
                         </DataTrigger>
                     </StackLayout.Triggers>
-                    <Label Margin="10,0,0,0" Text="Аккаунт" />
-                    <Grid Padding="10"
-                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
-                          ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*,Auto">
-                        <Label Grid.Column="0"
-                               Margin="5"
-                               FontSize="45"
-                               Text="user"
-                               VerticalOptions="Center">
-                        </Label>
-                        <StackLayout Grid.Column="1" 
-                                     VerticalOptions="Center">
-                            <Label FontSize="18" 
-                                   Text="Войти" />
-                            <Label
-                                FontSize="14"
-                                LineBreakMode="WordWrap"
-                                Text="Вход позволяет синхронизировать ваши предпочтения и избранное на разных устройствах." />
-                        </StackLayout>
-                        <Label Grid.Column="2"
-                               FontSize="25"
-                               Text="right"
-                               VerticalOptions="Center" />
-                    </Grid>
-                </StackLayout>
-                <Grid Grid.Row="0"
-                      HeightRequest="190"
-                      IsVisible="{Binding IsLoggedIn}">
-                    <StackLayout Padding="0,60,0,15"
-                                 BackgroundColor="{DynamicResource SettingsBackgroundColor}"
-                                 Spacing="10"
-                                 VerticalOptions="End">
-                        <Label HorizontalOptions="Center" 
-                               Text="{Binding Customer.Name}" />
-                        <Label HorizontalOptions="Center" 
-                               Text="{Binding Customer.Email}" />
-                    </StackLayout>
-                </Grid>
-                <StackLayout Grid.Row="1"
-                             Spacing="5">
                     <Label Margin="10,0,0,0" 
-                           Text="Настройки"
+                           Text="Аккаунт"
                            FontFamily="Bold"
                            FontSize="18"/>
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*">
-                        <Label Grid.Column="0">
-
-                        </Label>
+                          ColumnDefinitions="*,Auto">
+                        <StackLayout Grid.Column="0" 
+                                     VerticalOptions="Center">
+                            <Label FontSize="16"
+                                   LineBreakMode="WordWrap"
+                                   Text="Вход позволит синхронизировать Ваши предпочтения и избранное на разных устройствах." />
+                        </StackLayout>
                         <Label Grid.Column="1"
                                FontSize="16"
-                               VerticalOptions="Center"
-                               FontFamily="Regular"
-                               Text="Сохраненные записи"/>
+                               Text="right"
+                               VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LogInPageCommand}"></TapGestureRecognizer>
+                            </Label.GestureRecognizers>
+                        </Label>
                     </Grid>
+                </StackLayout>
+                <Grid Grid.Row="0"
+                      HeightRequest="190"
+                      IsVisible="{Binding IsLoggedIn}">
+                    <StackLayout Padding="15"
+                                 BackgroundColor="{DynamicResource SettingsBackgroundColor}"
+                                 Spacing="10"
+                                 VerticalOptions="End">
+                        <Label HorizontalOptions="Start" 
+                               Text="{Binding Customer.Email}"
+                               FontFamily="Bold"
+                               FontSize="18"/>
+                    </StackLayout>
+                </Grid>
+                <StackLayout Grid.Row="1"
+                             Spacing="5"
+                             VerticalOptions="Start">
+                    <Label Margin="10,0,0,0" 
+                           Text="Настройки"
+                           FontFamily="Bold"
+                           FontSize="18"/>
+                    <Label HorizontalOptions="Start" 
+                               Text="{Binding Customer.Email}"
+                               FontFamily="Bold"
+                               FontSize="18"/>
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
                           ColumnDefinitions="Auto,*">
-                        <Label Grid.Column="0">
-
-                        </Label>
+                        <controls:TintedCachedImage Grid.Column="0" 
+                                                    WidthRequest="25" 
+                                                    HeightRequest="25"                                                       
+                                                    SvgSource="HealthApp.Resources.Icons.notifications.svg"
+                                                    TintColor="{DynamicResource AccentColor}"/>
                         <Label Grid.Column="1"
                                FontSize="16"
                                VerticalOptions="Center"
@@ -110,56 +109,34 @@
                            Text="Тема"
                            FontFamily="Bold"
                            FontSize="18"/>
-                    <Grid Padding="10"
-                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
-                          ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ThemeChangeCommand}" 
-                                                  CommandParameter="LightTheme" />
-                        </Grid.GestureRecognizers>
-                        <Label Grid.Column="0">
-
-                        </Label>
-                        <Label Grid.Column="1"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               FontFamily="Regular"
-                               Text="Светлая"/>
-                    </Grid>
-                    <Grid Padding="10"
-                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
-                          ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ThemeChangeCommand}" 
-                                                  CommandParameter="DarkTheme" />
-                        </Grid.GestureRecognizers>
-                        <Label Grid.Column="0">
-
-                        </Label>
-                        <Label Grid.Column="1"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               FontFamily="Regular"
-                               Text="Темная"/>
-                    </Grid>
-                    <Grid Padding="10"
-                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
-                          ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ThemeChangeCommand}" 
-                                                  CommandParameter="SystemPreferred" />
-                        </Grid.GestureRecognizers>
-                        <Label Grid.Column="0">
-
-                        </Label>
-                        <Label Grid.Column="1"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               FontFamily="Regular"
-                               Text="Системная"/>
+                    <Grid Padding="0,0, 0,0"
+                          BackgroundColor="{DynamicResource SettingsBackgroundColor}">
+                        <ScrollView HorizontalScrollBarVisibility="Never"
+                                    Orientation="Horizontal"
+                                    >
+                            <FlexLayout x:Name="themeList"
+                                        BindableLayout.ItemsSource="{Binding ThemeItems}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Margin="10,0,0,0">
+                                            <CheckBox IsChecked="{Binding IsActive}"
+                                                      CheckedChanged="Theme_CheckedChanged">
+                                            </CheckBox>
+                                            <Label x:Name="themeTitle"
+                                                   Padding="0,0,30,0"
+                                                   FontFamily="Regular"
+                                                   FontSize="16"
+                                                   HeightRequest="50"
+                                                   HorizontalTextAlignment="Start"
+                                                   Text="{Binding Subtitle}"
+                                                   TextColor="{DynamicResource SecondaryColor}"
+                                                   VerticalTextAlignment="Center"/>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
+                        </ScrollView>
                     </Grid>
                 </StackLayout>
                 <StackLayout Grid.Row="3"
@@ -172,34 +149,49 @@
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
                           ColumnDefinitions="Auto,*">
-                        <Label Grid.Column="0">
-
-                        </Label>
+                        <controls:TintedCachedImage Grid.Column="0" 
+                                                    WidthRequest="25" 
+                                                    HeightRequest="25"                                                       
+                                                    SvgSource="HealthApp.Resources.Icons.sms.svg"
+                                                    TintColor="{DynamicResource AccentColor}"/>
                         <Label Grid.Column="1"
                                FontSize="16"
                                VerticalOptions="Center"
                                FontFamily="Regular"
-                               Text="О нас"/>
+                               Text="Задать вопрос"/>
                     </Grid>
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
                           ColumnDefinitions="Auto,*">
-                        <Label Grid.Column="0">
-
-                        </Label>
+                        <controls:TintedCachedImage Grid.Column="0" 
+                                                    WidthRequest="25" 
+                                                    HeightRequest="25"                                                       
+                                                    SvgSource="HealthApp.Resources.Icons.verified.svg"
+                                                    TintColor="{DynamicResource AccentColor}"/>
                         <Label Grid.Column="1"
                                FontSize="16"
                                VerticalOptions="Center"
                                FontFamily="Regular"
-                               Text="Отправить отзыв"/>
+                               Text="Политика конфиденциальности"/>
                     </Grid>
                 </StackLayout>
-                <StackLayout Grid.Row="4">
-                    <Label Text="Выйти"
-                           TextColor="Red"
-                           HorizontalOptions="CenterAndExpand">
-                    </Label>
+                <StackLayout Grid.Row="4"
+                             Margin="0,0,0,5"
+                             IsVisible="{Binding IsLoggedIn}">
+                    <Grid Padding="10"
+                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
+                          ColumnSpacing="15">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SignOutCommand}"/>
+                        </Grid.GestureRecognizers>
+                        <Label FontSize="16"
+                               TextColor="Red"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               FontFamily="Bold"
+                               Text="Выйти"/>
+                    </Grid>
                 </StackLayout>
             </Grid>
         </ScrollView>

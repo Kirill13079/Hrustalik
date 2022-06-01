@@ -18,6 +18,7 @@ namespace HealthApp.ViewModels
     public class NewsViewModel : BaseViewModel
     {
         private static readonly NewsViewModel _instance = new NewsViewModel();
+        public static NewsViewModel Instance => _instance;
 
         private ObservableRangeCollection<TabModel> _tabItems;
         public ObservableRangeCollection<TabModel> TabItems 
@@ -40,8 +41,6 @@ namespace HealthApp.ViewModels
                 OnPropertyChanged(); 
             } 
         }
-
-        public static NewsViewModel Instance => _instance;
 
         public ICommand RefreshCommand => new Command(async () => await RefreshTabContent());
 
@@ -69,15 +68,18 @@ namespace HealthApp.ViewModels
 
             var categories = await GetCategoriesAsync();
 
+            var tabItems = new ObservableRangeCollection<TabModel>();
+
             foreach (var category in categories)
             {
-                TabItems.Add(new TabModel 
-                { 
-                    Title = category.Name, 
-                    CategoryId = category.Id 
+                tabItems.Add(new TabModel
+                {
+                    Title = category.Name,
+                    CategoryId = category.Id
                 });
             }
 
+            TabItems = tabItems;
             CurrentTab = TabItems[0];
 
             foreach (var tab in TabItems)
@@ -110,7 +112,6 @@ namespace HealthApp.ViewModels
 
                     tab.Records.ReplaceRange(articles);
                     tab.IsRefreshing = false;
-
                 }
 
                 if (tab.Records.Count == 0)

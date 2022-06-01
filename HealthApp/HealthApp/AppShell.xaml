@@ -15,15 +15,13 @@
        Shell.UnselectedColor="{DynamicResource ShellUnselectedColor}">
 
     <TabBar>
-        <Tab Title="Новости">
-            <ShellContent>
-                <views:NewsPage/>
-            </ShellContent>
-        </Tab>
-        <Tab Title="Настройки">
-            <ShellContent>
-                <views:SettingsPage/>
-            </ShellContent>
-        </Tab>
+        <ShellContent Title="Новости"
+                      Route="news"
+                      ContentTemplate="{DataTemplate views:NewsPage}">
+        </ShellContent>
+        <ShellContent Title="Настройки"
+                      Route="settings"
+                      ContentTemplate="{DataTemplate views:SettingsPage}">
+        </ShellContent>
     </TabBar>
 </Shell>

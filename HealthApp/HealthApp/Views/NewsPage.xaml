@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:HealthApp.Views.Components.NewsComponents"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:controls="clr-namespace:HealthApp.Controls"
+             xmlns:controls="clr-namespace:HealthApp.Controls" xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
              x:Class="HealthApp.Views.NewsPage"
              Title="Новости"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
@@ -33,15 +33,17 @@
                             Orientation="Horizontal"
                             BackgroundColor="{DynamicResource PageBackgroundColor}">
                 <controls:CarouselIndicatorView x:Name="carousel"
-                                                CurrentItem="{Binding CurrentTab}"
-                                                Items="{Binding TabItems}" />
+                                                Items="{Binding TabItems}"
+                                                CurrentItem="{Binding CurrentTab}"/>
             </ScrollView>
-            <CarouselView  x:Name="carouselView"
-                           Grid.Row="1"
-                           BackgroundColor="{DynamicResource PageBackgroundColor}"
-                           ItemsSource="{Binding TabItems}"
-                           CurrentItem="{Binding CurrentTab}">
-                <CarouselView.ItemTemplate>
+            <cards:CarouselView  x:Name="carouselView"
+                                 Grid.Row="1"
+                                 BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                 IsVerticalSwipeEnabled="False"
+                                 ItemsSource="{Binding TabItems}"
+                                 SelectedItem="{Binding CurrentTab}"
+                                 SwipeThresholdDistance="50">
+                <cards:CarouselView.ItemTemplate>
                     <DataTemplate>
                         <ContentView>
                             <Grid BackgroundColor="{DynamicResource PageBackgroundColor}">
@@ -85,8 +87,8 @@
                             </Grid>
                         </ContentView>
                     </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

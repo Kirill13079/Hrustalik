@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthApp.Views.LoginPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{DynamicResource ShellBackgroundColor}">
+
+    <Shell.TitleView>
+        <Grid BackgroundColor="{DynamicResource ShellBackgroundColor}">
+            <Label FontAttributes="Bold"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   Text="Вход"
+                   VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid RowSpacing="30"
+                  RowDefinitions="Auto,Auto,Auto">
+                <StackLayout Spacing="5"
+                             VerticalOptions="Start">
+                    <Label Margin="10,0,0,0" 
+                           Text="Логин"
+                           FontFamily="Bold"
+                           FontSize="18">
+                    </Label>
+                    <Grid Padding="10"
+                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
+                          ColumnSpacing="15">
+                        <Entry Text="{Binding Email}" Placeholder="sdsd"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout Grid.Row="1" 
+                             Spacing="5">
+                    <Label Margin="10,0,0,0" 
+                           Text="Пароль"
+                           FontFamily="Bold"
+                           FontSize="18">
+                    </Label>
+                    <Grid Padding="10"
+                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
+                          ColumnSpacing="15">
+                        <Entry Text="{Binding Password}" 
+                               IsPassword="True" Placeholder="dsds"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout Grid.Row="2" 
+                             Spacing="5">
+                    <Button Text="Вход" Command="{Binding LogInCommand}"/>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
