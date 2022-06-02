@@ -15,7 +15,7 @@ namespace HealthApp.API.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.24")
+                .HasAnnotation("ProductVersion", "3.1.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -221,9 +221,6 @@ namespace HealthApp.API.Data.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("SmallSize")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Source")
                         .HasColumnType("nvarchar(max)");

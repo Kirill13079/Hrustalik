@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthApp.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,15 +27,16 @@ namespace HealthApp.Views.Components.NewsComponents
             var bindingContext = BindingContext as Common.Model.Record;
 
             image.Source = bindingContext.Image;
-            description.Text = bindingContext.Description;
-            source.Text = $"{bindingContext.Source} . ";
+            description.Text = bindingContext.Name;
+            data.Text = bindingContext.DateAdded.UtcDateTime.ToRelativeDateString(true);
+            authorImage.Source = bindingContext.Author.Logo;
             published.Text = bindingContext.Author.Name;
         }
 
         /// <summary>
         /// THIS IS BAD AND VERY RISKY CODE, BUT THE PERFECT CODE DOES NOT EXIST :)
         /// </summary>
-        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             //var obj = (sender as Label).BindingContext as Models.Article;
 

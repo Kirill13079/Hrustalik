@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthApp.Views.LoginPage"
-             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasNavigationBar="True"
              BackgroundColor="{DynamicResource ShellBackgroundColor}">
 
     <Shell.TitleView>
@@ -18,7 +18,8 @@
     <ContentPage.Content>
         <ScrollView>
             <Grid RowSpacing="30"
-                  RowDefinitions="Auto,Auto,Auto">
+                  RowDefinitions="Auto,Auto,Auto"
+                  VerticalOptions="Center">
                 <StackLayout Spacing="5"
                              VerticalOptions="Start">
                     <Label Margin="10,0,0,0" 
@@ -26,10 +27,10 @@
                            FontFamily="Bold"
                            FontSize="18">
                     </Label>
-                    <Grid Padding="10"
-                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
+                    <Grid Padding="0"
+                          BackgroundColor="{DynamicResource PageBackgroundColor}"
                           ColumnSpacing="15">
-                        <Entry Text="{Binding Email}" Placeholder="sdsd"/>
+                        <Entry Text="{Binding Email}"/>
                     </Grid>
                 </StackLayout>
                 <StackLayout Grid.Row="1" 
@@ -39,11 +40,12 @@
                            FontFamily="Bold"
                            FontSize="18">
                     </Label>
-                    <Grid Padding="10"
-                          BackgroundColor="{DynamicResource SettingsBackgroundColor}"
+                    <Grid Padding="0"
+                          Margin="0"
+                          BackgroundColor="{DynamicResource PageBackgroundColor}"
                           ColumnSpacing="15">
                         <Entry Text="{Binding Password}" 
-                               IsPassword="True" Placeholder="dsds"/>
+                               IsPassword="True"/>
                     </Grid>
                 </StackLayout>
                 <StackLayout Grid.Row="2" 

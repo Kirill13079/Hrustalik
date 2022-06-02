@@ -13,7 +13,6 @@ using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
-    [QueryProperty("Parameter", "parameter")]
     public class SettingsViewModel : BaseViewModel
     {
         /// <summary>
@@ -33,24 +32,6 @@ namespace HealthApp.ViewModels
             {
                 _customer = value; 
                 OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Передаваемый параметр
-        /// </summary>
-        private string parameter;
-        public string Parameter
-        {
-            get { return parameter; }
-            set
-            {
-                if (value != null)
-                {
-                    parameter = Uri.UnescapeDataString(value);
-                    Customer = JsonConvert.DeserializeObject<Customer>(parameter);
-                    IsLoggedIn = true;
-                }
             }
         }
 

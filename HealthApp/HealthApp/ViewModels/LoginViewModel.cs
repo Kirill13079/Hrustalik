@@ -12,7 +12,6 @@ using HealthApp.Common.Model.Response;
 
 namespace HealthApp.ViewModels
 {
-    [QueryProperty("Parameter", "parameter")]
     public class LoginViewModel : BaseViewModel
     {
         /// <summary>
@@ -32,20 +31,6 @@ namespace HealthApp.ViewModels
             {
                 _customer = value;
                 OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Передаваемый параметр
-        /// </summary>
-        private string parameter;
-        public string Parameter
-        {
-            get { return parameter; }
-            set
-            {
-                parameter = Uri.UnescapeDataString(value);
-                Customer = JsonConvert.DeserializeObject<Customer>(parameter);
             }
         }
 
@@ -89,7 +74,8 @@ namespace HealthApp.ViewModels
             {
                 var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
 
-                Customer = loginResponse.Customer;
+                SettingsViewModel.Instance.Customer = loginResponse.Customer;
+                SettingsViewModel.Instance.IsLoggedIn = true;
 
                 Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
 

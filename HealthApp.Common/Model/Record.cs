@@ -16,8 +16,6 @@ namespace HealthApp.Common.Model
 
         public string Image { get; set; }
 
-        public bool SmallSize { get; set; }
-
         public bool IsNews { get; set; }
 
         public bool IsHot { get; set; }

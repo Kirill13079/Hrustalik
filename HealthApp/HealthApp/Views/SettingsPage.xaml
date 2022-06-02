@@ -5,6 +5,7 @@
              xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
              xmlns:convert="clr-namespace:HealthApp.Converts"
+             xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:HealthApp.Controls"
              x:Class="HealthApp.Views.SettingsPage"
              BackgroundColor="{DynamicResource ShellBackgroundColor}">
@@ -23,7 +24,7 @@
         <ScrollView>
             <Grid RowSpacing="30"
                   RowDefinitions="Auto,Auto,Auto,Auto,Auto"
-                  VerticalOptions="Center">
+                  VerticalOptions="Start">
                 <StackLayout Grid.Row="0">
                     <StackLayout.Triggers>
                         <DataTrigger Binding="{Binding IsLoggedIn}"
@@ -39,43 +40,38 @@
                                     Value="True" />
                         </DataTrigger>
                     </StackLayout.Triggers>
-                    <Label Margin="10,0,0,0" 
-                           Text="Аккаунт"
-                           FontFamily="Bold"
-                           FontSize="18"/>
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
-                          ColumnDefinitions="*,Auto">
+                          ColumnDefinitions="*,Auto"
+                          xtoll:TouchEffect.NativeAnimation="True">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding LogInPageCommand}"/>
+                        </Grid.GestureRecognizers>
                         <StackLayout Grid.Column="0" 
                                      VerticalOptions="Center">
                             <Label FontSize="16"
                                    LineBreakMode="WordWrap"
                                    Text="Вход позволит синхронизировать Ваши предпочтения и избранное на разных устройствах." />
                         </StackLayout>
-                        <Label Grid.Column="1"
-                               FontSize="16"
-                               Text="right"
-                               VerticalOptions="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding LogInPageCommand}"></TapGestureRecognizer>
-                            </Label.GestureRecognizers>
-                        </Label>
+                        <controls:TintedCachedImage Grid.Column="1" 
+                                                    WidthRequest="25" 
+                                                    HeightRequest="25"                                                       
+                                                    SvgSource="HealthApp.Resources.Icons.rearrow.svg"
+                                                    TintColor="{DynamicResource AccentColor}"/>
                     </Grid>
                 </StackLayout>
-                <Grid Grid.Row="0"
-                      HeightRequest="190"
-                      IsVisible="{Binding IsLoggedIn}">
-                    <StackLayout Padding="15"
-                                 BackgroundColor="{DynamicResource SettingsBackgroundColor}"
-                                 Spacing="10"
-                                 VerticalOptions="End">
-                        <Label HorizontalOptions="Start" 
+                <StackLayout Grid.Row="0" 
+                             Padding="15"
+                             BackgroundColor="{DynamicResource SettingsBackgroundColor}"
+                             Spacing="10"
+                             IsVisible="{Binding IsLoggedIn}"
+                             VerticalOptions="Start">
+                    <Label HorizontalOptions="Start" 
                                Text="{Binding Customer.Email}"
                                FontFamily="Bold"
                                FontSize="18"/>
-                    </StackLayout>
-                </Grid>
+                </StackLayout>
                 <StackLayout Grid.Row="1"
                              Spacing="5"
                              VerticalOptions="Start">
@@ -83,19 +79,16 @@
                            Text="Настройки"
                            FontFamily="Bold"
                            FontSize="18"/>
-                    <Label HorizontalOptions="Start" 
-                               Text="{Binding Customer.Email}"
-                               FontFamily="Bold"
-                               FontSize="18"/>
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*">
+                          ColumnDefinitions="Auto,*"
+                          xtoll:TouchEffect.NativeAnimation="True">
                         <controls:TintedCachedImage Grid.Column="0" 
                                                     WidthRequest="25" 
                                                     HeightRequest="25"                                                       
                                                     SvgSource="HealthApp.Resources.Icons.notifications.svg"
-                                                    TintColor="{DynamicResource AccentColor}"/>
+                                                    TintColor="{DynamicResource TertiaryColor}"/>
                         <Label Grid.Column="1"
                                FontSize="16"
                                VerticalOptions="Center"
@@ -112,8 +105,7 @@
                     <Grid Padding="0,0, 0,0"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}">
                         <ScrollView HorizontalScrollBarVisibility="Never"
-                                    Orientation="Horizontal"
-                                    >
+                                    Orientation="Horizontal">
                             <FlexLayout x:Name="themeList"
                                         BindableLayout.ItemsSource="{Binding ThemeItems}">
                                 <BindableLayout.ItemTemplate>
@@ -121,6 +113,7 @@
                                         <StackLayout Orientation="Horizontal"
                                                      Margin="10,0,0,0">
                                             <CheckBox IsChecked="{Binding IsActive}"
+                                                      Color="{DynamicResource TertiaryColor}"
                                                       CheckedChanged="Theme_CheckedChanged">
                                             </CheckBox>
                                             <Label x:Name="themeTitle"
@@ -148,12 +141,13 @@
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*">
+                          ColumnDefinitions="Auto,*"
+                          xtoll:TouchEffect.NativeAnimation="True">
                         <controls:TintedCachedImage Grid.Column="0" 
                                                     WidthRequest="25" 
                                                     HeightRequest="25"                                                       
                                                     SvgSource="HealthApp.Resources.Icons.sms.svg"
-                                                    TintColor="{DynamicResource AccentColor}"/>
+                                                    TintColor="{DynamicResource TertiaryColor}"/>
                         <Label Grid.Column="1"
                                FontSize="16"
                                VerticalOptions="Center"
@@ -163,12 +157,13 @@
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
                           ColumnSpacing="15"
-                          ColumnDefinitions="Auto,*">
+                          ColumnDefinitions="Auto,*"
+                          xtoll:TouchEffect.NativeAnimation="True">
                         <controls:TintedCachedImage Grid.Column="0" 
                                                     WidthRequest="25" 
                                                     HeightRequest="25"                                                       
                                                     SvgSource="HealthApp.Resources.Icons.verified.svg"
-                                                    TintColor="{DynamicResource AccentColor}"/>
+                                                    TintColor="{DynamicResource TertiaryColor}"/>
                         <Label Grid.Column="1"
                                FontSize="16"
                                VerticalOptions="Center"
@@ -181,7 +176,8 @@
                              IsVisible="{Binding IsLoggedIn}">
                     <Grid Padding="10"
                           BackgroundColor="{DynamicResource SettingsBackgroundColor}"
-                          ColumnSpacing="15">
+                          ColumnSpacing="15"
+                          xtoll:TouchEffect.NativeAnimation="True">
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SignOutCommand}"/>
                         </Grid.GestureRecognizers>

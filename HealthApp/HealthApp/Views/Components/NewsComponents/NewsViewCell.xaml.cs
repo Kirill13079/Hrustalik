@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using HealthApp.Extensions;
+using Rg.Plugins.Popup.Services;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,29 +24,21 @@ namespace HealthApp.Views.Components.NewsComponents
 
             image.Source = bindingContext.Image;
             description.Text = bindingContext.Name;
-            source.Text = $"{bindingContext.Source} . ";
+            data.Text = bindingContext.DateAdded.UtcDateTime.ToRelativeDateString(true);
+            authorImage.Source = bindingContext.Author.Logo;
             published.Text = bindingContext.Author.Name;
         }
 
-        /// <summary>
-        /// THIS IS BAD AND VERY RISKY CODE, BUT THE PERFECT CODE DOES NOT EXIST :)
-        /// </summary>
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            //var obj = (sender as Label).BindingContext as Models.Article;
+            var obj = (sender as Label).BindingContext as Common.Model.Record;
 
-            //var parentBindingContext = viewCell.Parent.Parent.BindingContext;
+            var parentBindingContext = newsViewCell.Parent.Parent.BindingContext;
 
-            //if (parentBindingContext != null && parentBindingContext == ViewModels.SavedArticlesViewModels.Instance)
-            //{
-            //    ViewModels.SavedArticlesViewModels.Instance.CurrentArticle = obj;
-            //    await PopupNavigation.Instance.PushAsync(new PopupComponents.SavedArticlesSavePopup());
-            //}
-            //else
-            //{
-            //    ViewModels.MainFeedViewModel.Instance.CurrentArticle = obj;
-            //    await PopupNavigation.Instance.PushAsync(new PopupComponents.MainFeedSavePopup());
-            //}
+            if (obj != null)
+            {
+                await PopupNavigation.Instance.PushAsync(new PopupComponents.NewsPopup());
+            }
         }
     }
 }

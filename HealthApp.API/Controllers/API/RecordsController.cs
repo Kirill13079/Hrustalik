@@ -95,7 +95,8 @@ namespace HealthApp.API.Controllers.API
             var arrivals = _context.Records
                     .Where(x => x.Category.Id == id)
                     .Include(x => x.Category)
-                    .Include(x => x.Author);
+                    .Include(x => x.Author)
+                    .OrderBy(x => x.DateAdded);
 
             return Ok(arrivals);
         }

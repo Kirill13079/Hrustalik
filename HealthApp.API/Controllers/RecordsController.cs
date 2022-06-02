@@ -65,15 +65,6 @@ namespace HealthApp.API.Controllers
                 var author = _context.Authors
                     .FirstOrDefault(x => x.Id == int.Parse(Author));
 
-                if (record.IsYoutube || record.IsNews)
-                {
-                    record.SmallSize = false;
-                }
-                else if (record.IsArticle)
-                {
-                    record.SmallSize = true;
-                }
-
                 record.Author = author;
                 record.Category = category;
                 record.Image = fileName;
@@ -123,15 +114,6 @@ namespace HealthApp.API.Controllers
 
                     var author = _context.Authors
                         .FirstOrDefault(x => x.Id == int.Parse(Author));
-
-                    if (record.IsYoutube || record.IsNews)
-                    {
-                        record.SmallSize = false;
-                    }
-                    else if (record.IsArticle)
-                    {
-                        record.SmallSize = true;
-                    }
 
                     record.Author = author;
                     record.Category = category;

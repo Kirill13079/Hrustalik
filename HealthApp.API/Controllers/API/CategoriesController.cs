@@ -22,7 +22,8 @@ namespace HealthApp.API.Controllers.API
         [Route(ApiRoutes.GetCategories)]
         public async Task<IActionResult> GetCategories()
         {
-            var arrivals = _context.Categories;
+            var arrivals = _context.Categories
+                .OrderBy(x => x.Name);
 
             return Ok(await arrivals.ToListAsync());
         }

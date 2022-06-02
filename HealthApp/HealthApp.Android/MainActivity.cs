@@ -5,6 +5,7 @@ using Android.OS;
 using FFImageLoading.Forms.Platform;
 using PanCardView.Droid;
 using Acr.UserDialogs;
+using Rg.Plugins.Popup.Services;
 
 namespace HealthApp.Droid
 {
@@ -13,6 +14,8 @@ namespace HealthApp.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -28,6 +31,14 @@ namespace HealthApp.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public async override void OnBackPressed()
+        {
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+                await PopupNavigation.Instance.PopAsync();
+            }
         }
     }
 }

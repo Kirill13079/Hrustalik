@@ -4,22 +4,25 @@ using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace HealthApp.ViewModels
 {
     public class NewsViewModel : BaseViewModel
     {
+        /// <summary>
+        /// Получить экземпляр этого класса
+        /// </summary>
         private static readonly NewsViewModel _instance = new NewsViewModel();
         public static NewsViewModel Instance => _instance;
 
+        /// <summary>
+        /// Колекция доступных вкладок
+        /// </summary>
         private ObservableRangeCollection<TabModel> _tabItems;
         public ObservableRangeCollection<TabModel> TabItems 
         { 
@@ -31,6 +34,9 @@ namespace HealthApp.ViewModels
             } 
         }
 
+        /// <summary>
+        /// Текущая вкладка
+        /// </summary>
         private TabModel _currentTab;
         public TabModel CurrentTab 
         {
@@ -42,15 +48,36 @@ namespace HealthApp.ViewModels
             } 
         }
 
-        public ICommand RefreshCommand => new Command(async () => await RefreshTabContent());
+        /// <summary>
+        /// Команада обновления контента на вкладке
+        /// </summary>
+        public ICommand RefreshCommand => new Command(async () => 
+        {
+            await LoadContentData(CurrentTab, isRefreshing: true);
+        });
 
-        public ICommand ReloadCommand => new Command(async () => await ReloadData());
+        /// <summary>
+        /// Команда обновление всей информации
+        /// </summary>
+        public ICommand ReloadCommand => new Command(async () => 
+        {
+            foreach (var tab in TabItems)
+            {
+                await LoadContentData(tab).ConfigureAwait(false);
+            }
+        });
 
+        /// <summary>
+        /// Команда для активации активной вкладки
+        /// </summary>
         public ICommand SelectActiveTabCommand => new Command((obj) => 
         {
             CurrentTab = (TabModel)obj;
         });
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public NewsViewModel()
         {
             TabItems = new ObservableRangeCollection<TabModel>();
@@ -59,6 +86,11 @@ namespace HealthApp.ViewModels
             _ = GetData();
         }
 
+        /// <summary>
+        /// Метод загрузки всей информации
+        /// вкладки, контент на вкладке
+        /// </summary>
+        /// <returns></returns>
         public async Task GetData()
         {
             if (TabItems.Any())
@@ -88,6 +120,12 @@ namespace HealthApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Метод загрузки контента
+        /// </summary>
+        /// <param name="tab">Активная вкладка</param>
+        /// <param name="isRefreshing">Если обновляем свайпом</param>
+        /// <returns></returns>
         private async Task LoadContentData(TabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
@@ -129,19 +167,11 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task RefreshTabContent()
-        {
-            await LoadContentData(CurrentTab, isRefreshing: true);
-        }
-
-        private async Task ReloadData()
-        {
-            foreach (var tab in TabItems)
-            {
-                await LoadContentData(tab).ConfigureAwait(false);
-            }
-        }
-
+        /// <summary>
+        /// Получить список новостей из категории
+        /// </summary>
+        /// <param name="categoryId">Категория</param>
+        /// <returns></returns>
         private async Task<List<Record>> GetCategoryRecordsAsync(int categoryId)
         {
             string url = $"{ApiRoutes.BaseUrl}{ApiRoutes.GetCategoryRecords}?id={categoryId}";
@@ -166,6 +196,10 @@ namespace HealthApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Получить список всех категорий
+        /// </summary>
+        /// <returns></returns>
         private async Task<List<Category>> GetCategoriesAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetCategories;

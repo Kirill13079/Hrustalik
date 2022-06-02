@@ -9,19 +9,22 @@ namespace HealthApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage : ContentPage
     {
+        private SettingsViewModel _bindingContext;
+
         public SettingsPage()
         {
             InitializeComponent();
 
             BindingContext = ViewModels.SettingsViewModel.Instance;
 
-            var bindingContext = BindingContext as ViewModels.SettingsViewModel;
+            _bindingContext = BindingContext as ViewModels.SettingsViewModel;
 
-            string currentThemeTitle = bindingContext.GetTheme();
+            string currentThemeTitle = _bindingContext.GetTheme();
 
-            SetCurrentThemeCheckbox(bindingContext, currentThemeTitle);
-
+            SetCurrentThemeCheckbox(_bindingContext, currentThemeTitle);
         }
+
+
 
         private void Theme_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
@@ -31,11 +34,9 @@ namespace HealthApp.Views
 
             if (themeModel.IsActive)
             {
-                var bindingContext = BindingContext as ViewModels.SettingsViewModel;
+                ResetСheckboxState(_bindingContext, themeModel);
 
-                ResetСheckboxState(bindingContext, themeModel);
-
-                bindingContext.ThemeChangeCommand.Execute(themeModel);
+                _bindingContext.ThemeChangeCommand.Execute(themeModel);
             }
         }
 
