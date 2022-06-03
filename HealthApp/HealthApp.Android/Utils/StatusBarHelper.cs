@@ -10,6 +10,7 @@ namespace HealthApp.Droid.Utils
 {
     public class StatusBarHelper : IStatusBar
     {
+        [System.Obsolete]
         public void ChangeStatusBarColorToBlack()
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
@@ -25,6 +26,7 @@ namespace HealthApp.Droid.Utils
             }
         }
 
+        [System.Obsolete]
         public void ChangeStatusBarColorToWhite()
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
@@ -40,6 +42,7 @@ namespace HealthApp.Droid.Utils
             }
         }
 
+        [System.Obsolete]
         public void HideStatusBar()
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)

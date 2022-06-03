@@ -4,7 +4,7 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace HealthApp.Views.Components.NewsComponents
+namespace HealthApp.Views.Components.CategoryNewsComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CategoryNewsViewCell : ViewCell

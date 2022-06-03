@@ -15,7 +15,7 @@ namespace HealthApp.Helpers
             InputError
         }
 
-        static CancellationTokenSource cts;
+        static CancellationTokenSource cts = null;
 
         public static void CancelActionSheet()
         {

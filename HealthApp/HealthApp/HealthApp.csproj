@@ -93,6 +93,7 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+    <PackageReference Include="Xamarin.Forms.Skeleton" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,11 +104,14 @@
     <Compile Update="Views\CategoryNewsPage.xaml.cs">
       <DependentUpon>CategoryNewsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Components\NewsComponents\CategoryNewsViewCell.xaml.cs">
+    <Compile Update="Views\Components\CategoryNewsComponents\CategoryNewsViewCell.xaml.cs">
       <DependentUpon>CategoryNewsViewCell.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Components\NewsComponents\CategoryWideNewsViewCell.xaml.cs">
+    <Compile Update="Views\Components\CategoryNewsComponents\CategoryWideNewsViewCell.xaml.cs">
       <DependentUpon>CategoryWideNewsViewCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml.cs">
+      <DependentUpon>PopularNewsViewCell.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -127,13 +131,13 @@
     <EmbeddedResource Update="Styles\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\NewsComponents\CategoryNewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\CategoryNewsComponents\CategoryNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\NewsComponents\CategoryWideNewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\CategoryNewsComponents\CategoryWideNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\NewsComponents\MainPopularNewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\PopupComponents\NewsPopup.xaml">

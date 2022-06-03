@@ -4,6 +4,7 @@ using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,30 +19,19 @@ namespace HealthApp.ViewModels
         private static readonly MainNewsViewModel _instance = new MainNewsViewModel();
         public static MainNewsViewModel Instance => _instance;
 
-        private ObservableRangeCollection<TabModel> _tabItems;
-        public ObservableRangeCollection<TabModel> TabItems
+        private ObservableRangeCollection<PopularTabModel> _tabPopularRecords;
+        public ObservableRangeCollection<PopularTabModel> TabPopularRecords
         {
-            get => _tabItems;
+            get => _tabPopularRecords;
             set
             {
-                _tabItems = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private TabModel _currentTab;
-        public TabModel CurrentTab
-        {
-            get => _currentTab;
-            set
-            {
-                _currentTab = value;
+                _tabPopularRecords = value;
                 OnPropertyChanged();
             }
         }
 
         private Record _hotNews;
-        public Record HotNews
+        public Record HotRecord
         {
             get => _hotNews;
             set
@@ -53,34 +43,34 @@ namespace HealthApp.ViewModels
 
         public MainNewsViewModel()
         {
-            TabItems = new ObservableRangeCollection<TabModel>();
-            HotNews = new Record();
+            TabPopularRecords = new ObservableRangeCollection<PopularTabModel>();
+            HotRecord = new Record();
 
             _ = GetData();
         }
 
         private async Task GetData()
         {
-            if (TabItems.Any())
+            if (TabPopularRecords.Any())
             {
-                TabItems.Clear();
+                TabPopularRecords.Clear();
             }
 
-            for (int page = 0; page <= 10; page++)
+            for (int page = 0; page <= 3; page++)
             {
-                TabItems.Add(new TabModel
+                TabPopularRecords.Add(new PopularTabModel
                 {
                     Page = page
                 });
             }
 
-            foreach (var tab in TabItems)
+            foreach (var tab in TabPopularRecords)
             {
                 await LoadContentData(tab).ConfigureAwait(false);
             }
         }
 
-        private async Task LoadContentData(TabModel tab, bool isRefreshing = false)
+        private async Task LoadContentData(PopularTabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -149,7 +139,7 @@ namespace HealthApp.ViewModels
             {
                 var populars = JsonConvert.DeserializeObject<List<Record>>(result);
 
-                return populars;
+                return populars.Take(1).ToList();
             }
             else
             {
