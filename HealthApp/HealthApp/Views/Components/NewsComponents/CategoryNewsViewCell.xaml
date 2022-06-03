@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:controls="clr-namespace:HealthApp.Controls"
+          x:Class="HealthApp.Views.Components.NewsComponents.CategoryNewsViewCell"
+          xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
+          x:Name="newsViewCell">
+
+    <Frame BackgroundColor="{DynamicResource ComponentColor}"
+           Padding="20,20,20,20"
+           Margin="0,5"
+           HeightRequest="170"
+           CornerRadius="15"
+           VerticalOptions="Start">
+        <Grid ColumnDefinitions="Auto,*">
+            <Frame Grid.Column="0"
+                   Padding="0"
+                   CornerRadius="10"
+                   BackgroundColor="{DynamicResource ImageBackgroundColor}">
+                <ffimageloading:CachedImage x:Name="image"
+                                        Aspect="AspectFill"
+                                        BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                        DownsampleToViewSize="True"
+                                        DownsampleUseDipUnits="True"
+                                        HeightRequest="150"
+                                        WidthRequest="150"/>
+            </Frame>
+            <StackLayout Grid.Column="1" 
+                         Orientation="Vertical"
+                         Padding="10,0,0,0">
+                <StackLayout Orientation="Horizontal">
+                    <Label x:Name="data"
+                           FontFamily="Regular"
+                           LineBreakMode="TailTruncation"
+                           TextColor="{DynamicResource SkeletonColor}"
+                           MaxLines="1"
+                           VerticalOptions="Center"
+                           FontSize="{StaticResource SmallLabelFontSize}"/>
+                    <Frame Padding="0"
+                           HorizontalOptions="EndAndExpand"
+                           TranslationX="10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        </Frame.GestureRecognizers>
+                        <controls:TintedCachedImage  SvgSource="HealthApp.Resources.Icons.more.svg"
+                                                     HeightRequest="30"
+                                                     WidthRequest="25"
+                                                     TintColor="{DynamicResource AccentColor}"
+                                                     Aspect="AspectFill">
+                        </controls:TintedCachedImage>
+                    </Frame>
+                </StackLayout>
+                <Label x:Name="description"
+                       Grid.Row="1"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource BodyLabelFontSize}"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="6"/>
+                <StackLayout Orientation="Horizontal"
+                             VerticalOptions="EndAndExpand">
+                    <Frame Padding="0"
+                           CornerRadius="10"
+                           xtoll:TouchEffect.NativeAnimation="True">
+                        <ffimageloading:CachedImage x:Name="authorImage"
+                                                    Aspect="AspectFill"
+                                                    DownsampleToViewSize="True"
+                                                    DownsampleUseDipUnits="True"
+                                                    HeightRequest="20"
+                                                    WidthRequest="20"/>
+                    </Frame>
+                    <Label x:Name="published" 
+                           FontSize="{StaticResource SmallLabelFontSize}"
+                           TextColor="{DynamicResource AccentColor}"
+                           FontFamily="Medium"
+                           LineBreakMode="TailTruncation"
+                           MaxLines="1"
+                           VerticalOptions="Center">
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </Frame>
+</ViewCell>

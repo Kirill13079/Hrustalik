@@ -8,8 +8,8 @@
                   x:Class="HealthApp.Views.Components.PopupComponents.NewsPopup">
 
     <popup:PopupPage.Animation>
-        <animations:MoveAnimation DurationIn="100"
-                                  DurationOut="100"
+        <animations:MoveAnimation DurationIn="250"
+                                  DurationOut="250"
                                   EasingIn="Linear"
                                   EasingOut="Linear"
                                   HasBackgroundAnimation="True"
@@ -19,7 +19,7 @@
 
     <Frame  Margin="0,0,0,-10"
             BackgroundColor="{DynamicResource ComponentColor}"
-            CornerRadius="10"
+            CornerRadius="15"
             HasShadow="True"
             VerticalOptions="End">
         <StackLayout Spacing="5">

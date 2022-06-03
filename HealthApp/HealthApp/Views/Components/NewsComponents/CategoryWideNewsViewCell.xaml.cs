@@ -11,9 +11,9 @@ using Xamarin.Forms.Xaml;
 namespace HealthApp.Views.Components.NewsComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class WideNewsViewCell : ViewCell
+    public partial class CategoryWideNewsViewCell : ViewCell
     {
-        public WideNewsViewCell()
+        public CategoryWideNewsViewCell()
         {
             InitializeComponent();
         }

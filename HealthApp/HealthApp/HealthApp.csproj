@@ -34,19 +34,15 @@
     <None Remove="Resources\Fonts\Gilroy-Thin.ttf" />
     <None Remove="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <None Remove="Resources\Fonts\Gilroy-UltraLight.ttf" />
-    <None Remove="Resources\Icons\arrow.svg" />
     <None Remove="Resources\Icons\bookmark.svg" />
-    <None Remove="Resources\Icons\clock.svg" />
-    <None Remove="Resources\Icons\menu.svg" />
+    <None Remove="Resources\Icons\chat.svg" />
+    <None Remove="Resources\Icons\key.svg" />
+    <None Remove="Resources\Icons\more.svg" />
+    <None Remove="Resources\Icons\navigate.svg" />
     <None Remove="Resources\Icons\notifications.svg" />
-    <None Remove="Resources\Icons\play.svg" />
-    <None Remove="Resources\Icons\rearrow.svg" />
-    <None Remove="Resources\Icons\settings.svg" />
-    <None Remove="Resources\Icons\share.svg" />
-    <None Remove="Resources\Icons\sms.svg" />
-    <None Remove="Resources\Icons\text.svg" />
-    <None Remove="Resources\Icons\verified.svg" />
-    <None Remove="Resources\Icons\web.svg" />
+    <None Remove="Resources\Icons\person.svg" />
+    <None Remove="Resources\Icons\privacy.svg" />
+    <None Remove="Resources\Icons\send.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,19 +68,15 @@
     <EmbeddedResource Include="Resources\Fonts\Gilroy-Thin.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-UltraLight.ttf" />
-    <EmbeddedResource Include="Resources\Icons\arrow.svg" />
     <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
-    <EmbeddedResource Include="Resources\Icons\clock.svg" />
-    <EmbeddedResource Include="Resources\Icons\menu.svg" />
+    <EmbeddedResource Include="Resources\Icons\chat.svg" />
+    <EmbeddedResource Include="Resources\Icons\key.svg" />
+    <EmbeddedResource Include="Resources\Icons\more.svg" />
+    <EmbeddedResource Include="Resources\Icons\navigate.svg" />
     <EmbeddedResource Include="Resources\Icons\notifications.svg" />
-    <EmbeddedResource Include="Resources\Icons\play.svg" />
-    <EmbeddedResource Include="Resources\Icons\rearrow.svg" />
-    <EmbeddedResource Include="Resources\Icons\settings.svg" />
-    <EmbeddedResource Include="Resources\Icons\share.svg" />
-    <EmbeddedResource Include="Resources\Icons\sms.svg" />
-    <EmbeddedResource Include="Resources\Icons\text.svg" />
-    <EmbeddedResource Include="Resources\Icons\verified.svg" />
-    <EmbeddedResource Include="Resources\Icons\web.svg" />
+    <EmbeddedResource Include="Resources\Icons\person.svg" />
+    <EmbeddedResource Include="Resources\Icons\privacy.svg" />
+    <EmbeddedResource Include="Resources\Icons\send.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -94,6 +86,7 @@
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.2" />
+    <PackageReference Include="SkiaSharp" Version="2.88.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
@@ -104,6 +97,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\HealthApp.Common\HealthApp.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\CategoryNewsPage.xaml.cs">
+      <DependentUpon>CategoryNewsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Components\NewsComponents\CategoryNewsViewCell.xaml.cs">
+      <DependentUpon>CategoryNewsViewCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Components\NewsComponents\CategoryWideNewsViewCell.xaml.cs">
+      <DependentUpon>CategoryWideNewsViewCell.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -122,11 +127,14 @@
     <EmbeddedResource Update="Styles\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\NewsComponents\NewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\NewsComponents\CategoryNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\NewsComponents\WideNewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\NewsComponents\CategoryWideNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Components\NewsComponents\MainPopularNewsViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\PopupComponents\NewsPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -134,8 +142,11 @@
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\NewsPage.xaml">
+    <EmbeddedResource Update="Views\CategoryNewsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainNewsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

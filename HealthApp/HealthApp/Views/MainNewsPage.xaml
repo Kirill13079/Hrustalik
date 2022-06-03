@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:HealthApp.Views.Components.NewsComponents" 
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             x:Class="HealthApp.Views.MainNewsPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+
+    <Shell.TitleView>
+        <Grid BackgroundColor="{DynamicResource PageBackgroundColor}"
+              ColumnDefinitions="*,10"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+            <Label FontAttributes="Bold"
+                   FontSize="{StaticResource HeadLabelFontSize}"
+                   HorizontalOptions="Center"
+                   Text="Новости"
+                   VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="MainPopularNewsView">
+                <local:MainPopularNewsViewCell/>
+            </DataTemplate>
+            <local:MainPopularNewsComponentsDataTemplateSelector x:Key="PopularNewsDataTemplateSelector"
+                                                                 MainPopularNewsView="{StaticResource MainPopularNewsView}"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="200,*">
+            <ScrollView x:Name="carouselPopularNewsView"
+                                Grid.Row="1"
+                                BackgroundColor="{DynamicResource PageBackgroundColor}">
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

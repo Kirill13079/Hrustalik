@@ -2,7 +2,7 @@
 
 namespace HealthApp.Views.Components.NewsComponents
 {
-    public class NewsComponentsDataTemplateSelector : DataTemplateSelector
+    public class CategoryNewsComponentsDataTemplateSelector : DataTemplateSelector
     {
         public DataTemplate NewsView { get; set; }
         public DataTemplate WideNewsView { get; set; }

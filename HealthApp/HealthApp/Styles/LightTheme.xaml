@@ -6,11 +6,11 @@
     <Color x:Key="PrimaryColor">White</Color>
     <Color x:Key="SecondaryColor">Black</Color>
     <Color x:Key="TertiaryColor">Gray</Color>
-    <Color x:Key="AccentColor">#d50000</Color>
+    <Color x:Key="AccentColor">#0088cc</Color>
     <Color x:Key="PageBackgroundColor">#efefef</Color>
     <Color x:Key="ComponentColor">White</Color>
     <Color x:Key="ImageBackgroundColor">#bcbcbc</Color>
-    <Color x:Key="SettingsBackgroundColor">White</Color>
+    <Color x:Key="ButtonTextColor">White</Color>
 
     <!--  Shell  -->
     <Color x:Key="ShellDisabledColor">#8e8e8e</Color>
@@ -20,7 +20,7 @@
     <Color x:Key="ShellTabBarDisabledColor">#8e8e8e</Color>
     <Color x:Key="ShellTabBarForegroundColor">Black</Color>
     <Color x:Key="ShellTabBarUnselectedColor">#8e8e8e</Color>
-    <Color x:Key="ShellTitleColor">#d50000</Color>
+    <Color x:Key="ShellTitleColor">#0088cc</Color>
     <Color x:Key="ShellUnselectedColor">#8e8e8e</Color>
 
     <!--  Shimmer  -->

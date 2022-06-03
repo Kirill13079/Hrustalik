@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:HealthApp.Views.Components.NewsComponents"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:controls="clr-namespace:HealthApp.Controls" xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
-             x:Class="HealthApp.Views.NewsPage"
+             xmlns:controls="clr-namespace:HealthApp.Controls" 
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             x:Class="HealthApp.Views.CategoryNewsPage"
              Title="Новости"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              mc:Ignorable="d">
@@ -13,12 +14,12 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="NewsView">
-                <local:NewsViewCell/>
+                <local:CategoryNewsViewCell/>
             </DataTemplate>
             <DataTemplate x:Key="WideNewsView">
-                <local:WideNewsViewCell/>
+                <local:CategoryWideNewsViewCell/>
             </DataTemplate>
-            <local:NewsComponentsDataTemplateSelector x:Key="NewsDataTemplateSelector"
+            <local:CategoryNewsComponentsDataTemplateSelector x:Key="NewsDataTemplateSelector"
                                                       NewsView="{StaticResource NewsView}"
                                                       WideNewsView="{StaticResource WideNewsView}"/>
         </ResourceDictionary>
@@ -46,8 +47,9 @@
                 <cards:CarouselView.ItemTemplate>
                     <DataTemplate>
                         <ContentView>
-                            <Grid BackgroundColor="{DynamicResource PageBackgroundColor}">
-                                <ListView CachingStrategy="RecycleElement"
+                            <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
+                                  Padding="10,0">
+                                <ListView 
                                           HasUnevenRows="True"
                                           IsPullToRefreshEnabled="True"
                                           IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
@@ -55,6 +57,7 @@
                                           ItemsSource="{Binding Records}"
                                           RefreshCommand="{Binding Path=BindingContext.RefreshCommand, Source={x:Reference carouselView}}"
                                           SelectionMode="None"
+                                          RefreshControlColor="{DynamicResource AccentColor}"
                                           SeparatorVisibility="None">
                                 </ListView>
                                 <StackLayout HorizontalOptions="Center"

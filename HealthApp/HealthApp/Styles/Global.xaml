@@ -2,6 +2,21 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="HealthApp.Styles.Global">
+    <OnPlatform x:Key="HeadLabelFontSize"
+                x:TypeArguments="x:Double"
+                Android="18"
+                iOS="18" />
+    
+    <OnPlatform x:Key="BodyLabelFontSize"
+                x:TypeArguments="x:Double"
+                Android="16"
+                iOS="16" />
+
+    <OnPlatform x:Key="SmallLabelFontSize"
+                x:TypeArguments="x:Double"
+                Android="14"
+                iOS="14" />
+
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{DynamicResource PrimaryColor}" />
         <Setter Property="BarTextColor" Value="{DynamicResource SecondaryColor}" />
@@ -63,7 +78,7 @@
     </Style>
 
     <Style TargetType="Entry">
-        <Setter Property="FontFamily" Value="Regular" />
+        <Setter Property="FontFamily" Value="Medium" />
         <Setter Property="TextColor" Value="{DynamicResource SecondaryColor}" />
         <Style.Triggers>
             <Trigger TargetType="Entry" Property="FontAttributes" Value="Bold">
@@ -73,7 +88,7 @@
     </Style>
 
     <Style TargetType="Editor">
-        <Setter Property="FontFamily" Value="Regular" />
+        <Setter Property="FontFamily" Value="Medium" />
         <Setter Property="TextColor" Value="{DynamicResource SecondaryColor}" />
         <Style.Triggers>
             <Trigger TargetType="Editor" Property="FontAttributes" Value="Bold">
@@ -83,7 +98,7 @@
     </Style>
 
     <Style TargetType="Label">
-        <Setter Property="FontFamily" Value="Regular" />
+        <Setter Property="FontFamily" Value="Medium" />
         <Setter Property="TextColor" Value="{DynamicResource SecondaryColor}" />
         <Style.Triggers>
             <Trigger TargetType="Label" Property="FontAttributes" Value="Bold">
@@ -95,7 +110,7 @@
     <Style TargetType="SearchBar">
         <Setter Property="Visual" Value="Material" />
         <Setter Property="PlaceholderColor" Value="Gray" />
-        <Setter Property="FontFamily" Value="Regular" />
+        <Setter Property="FontFamily" Value="Medium" />
         <Setter Property="TextColor" Value="{DynamicResource SecondaryColor}" />
         <Setter Property="CancelButtonColor" Value="Gray" />
         <Setter Property="BackgroundColor" Value="{DynamicResource SearcBarBackgroundColor}" />

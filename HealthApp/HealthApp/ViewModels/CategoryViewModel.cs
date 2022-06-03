@@ -12,13 +12,13 @@ using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
-    public class NewsViewModel : BaseViewModel
+    public class CategoryViewModel : BaseViewModel
     {
         /// <summary>
         /// Получить экземпляр этого класса
         /// </summary>
-        private static readonly NewsViewModel _instance = new NewsViewModel();
-        public static NewsViewModel Instance => _instance;
+        private static readonly CategoryViewModel _instance = new CategoryViewModel();
+        public static CategoryViewModel Instance => _instance;
 
         /// <summary>
         /// Колекция доступных вкладок
@@ -78,7 +78,7 @@ namespace HealthApp.ViewModels
         /// <summary>
         /// Конструктор
         /// </summary>
-        public NewsViewModel()
+        public CategoryViewModel()
         {
             TabItems = new ObservableRangeCollection<TabModel>();
             CurrentTab = new TabModel();
@@ -107,7 +107,7 @@ namespace HealthApp.ViewModels
                 tabItems.Add(new TabModel
                 {
                     Title = category.Name,
-                    CategoryId = category.Id
+                    Page = category.Id
                 });
             }
 
@@ -136,7 +136,7 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var articles = await GetCategoryRecordsAsync(tab.CategoryId);
+                    var articles = await GetCategoryRecordsAsync(tab.Page);
 
                     tab.Records.AddRange(articles);
 
@@ -146,7 +146,7 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var articles = await GetCategoryRecordsAsync(tab.CategoryId);
+                    var articles = await GetCategoryRecordsAsync(tab.Page);
 
                     tab.Records.ReplaceRange(articles);
                     tab.IsRefreshing = false;

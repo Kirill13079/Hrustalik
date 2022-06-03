@@ -7,9 +7,9 @@ using Xamarin.Forms.Xaml;
 namespace HealthApp.Views.Components.NewsComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewsViewCell : ViewCell
+    public partial class CategoryNewsViewCell : ViewCell
     {
-        public NewsViewCell()
+        public CategoryNewsViewCell()
         {
             InitializeComponent();
         }
@@ -31,7 +31,7 @@ namespace HealthApp.Views.Components.NewsComponents
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var obj = (sender as Label).BindingContext as Common.Model.Record;
+            var obj = (sender as Frame).BindingContext as Common.Model.Record;
 
             var parentBindingContext = newsViewCell.Parent.Parent.BindingContext;
 

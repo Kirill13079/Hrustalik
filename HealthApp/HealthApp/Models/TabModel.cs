@@ -5,7 +5,7 @@ namespace HealthApp.Models
 {
     public class TabModel : BaseViewModel
     {
-        public int CategoryId { get; set; }
+        public int Page { get; set; }
 
         private bool _hasError;
         public bool HasError

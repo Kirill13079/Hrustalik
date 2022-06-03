@@ -58,7 +58,7 @@ namespace HealthApp.Controls
             var width = target.Width - activeIndicator.Width;
             activeIndicator.TranslateTo(target.X + (width / 2), 0, 100, Easing.Linear);
 
-            (Parent.Parent.Parent as Views.NewsPage).ScrollListCommand.Execute(null);
+            (Parent.Parent.Parent as Views.CategoryNewsPage).ScrollListCommand.Execute(null);
         }
 
         private void ChangeTab(object sender, System.EventArgs e)

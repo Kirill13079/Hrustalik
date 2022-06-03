@@ -17,7 +17,11 @@
     <TabBar>
         <ShellContent Title="Новости"
                       Route="news"
-                      ContentTemplate="{DataTemplate views:NewsPage}">
+                      ContentTemplate="{DataTemplate views:MainNewsPage}">
+        </ShellContent>
+        <ShellContent Title="Категории"
+                      Route="category"
+                      ContentTemplate="{DataTemplate views:CategoryNewsPage}">
         </ShellContent>
         <ShellContent Title="Настройки"
                       Route="settings"
