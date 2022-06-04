@@ -47,7 +47,8 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="60">
+                           HeightRequest="60"
+                           HasShadow="False">
                         <Grid ColumnDefinitions="*"
                               RowDefinitions="*">
                             <StackLayout Grid.Column="0" 
@@ -83,7 +84,8 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="60">
+                           HeightRequest="60"
+                           HasShadow="False">
                         <Grid ColumnDefinitions="*"
                               RowDefinitions="*">
                             <StackLayout Grid.Column="0" 
@@ -111,7 +113,8 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="60">
+                           HeightRequest="60"
+                           HasShadow="False">
                         <Grid ColumnDefinitions="*"
                               RowDefinitions="*">
                             <StackLayout Grid.Column="0" 
@@ -139,10 +142,11 @@
                            FontSize="{StaticResource HeadLabelFontSize}"/>
                     <Grid>
                         <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                           Margin="10,0,10,0"
-                           Padding="0"
-                           CornerRadius="15"
-                           HeightRequest="60">
+                               Margin="10,0,10,0"
+                               Padding="0"
+                               CornerRadius="15"
+                               HeightRequest="60"
+                               HasShadow="False">
                             <ScrollView HorizontalScrollBarVisibility="Never"
                                         Orientation="Horizontal">
                                 <FlexLayout x:Name="themeList"
@@ -199,7 +203,8 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="120">
+                           HeightRequest="120"
+                           HasShadow="False">
                         <Grid ColumnDefinitions="*"
                               RowDefinitions="*,*">
                             <StackLayout Grid.Column="0" 
@@ -242,7 +247,8 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="60">
+                           HeightRequest="60"
+                           HasShadow="False">
                         <Grid ColumnDefinitions="*"
                               RowDefinitions="*">
                             <StackLayout Grid.Column="0" 

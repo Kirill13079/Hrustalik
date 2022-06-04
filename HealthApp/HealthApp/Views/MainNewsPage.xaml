@@ -30,48 +30,58 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid RowDefinitions="200">
-            <ScrollView x:Name="carouselPopularNewsView"
-                        Grid.Row="0"
-                        BackgroundColor="{DynamicResource PageBackgroundColor}"
-                        Orientation="Horizontal">
-                <FlexLayout BindableLayout.ItemsSource="{Binding TabPopularRecords}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <ContentView>
-                                <Grid Padding="10,0"
-                                      BackgroundColor="{DynamicResource ComponentColor}">
-                                    <ListView CachingStrategy="RecycleElement"
-                                              HasUnevenRows="True"
-                                              IsPullToRefreshEnabled="True"
-                                              IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
-                                              ItemTemplate="{StaticResource NewsComponentsDataTemplateSelector}"
-                                              ItemsSource="{Binding Records}"
-                                              SelectionMode="None"
-                                              SeparatorVisibility="None">
-                                    </ListView>
-                                    <StackLayout HorizontalOptions="Center"
-                                             IsVisible="{Binding HasError}"
-                                             VerticalOptions="Center">
-                                        <StackLayout>
-                                            <Label FontAttributes="Bold"
-                                               FontSize="13"
-                                               HorizontalTextAlignment="Center"
-                                               Text="Что-то пошло не так"
-                                               TextColor="Gray" />
-                                            <Label FontAttributes="Bold"
-                                               FontSize="13"
-                                               HorizontalTextAlignment="Center"
-                                               Text="Нажмите, чтобы повторить попытку"
-                                               TextColor="Gray" />
+        <ScrollView Padding="0,0">
+            <Grid RowDefinitions="220, 202"
+                  RowSpacing="10">
+                <Frame BackgroundColor="{DynamicResource ComponentColor}"
+                       Padding="0"
+                       Margin="10,0"
+                       CornerRadius="15"
+                       HasShadow="False">
+                </Frame>
+                <ScrollView x:Name="carouselPopularNewsView"
+                            Grid.Row="1"
+                            BackgroundColor="{DynamicResource PageBackgroundColor}"
+                            Orientation="Horizontal"
+                            HorizontalScrollBarVisibility="Never">
+                    <FlexLayout BindableLayout.ItemsSource="{Binding TabPopularRecords}"
+                                Margin="10,0,0,0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <ContentView>
+                                    <Grid Padding="0,0,10,0"
+                                          BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                          ColumnDefinitions="160">
+                                        <ListView CachingStrategy="RecycleElement"
+                                                  HasUnevenRows="True"
+                                                  ItemTemplate="{StaticResource NewsComponentsDataTemplateSelector}"
+                                                  ItemsSource="{Binding Records}"
+                                                  SelectionMode="None"
+                                                  SeparatorVisibility="None">
+                                        </ListView>
+                                        <StackLayout HorizontalOptions="Center"
+                                                     IsVisible="{Binding HasError}"
+                                                     VerticalOptions="Center">
+                                            <StackLayout>
+                                                <Label FontAttributes="Bold"
+                                                       FontSize="13"
+                                                       HorizontalTextAlignment="Center"
+                                                       Text="Что-то пошло не так"
+                                                       TextColor="Gray" />
+                                                <Label FontAttributes="Bold"
+                                                       FontSize="13"
+                                                       HorizontalTextAlignment="Center"
+                                                       Text="Нажмите, чтобы повторить попытку"
+                                                       TextColor="Gray" />
+                                            </StackLayout>
                                         </StackLayout>
-                                    </StackLayout>
-                                </Grid>
-                            </ContentView>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </FlexLayout>
-            </ScrollView>
-        </Grid>
+                                    </Grid>
+                                </ContentView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </ScrollView>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

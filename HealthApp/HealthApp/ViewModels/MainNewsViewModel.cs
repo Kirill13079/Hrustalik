@@ -4,7 +4,6 @@ using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,8 +18,15 @@ namespace HealthApp.ViewModels
         private static readonly MainNewsViewModel _instance = new MainNewsViewModel();
         public static MainNewsViewModel Instance => _instance;
 
-        private ObservableRangeCollection<PopularTabModel> _tabPopularRecords;
-        public ObservableRangeCollection<PopularTabModel> TabPopularRecords
+        private int _pageSize = 10;
+        private int _takeRecord = 1;
+        private int _skipRecords = 0;
+
+        /// <summary>
+        /// Колекция доступных вкладок
+        /// </summary>
+        private ObservableRangeCollection<TabModel> _tabPopularRecords;
+        public ObservableRangeCollection<TabModel> TabPopularRecords
         {
             get => _tabPopularRecords;
             set
@@ -30,6 +36,9 @@ namespace HealthApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Самая важная новость
+        /// </summary>
         private Record _hotNews;
         public Record HotRecord
         {
@@ -41,14 +50,21 @@ namespace HealthApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public MainNewsViewModel()
         {
-            TabPopularRecords = new ObservableRangeCollection<PopularTabModel>();
+            TabPopularRecords = new ObservableRangeCollection<TabModel>();
             HotRecord = new Record();
 
             _ = GetData();
         }
 
+        /// <summary>
+        /// Метод загрузки всей информации
+        /// </summary>
+        /// <returns></returns>
         private async Task GetData()
         {
             if (TabPopularRecords.Any())
@@ -56,21 +72,31 @@ namespace HealthApp.ViewModels
                 TabPopularRecords.Clear();
             }
 
-            for (int page = 0; page <= 3; page++)
+            for (int page = 0; page <= _pageSize; page++)
             {
-                TabPopularRecords.Add(new PopularTabModel
+                TabPopularRecords.Add(new TabModel
                 {
                     Page = page
                 });
             }
 
+            _skipRecords = 0;
+
             foreach (var tab in TabPopularRecords)
             {
+                _skipRecords++;
+
                 await LoadContentData(tab).ConfigureAwait(false);
             }
         }
 
-        private async Task LoadContentData(PopularTabModel tab, bool isRefreshing = false)
+        /// <summary>
+        /// Метод загрузки контента
+        /// </summary>
+        /// <param name="tab">Активная вкладка</param>
+        /// <param name="isRefreshing">Если обновляем контент</param>
+        /// <returns></returns>
+        private async Task LoadContentData(TabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -80,7 +106,7 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var articles = await GetPopularsRecordAsync();
+                    var articles = await GetPopularsRecordAsync(_skipRecords);
 
                     tab.Records.AddRange(articles);
 
@@ -90,7 +116,7 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var articles = await GetPopularsRecordAsync();
+                    var articles = await GetPopularsRecordAsync(_skipRecords);
 
                     tab.Records.ReplaceRange(articles);
                     tab.IsRefreshing = false;
@@ -129,7 +155,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<List<Record>> GetPopularsRecordAsync()
+        private async Task<List<Record>> GetPopularsRecordAsync(int skipRecords)
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetPopularRecords;
 
@@ -137,9 +163,14 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var populars = JsonConvert.DeserializeObject<List<Record>>(result);
+                var records = JsonConvert.DeserializeObject<List<Record>>(result);
 
-                return populars.Take(1).ToList();
+                records.ForEach((record) =>
+                {
+                    record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
+                });
+
+                return records.Skip(skipRecords).Take(_takeRecord).ToList();
             }
             else
             {

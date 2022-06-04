@@ -23,7 +23,7 @@ namespace HealthApp.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     var bindingContext = BindingContext as ViewModels.CategoryViewModel;
-                    var selectedIndex = bindingContext.TabItems.IndexOf(bindingContext.CurrentTab);
+                    var selectedIndex = bindingContext.TabCategoriesRecords.IndexOf(bindingContext.CurrentTab);
 
                     await scrollView.ScrollToAsync(60 * selectedIndex, scrollView.ContentSize.Width - scrollView.Width, true);
                 });

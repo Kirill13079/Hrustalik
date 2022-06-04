@@ -32,7 +32,8 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="120">
+                           HeightRequest="120"
+                           HasShadow="False">
                         <Grid ColumnDefinitions="*"
                               RowDefinitions="*,Auto,*">
                             <StackLayout Grid.Column="0" 
@@ -76,7 +77,8 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="60">
+                           HeightRequest="60"
+                           HasShadow="False">
                         <Grid ColumnDefinitions="*"
                               RowDefinitions="*">
                             <StackLayout Grid.Column="0" 

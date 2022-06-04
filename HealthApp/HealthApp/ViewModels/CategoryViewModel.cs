@@ -23,13 +23,13 @@ namespace HealthApp.ViewModels
         /// <summary>
         /// Колекция доступных вкладок
         /// </summary>
-        private ObservableRangeCollection<TabModel> _tabItems;
-        public ObservableRangeCollection<TabModel> TabItems 
+        private ObservableRangeCollection<TabModel> _tabCategoriesRecords;
+        public ObservableRangeCollection<TabModel> TabCategoriesRecords
         { 
-            get => _tabItems; 
+            get => _tabCategoriesRecords; 
             set 
             { 
-                _tabItems = value; 
+                _tabCategoriesRecords = value; 
                 OnPropertyChanged(); 
             } 
         }
@@ -61,7 +61,7 @@ namespace HealthApp.ViewModels
         /// </summary>
         public ICommand ReloadCommand => new Command(async () => 
         {
-            foreach (var tab in TabItems)
+            foreach (var tab in TabCategoriesRecords)
             {
                 await LoadContentData(tab).ConfigureAwait(false);
             }
@@ -80,7 +80,7 @@ namespace HealthApp.ViewModels
         /// </summary>
         public CategoryViewModel()
         {
-            TabItems = new ObservableRangeCollection<TabModel>();
+            TabCategoriesRecords = new ObservableRangeCollection<TabModel>();
             CurrentTab = new TabModel();
 
             _ = GetData();
@@ -88,14 +88,13 @@ namespace HealthApp.ViewModels
 
         /// <summary>
         /// Метод загрузки всей информации
-        /// вкладки, контент на вкладке
         /// </summary>
         /// <returns></returns>
         public async Task GetData()
         {
-            if (TabItems.Any())
+            if (TabCategoriesRecords.Any())
             {
-                TabItems.Clear();
+                TabCategoriesRecords.Clear();
             }
 
             var categories = await GetCategoriesAsync();
@@ -111,10 +110,10 @@ namespace HealthApp.ViewModels
                 });
             }
 
-            TabItems = tabItems;
-            CurrentTab = TabItems[0];
+            TabCategoriesRecords = tabItems;
+            CurrentTab = TabCategoriesRecords[0];
 
-            foreach (var tab in TabItems)
+            foreach (var tab in TabCategoriesRecords)
             {
                 await LoadContentData(tab).ConfigureAwait(false);
             }
@@ -124,7 +123,7 @@ namespace HealthApp.ViewModels
         /// Метод загрузки контента
         /// </summary>
         /// <param name="tab">Активная вкладка</param>
-        /// <param name="isRefreshing">Если обновляем свайпом</param>
+        /// <param name="isRefreshing">Если обновляем контент</param>
         /// <returns></returns>
         private async Task LoadContentData(TabModel tab, bool isRefreshing = false)
         {

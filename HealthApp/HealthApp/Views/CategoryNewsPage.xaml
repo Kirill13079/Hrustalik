@@ -34,14 +34,14 @@
                             Orientation="Horizontal"
                             BackgroundColor="{DynamicResource PageBackgroundColor}">
                 <controls:CarouselIndicatorView x:Name="carousel"
-                                                Items="{Binding TabItems}"
+                                                Items="{Binding TabCategoriesRecords}"
                                                 CurrentItem="{Binding CurrentTab}"/>
             </ScrollView>
             <cards:CarouselView  x:Name="carouselView"
                                  Grid.Row="1"
                                  BackgroundColor="{DynamicResource PageBackgroundColor}"
                                  IsVerticalSwipeEnabled="False"
-                                 ItemsSource="{Binding TabItems}"
+                                 ItemsSource="{Binding TabCategoriesRecords}"
                                  SelectedItem="{Binding CurrentTab}"
                                  SwipeThresholdDistance="50">
                 <cards:CarouselView.ItemTemplate>
@@ -49,7 +49,7 @@
                         <ContentView>
                             <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
                                   Padding="10,0">
-                                <ListView 
+                                <ListView CachingStrategy="RecycleElement"
                                           HasUnevenRows="True"
                                           IsPullToRefreshEnabled="True"
                                           IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
