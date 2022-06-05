@@ -41,264 +41,81 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <ScrollView Padding="0,0"
-                    VerticalScrollBarVisibility="Never">
-            <CollectionView ItemsSource="{Binding MainTabModel.Records}">
-                <CollectionView.Header>
-                    <Grid RowDefinitions="220,202">
-                        <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                       Padding="0"
-                       Margin="10,0"
-                       CornerRadius="15"
-                       HasShadow="False">
-                            <ffimageloading:CachedImage Source="{Binding MainTabModel.HotRecord.Image}" 
-                                                Aspect="AspectFill"
-                                                BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                                                DownsampleToViewSize="True"
-                                                DownsampleUseDipUnits="True"/>
-                        </Frame>
-
-                    </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BackgroundColor="{DynamicResource ComponentColor}"
-           Padding="20,20,20,15"
-           HeightRequest="320"
-           Margin="0,5"
-           CornerRadius="15"
-           VerticalOptions="Start">
-                            <Grid RowDefinitions="90,*,Auto">
-                                <StackLayout Orientation="Vertical">
-                                    <Label x:Name="description"
-                       FontFamily="Bold"
-                       LineBreakMode="TailTruncation"
-                       MaxLines="3"
-                       FontSize="{StaticResource HeadLabelFontSize}">
-                                    </Label>
-                                    <StackLayout Orientation="Horizontal"
-                             VerticalOptions="EndAndExpand">
-                                        <StackLayout Orientation="Horizontal"
-                                 WidthRequest="150"
-                                 HorizontalOptions="StartAndExpand">
-                                            <Frame Padding="0"
-                               CornerRadius="10">
-                                                <ffimageloading:CachedImage x:Name="authorImage"
-                                                        Aspect="AspectFill"
-                                                        DownsampleToViewSize="True"
-                                                        DownsampleUseDipUnits="True"
-                                                        HeightRequest="20"
-                                                        WidthRequest="20"/>
-                                            </Frame>
-                                            <Label x:Name="published" 
-                               FontSize="{StaticResource SmallLabelFontSize}"
-                               TextColor="{DynamicResource AccentColor}"
-                               FontFamily="Medium"
-                               LineBreakMode="TailTruncation"
-                               MaxLines="1"
-                               VerticalOptions="Center">
-                                            </Label>
-                                        </StackLayout>
-                                        <Label x:Name="data"
-                           FontFamily="Regular"
-                           LineBreakMode="TailTruncation"
-                           TextColor="{DynamicResource SkeletonColor}"
-                           MaxLines="1"
-                           VerticalOptions="Center"
-                           FontSize="{StaticResource SmallLabelFontSize}">
-                                        </Label>
-                                    </StackLayout>
-                                </StackLayout>
-                                <Frame Grid.Row="1" 
-                   BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                   CornerRadius="10"
-                   Padding="0">
-                                    <ffimageloading:CachedImage x:Name="image"
-                                            Aspect="AspectFill"
-                                            BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                                            DownsampleToViewSize="True"
-                                            DownsampleUseDipUnits="True" />
-                                </Frame>
-                                <StackLayout Grid.Row="2"
-                         Padding="0,5,0,0"
-                         Orientation="Horizontal">
-                                    <Frame Padding="5"
-                       CornerRadius="10">
-                                        <StackLayout Orientation="Horizontal">
-                                            <controls:TintedCachedImage WidthRequest="25" 
-                                                    HeightRequest="25"                                                       
-                                                    SvgSource="HealthApp.Resources.Icons.send.svg"
-                                                    TintColor="{DynamicResource AccentColor}"/>
-                                            <Label FontFamily="Medium"
-                               Text="Поделиться"
-                               LineBreakMode="TailTruncation"
-                               VerticalOptions="Center"
-                               TextColor="{DynamicResource AccentColor}"
-                               MaxLines="1"
-                               FontSize="{StaticResource SmallLabelFontSize}">
-                                            </Label>
-                                        </StackLayout>
-                                    </Frame>
-                                    <Frame Padding="5"
-                       HorizontalOptions="EndAndExpand"
-                       CornerRadius="10">
-                                        <StackLayout Orientation="Horizontal">
-                                            <controls:TintedCachedImage WidthRequest="25" 
-                                                    HeightRequest="25"                                                       
-                                                    SvgSource="HealthApp.Resources.Icons.bookmark.svg"
-                                                    TintColor="{DynamicResource AccentColor}"/>
-                                            <Label FontFamily="Medium"
-                               Text="Сохранить"
-                               LineBreakMode="TailTruncation"
-                               VerticalOptions="Center"
-                               TextColor="{DynamicResource AccentColor}"
-                               MaxLines="1"
-                               FontSize="{StaticResource SmallLabelFontSize}">
-                                            </Label>
-                                        </StackLayout>
-                                    </Frame>
-                                </StackLayout>
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <!--<CollectionView x:Name="mainScrollView">
-                <CollectionView.Header>
-                    <Grid RowDefinitions="220,202"
-                          RowSpacing="10">
-                        <Frame BackgroundColor="{DynamicResource ComponentColor}"
+        <CollectionView x:Name="mainScrollView"
+                        VerticalScrollBarVisibility="Never">
+            <CollectionView.Header>
+                <Grid RowDefinitions="220,202"
+                          RowSpacing="15">
+                    <Frame BackgroundColor="{DynamicResource ComponentColor}"
                                Padding="0"
                                Margin="10,0"
                                CornerRadius="15"
                                HasShadow="False">
-                            <ffimageloading:CachedImage Source="{Binding MainTabModel.HotRecord.Image}" 
+                        <ffimageloading:CachedImage Source="{Binding MainTabModel.HotRecord.Image}" 
                                                         Aspect="AspectFill"
                                                         BackgroundColor="{DynamicResource ImageBackgroundColor}"
                                                         DownsampleToViewSize="True"
                                                         DownsampleUseDipUnits="True"/>
-                        </Frame>
-                        <ScrollView x:Name="carouselPopularNewsView"
+                    </Frame>
+                    <ScrollView x:Name="carouselPopularNewsView"
                                     Grid.Row="1"
                                     BackgroundColor="{DynamicResource PageBackgroundColor}"
                                     Orientation="Horizontal"
                                     HorizontalScrollBarVisibility="Never">
-                            <FlexLayout BindableLayout.ItemsSource="{Binding MainTabModel.SubTabModel}"
+                        <FlexLayout BindableLayout.ItemsSource="{Binding MainTabModel.SubTabModel}"
                                         Margin="10,0,0,0">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <ContentView>
-                                            <Grid Padding="0,0,10,0"
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentView>
+                                        <Grid Padding="0,0,10,0"
                                                   BackgroundColor="{DynamicResource PageBackgroundColor}"
                                                   ColumnDefinitions="160">
-                                                <ListView CachingStrategy="RecycleElement"
+                                            <ListView CachingStrategy="RecycleElement"
                                                           HasUnevenRows="True"
                                                           ItemTemplate="{StaticResource NewsComponentsDataTemplateSelector}"
                                                           ItemsSource="{Binding Records}"
                                                           SelectionMode="None"
                                                           SeparatorVisibility="None">
-                                                </ListView>
-                                                <StackLayout HorizontalOptions="Center"
+                                            </ListView>
+                                            <StackLayout HorizontalOptions="Center"
                                                              IsVisible="{Binding HasError}"
                                                              VerticalOptions="Center">
-                                                    <StackLayout>
-                                                        <Label FontAttributes="Bold"
+                                                <StackLayout>
+                                                    <Label FontAttributes="Bold"
                                                                FontSize="13"
                                                                HorizontalTextAlignment="Center"
                                                                Text="Что-то пошло не так"
                                                                TextColor="Gray" />
-                                                        <Label FontAttributes="Bold"
+                                                    <Label FontAttributes="Bold"
                                                                FontSize="13"
                                                                HorizontalTextAlignment="Center"
                                                                Text="Нажмите, чтобы повторить попытку"                                                                
                                                                TextColor="Gray" />
-                                                    </StackLayout>
                                                 </StackLayout>
-                                            </Grid>
-                                        </ContentView>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </FlexLayout>
-                        </ScrollView>
-                    </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->
-            
-            
-            <!--<Grid RowDefinitions="220, 202, *"
-                  RowSpacing="10">
-                <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                       Padding="0"
-                       Margin="10,0"
-                       CornerRadius="15"
-                       HasShadow="False">
-                    <ffimageloading:CachedImage Source="{Binding HotRecord.Image}" Aspect="AspectFill"
-                                                BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                                                DownsampleToViewSize="True"
-                                                DownsampleUseDipUnits="True"/>
-                </Frame>
-                <ScrollView x:Name="carouselPopularNewsView"
-                            Grid.Row="1"
-                            BackgroundColor="{DynamicResource PageBackgroundColor}"
-                            Orientation="Horizontal"
-                            HorizontalScrollBarVisibility="Never">
-                    <FlexLayout BindableLayout.ItemsSource="{Binding TabPopularRecords}"
-                                Margin="10,0,0,0">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <ContentView>
-                                    <Grid Padding="0,0,10,0"
-                                          BackgroundColor="{DynamicResource PageBackgroundColor}"
-                                          ColumnDefinitions="160">
-                                        <ListView CachingStrategy="RecycleElement"
-                                                  HasUnevenRows="True"
-                                                  ItemTemplate="{StaticResource NewsComponentsDataTemplateSelector}"
-                                                  ItemsSource="{Binding Records}"
-                                                  SelectionMode="None"
-                                                  SeparatorVisibility="None">
-                                        </ListView>
-                                        <StackLayout HorizontalOptions="Center"
-                                                     IsVisible="{Binding HasError}"
-                                                     VerticalOptions="Center">
-                                            <StackLayout>
-                                                <Label FontAttributes="Bold"
-                                                       FontSize="13"
-                                                       HorizontalTextAlignment="Center"
-                                                       Text="Что-то пошло не так"
-                                                       TextColor="Gray" />
-                                                <Label FontAttributes="Bold"
-                                                       FontSize="13"
-                                                       HorizontalTextAlignment="Center"
-                                                       Text="Нажмите, чтобы повторить попытку"
-                                                       TextColor="Gray" />
                                             </StackLayout>
-                                        </StackLayout>
-                                    </Grid>
-                                </ContentView>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </FlexLayout>
-                </ScrollView>
-                <FlexLayout Grid.Row="2">
-                    <ListView CachingStrategy="RecycleElement"
-                              HasUnevenRows="True"
-                              IsPullToRefreshEnabled="True"
-                              ItemTemplate="{StaticResource NewsDataTemplateSelector}"
-                              ItemsSource="{Binding Records}"
-                              SelectionMode="None"
-                              RefreshControlColor="{DynamicResource AccentColor}"
-                              SeparatorVisibility="None">
-                    </ListView>
-                </FlexLayout>
-            </Grid>-->
-        </ScrollView>
+                                        </Grid>
+                                    </ContentView>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </ScrollView>
+                </Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10,0" >
+                        <ListView CachingStrategy="RecycleElement"
+                                  HasUnevenRows="True"
+                                  IsPullToRefreshEnabled="True"
+                                  ItemTemplate="{StaticResource NewsDataTemplateSelector}"
+                                  ItemsSource="{Binding Records}"
+                                  SelectionMode="None"
+                                  RefreshControlColor="{DynamicResource AccentColor}"
+                                  SeparatorVisibility="None">
+                        </ListView>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </ContentPage.Content>
 </ContentPage>

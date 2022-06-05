@@ -17,13 +17,15 @@ namespace HealthApp.Views
 
             var bindingContext = BindingContext as ViewModels.MainNewsViewModel;
 
-            //var bindingObject = new List<MainTabModel>();
+            var bindingObject = new List<MainTabModel>();
 
-            //bindingObject.Add(bindingContext.MainTabModel);
+            bindingObject.Add(bindingContext.MainTabModel);
 
-            //mainScrollView.ItemsSource = bindingObject;
+            mainScrollView.ItemsSource = bindingObject;
 
             //BindableLayout.SetItemsSource(test, bindingContext.MainTabModel.Records);
         }
+
+
     }
 }
