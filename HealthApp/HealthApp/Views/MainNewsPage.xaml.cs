@@ -1,9 +1,6 @@
-﻿using System;
+﻿using HealthApp.Common.Model;
+using HealthApp.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,6 +14,16 @@ namespace HealthApp.Views
             InitializeComponent();
 
             BindingContext = ViewModels.MainNewsViewModel.Instance;
+
+            var bindingContext = BindingContext as ViewModels.MainNewsViewModel;
+
+            //var bindingObject = new List<MainTabModel>();
+
+            //bindingObject.Add(bindingContext.MainTabModel);
+
+            //mainScrollView.ItemsSource = bindingObject;
+
+            //BindableLayout.SetItemsSource(test, bindingContext.MainTabModel.Records);
         }
     }
 }

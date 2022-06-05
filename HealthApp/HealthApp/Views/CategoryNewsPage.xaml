@@ -5,7 +5,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:controls="clr-namespace:HealthApp.Controls" 
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
-             xmlns:local="clr-namespace:HealthApp.Views.Components.CategoryNewsComponents"
+             xmlns:local="clr-namespace:HealthApp.Views.Components.NewsComponents"
              x:Class="HealthApp.Views.CategoryNewsPage"
              Title="Новости"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
@@ -14,12 +14,12 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="NewsView">
-                <local:CategoryNewsViewCell/>
+                <local:NewsViewCell/>
             </DataTemplate>
             <DataTemplate x:Key="WideNewsView">
-                <local:CategoryWideNewsViewCell/>
+                <local:WideNewsViewCell/>
             </DataTemplate>
-            <local:CategoryNewsComponentsDataTemplateSelector x:Key="NewsDataTemplateSelector"
+            <local:NewsComponentsDataTemplateSelector x:Key="NewsDataTemplateSelector"
                                                       NewsView="{StaticResource NewsView}"
                                                       WideNewsView="{StaticResource WideNewsView}"/>
         </ResourceDictionary>

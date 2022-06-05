@@ -1,8 +1,8 @@
 ﻿using Xamarin.Forms;
 
-namespace HealthApp.Views.Components.CategoryNewsComponents
+namespace HealthApp.Views.Components.NewsComponents
 {
-    public class CategoryNewsComponentsDataTemplateSelector : DataTemplateSelector
+    public class NewsComponentsDataTemplateSelector : DataTemplateSelector
     {
         public DataTemplate NewsView { get; set; }
         public DataTemplate WideNewsView { get; set; }

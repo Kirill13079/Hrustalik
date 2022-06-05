@@ -1,11 +1,21 @@
 ﻿using HealthApp.Common.Model;
 using MvvmHelpers;
+using System;
 
 namespace HealthApp.Models
 {
     public class TabModel : BaseViewModel
     {
-        public int Page { get; set; }
+        public int _page;
+        public int Page 
+        {
+            get => _page;
+            set
+            {
+                _page = value;
+                OnPropertyChanged();
+            }
+        }
 
         private bool _hasError;
         public bool HasError
@@ -43,6 +53,7 @@ namespace HealthApp.Models
         public TabModel()
         {
             Records = new ObservableRangeCollection<Record>();
+
             IsBusy = true;
         }
     }

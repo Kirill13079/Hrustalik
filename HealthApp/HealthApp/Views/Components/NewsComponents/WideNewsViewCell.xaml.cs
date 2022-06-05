@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace HealthApp.Views.Components.CategoryNewsComponents
+namespace HealthApp.Views.Components.NewsComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CategoryWideNewsViewCell : ViewCell
+    public partial class WideNewsViewCell : ViewCell
     {
-        public CategoryWideNewsViewCell()
+        public WideNewsViewCell()
         {
             InitializeComponent();
         }

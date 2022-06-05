@@ -104,11 +104,11 @@
     <Compile Update="Views\CategoryNewsPage.xaml.cs">
       <DependentUpon>CategoryNewsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Components\CategoryNewsComponents\CategoryNewsViewCell.xaml.cs">
-      <DependentUpon>CategoryNewsViewCell.xaml</DependentUpon>
+    <Compile Update="Views\Components\NewsComponents\NewsViewCell.xaml.cs">
+      <DependentUpon>NewsViewCell.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Components\CategoryNewsComponents\CategoryWideNewsViewCell.xaml.cs">
-      <DependentUpon>CategoryWideNewsViewCell.xaml</DependentUpon>
+    <Compile Update="Views\Components\NewsComponents\WideNewsViewCell.xaml.cs">
+      <DependentUpon>WideNewsViewCell.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml.cs">
       <DependentUpon>PopularNewsViewCell.xaml</DependentUpon>
@@ -131,10 +131,10 @@
     <EmbeddedResource Update="Styles\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\CategoryNewsComponents\CategoryNewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\NewsComponents\NewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\CategoryNewsComponents\CategoryWideNewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\NewsComponents\WideNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml">

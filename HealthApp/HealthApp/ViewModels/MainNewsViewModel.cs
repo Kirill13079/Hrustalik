@@ -23,29 +23,15 @@ namespace HealthApp.ViewModels
         private int _skipRecords = 0;
 
         /// <summary>
-        /// Колекция доступных вкладок
+        /// Модель представления
         /// </summary>
-        private ObservableRangeCollection<TabModel> _tabPopularRecords;
-        public ObservableRangeCollection<TabModel> TabPopularRecords
+        private MainTabModel _mainTabModel;
+        public MainTabModel MainTabModel
         {
-            get => _tabPopularRecords;
+            get => _mainTabModel;
             set
             {
-                _tabPopularRecords = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Самая важная новость
-        /// </summary>
-        private Record _hotNews;
-        public Record HotRecord
-        {
-            get => _hotNews;
-            set
-            {
-                _hotNews = value;
+                _mainTabModel = value;
                 OnPropertyChanged();
             }
         }
@@ -55,8 +41,7 @@ namespace HealthApp.ViewModels
         /// </summary>
         public MainNewsViewModel()
         {
-            TabPopularRecords = new ObservableRangeCollection<TabModel>();
-            HotRecord = new Record();
+            MainTabModel = new MainTabModel();
 
             _ = GetData();
         }
@@ -67,36 +52,39 @@ namespace HealthApp.ViewModels
         /// <returns></returns>
         private async Task GetData()
         {
-            if (TabPopularRecords.Any())
+            if (MainTabModel.SubTabModel.Any())
             {
-                TabPopularRecords.Clear();
+                MainTabModel.SubTabModel.Clear();
             }
 
             for (int page = 0; page <= _pageSize; page++)
             {
-                TabPopularRecords.Add(new TabModel
-                {
-                    Page = page
+                MainTabModel.SubTabModel.Add(new TabModel 
+                { 
+                    Page = page 
                 });
             }
 
+            await LoadHotContentData().ConfigureAwait(false);
+            await LoadRecordContent().ConfigureAwait(false);
+
             _skipRecords = 0;
 
-            foreach (var tab in TabPopularRecords)
+            foreach (var tab in MainTabModel.SubTabModel)
             {
                 _skipRecords++;
 
-                await LoadContentData(tab).ConfigureAwait(false);
+                await LoadPopularContentData(tab).ConfigureAwait(false);
             }
         }
 
         /// <summary>
-        /// Метод загрузки контента
+        /// Метод загрузки контента популярных записей 
         /// </summary>
         /// <param name="tab">Активная вкладка</param>
         /// <param name="isRefreshing">Если обновляем контент</param>
         /// <returns></returns>
-        private async Task LoadContentData(TabModel tab, bool isRefreshing = false)
+        private async Task LoadPopularContentData(TabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -106,9 +94,9 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var articles = await GetPopularsRecordAsync(_skipRecords);
+                    var records = await GetPopularsRecordAsync();
 
-                    tab.Records.AddRange(articles);
+                    tab.Records.AddRange(records);
 
                     tab.IsBusy = false;
                 }
@@ -116,9 +104,9 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var articles = await GetPopularsRecordAsync(_skipRecords);
+                    var records = await GetPopularsRecordAsync();
 
-                    tab.Records.ReplaceRange(articles);
+                    tab.Records.ReplaceRange(records);
                     tab.IsRefreshing = false;
                 }
 
@@ -137,6 +125,49 @@ namespace HealthApp.ViewModels
             }
         }
 
+        private async Task LoadRecordContent()
+        {
+            var records = await GetRecordsAsync();
+
+            foreach (var record in records)
+            {
+                MainTabModel.Records.Add(record);
+            }
+        }
+
+        /// <summary>
+        /// Метод загруки контента для самой горячей записи
+        /// </summary>
+        /// <returns></returns>
+        private async Task LoadHotContentData()
+        {
+            MainTabModel.HotRecord = await GetHotRecordAsync();
+        }
+
+        private async Task<List<Record>> GetRecordsAsync()
+        {
+            string url = ApiRoutes.BaseUrl + ApiRoutes.GetRecords;
+
+            var result = await ApiCaller.Get(url);
+
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+
+                records.ForEach((record) =>
+                {
+                    record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
+                    record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
+                });
+
+                return records.ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private async Task<Record> GetHotRecordAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetHotRecord;
@@ -145,9 +176,11 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var hot = JsonConvert.DeserializeObject<Record>(result);
+                var record = JsonConvert.DeserializeObject<Record>(result);
 
-                return hot;
+                record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
+
+                return record;
             }
             else
             {
@@ -155,7 +188,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<List<Record>> GetPopularsRecordAsync(int skipRecords)
+        private async Task<List<Record>> GetPopularsRecordAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetPopularRecords;
 
@@ -170,7 +203,7 @@ namespace HealthApp.ViewModels
                     record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
                 });
 
-                return records.Skip(skipRecords).Take(_takeRecord).ToList();
+                return records.Skip(_skipRecords).Take(_takeRecord).ToList();
             }
             else
             {
