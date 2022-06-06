@@ -4,7 +4,7 @@
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:controls="clr-namespace:HealthApp.Controls"
-                  xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
+                  xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
                   x:Class="HealthApp.Views.Components.PopupComponents.NewsPopup">
 
     <popup:PopupPage.Animation>
@@ -17,48 +17,65 @@
                                   PositionOut="Bottom" />
     </popup:PopupPage.Animation>
 
-    <Frame  Margin="0,0,0,-10"
-            BackgroundColor="{DynamicResource ComponentColor}"
-            CornerRadius="15"
-            HasShadow="True"
-            VerticalOptions="End">
-        <StackLayout Spacing="5">
-            <StackLayout Padding="0,10,10,10"
-                         Orientation="Horizontal"
-                         Spacing="15"
-                         xtoll:TouchEffect.NativeAnimation="True">
-                <controls:TintedCachedImage WidthRequest="25" 
-                                            HeightRequest="25"                                                       
-                                            SvgSource="HealthApp.Resources.Icons.share.svg"
-                                            TintColor="{DynamicResource TertiaryColor}"/>
-                <Label FontSize="20"
-                       Text="Поделиться"
-                       VerticalOptions="Center" />
-            </StackLayout>
-            <StackLayout Padding="0,10,10,10"
-                         Orientation="Horizontal"
-                         Spacing="15"
-                         xtoll:TouchEffect.NativeAnimation="True">
-                <controls:TintedCachedImage WidthRequest="25" 
-                                            HeightRequest="25"                                                       
-                                            SvgSource="HealthApp.Resources.Icons.bookmark.svg"
-                                            TintColor="{DynamicResource TertiaryColor}"/>
-                <Label FontSize="20"
-                       Text="В закладки"
-                       VerticalOptions="Center" />
-            </StackLayout>
-            <StackLayout Padding="0,10,10,10"
-                         Orientation="Horizontal"
-                         Spacing="15"
-                         xtoll:TouchEffect.NativeAnimation="True">
-                <controls:TintedCachedImage WidthRequest="25" 
-                                            HeightRequest="25"                                                       
-                                            SvgSource="HealthApp.Resources.Icons.web.svg"
-                                            TintColor="{DynamicResource TertiaryColor}"/>
-                <Label FontSize="20"
-                       Text="Источник"
-                       VerticalOptions="Center" />
-            </StackLayout>
+    <Grid Margin="0"
+          RowSpacing="30"
+          VerticalOptions="End">
+        <StackLayout Spacing="5"
+                     HeightRequest="-1">
+            <Frame BackgroundColor="{DynamicResource ComponentColor}"
+                   Margin="0,0"
+                   Padding="0"
+                   CornerRadius="15"
+                   HeightRequest="180"   
+                   HasShadow="False">
+                <Grid ColumnDefinitions="*"
+                      RowDefinitions="*,*,*">
+                    <StackLayout Grid.Column="0" 
+                                 Orientation="Horizontal"
+                                 Padding="20,0"
+                                 xtoll:TouchEffect.NativeAnimation="True">
+                        <controls:TintedCachedImage WidthRequest="25" 
+                                                    HeightRequest="25"                                                       
+                                                    SvgSource="HealthApp.Resources.Icons.send.svg"
+                                                    TintColor="#666472"/>
+                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                               Margin="10,0"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Start"
+                               Text="Поделиться"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="0"
+                                 Grid.Row="1"
+                                 Orientation="Horizontal"
+                                 Padding="20,0"
+                                 xtoll:TouchEffect.NativeAnimation="True">
+                        <controls:TintedCachedImage WidthRequest="25" 
+                                                    HeightRequest="25"                                                       
+                                                    SvgSource="HealthApp.Resources.Icons.bookmark.svg"
+                                                    TintColor="#666472"/>
+                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                               Margin="10,0"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Start"
+                               Text="Сохранить"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="0"
+                                 Grid.Row="2"
+                                 Orientation="Horizontal"
+                                 Padding="20,0"
+                                 xtoll:TouchEffect.NativeAnimation="True">
+                        <controls:TintedCachedImage WidthRequest="25" 
+                                                    HeightRequest="25"                                                       
+                                                    SvgSource="HealthApp.Resources.Icons.link.svg"
+                                                    TintColor="#666472"/>
+                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                               Margin="10,0"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Start"
+                               Text="Источник"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
         </StackLayout>
-    </Frame>
+    </Grid>
 </popup:PopupPage>

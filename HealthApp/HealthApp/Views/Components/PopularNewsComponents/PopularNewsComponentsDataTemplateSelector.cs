@@ -4,12 +4,16 @@ namespace HealthApp.Views.Components.PopularNewsComponents
 {
     public class PopularNewsComponentsDataTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate PopularNewsView { get; set; }
-        public DataTemplate WideNewsView { get; set; }
+        private readonly DataTemplate _popularNewsView;
+
+        public PopularNewsComponentsDataTemplateSelector()
+        {
+            _popularNewsView = new DataTemplate(typeof(PopularNewsViewCell));
+        }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return PopularNewsView;
+            return _popularNewsView;
         }
     }
 }

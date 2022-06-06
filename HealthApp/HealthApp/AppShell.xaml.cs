@@ -20,6 +20,7 @@ namespace HealthApp
         private void RegisterRoutes()
         {
             _routes.Add("login", typeof(LoginPage));
+            _routes.Add("news", typeof(NewsPage));
 
             foreach (var item in _routes)
             {

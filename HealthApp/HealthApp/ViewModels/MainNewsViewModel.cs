@@ -12,9 +12,6 @@ namespace HealthApp.ViewModels
 {
     public class MainNewsViewModel : BaseViewModel
     {
-        /// <summary>
-        /// Получить экземпляр этого класса
-        /// </summary>
         private static readonly MainNewsViewModel _instance = new MainNewsViewModel();
         public static MainNewsViewModel Instance => _instance;
 
@@ -22,9 +19,6 @@ namespace HealthApp.ViewModels
         private int _takeRecord = 1;
         private int _skipRecords = 0;
 
-        /// <summary>
-        /// Модель представления
-        /// </summary>
         private MainTabModel _mainTabModel;
         public MainTabModel MainTabModel
         {
@@ -36,9 +30,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Конструктор
-        /// </summary>
         public MainNewsViewModel()
         {
             MainTabModel = new MainTabModel();
@@ -46,10 +37,6 @@ namespace HealthApp.ViewModels
             _ = GetData();
         }
 
-        /// <summary>
-        /// Метод загрузки всей информации
-        /// </summary>
-        /// <returns></returns>
         private async Task GetData()
         {
             if (MainTabModel.SubTabModel.Any())
@@ -65,8 +52,14 @@ namespace HealthApp.ViewModels
                 });
             }
 
-            await LoadHotContentData().ConfigureAwait(false);
-            await LoadRecordContent().ConfigureAwait(false);
+            MainTabModel.HotRecord = await GetHotRecordAsync();
+
+            var records = await GetRecordsAsync();
+
+            foreach (var record in records)
+            {
+                MainTabModel.Records.Add(record);
+            }
 
             _skipRecords = 0;
 
@@ -78,12 +71,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Метод загрузки контента популярных записей 
-        /// </summary>
-        /// <param name="tab">Активная вкладка</param>
-        /// <param name="isRefreshing">Если обновляем контент</param>
-        /// <returns></returns>
         private async Task LoadPopularContentData(TabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
@@ -125,25 +112,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task LoadRecordContent()
-        {
-            var records = await GetRecordsAsync();
-
-            foreach (var record in records)
-            {
-                MainTabModel.Records.Add(record);
-            }
-        }
-
-        /// <summary>
-        /// Метод загруки контента для самой горячей записи
-        /// </summary>
-        /// <returns></returns>
-        private async Task LoadHotContentData()
-        {
-            MainTabModel.HotRecord = await GetHotRecordAsync();
-        }
-
         private async Task<List<Record>> GetRecordsAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetRecords;
@@ -179,6 +147,7 @@ namespace HealthApp.ViewModels
                 var record = JsonConvert.DeserializeObject<Record>(result);
 
                 record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
+                record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
 
                 return record;
             }
@@ -201,6 +170,7 @@ namespace HealthApp.ViewModels
                 records.ForEach((record) =>
                 {
                     record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
+                    record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
                 });
 
                 return records.Skip(_skipRecords).Take(_takeRecord).ToList();

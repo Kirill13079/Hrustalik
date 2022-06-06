@@ -37,6 +37,7 @@
     <None Remove="Resources\Icons\bookmark.svg" />
     <None Remove="Resources\Icons\chat.svg" />
     <None Remove="Resources\Icons\key.svg" />
+    <None Remove="Resources\Icons\link.svg" />
     <None Remove="Resources\Icons\more.svg" />
     <None Remove="Resources\Icons\navigate.svg" />
     <None Remove="Resources\Icons\notifications.svg" />
@@ -71,6 +72,7 @@
     <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
     <EmbeddedResource Include="Resources\Icons\chat.svg" />
     <EmbeddedResource Include="Resources\Icons\key.svg" />
+    <EmbeddedResource Include="Resources\Icons\link.svg" />
     <EmbeddedResource Include="Resources\Icons\more.svg" />
     <EmbeddedResource Include="Resources\Icons\navigate.svg" />
     <EmbeddedResource Include="Resources\Icons\notifications.svg" />
@@ -101,21 +103,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\CategoryNewsPage.xaml.cs">
-      <DependentUpon>CategoryNewsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Components\NewsComponents\NewsViewCell.xaml.cs">
-      <DependentUpon>NewsViewCell.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Components\NewsComponents\WideNewsViewCell.xaml.cs">
-      <DependentUpon>WideNewsViewCell.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml.cs">
-      <DependentUpon>PopularNewsViewCell.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -131,14 +118,20 @@
     <EmbeddedResource Update="Styles\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\NewsComponents\NewsViewCell.xaml">
+    <EmbeddedResource Update="Views\CategoryNewsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\NewsComponents\WideNewsViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\CategoryNewsComponents\NormalNewsViewCell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Components\CategoryNewsComponents\WideNewsViewCell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Components\FeedNewsComponents\WideNewsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\PopupComponents\NewsPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -146,11 +139,11 @@
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CategoryNewsPage.xaml">
+    <EmbeddedResource Update="Views\MainNewsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainNewsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <EmbeddedResource Update="Views\NewsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

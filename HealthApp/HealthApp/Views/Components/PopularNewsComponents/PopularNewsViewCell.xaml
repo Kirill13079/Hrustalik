@@ -2,24 +2,47 @@
 <ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
           xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+          xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
           x:Class="HealthApp.Views.Components.PopularNewsComponents.PopularNewsViewCell"
           x:Name="popularNewsViewCell">
-    <Frame BackgroundColor="{DynamicResource ComponentColor}"
-           Padding="0"
-           Margin="0"
-           HeightRequest="200"
-           WidthRequest="90"
-           CornerRadius="15"
-           HasShadow="False"
-           VerticalOptions="Start">
-        <Frame.GestureRecognizers>
-            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-        </Frame.GestureRecognizers>
-        <ffimageloading:CachedImage x:Name="image"
-                                    Aspect="AspectFill"
-                                    BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                                    DownsampleToViewSize="True"
-                                    DownsampleUseDipUnits="True"
-                                    HeightRequest="250"/>
-    </Frame>
+    <Grid>
+        <pnck:PancakeView BackgroundColor="{DynamicResource ComponentColor}"
+                          Padding="0"
+                          Margin="0"
+                          HeightRequest="200"
+                          WidthRequest="90"
+                          CornerRadius="15"
+                          VerticalOptions="Start">
+            <pnck:PancakeView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+            </pnck:PancakeView.GestureRecognizers>
+            <ffimageloading:CachedImage x:Name="image"
+                                        Aspect="AspectFill"
+                                        BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                        DownsampleToViewSize="True"
+                                        DownsampleUseDipUnits="True"
+                                        HeightRequest="250"/>
+        </pnck:PancakeView>
+        <pnck:PancakeView Margin="0"
+                          CornerRadius="15"
+                          InputTransparent="True"
+                          BackgroundGradientEndPoint="0,1"
+                          Padding="10">
+            <pnck:PancakeView.BackgroundGradientStops>
+                <pnck:GradientStopCollection>
+                    <pnck:GradientStop Color="Transparent" Offset="0" />
+                    <pnck:GradientStop Color="Transparent" Offset="1" />
+                </pnck:GradientStopCollection>
+            </pnck:PancakeView.BackgroundGradientStops>
+            <StackLayout Orientation="Vertical" 
+                         VerticalOptions="EndAndExpand">
+                <Label x:Name="description"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource SmallLabelFontSize}"
+                       LineBreakMode="TailTruncation"
+                       TextColor="White"
+                       MaxLines="4"/>
+            </StackLayout>
+        </pnck:PancakeView>
+    </Grid>
 </ViewCell>

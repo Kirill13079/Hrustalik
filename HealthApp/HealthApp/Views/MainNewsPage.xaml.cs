@@ -1,5 +1,4 @@
-﻿using HealthApp.Common.Model;
-using HealthApp.Models;
+﻿using HealthApp.Models;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -22,10 +21,6 @@ namespace HealthApp.Views
             bindingObject.Add(bindingContext.MainTabModel);
 
             mainScrollView.ItemsSource = bindingObject;
-
-            //BindableLayout.SetItemsSource(test, bindingContext.MainTabModel.Records);
         }
-
-
     }
 }
