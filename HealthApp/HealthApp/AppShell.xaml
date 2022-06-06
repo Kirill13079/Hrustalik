@@ -17,6 +17,7 @@
     <TabBar>
         <ShellContent Title="Новости"
                       Route="news"
+                      Icon="menu.svg"
                       ContentTemplate="{DataTemplate views:MainNewsPage}">
         </ShellContent>
         <ShellContent Title="Категории"
