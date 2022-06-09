@@ -16,13 +16,13 @@ namespace HealthApp.Views
 
             Shell.SetNavBarIsVisible(this, false);
 
-            BindingContext = ViewModels.CategoryViewModel.Instance;
+            BindingContext = ViewModels.CategoryNewsViewModel.Instance;
 
             ScrollListCommand = new Command(() =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    var bindingContext = BindingContext as ViewModels.CategoryViewModel;
+                    var bindingContext = BindingContext as ViewModels.CategoryNewsViewModel;
                     var selectedIndex = bindingContext.TabCategoriesRecords.IndexOf(bindingContext.CurrentTab);
 
                     await scrollView.ScrollToAsync(60 * selectedIndex, scrollView.ContentSize.Width - scrollView.Width, true);

@@ -1,19 +1,106 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:vm="clr-namespace:HealthApp.ViewModels"
+             xmlns:vm="clr-namespace:HealthApp.ViewModels" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:controls="clr-namespace:HealthApp.Controls"
+             xmlns:convert="clr-namespace:HealthApp.Converts"
+             xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HealthApp.Views.NewsPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
-    
+
     <ContentPage.BindingContext>
         <vm:NewsViewModel x:Name="vm"/>
     </ContentPage.BindingContext>
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <convert:DateConvert x:Key="DateConvert"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding SelectedRecord.Name}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <Grid RowDefinitions="320,*"
+                  RowSpacing="30">
+                <pnck:PancakeView Padding="0"
+                                  CornerRadius="15">
+                    <ffimageloading:CachedImage Source="{Binding SelectedRecord.Image}" 
+                                            Aspect="AspectFill"
+                                            DownsampleToViewSize="True"
+                                            DownsampleUseDipUnits="True"/>
+                </pnck:PancakeView>
+                <pnck:PancakeView Grid.Row="0" 
+                              CornerRadius="15"
+                              InputTransparent="True"
+                              BackgroundGradientEndPoint="0,1"
+                              Padding="20,10">
+                    <pnck:PancakeView.BackgroundGradientStops>
+                        <pnck:GradientStopCollection>
+                            <pnck:GradientStop Color="Transparent" Offset="0" />
+                            <pnck:GradientStop Color="Black" Offset="1" />
+                        </pnck:GradientStopCollection>
+                    </pnck:PancakeView.BackgroundGradientStops>
+                    <StackLayout Orientation="Vertical" 
+                             VerticalOptions="EndAndExpand">
+                        <Label Text="{Binding SelectedRecord.Name}"  
+                           FontFamily="Bold"
+                           LineBreakMode="WordWrap"
+                           TextColor="White"
+                           FontSize="24"/>
+                    </StackLayout>
+                </pnck:PancakeView>
+                <StackLayout Grid.Row="1" 
+                             VerticalOptions="StartAndExpand"
+                             Padding="20,0">
+                    <Grid ColumnDefinitions="40,*,40">
+                        <Frame Padding="0"
+                               CornerRadius="20">
+                            <ffimageloading:CachedImage Source="{Binding SelectedRecord.Author.Logo}" 
+                                                        Aspect="AspectFill"
+                                                        DownsampleToViewSize="True"
+                                                        DownsampleUseDipUnits="True"
+                                                        HeightRequest="40"/>
+                        </Frame>
+                        <StackLayout Grid.Column="1"
+                                     Spacing="0">
+                            <Label Text="{Binding SelectedRecord.Author.Name}"
+                                   FontSize="{StaticResource SmallLabelFontSize}"
+                                   TextColor="{DynamicResource SecondaryColor}"
+                                   FontFamily="Medium"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="1"
+                                   VerticalOptions="EndAndExpand">
+                            </Label>
+                            <Label Text="{Binding SelectedRecord.DateAdded, Converter={StaticResource DateConvert}}"
+                                   FontFamily="Regular"
+                                   LineBreakMode="TailTruncation"
+                                   TextColor="{DynamicResource SkeletonColor}"
+                                   MaxLines="1"
+                                   FontSize="{StaticResource SmallLabelFontSize}">
+                            </Label>
+                        </StackLayout>
+                        <Frame Grid.Column="2"
+                               Padding="0"
+                               HorizontalOptions="EndAndExpand"
+                               VerticalOptions="Center">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                            </Frame.GestureRecognizers>
+                            <controls:TintedCachedImage SvgSource="HealthApp.Resources.Icons.more.svg"
+                                                        WidthRequest="25"
+                                                        HeightRequest="25"
+                                                        TintColor="{DynamicResource SkeletonColor}"
+                                                        Aspect="AspectFill">
+                            </controls:TintedCachedImage>
+                        </Frame>
+                    </Grid>
+                    <StackLayout Orientation="Vertical">
+
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

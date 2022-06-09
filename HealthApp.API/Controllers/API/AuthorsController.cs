@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace HealthApp.API.Controllers.API
 {
-    public class CategoriesController : ControllerBase
+    public class AuthorsController : ControllerBase
     {
         private ApplicationDbContext _context;
 
-        public CategoriesController(ApplicationDbContext context)
+        public AuthorsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        [Route(ApiRoutes.GetCategories)]
-        public async Task<IActionResult> GetCategories()
+        [Route(ApiRoutes.GetAuthors)]
+        public async Task<IActionResult> GetAuthors()
         {
-            var arrivals = _context.Categories
+            var arrivals = _context.Authors
                 .OrderBy(x => x.Name);
 
             return Ok(await arrivals.ToListAsync());

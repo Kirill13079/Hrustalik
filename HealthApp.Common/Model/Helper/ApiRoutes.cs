@@ -20,5 +20,7 @@
         public const string GetAuthorRecords = "api/record/author";
 
         public const string GetCategories = "api/category/list";
+
+        public const string GetAuthors = "api/author/list";
     }
 }

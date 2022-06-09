@@ -15,15 +15,9 @@ namespace HealthApp.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        /// <summary>
-        /// Получить экземпляр этого класса
-        /// </summary>
         private static readonly SettingsViewModel _instance = new SettingsViewModel();
         public static SettingsViewModel Instance => _instance;
 
-        /// <summary>
-        /// Текущий пользователь
-        /// </summary>
         private Customer _customer;
         public Customer Customer 
         { 
@@ -35,9 +29,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Коллекция доступных тем
-        /// </summary>
         private ObservableRangeCollection<ThemeModel> _themeItems = new ObservableRangeCollection<ThemeModel>()
         {
             {
@@ -60,9 +51,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// True - если пользователь авторизован
-        /// </summary>
         private bool _isLoggedIn;
         public bool IsLoggedIn
         {
@@ -74,9 +62,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Команда для смены темы
-        /// </summary>
         public ICommand ThemeChangeCommand => new Command((obj) =>
         {
             var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>((ThemeModel)obj);
@@ -98,9 +83,6 @@ namespace HealthApp.ViewModels
             }
         });
 
-        /// <summary>
-        /// Команда для выхода из под текущего пользователя
-        /// </summary>
         public Command SignOutCommand => new Command(async () =>
         {
             bool action = await Application.Current.MainPage.DisplayAlert("Выйти?", "Вы уверены, что хотите выйти?", "Да", "Нет");
@@ -121,17 +103,16 @@ namespace HealthApp.ViewModels
             }
         });
 
-        /// <summary>
-        /// Команда перехода на форму входа
-        /// </summary>
         public Command LogInPageCommand => new Command(() => 
         {
             Navigation.NavigateTo("login", Customer);
         });
 
-        /// <summary>
-        /// Конструктор
-        /// </summary>
+        public Command AuthorsAndCategoriesPageCommand => new Command(() =>
+        {
+            Navigation.NavigateTo("authorsAndCategories");
+        });
+
         public SettingsViewModel()
         {
             Customer = new Customer();
@@ -139,9 +120,6 @@ namespace HealthApp.ViewModels
             _ = GetSettings();
         }
 
-        /// <summary>
-        /// Метод получающий текущую тему пользователя
-        /// </summary>
         public string GetTheme()
         {
             string theme = Settings.GetSetting(Settings.AppPrefrences.AppTheme);
@@ -151,19 +129,11 @@ namespace HealthApp.ViewModels
             return EnumsHelper.ConvertToString(appTheme);
         }
 
-        /// <summary>
-        /// Метод получающий все настройки пользователя
-        /// </summary>
-        /// <returns></returns>
         private async Task GetSettings()
         {
             await GetCustomer().ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Метод получающий текущего пользователя
-        /// </summary>
-        /// <returns></returns>
         private async Task GetCustomer()
         {
             string token = Settings.GetSetting(Settings.AppPrefrences.token);

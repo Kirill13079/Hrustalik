@@ -50,9 +50,22 @@ namespace HealthApp.Models
             }
         }
 
+        private ObservableRangeCollection<AuthorsAndCategoriesModel> _authorsAndСategories;
+        public ObservableRangeCollection<AuthorsAndCategoriesModel> AuthorsAndСategories
+        {
+            get { return _authorsAndСategories; }
+            set
+            {
+                _authorsAndСategories = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public TabModel()
         {
             Records = new ObservableRangeCollection<Record>();
+            AuthorsAndСategories = new ObservableRangeCollection<AuthorsAndCategoriesModel>();
 
             IsBusy = true;
         }

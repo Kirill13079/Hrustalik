@@ -12,17 +12,11 @@ using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
-    public class CategoryViewModel : BaseViewModel
+    public class CategoryNewsViewModel : BaseViewModel
     {
-        /// <summary>
-        /// Получить экземпляр этого класса
-        /// </summary>
-        private static readonly CategoryViewModel _instance = new CategoryViewModel();
-        public static CategoryViewModel Instance => _instance;
+        private static readonly CategoryNewsViewModel _instance = new CategoryNewsViewModel();
+        public static CategoryNewsViewModel Instance => _instance;
 
-        /// <summary>
-        /// Колекция доступных вкладок
-        /// </summary>
         private ObservableRangeCollection<TabModel> _tabCategoriesRecords;
         public ObservableRangeCollection<TabModel> TabCategoriesRecords
         { 
@@ -34,9 +28,6 @@ namespace HealthApp.ViewModels
             } 
         }
 
-        /// <summary>
-        /// Текущая вкладка
-        /// </summary>
         private TabModel _currentTab;
         public TabModel CurrentTab 
         {
@@ -48,17 +39,11 @@ namespace HealthApp.ViewModels
             } 
         }
 
-        /// <summary>
-        /// Команада обновления контента на вкладке
-        /// </summary>
         public ICommand RefreshCommand => new Command(async () => 
         {
             await LoadContentData(CurrentTab, isRefreshing: true);
         });
 
-        /// <summary>
-        /// Команда обновление всей информации
-        /// </summary>
         public ICommand ReloadCommand => new Command(async () => 
         {
             foreach (var tab in TabCategoriesRecords)
@@ -67,18 +52,12 @@ namespace HealthApp.ViewModels
             }
         });
 
-        /// <summary>
-        /// Команда для активации активной вкладки
-        /// </summary>
         public ICommand SelectActiveTabCommand => new Command((obj) => 
         {
             CurrentTab = (TabModel)obj;
         });
 
-        /// <summary>
-        /// Конструктор
-        /// </summary>
-        public CategoryViewModel()
+        public CategoryNewsViewModel()
         {
             TabCategoriesRecords = new ObservableRangeCollection<TabModel>();
             CurrentTab = new TabModel();
@@ -86,10 +65,6 @@ namespace HealthApp.ViewModels
             _ = GetData();
         }
 
-        /// <summary>
-        /// Метод загрузки всей информации
-        /// </summary>
-        /// <returns></returns>
         public async Task GetData()
         {
             if (TabCategoriesRecords.Any())
@@ -119,12 +94,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Метод загрузки контента
-        /// </summary>
-        /// <param name="tab">Активная вкладка</param>
-        /// <param name="isRefreshing">Если обновляем контент</param>
-        /// <returns></returns>
         private async Task LoadContentData(TabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
@@ -166,11 +135,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Получить список новостей из категории
-        /// </summary>
-        /// <param name="categoryId">Категория</param>
-        /// <returns></returns>
         private async Task<List<Record>> GetCategoryRecordsAsync(int categoryId)
         {
             string url = $"{ApiRoutes.BaseUrl}{ApiRoutes.GetCategoryRecords}?id={categoryId}";
@@ -195,10 +159,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Получить список всех категорий
-        /// </summary>
-        /// <returns></returns>
         private async Task<List<Category>> GetCategoriesAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetCategories;

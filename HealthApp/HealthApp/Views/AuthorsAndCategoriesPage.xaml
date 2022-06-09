@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:HealthApp.Views.Components.AuthorsAndCategoriesComponents" 
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
+             xmlns:controls="clr-namespace:HealthApp.Controls"
+             x:Class="HealthApp.Views.AuthorsAndCategoriesPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:AuthorsAndCategoriesComponentsDataTemplateSelector x:Key="AuthorsAndCategoriesDataTemplateSelector"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid RowSpacing="0"
+              RowDefinitions="45,*">
+            <ScrollView x:Name="scrollView"
+                            Grid.Row="0"
+                            HorizontalScrollBarVisibility="Never"
+                            Orientation="Horizontal"
+                            BackgroundColor="{DynamicResource PageBackgroundColor}">
+                <controls:CarouselIndicatorView x:Name="carousel"
+                                                Items="{Binding TabAuthorsAndCategoriesItems}"
+                                                CurrentItem="{Binding CurrentTab}"/>
+            </ScrollView>
+            <cards:CarouselView x:Name="carouselView"
+                                Grid.Row="1"
+                                BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                IsVerticalSwipeEnabled="False"
+                                ItemsSource="{Binding TabAuthorsAndCategoriesItems}"
+                                SelectedItem="{Binding CurrentTab}"
+                                SwipeThresholdDistance="50">
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView>
+                            <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
+                                  Padding="10,0">
+                                <ListView CachingStrategy="RecycleElement"
+                                          HasUnevenRows="True"
+                                          IsPullToRefreshEnabled="True"
+                                          IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
+                                          ItemTemplate="{StaticResource AuthorsAndCategoriesDataTemplateSelector}"
+                                          ItemsSource="{Binding AuthorsAndСategories}"
+                                          SelectionMode="None"
+                                          RefreshControlColor="{DynamicResource AccentColor}"
+                                          SeparatorVisibility="None">
+                                </ListView>
+                                <StackLayout HorizontalOptions="Center"
+                                             IsVisible="{Binding HasError}"
+                                             VerticalOptions="Center">
+                                    <Label FontFamily="Bold"
+                                           FontSize="55"
+                                           HorizontalOptions="Center"
+                                           Text="wifi"
+                                           TextColor="Gray" />
+                                    <StackLayout>
+                                        <Label FontAttributes="Bold"
+                                               FontSize="25"
+                                               HorizontalTextAlignment="Center"
+                                               Text="Что-то пошло не так"
+                                               TextColor="Gray" />
+                                        <Label FontAttributes="Bold"
+                                               FontSize="25"
+                                               HorizontalTextAlignment="Center"
+                                               Text="Нажмите, чтобы повторить попытку"
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                </StackLayout>
+                                <ActivityIndicator HorizontalOptions="Center"
+                                                   IsRunning="{Binding IsBusy}"
+                                                   VerticalOptions="Center" />
+                            </Grid>
+                        </ContentView>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

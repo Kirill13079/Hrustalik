@@ -113,10 +113,10 @@
                            Margin="10,0"
                            Padding="0"
                            CornerRadius="15"
-                           HeightRequest="60"
+                           HeightRequest="120"
                            HasShadow="False">
                         <Grid ColumnDefinitions="*"
-                              RowDefinitions="*">
+                              RowDefinitions="*,*">
                             <StackLayout Grid.Column="0" 
                                          Orientation="Horizontal"
                                          Padding="20,0"
@@ -129,6 +129,24 @@
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start"
                                        Text="Уведомления"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="0" 
+                                         Grid.Row="1"
+                                         Orientation="Horizontal"
+                                         Padding="20,0"
+                                         xtoll:TouchEffect.NativeAnimation="True">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AuthorsAndCategoriesPageCommand}"/>
+                                </StackLayout.GestureRecognizers>
+                                <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
+                                                                  HeightRequest="24"                                                       
+                                                                  Source="resource://HealthApp.Resources.Icons.notifications.svg"/>
+                                <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                                       Margin="10,0"
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start"
+                                       FontFamily="Meduim"
+                                       Text="Категории и авторы"/>
                             </StackLayout>
                         </Grid>
                     </Frame>
