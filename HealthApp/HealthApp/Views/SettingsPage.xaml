@@ -168,14 +168,14 @@
                             <ScrollView HorizontalScrollBarVisibility="Never"
                                         Orientation="Horizontal">
                                 <FlexLayout x:Name="themeList"
-                                        BindableLayout.ItemsSource="{Binding ThemeItems}">
+                                            BindableLayout.ItemsSource="{Binding ThemeItems}">
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate>
                                             <StackLayout Orientation="Horizontal"
-                                                     Margin="20,0,0,0">
+                                                         Margin="20,0,0,0">
                                                 <CheckBox IsChecked="{Binding IsActive}"
-                                                      Color="{DynamicResource AccentColor}"
-                                                      CheckedChanged="Theme_CheckedChanged">
+                                                          Color="{DynamicResource AccentColor}"
+                                                          CheckedChanged="Theme_CheckedChanged">
                                                 </CheckBox>
                                                 <Label x:Name="themeTitle"
                                                        Padding="0,0,30,0"                                                   

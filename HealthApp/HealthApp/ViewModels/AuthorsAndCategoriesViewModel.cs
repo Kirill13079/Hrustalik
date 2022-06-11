@@ -6,6 +6,8 @@ using MvvmHelpers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
@@ -35,6 +37,35 @@ namespace HealthApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public ICommand RefreshCommand => new Command(async () =>
+        {
+            switch (CurrentTab.Title.ToLower())
+            {
+                case "категории":
+                    await LoadCategoriesContentData(CurrentTab).ConfigureAwait(false);
+                    break;
+                case "авторы":
+                    await LoadAuhorsContentData(CurrentTab).ConfigureAwait(false);
+                    break;
+            }
+        });
+
+        public ICommand ReloadCommand => new Command(async () =>
+        {
+            foreach (var tab in TabAuthorsAndCategoriesItems)
+            {
+                switch (tab.Title.ToLower())
+                {
+                    case "категории":
+                        await LoadCategoriesContentData(tab).ConfigureAwait(false);
+                        break;
+                    case "авторы":
+                        await LoadAuhorsContentData(tab).ConfigureAwait(false);
+                        break;
+                }
+            }
+        });
 
         public AuthorsAndCategoriesViewModel()
         {
@@ -212,6 +243,11 @@ namespace HealthApp.ViewModels
             if (!string.IsNullOrWhiteSpace(result))
             {
                 var authors = JsonConvert.DeserializeObject<List<Author>>(result);
+
+                authors.ForEach((author) =>
+                {
+                    author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{author.Logo}";
+                });
 
                 return authors;
             }

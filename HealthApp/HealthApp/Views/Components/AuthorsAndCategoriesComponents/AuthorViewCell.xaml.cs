@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AuthorViewCell : ViewCell
+    public partial class AuthorViewCell : Grid
     {
         public AuthorViewCell()
         {
@@ -21,7 +22,14 @@ namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
         {
             base.OnBindingContextChanged();
 
-            var bindingContext = BindingContext as Common.Model.Author;
+            var bindingContext = BindingContext as AuthorsAndCategoriesModel;
+
+            if (bindingContext != null)
+            {
+                name.Text = bindingContext.Author.Name;
+                //description.Text = bindingContext.Author.Description;
+                authorImage.Source = bindingContext.Author.Logo;
+            }
         }
     }
 }

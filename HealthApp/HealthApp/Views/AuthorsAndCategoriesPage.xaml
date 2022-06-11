@@ -37,19 +37,22 @@
                         <ContentView>
                             <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
                                   Padding="10,0">
-                                <ListView CachingStrategy="RecycleElement"
-                                          HasUnevenRows="True"
-                                          IsPullToRefreshEnabled="True"
-                                          IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
-                                          ItemTemplate="{StaticResource AuthorsAndCategoriesDataTemplateSelector}"
-                                          ItemsSource="{Binding AuthorsAndСategories}"
-                                          SelectionMode="None"
-                                          RefreshControlColor="{DynamicResource AccentColor}"
-                                          SeparatorVisibility="None">
-                                </ListView>
+                                <CollectionView ItemTemplate="{StaticResource AuthorsAndCategoriesDataTemplateSelector}"
+                                                ItemsSource="{Binding AuthorsAndСategories}"
+                                                SelectionMode="None">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical"
+                                                         Span="2" 
+                                                         VerticalItemSpacing="10"
+                                                         HorizontalItemSpacing="10"/>
+                                    </CollectionView.ItemsLayout>
+                                </CollectionView>
                                 <StackLayout HorizontalOptions="Center"
                                              IsVisible="{Binding HasError}"
                                              VerticalOptions="Center">
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCommand, Source={x:Reference carouselView}}" />
+                                    </StackLayout.GestureRecognizers>
                                     <Label FontFamily="Bold"
                                            FontSize="55"
                                            HorizontalOptions="Center"

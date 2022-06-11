@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CategoryViewCell : ViewCell
+    public partial class CategoryViewCell : Grid
     {
         public CategoryViewCell()
         {

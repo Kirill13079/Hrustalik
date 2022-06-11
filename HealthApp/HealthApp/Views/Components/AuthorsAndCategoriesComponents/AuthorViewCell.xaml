@@ -1,10 +1,36 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthApp.Views.Components.AuthorsAndCategoriesComponents.AuthorViewCell">
-  <ViewCell.View>
-      <StackLayout>
-          <Label Text="Author" />
-      </StackLayout>
-  </ViewCell.View>
-</ViewCell>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+      x:Class="HealthApp.Views.Components.AuthorsAndCategoriesComponents.AuthorViewCell"
+      Margin="0,5">
+    <Frame HeightRequest="120"
+           Padding="20,20,20,15"
+           HasShadow="False"
+           CornerRadius="15"
+           BackgroundColor="{DynamicResource ComponentColor}">
+        <StackLayout Spacing="10">
+            <StackLayout HeightRequest="60"
+                         Orientation="Horizontal">
+                <Frame Padding="0"
+                       CornerRadius="40"
+                       WidthRequest="60"
+                       HorizontalOptions="StartAndExpand">
+                    <ffimageloading:CachedImage x:Name="authorImage" 
+                                                Aspect="AspectFill"
+                                                DownsampleToViewSize="True"
+                                                DownsampleUseDipUnits="True"
+                                                HeightRequest="60"/>
+                </Frame>
+                <CheckBox Color="{DynamicResource AccentColor}"
+                          VerticalOptions="Start">
+                </CheckBox>
+            </StackLayout>
+            <Label x:Name="name" 
+                   FontFamily="Bold"
+                   LineBreakMode="TailTruncation"
+                   MaxLines="2"
+                   TextColor="White"
+                   FontSize="{StaticResource HeadLabelFontSize}"/>
+        </StackLayout>
+    </Frame>
+</Grid>

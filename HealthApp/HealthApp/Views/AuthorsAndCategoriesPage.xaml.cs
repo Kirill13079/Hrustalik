@@ -21,5 +21,14 @@ namespace HealthApp.Views
 
             BindingContext = ViewModels.AuthorsAndCategoriesViewModel.Instance;
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            //var bindingContext = BindingContext as ViewModels.CategoryNewsViewModel;
+
+            //bindingContext.CurrentTab = bindingContext.TabCategoriesRecords[0];
+        }
     }
 }
