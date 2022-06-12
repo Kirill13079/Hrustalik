@@ -18,5 +18,16 @@ namespace HealthApp.Models
             get { return _author; }
             set { _author = value; }
         }
+
+        private bool _isActive;
+        public bool IsActive
+        {
+            get => _isActive;
+            set
+            {
+                _isActive = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

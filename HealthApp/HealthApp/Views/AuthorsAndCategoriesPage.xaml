@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:HealthApp.Views.Components.AuthorsAndCategoriesComponents" 
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
-             xmlns:controls="clr-namespace:HealthApp.Controls"
+             xmlns:controls="clr-namespace:HealthApp.Controls" 
+             xmlns:vm="clr-namespace:HealthApp.ViewModels"
              x:Class="HealthApp.Views.AuthorsAndCategoriesPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
+    <ContentPage.BindingContext>
+        <vm:AuthorsAndCategoriesViewModel x:Name="vm"/>
+    </ContentPage.BindingContext>
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:AuthorsAndCategoriesComponentsDataTemplateSelector x:Key="AuthorsAndCategoriesDataTemplateSelector"/>
@@ -17,10 +22,10 @@
         <Grid RowSpacing="0"
               RowDefinitions="45,*">
             <ScrollView x:Name="scrollView"
-                            Grid.Row="0"
-                            HorizontalScrollBarVisibility="Never"
-                            Orientation="Horizontal"
-                            BackgroundColor="{DynamicResource PageBackgroundColor}">
+                        Grid.Row="0"
+                        HorizontalScrollBarVisibility="Never"
+                        Orientation="Horizontal"
+                        BackgroundColor="{DynamicResource PageBackgroundColor}">
                 <controls:CarouselIndicatorView x:Name="carousel"
                                                 Items="{Binding TabAuthorsAndCategoriesItems}"
                                                 CurrentItem="{Binding CurrentTab}"/>

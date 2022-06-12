@@ -48,6 +48,7 @@ namespace HealthApp.Controls
                 if (newValue == tabGesture.CommandParameter)
                 {
                     x.MoveActiveIndicator(label);
+
                     return;
                 }
             }
@@ -62,6 +63,11 @@ namespace HealthApp.Controls
             { 
                 (Parent.Parent.Parent as Views.CategoryNewsPage).ScrollListCommand.Execute(null);
             }
+
+            if (Parent.Parent.Parent is Views.AuthorsAndCategoriesPage)
+            {
+                (Parent.Parent.Parent as Views.AuthorsAndCategoriesPage).ScrollListCommand.Execute(null);
+            }
         }
 
         private void ChangeTab(object sender, System.EventArgs e)
@@ -71,6 +77,7 @@ namespace HealthApp.Controls
                 if (item == ((TappedEventArgs)e).Parameter)
                 {
                     CurrentItem = item;
+
                     return;
                 }
             }

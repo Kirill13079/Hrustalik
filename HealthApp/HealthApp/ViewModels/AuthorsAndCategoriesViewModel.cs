@@ -1,10 +1,12 @@
-﻿using HealthApp.Common.Model;
+﻿using HealthApp.AppSettings;
+using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -13,8 +15,7 @@ namespace HealthApp.ViewModels
 {
     public class AuthorsAndCategoriesViewModel : BaseViewModel
     {
-        private static readonly AuthorsAndCategoriesViewModel _instance = new AuthorsAndCategoriesViewModel();
-        public static AuthorsAndCategoriesViewModel Instance => _instance;
+        public static AuthorsAndCategoriesViewModel Instance => new AuthorsAndCategoriesViewModel();
 
         private ObservableRangeCollection<TabModel> _tabAuthorsAndCategoriesItems;
         public ObservableRangeCollection<TabModel> TabAuthorsAndCategoriesItems
@@ -69,6 +70,7 @@ namespace HealthApp.ViewModels
 
         public AuthorsAndCategoriesViewModel()
         {
+            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<TabModel>();
             CurrentTab = new TabModel();
 
             _ = GetData();
@@ -76,7 +78,12 @@ namespace HealthApp.ViewModels
 
         private async Task GetData()
         {
-            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<TabModel>()
+            if (TabAuthorsAndCategoriesItems.Any())
+            {
+                TabAuthorsAndCategoriesItems.Clear();
+            }
+
+            var tabModel = new ObservableRangeCollection<TabModel>()
             {
                 {
                     new TabModel
@@ -92,6 +99,9 @@ namespace HealthApp.ViewModels
                 }
             };
 
+            await Task.Delay(250);
+
+            TabAuthorsAndCategoriesItems = tabModel;
             CurrentTab = TabAuthorsAndCategoriesItems[0];
 
             foreach (var tab in TabAuthorsAndCategoriesItems)
@@ -273,6 +283,50 @@ namespace HealthApp.ViewModels
             {
                 return null;
             }
+        }
+
+        private List<Author> GetSavedUserAuthors()
+        {
+            string userAuthors = Settings.GetSetting(Settings.AppPrefrences.Authors);
+
+            if (userAuthors != null)
+            {
+                return JsonConvert.DeserializeObject<List<Author>>(userAuthors);
+            }
+
+            return null;
+        }
+
+        public async Task AddUserAuthors(Author author)
+        {
+            var savedUserAuthors = GetSavedUserAuthors();
+
+            if (savedUserAuthors != null)
+            {
+                savedUserAuthors = new List<Author>();
+            }
+
+            savedUserAuthors.Add(author);
+
+            string userAuthorsJson = JsonConvert.SerializeObject(savedUserAuthors);
+
+            Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
+        }
+
+        public void RemoveUserAuthors(Author author)
+        {
+            var savedUserAuthors = GetSavedUserAuthors();
+
+            if (savedUserAuthors != null)
+            {
+                savedUserAuthors.Remove(author);
+
+                //MainNewsViewModel.Instance.MainTabModel.Remove(removableTabItem);
+            }
+
+            string userAuthorsJson = JsonConvert.SerializeObject(savedUserAuthors);
+
+            Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
         }
     }
 }

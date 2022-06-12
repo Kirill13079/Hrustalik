@@ -21,7 +21,9 @@
                                                 DownsampleUseDipUnits="True"
                                                 HeightRequest="60"/>
                 </Frame>
-                <CheckBox Color="{DynamicResource AccentColor}"
+                <CheckBox x:Name="active"
+                          Color="{DynamicResource AccentColor}"
+                          CheckedChanged="AuthorCheckedChanged"
                           VerticalOptions="Start">
                 </CheckBox>
             </StackLayout>

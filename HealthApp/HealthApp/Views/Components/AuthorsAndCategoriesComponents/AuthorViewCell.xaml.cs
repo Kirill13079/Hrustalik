@@ -1,10 +1,5 @@
-﻿using HealthApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using HealthApp.Common.Model;
+using HealthApp.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,6 +8,8 @@ namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AuthorViewCell : Grid
     {
+        private AuthorsAndCategoriesModel _bindingContext;
+
         public AuthorViewCell()
         {
             InitializeComponent();
@@ -22,14 +19,19 @@ namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
         {
             base.OnBindingContextChanged();
 
-            var bindingContext = BindingContext as AuthorsAndCategoriesModel;
+            _bindingContext = BindingContext as AuthorsAndCategoriesModel;
 
-            if (bindingContext != null)
+            if (_bindingContext != null)
             {
-                name.Text = bindingContext.Author.Name;
-                //description.Text = bindingContext.Author.Description;
-                authorImage.Source = bindingContext.Author.Logo;
+                name.Text = _bindingContext.Author.Name;
+                active.IsChecked = _bindingContext.IsActive;
+                authorImage.Source = _bindingContext.Author.Logo;
             }
+        }
+
+        private void AuthorCheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
         }
     }
 }

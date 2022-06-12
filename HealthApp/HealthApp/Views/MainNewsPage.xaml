@@ -75,7 +75,7 @@
                                        FontSize="{StaticResource HeadLabelFontSize}"/>
                                 <StackLayout Orientation="Horizontal">
                                     <StackLayout Orientation="Horizontal">
-                                        <Frame Padding="0"
+                                         <Frame Padding="0"
                                                CornerRadius="10">
                                             <ffimageloading:CachedImage Source="{Binding MainTabModel.HotRecord.Author.Logo}" 
                                                                         Aspect="AspectFill"
