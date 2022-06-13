@@ -1,6 +1,7 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
+using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
@@ -130,15 +131,24 @@ namespace HealthApp.ViewModels
 
                     var authors = await GetAuthorsAsync();
 
+                    var savedUserAuthors = AuthorsAndCategoriesHelper.GetSavedUserAuthors();
+
                     var articles = new List<AuthorsAndCategoriesModel>();
 
                     foreach (var author in authors)
                     {
-                        articles.Add(new AuthorsAndCategoriesModel
+                        var article = new AuthorsAndCategoriesModel 
+                        { 
+                            Category = null, 
+                            Author = author 
+                        };
+
+                        if (savedUserAuthors.Where(x => x.Id == article.Author.Id).Count() != 0)
                         {
-                            Category = null,
-                            Author = author
-                        });
+                            article.IsActive = true;
+                        }
+
+                        articles.Add(article);
                     }
 
                     tab.AuthorsAndСategories.AddRange(articles);
@@ -151,15 +161,24 @@ namespace HealthApp.ViewModels
 
                     var authors = await GetAuthorsAsync();
 
+                    var savedUserAuthors = AuthorsAndCategoriesHelper.GetSavedUserAuthors();
+
                     var articles = new List<AuthorsAndCategoriesModel>();
 
                     foreach (var author in authors)
                     {
-                        articles.Add(new AuthorsAndCategoriesModel
+                        var article = new AuthorsAndCategoriesModel
                         {
                             Category = null,
                             Author = author
-                        });
+                        };
+
+                        if (savedUserAuthors.Where(x => x.Id == article.Author.Id).Count() != 0)
+                        {
+                            article.IsActive = true;
+                        }
+
+                        articles.Add(article);
                     }
 
                     tab.AuthorsAndСategories.ReplaceRange(articles);
@@ -283,50 +302,6 @@ namespace HealthApp.ViewModels
             {
                 return null;
             }
-        }
-
-        private List<Author> GetSavedUserAuthors()
-        {
-            string userAuthors = Settings.GetSetting(Settings.AppPrefrences.Authors);
-
-            if (userAuthors != null)
-            {
-                return JsonConvert.DeserializeObject<List<Author>>(userAuthors);
-            }
-
-            return null;
-        }
-
-        public async Task AddUserAuthors(Author author)
-        {
-            var savedUserAuthors = GetSavedUserAuthors();
-
-            if (savedUserAuthors != null)
-            {
-                savedUserAuthors = new List<Author>();
-            }
-
-            savedUserAuthors.Add(author);
-
-            string userAuthorsJson = JsonConvert.SerializeObject(savedUserAuthors);
-
-            Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
-        }
-
-        public void RemoveUserAuthors(Author author)
-        {
-            var savedUserAuthors = GetSavedUserAuthors();
-
-            if (savedUserAuthors != null)
-            {
-                savedUserAuthors.Remove(author);
-
-                //MainNewsViewModel.Instance.MainTabModel.Remove(removableTabItem);
-            }
-
-            string userAuthorsJson = JsonConvert.SerializeObject(savedUserAuthors);
-
-            Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
         }
     }
 }
