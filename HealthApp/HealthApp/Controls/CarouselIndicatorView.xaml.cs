@@ -42,16 +42,16 @@ namespace HealthApp.Controls
             var x = (CarouselIndicatorView)bindable;
             var labelContainer = x.FindByName("myList") as FlexLayout;
 
-            foreach (Label label in labelContainer.Children)
-            {
-                var tabGesture = label.GestureRecognizers[0] as TapGestureRecognizer;
-                if (newValue == tabGesture.CommandParameter)
-                {
-                    x.MoveActiveIndicator(label);
+            //foreach (Label label in labelContainer.Children)
+            //{
+            //    var tabGesture = label.GestureRecognizers[0] as TapGestureRecognizer;
+            //    if (newValue == tabGesture.CommandParameter)
+            //    {
+            //        x.MoveActiveIndicator(label);
 
-                    return;
-                }
-            }
+            //        return;
+            //    }
+            //}
         }
 
         private void MoveActiveIndicator(Label target)

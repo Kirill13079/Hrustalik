@@ -1,5 +1,7 @@
 ﻿using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
+using HealthApp.Extensions;
+using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
@@ -14,37 +16,50 @@ namespace HealthApp.ViewModels
 {
     public class CategoryNewsViewModel : BaseViewModel
     {
-        private static readonly CategoryNewsViewModel _instance = new CategoryNewsViewModel();
-        public static CategoryNewsViewModel Instance => _instance;
+        private List<Author> _savedUserAuthors;
+
+        private static CategoryNewsViewModel _instance;
+        public static CategoryNewsViewModel Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new CategoryNewsViewModel();
+                }
+
+                return _instance;
+            }
+        }
 
         private ObservableRangeCollection<TabModel> _tabCategoriesRecords;
         public ObservableRangeCollection<TabModel> TabCategoriesRecords
-        { 
-            get => _tabCategoriesRecords; 
-            set 
-            { 
-                _tabCategoriesRecords = value; 
-                OnPropertyChanged(); 
-            } 
+        {
+            get => _tabCategoriesRecords;
+            set
+            {
+                _tabCategoriesRecords = value;
+                OnPropertyChanged();
+            }
         }
 
         private TabModel _currentTab;
-        public TabModel CurrentTab 
+        public TabModel CurrentTab
         {
-            get => _currentTab; 
-            set 
+            get => _currentTab;
+            set
             {
-                _currentTab = value; 
-                OnPropertyChanged(); 
-            } 
+                _currentTab = value;
+                OnPropertyChanged();
+            }
         }
 
-        public ICommand RefreshCommand => new Command(async () => 
+        public ICommand RefreshCommand => new Command(async () =>
         {
             await LoadContentData(CurrentTab, isRefreshing: true);
         });
 
-        public ICommand ReloadCommand => new Command(async () => 
+        public ICommand ReloadCommand => new Command(async () =>
         {
             foreach (var tab in TabCategoriesRecords)
             {
@@ -52,14 +67,16 @@ namespace HealthApp.ViewModels
             }
         });
 
-        public ICommand SelectActiveTabCommand => new Command((obj) => 
+        public ICommand SelectActiveTabCommand => new Command((obj) =>
         {
             CurrentTab = (TabModel)obj;
         });
 
         public CategoryNewsViewModel()
         {
+            _savedUserAuthors = new List<Author>();
             TabCategoriesRecords = new ObservableRangeCollection<TabModel>();
+
             CurrentTab = new TabModel();
 
             _ = GetData();
@@ -104,7 +121,11 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
+                    _savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
+
                     var articles = await GetCategoryRecordsAsync(tab.Page);
+
+                    articles.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
 
                     tab.Records.AddRange(articles);
 
@@ -114,9 +135,14 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
+                    _savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
+
                     var articles = await GetCategoryRecordsAsync(tab.Page);
 
+                    articles.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+
                     tab.Records.ReplaceRange(articles);
+
                     tab.IsRefreshing = false;
                 }
 

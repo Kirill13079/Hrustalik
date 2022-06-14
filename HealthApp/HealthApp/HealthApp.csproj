@@ -103,10 +103,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\CircleCheckboxView.xaml.cs">
+      <DependentUpon>CircleCheckboxView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CarouselIndicatorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\CircleCheckboxView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Styles\DarkTheme.xaml">

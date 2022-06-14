@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      x:Class="HealthApp.Controls.CircleCheckboxView"
+      xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      mc:Ignorable="d"
+      RowDefinitions="30">
+    <Frame Padding="0"
+           CornerRadius="20"
+           WidthRequest="30"
+           HorizontalOptions="End"
+           BackgroundColor="{DynamicResource AccentColor}">
+        <Frame Padding="0"
+               Margin="1"
+               CornerRadius="20"
+               WidthRequest="30"
+               HorizontalOptions="End"
+               BackgroundColor="{DynamicResource ComponentColor}">
+        </Frame>
+    </Frame>
+    <Frame x:Name="checkboxChecked"
+           IsVisible="false"
+           Margin="5"
+           Padding="0"
+           CornerRadius="20"
+           WidthRequest="20"
+           HorizontalOptions="End"
+           BackgroundColor="{DynamicResource AccentColor}">
+    </Frame>
+</Grid>

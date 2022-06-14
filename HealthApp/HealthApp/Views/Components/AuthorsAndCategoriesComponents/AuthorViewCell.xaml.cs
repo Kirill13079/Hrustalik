@@ -10,7 +10,6 @@ namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
     public partial class AuthorViewCell : Grid
     {
         private AuthorsAndCategoriesModel _bindingContext;
-        private bool _isInitialized = false;
 
         public AuthorViewCell()
         {
@@ -26,32 +25,36 @@ namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
             if (_bindingContext != null)
             {
                 name.Text = _bindingContext.Author.Name;
-                active.IsChecked = _bindingContext.IsActive;
+                checkbox.IsActive = _bindingContext.IsActive;
                 authorImage.Source = _bindingContext.Author.Logo;
             }
-
-            _isInitialized = true;
         }
 
-        private void AuthorCheckedChanged(object sender, CheckedChangedEventArgs e)
+        private async void AuthorCheckedTapped(object sender, System.EventArgs e)
         {
-            var checkBox = (CheckBox)sender;
+            AuthorsHelper.GetSavedUserAuthors();
 
-            if (_isInitialized)
+            if (_bindingContext.IsActive)
             {
-                if (_bindingContext.IsActive)
+                if (AuthorsHelper.SavedUserAuthors.Count == 1)
                 {
-                    _bindingContext.IsActive = false;
-
-                    AuthorsAndCategoriesHelper.RemoveUserAuthors(_bindingContext.Author);
+                    await Application.Current.MainPage.DisplayAlert("Внимание", "Необходимо оставить хотя бы одного автора", "Понятно");
                 }
                 else
                 {
-                    _bindingContext.IsActive = true;
+                    _bindingContext.IsActive = false;
 
-                    AuthorsAndCategoriesHelper.AddUserAuthors(_bindingContext.Author);
+                    AuthorsHelper.RemoveUserAuthors(_bindingContext.Author);
                 }
             }
+            else
+            {
+                _bindingContext.IsActive = true;
+
+                AuthorsHelper.AddUserAuthors(_bindingContext.Author);
+            }
+
+            checkbox.IsActive = _bindingContext.IsActive;
         }
     }
 }

@@ -131,7 +131,7 @@ namespace HealthApp.ViewModels
 
                     var authors = await GetAuthorsAsync();
 
-                    var savedUserAuthors = AuthorsAndCategoriesHelper.GetSavedUserAuthors();
+                    var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
                     var articles = new List<AuthorsAndCategoriesModel>();
 
@@ -161,7 +161,7 @@ namespace HealthApp.ViewModels
 
                     var authors = await GetAuthorsAsync();
 
-                    var savedUserAuthors = AuthorsAndCategoriesHelper.GetSavedUserAuthors();
+                    var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
                     var articles = new List<AuthorsAndCategoriesModel>();
 

@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Grid xmlns="http://xamarin.com/schemas/2014/forms" 
-      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+      xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
       x:Class="HealthApp.Views.Components.AuthorsAndCategoriesComponents.AuthorViewCell"
+      xmlns:controls="clr-namespace:HealthApp.Controls"
       Margin="0,5">
     <Frame HeightRequest="120"
            Padding="20,20,20,15"
@@ -21,17 +23,16 @@
                                                 DownsampleUseDipUnits="True"
                                                 HeightRequest="60"/>
                 </Frame>
-                <CheckBox x:Name="active"
-                          Color="{DynamicResource AccentColor}"
-                          CheckedChanged="AuthorCheckedChanged"
-                          VerticalOptions="Start">
-                </CheckBox>
+                <controls:CircleCheckboxView x:Name="checkbox">
+                    <controls:CircleCheckboxView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AuthorCheckedTapped"/>
+                    </controls:CircleCheckboxView.GestureRecognizers>
+                </controls:CircleCheckboxView>
             </StackLayout>
             <Label x:Name="name" 
                    FontFamily="Bold"
                    LineBreakMode="TailTruncation"
                    MaxLines="2"
-                   TextColor="White"
                    FontSize="{StaticResource HeadLabelFontSize}"/>
         </StackLayout>
     </Frame>

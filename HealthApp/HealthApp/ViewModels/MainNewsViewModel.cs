@@ -1,5 +1,7 @@
 ﻿using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
+using HealthApp.Extensions;
+using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
@@ -12,12 +14,25 @@ namespace HealthApp.ViewModels
 {
     public class MainNewsViewModel : BaseViewModel
     {
-        private static readonly MainNewsViewModel _instance = new MainNewsViewModel();
-        public static MainNewsViewModel Instance => _instance;
-
         private int _pageSize = 10;
         private int _takeRecord = 1;
         private int _skipRecords = 0;
+
+        private List<Author> _savedUserAuthors;
+
+        private static MainNewsViewModel _instance;
+        public static MainNewsViewModel Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new MainNewsViewModel();
+                }
+
+                return _instance;
+            }
+        }
 
         private MainTabModel _mainTabModel;
         public MainTabModel MainTabModel
@@ -32,34 +47,36 @@ namespace HealthApp.ViewModels
 
         public MainNewsViewModel()
         {
+            _savedUserAuthors = new List<Author>();
+
             MainTabModel = new MainTabModel();
 
             _ = GetData();
         }
 
-        private async Task GetData()
+        public async Task GetData()
         {
             if (MainTabModel.SubTabModel.Any())
             {
                 MainTabModel.SubTabModel.Clear();
             }
 
+            if (MainTabModel.Records.Any())
+            {
+                MainTabModel.Records.Clear();
+            }
+
             for (int page = 0; page <= _pageSize; page++)
             {
-                MainTabModel.SubTabModel.Add(new TabModel 
-                { 
-                    Page = page 
+                MainTabModel.SubTabModel.Add(new TabModel
+                {
+                    Page = page
                 });
             }
 
             MainTabModel.HotRecord = await GetHotRecordAsync();
 
-            var records = await GetRecordsAsync();
-
-            foreach (var record in records)
-            {
-                MainTabModel.Records.Add(record);
-            }
+            await LoadRecordsContentData().ConfigureAwait(false);
 
             _skipRecords = 0;
 
@@ -67,11 +84,22 @@ namespace HealthApp.ViewModels
             {
                 _skipRecords++;
 
-                await LoadPopularContentData(tab).ConfigureAwait(false);
+                await LoadPopularRecordsContentData(tab).ConfigureAwait(false);
             }
         }
 
-        private async Task LoadPopularContentData(TabModel tab, bool isRefreshing = false)
+        private async Task LoadRecordsContentData()
+        {
+            var records = await GetRecordsAsync();
+
+            _savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
+
+            records.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+
+            MainTabModel.Records.AddRange(records);
+        }
+
+        private async Task LoadPopularRecordsContentData(TabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -83,6 +111,8 @@ namespace HealthApp.ViewModels
 
                     var records = await GetPopularsRecordAsync();
 
+                    records.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+
                     tab.Records.AddRange(records);
 
                     tab.IsBusy = false;
@@ -93,7 +123,10 @@ namespace HealthApp.ViewModels
 
                     var records = await GetPopularsRecordAsync();
 
+                    records.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+
                     tab.Records.ReplaceRange(records);
+
                     tab.IsRefreshing = false;
                 }
 
