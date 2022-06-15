@@ -25,7 +25,7 @@
                 </Frame>
                 <controls:CircleCheckboxView x:Name="checkbox">
                     <controls:CircleCheckboxView.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="AuthorCheckedTapped"/>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                     </controls:CircleCheckboxView.GestureRecognizers>
                 </controls:CircleCheckboxView>
             </StackLayout>
@@ -33,6 +33,7 @@
                    FontFamily="Bold"
                    LineBreakMode="TailTruncation"
                    MaxLines="2"
+                   TextColor="White"
                    FontSize="{StaticResource HeadLabelFontSize}"/>
         </StackLayout>
     </Frame>

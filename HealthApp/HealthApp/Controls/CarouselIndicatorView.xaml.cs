@@ -42,31 +42,33 @@ namespace HealthApp.Controls
             var x = (CarouselIndicatorView)bindable;
             var labelContainer = x.FindByName("myList") as FlexLayout;
 
-            //foreach (Label label in labelContainer.Children)
-            //{
-            //    var tabGesture = label.GestureRecognizers[0] as TapGestureRecognizer;
-            //    if (newValue == tabGesture.CommandParameter)
-            //    {
-            //        x.MoveActiveIndicator(label);
+            foreach (Label label in labelContainer.Children)
+            {
+                var tabGesture = label.GestureRecognizers[0] as TapGestureRecognizer;
 
-            //        return;
-            //    }
-            //}
+                if (newValue == tabGesture.CommandParameter)
+                {
+                    x.MoveActiveIndicator(label);
+
+                    return;
+                }
+            }
         }
 
         private void MoveActiveIndicator(Label target)
         {
             var width = target.Width - activeIndicator.Width;
+
             activeIndicator.TranslateTo(target.X + (width / 2), 0, 100, Easing.Linear);
 
             if (Parent.Parent.Parent is Views.CategoryNewsPage)
-            { 
-                (Parent.Parent.Parent as Views.CategoryNewsPage).ScrollListCommand.Execute(null);
-            }
-
-            if (Parent.Parent.Parent is Views.AuthorsAndCategoriesPage)
             {
-                (Parent.Parent.Parent as Views.AuthorsAndCategoriesPage).ScrollListCommand.Execute(null);
+                var page = Parent.Parent.Parent as Views.CategoryNewsPage;
+
+                if (page.ScrollListCommand != null)
+                {
+                    page.ScrollListCommand.Execute(null);
+                }
             }
         }
 

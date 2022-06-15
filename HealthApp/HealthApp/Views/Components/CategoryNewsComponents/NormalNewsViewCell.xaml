@@ -8,7 +8,7 @@
           x:Name="newsViewCell">
 
     <Frame BackgroundColor="{DynamicResource ComponentColor}"
-           Padding="20,20,20,20"
+           Padding="20,20,10,20"
            Margin="0,5"
            HeightRequest="170"
            CornerRadius="15"
@@ -32,7 +32,8 @@
             <StackLayout Grid.Column="1" 
                          Orientation="Vertical"
                          Padding="10,0,0,0">
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal"
+                             HeightRequest="25">
                     <Label x:Name="data"
                            FontFamily="Regular"
                            LineBreakMode="TailTruncation"
@@ -41,15 +42,14 @@
                            VerticalOptions="Center"
                            FontSize="{StaticResource SmallLabelFontSize}"/>
                     <Frame Padding="0"
-                           HorizontalOptions="EndAndExpand"
-                           TranslationX="10">
+                           HorizontalOptions="EndAndExpand">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                         </Frame.GestureRecognizers>
                         <controls:TintedCachedImage  SvgSource="HealthApp.Resources.Icons.more.svg"
-                                                     HeightRequest="30"
+                                                     HeightRequest="25"
                                                      WidthRequest="25"
-                                                     TintColor="{DynamicResource AccentColor}"
+                                                     TintColor="{DynamicResource SkeletonColor}"
                                                      Aspect="AspectFill">
                         </controls:TintedCachedImage>
                     </Frame>
@@ -59,9 +59,11 @@
                        FontAttributes="Bold"
                        FontSize="{StaticResource BodyLabelFontSize}"
                        LineBreakMode="TailTruncation"
-                       MaxLines="6"/>
+                       MaxLines="6"
+                       Padding="0,0,10,0"/>
                 <StackLayout Orientation="Horizontal"
-                             VerticalOptions="EndAndExpand">
+                             VerticalOptions="EndAndExpand"
+                             Padding="0,0,10,0">
                     <Frame Padding="0"
                            CornerRadius="10"
                            xtoll:TouchEffect.NativeAnimation="True">

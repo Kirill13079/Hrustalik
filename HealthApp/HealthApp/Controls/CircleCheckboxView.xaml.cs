@@ -16,7 +16,7 @@ namespace HealthApp.Controls
 
         public object IsActive
         {
-            get => GetValue(IsActiveProperty); 
+            get => GetValue(IsActiveProperty);
             set => SetValue(IsActiveProperty, value);
         }
 
@@ -24,7 +24,7 @@ namespace HealthApp.Controls
         {
             InitializeComponent();
 
-            checkboxChecked.IsVisible = (bool)IsActive;
+            checkboxChecked.IsChecked = (bool)IsActive;
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -33,7 +33,7 @@ namespace HealthApp.Controls
 
             if (propertyName == IsActiveProperty.PropertyName)
             {
-                checkboxChecked.IsVisible = (bool)IsActive;
+                checkboxChecked.IsChecked = (bool)IsActive;
             }
         }
     }

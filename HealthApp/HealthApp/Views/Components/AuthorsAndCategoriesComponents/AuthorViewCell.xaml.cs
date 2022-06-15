@@ -30,7 +30,7 @@ namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
             }
         }
 
-        private async void AuthorCheckedTapped(object sender, System.EventArgs e)
+        private async void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
             AuthorsHelper.GetSavedUserAuthors();
 
