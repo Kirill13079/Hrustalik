@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HealthApp.Common.Model
+﻿namespace HealthApp.Common.Model
 {
     public class Category
     {
@@ -10,9 +8,31 @@ namespace HealthApp.Common.Model
 
         public string Image { get; set; }
 
-        public T DeserializeObject<T>(string parameter)
+        public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return Id.GetHashCode();
+        }
+
+        protected static bool EqualsHelper(Category first, Category second)
+        {
+            return first.Id == second.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+            {
+                return true;
+            }
+
+            var other = obj as Category;
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return EqualsHelper(this, other);
         }
     }
 }

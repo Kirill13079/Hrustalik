@@ -6,6 +6,7 @@ using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,18 +15,19 @@ using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
-    public class CategoryNewsViewModel : BaseViewModel
+    public class CategoriesNewsViewModel : BaseViewModel
     {
         private List<Author> _savedUserAuthors;
+        private List<Category> _savedUserCategories;
 
-        private static CategoryNewsViewModel _instance;
-        public static CategoryNewsViewModel Instance
+        private static CategoriesNewsViewModel _instance;
+        public static CategoriesNewsViewModel Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new CategoryNewsViewModel();
+                    _instance = new CategoriesNewsViewModel();
                 }
 
                 return _instance;
@@ -72,9 +74,10 @@ namespace HealthApp.ViewModels
             CurrentTab = (TabModel)obj;
         });
 
-        public CategoryNewsViewModel()
+        public CategoriesNewsViewModel()
         {
             _savedUserAuthors = new List<Author>();
+            _savedUserCategories = new List<Category>();
             TabCategoriesRecords = new ObservableRangeCollection<TabModel>();
 
             CurrentTab = new TabModel();
@@ -90,6 +93,12 @@ namespace HealthApp.ViewModels
             }
 
             var categories = await GetCategoriesAsync();
+
+            _savedUserCategories = CategoriesHelper.GetSavedUserCategories();
+
+            Predicate<Category> removedCategories = (Category category) => !_savedUserCategories.EqualsHelper(category);
+
+            categories.RemoveAll(category => removedCategories(category));
 
             var tabItems = new ObservableRangeCollection<TabModel>();
 
@@ -125,7 +134,9 @@ namespace HealthApp.ViewModels
 
                     var articles = await GetCategoryRecordsAsync(tab.Page);
 
-                    articles.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+                    Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
+
+                    articles.RemoveAll(article => removedAuthors(article.Author));
 
                     tab.Records.AddRange(articles);
 
@@ -139,7 +150,9 @@ namespace HealthApp.ViewModels
 
                     var articles = await GetCategoryRecordsAsync(tab.Page);
 
-                    articles.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+                    Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
+
+                    articles.RemoveAll(article => removedAuthors(article.Author));
 
                     tab.Records.ReplaceRange(articles);
 

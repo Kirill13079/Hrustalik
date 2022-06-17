@@ -1,17 +1,16 @@
-﻿using HealthApp.Common.Model;
-using HealthApp.Helpers;
+﻿using HealthApp.Helpers;
 using HealthApp.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
+namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AuthorViewCell : Grid
+    public partial class CategoryViewCell : Grid
     {
         private AuthorsAndCategoriesModel _bindingContext;
 
-        public AuthorViewCell()
+        public CategoryViewCell()
         {
             InitializeComponent();
         }
@@ -24,34 +23,34 @@ namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
 
             if (_bindingContext != null)
             {
-                name.Text = _bindingContext.Author.Name;
+                name.Text = _bindingContext.Category.Name;
                 checkbox.IsActive = _bindingContext.IsActive;
-                authorImage.Source = _bindingContext.Author.Logo;
+                categoryImage.Source = _bindingContext.Category.Image;
             }
         }
 
-        private async void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
+        private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
-            AuthorsHelper.GetSavedUserAuthors();
+            CategoriesHelper.GetSavedUserCategories();
 
             if (_bindingContext.IsActive)
             {
-                if (AuthorsHelper.SavedUserAuthors.Count == 1)
+                if (CategoriesHelper.SavedUserCategories.Count == 1)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Внимание", "Необходимо оставить хотя бы одного автора", "Понятно");
+                    
                 }
                 else
                 {
                     _bindingContext.IsActive = false;
 
-                    AuthorsHelper.RemoveUserAuthors(_bindingContext.Author);
+                    CategoriesHelper.RemoveUserCategory(_bindingContext.Category);
                 }
             }
             else
             {
                 _bindingContext.IsActive = true;
 
-                AuthorsHelper.AddUserAuthors(_bindingContext.Author);
+                CategoriesHelper.AddUserCategory(_bindingContext.Category);
             }
 
             checkbox.IsActive = _bindingContext.IsActive;

@@ -6,7 +6,7 @@
              xmlns:controls="clr-namespace:HealthApp.Controls" 
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
              xmlns:local="clr-namespace:HealthApp.Views.Components.CategoryNewsComponents"
-             x:Class="HealthApp.Views.CategoryNewsPage"
+             x:Class="HealthApp.Views.CategoriesNewsPage"
              Title="Новости"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              mc:Ignorable="d">
@@ -34,8 +34,7 @@
                                  BackgroundColor="{DynamicResource PageBackgroundColor}"
                                  IsVerticalSwipeEnabled="False"
                                  ItemsSource="{Binding TabCategoriesRecords}"
-                                 SelectedItem="{Binding CurrentTab}"
-                                 SwipeThresholdDistance="50">
+                                 SelectedItem="{Binding CurrentTab}">
                 <cards:CarouselView.ItemTemplate>
                     <DataTemplate>
                         <ContentView>

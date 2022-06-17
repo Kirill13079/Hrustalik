@@ -1,18 +1,17 @@
 ﻿using HealthApp.Common.Model;
 using MvvmHelpers;
-using System;
 
 namespace HealthApp.Models
 {
-    public class TabModel : BaseViewModel
+    public class BookmarkModel : BaseViewModel
     {
-        public int _page;
-        public int Page 
+        private ObservableRangeCollection<Record> _records;
+        public ObservableRangeCollection<Record> Records
         {
-            get => _page;
+            get { return _records; }
             set
             {
-                _page = value;
+                _records = value;
                 OnPropertyChanged();
             }
         }
@@ -39,18 +38,18 @@ namespace HealthApp.Models
             }
         }
 
-        private ObservableRangeCollection<Record> _records;
-        public ObservableRangeCollection<Record> Records
+        private bool _isAuthorized;
+        public bool IsAuthorized
         {
-            get { return _records; }
+            get { return _isAuthorized; }
             set
             {
-                _records = value;
+                _isAuthorized = value;
                 OnPropertyChanged();
             }
         }
 
-        public TabModel()
+        public BookmarkModel()
         {
             Records = new ObservableRangeCollection<Record>();
 

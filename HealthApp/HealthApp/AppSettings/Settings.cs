@@ -13,6 +13,7 @@ namespace HealthApp.AppSettings
             AppTheme,
             User,
             Authors,
+            Categories,
             token
         }
 

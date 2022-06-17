@@ -6,6 +6,7 @@ using HealthApp.Models;
 using HealthApp.Service;
 using MvvmHelpers;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace HealthApp.ViewModels
         private int _skipRecords = 0;
 
         private List<Author> _savedUserAuthors;
+        private List<Category> _savedUserCategories;
 
         private static MainNewsViewModel _instance;
         public static MainNewsViewModel Instance
@@ -48,6 +50,7 @@ namespace HealthApp.ViewModels
         public MainNewsViewModel()
         {
             _savedUserAuthors = new List<Author>();
+            _savedUserCategories = new List<Category>();
 
             MainTabModel = new MainTabModel();
 
@@ -93,8 +96,13 @@ namespace HealthApp.ViewModels
             var records = await GetRecordsAsync();
 
             _savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
+            _savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-            records.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+            Predicate<Category> removedCategories = (Category category) => !_savedUserCategories.EqualsHelper(category);
+            Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
+
+            records.RemoveAll(record => removedCategories(record.Category));
+            records.RemoveAll(record => removedAuthors(record.Author));
 
             MainTabModel.Records.AddRange(records);
         }
@@ -111,7 +119,11 @@ namespace HealthApp.ViewModels
 
                     var records = await GetPopularsRecordAsync();
 
-                    records.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+                    Predicate<Category> removedCategories = (Category category) => !_savedUserCategories.EqualsHelper(category);
+                    Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
+
+                    records.RemoveAll(record => removedCategories(record.Category));
+                    records.RemoveAll(record => removedAuthors(record.Author));
 
                     tab.Records.AddRange(records);
 
@@ -123,7 +135,11 @@ namespace HealthApp.ViewModels
 
                     var records = await GetPopularsRecordAsync();
 
-                    records.RemoveAll(x => !_savedUserAuthors.EqualsHelper(x.Author));
+                    Predicate<Category> removedCategories = (Category category) => !_savedUserCategories.EqualsHelper(category);
+                    Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
+
+                    records.RemoveAll(record => removedCategories(record.Category));
+                    records.RemoveAll(record => removedAuthors(record.Author));
 
                     tab.Records.ReplaceRange(records);
 

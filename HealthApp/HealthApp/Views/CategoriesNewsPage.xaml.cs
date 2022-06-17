@@ -6,23 +6,23 @@ using Xamarin.Forms.Xaml;
 namespace HealthApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CategoryNewsPage : ContentPage
+    public partial class CategoriesNewsPage : ContentPage
     {
         public ICommand ScrollListCommand { get; set; }
 
-        public CategoryNewsPage()
+        public CategoriesNewsPage()
         {
             InitializeComponent();
 
             Shell.SetNavBarIsVisible(this, false);
 
-            BindingContext = ViewModels.CategoryNewsViewModel.Instance;
+            BindingContext = ViewModels.CategoriesNewsViewModel.Instance;
 
             ScrollListCommand = new Command(() =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    var bindingContext = BindingContext as ViewModels.CategoryNewsViewModel;
+                    var bindingContext = BindingContext as ViewModels.CategoriesNewsViewModel;
                     var selectedIndex = bindingContext.TabCategoriesRecords.IndexOf(bindingContext.CurrentTab);
 
                     await scrollView.ScrollToAsync(60 * selectedIndex, scrollView.ContentSize.Width - scrollView.Width, true);

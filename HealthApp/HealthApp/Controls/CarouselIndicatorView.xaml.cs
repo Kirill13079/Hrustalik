@@ -61,9 +61,9 @@ namespace HealthApp.Controls
 
             activeIndicator.TranslateTo(target.X + (width / 2), 0, 100, Easing.Linear);
 
-            if (Parent.Parent.Parent is Views.CategoryNewsPage)
+            if (Parent.Parent.Parent is Views.CategoriesNewsPage)
             {
-                var page = Parent.Parent.Parent as Views.CategoryNewsPage;
+                var page = Parent.Parent.Parent as Views.CategoriesNewsPage;
 
                 if (page.ScrollListCommand != null)
                 {

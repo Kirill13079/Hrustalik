@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace HealthApp.Helpers
 {
-    public static class ThemeHelper
+    public static class ThemesHelper
     {
         public static void GetAppTheme()
         {

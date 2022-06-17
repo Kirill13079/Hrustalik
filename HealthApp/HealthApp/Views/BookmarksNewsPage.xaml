@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:feedNews="clr-namespace:HealthApp.Views.Components.FeedNewsComponents"
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             x:Class="HealthApp.Views.BookmarksNewsPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+    
+    <Shell.TitleView>
+        <Grid BackgroundColor="{DynamicResource PageBackgroundColor}"
+              ColumnDefinitions="*,10"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+            <Label FontAttributes="Bold"
+                   FontSize="{StaticResource HeadLabelFontSize}"
+                   HorizontalOptions="Center"
+                   Text="Закладки"
+                   VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <feedNews:FeedNewsComponentsDataTemplateSelector x:Key="FeedNewsComponentsDataTemplateSelector"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <cards:CarouselView x:Name="mainScrollView"
+                                IsVerticalSwipeEnabled="False">
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <ListView CachingStrategy="RecycleElement"
+                                  HasUnevenRows="True"
+                                  ItemTemplate="{StaticResource FeedNewsComponentsDataTemplateSelector}"
+                                  ItemsSource="{Binding Records}"
+                                  SelectionMode="None"
+                                  SeparatorVisibility="None">
+                        </ListView>
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

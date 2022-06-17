@@ -31,7 +31,7 @@ namespace HealthApp
 
         protected override void OnStart()
         {
-            ThemeHelper.GetAppTheme();
+            ThemesHelper.GetAppTheme();
         }
 
         protected override void OnSleep()

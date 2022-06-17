@@ -1,15 +1,14 @@
-﻿using HealthApp.Common.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace HealthApp.Extensions
 {
     public static class EqualsExtension
     {
-        public static bool EqualsHelper(this List<Author> authors, object obj)
+        public static bool EqualsHelper<T>(this List<T> items, object obj)
         {
-            foreach (var author in authors)
+            foreach (var item in items)
             {
-                if (author.Equals(obj))
+                if (item.Equals(obj))
                 {
                     return true;
                 }

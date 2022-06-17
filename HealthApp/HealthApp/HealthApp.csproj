@@ -106,6 +106,12 @@
     <Compile Update="Controls\CircleCheckboxView.xaml.cs">
       <DependentUpon>CircleCheckboxView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\BookmarksNewsPage.xaml.cs">
+      <DependentUpon>BookmarksNewsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CategoriesNewsPage.xaml.cs">
+      <DependentUpon>CategoriesNewsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -130,13 +136,16 @@
     <EmbeddedResource Update="Views\AuthorsAndCategoriesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CategoryNewsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\AuthorsAndCategoriesComponents\AuthorViewCell.xaml">
+    <EmbeddedResource Update="Views\BookmarksNewsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\AuthorsAndCategoriesComponents\CategoryViewCell.xaml">
+    <EmbeddedResource Update="Views\CategoriesNewsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Components\AuthorAndCategoryComponents\AuthorViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Components\AuthorAndCategoryComponents\CategoryViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\CategoryNewsComponents\NormalNewsViewCell.xaml">

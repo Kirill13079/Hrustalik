@@ -1,14 +1,14 @@
 ﻿using HealthApp.Models;
 using Xamarin.Forms;
 
-namespace HealthApp.Views.Components.AuthorsAndCategoriesComponents
+namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 {
-    public class AuthorsAndCategoriesComponentsDataTemplateSelector : DataTemplateSelector
+    public class AuthorAndCategoryComponentsDataTemplateSelector : DataTemplateSelector
     {
         private readonly DataTemplate _categoriesViewCell;
         private readonly DataTemplate _authorViewCell;
 
-        public AuthorsAndCategoriesComponentsDataTemplateSelector()
+        public AuthorAndCategoryComponentsDataTemplateSelector()
         {
             _categoriesViewCell = new DataTemplate(typeof(CategoryViewCell));
             _authorViewCell = new DataTemplate(typeof(AuthorViewCell));

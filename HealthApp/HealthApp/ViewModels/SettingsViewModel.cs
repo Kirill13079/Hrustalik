@@ -69,16 +69,16 @@ namespace HealthApp.ViewModels
             switch (appTheme)
             {
                 case Settings.Theme.LightTheme:
-                    ThemeHelper.ChangeToLightTheme();
+                    ThemesHelper.ChangeToLightTheme();
                     break;
                 case Settings.Theme.DarkTheme:
-                    ThemeHelper.ChangeToDarkTheme();
+                    ThemesHelper.ChangeToDarkTheme();
                     break;
                 case Settings.Theme.SystemPreferred:
-                    ThemeHelper.ChangeToSystemPreferredTheme();
+                    ThemesHelper.ChangeToSystemPreferredTheme();
                     break;
                 default:
-                    ThemeHelper.ChangeToSystemPreferredTheme();
+                    ThemesHelper.ChangeToSystemPreferredTheme();
                     break;
             }
         });

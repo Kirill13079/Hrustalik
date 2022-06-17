@@ -21,8 +21,12 @@
                       ContentTemplate="{DataTemplate views:MainNewsPage}">
         </ShellContent>
         <ShellContent Title="Категории"
-                      Route="category"
-                      ContentTemplate="{DataTemplate views:CategoryNewsPage}">
+                      Route="categories"
+                      ContentTemplate="{DataTemplate views:CategoriesNewsPage}">
+        </ShellContent>
+        <ShellContent Title="Закладки"
+                      Route="bookmarks"
+                      ContentTemplate="{DataTemplate views:BookmarksNewsPage}">
         </ShellContent>
         <ShellContent Title="Настройки"
                       Route="settings"

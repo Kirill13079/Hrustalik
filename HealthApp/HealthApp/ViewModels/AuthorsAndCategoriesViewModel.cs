@@ -1,6 +1,7 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
+using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
@@ -18,8 +19,8 @@ namespace HealthApp.ViewModels
     {
         public static AuthorsAndCategoriesViewModel Instance => new AuthorsAndCategoriesViewModel();
 
-        private ObservableRangeCollection<TabModel> _tabAuthorsAndCategoriesItems;
-        public ObservableRangeCollection<TabModel> TabAuthorsAndCategoriesItems
+        private ObservableRangeCollection<AuthorAndCategoryTabModel> _tabAuthorsAndCategoriesItems;
+        public ObservableRangeCollection<AuthorAndCategoryTabModel> TabAuthorsAndCategoriesItems
         {
             get => _tabAuthorsAndCategoriesItems;
             set
@@ -29,8 +30,8 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private TabModel _currentTab;
-        public TabModel CurrentTab
+        private AuthorAndCategoryTabModel _currentTab;
+        public AuthorAndCategoryTabModel CurrentTab
         {
             get => _currentTab;
             set
@@ -71,8 +72,8 @@ namespace HealthApp.ViewModels
 
         public AuthorsAndCategoriesViewModel()
         {
-            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<TabModel>();
-            CurrentTab = new TabModel();
+            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<AuthorAndCategoryTabModel>();
+            CurrentTab = new AuthorAndCategoryTabModel();
 
             _ = GetData();
         }
@@ -84,16 +85,16 @@ namespace HealthApp.ViewModels
                 TabAuthorsAndCategoriesItems.Clear();
             }
 
-            var tabModel = new ObservableRangeCollection<TabModel>()
+            var tabModel = new ObservableRangeCollection<AuthorAndCategoryTabModel>()
             {
                 {
-                    new TabModel
+                    new AuthorAndCategoryTabModel
                     {
                         Title = "Категории"
                     }
                 },
                 {
-                    new TabModel
+                    new AuthorAndCategoryTabModel
                     {
                         Title = "Авторы"
                     }
@@ -119,7 +120,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task LoadAuhorsContentData(TabModel tab, bool isRefreshing = false)
+        private async Task LoadAuhorsContentData(AuthorAndCategoryTabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -143,7 +144,7 @@ namespace HealthApp.ViewModels
                             Author = author 
                         };
 
-                        if (savedUserAuthors.Where(x => x.Id == article.Author.Id).Count() != 0)
+                        if (savedUserAuthors.EqualsHelper(article.Author))
                         {
                             article.IsActive = true;
                         }
@@ -173,7 +174,7 @@ namespace HealthApp.ViewModels
                             Author = author
                         };
 
-                        if (savedUserAuthors.Where(x => x.Id == article.Author.Id).Count() != 0)
+                        if (savedUserAuthors.EqualsHelper(article.Author))
                         {
                             article.IsActive = true;
                         }
@@ -182,6 +183,7 @@ namespace HealthApp.ViewModels
                     }
 
                     tab.AuthorsAndСategories.ReplaceRange(articles);
+
                     tab.IsRefreshing = false;
                 }
 
@@ -200,7 +202,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task LoadCategoriesContentData(TabModel tab, bool isRefreshing = false)
+        private async Task LoadCategoriesContentData(AuthorAndCategoryTabModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -212,15 +214,24 @@ namespace HealthApp.ViewModels
 
                     var categories = await GetCategoriesAsync();
 
+                    var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
+
                     var articles = new List<AuthorsAndCategoriesModel>();
 
                     foreach (var category in categories)
                     {
-                        articles.Add(new AuthorsAndCategoriesModel 
-                        { 
-                            Category = category, 
-                            Author = null 
-                        });
+                        var article = new AuthorsAndCategoriesModel
+                        {
+                            Category = category,
+                            Author = null
+                        };
+
+                        if (savedUserCategories.EqualsHelper(article.Category))
+                        {
+                            article.IsActive = true;
+                        }
+
+                        articles.Add(article);
                     }
 
                     tab.AuthorsAndСategories.AddRange(articles);
@@ -233,18 +244,28 @@ namespace HealthApp.ViewModels
 
                     var categories = await GetCategoriesAsync();
 
+                    var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
+
                     var articles = new List<AuthorsAndCategoriesModel>();
 
                     foreach (var category in categories)
                     {
-                        articles.Add(new AuthorsAndCategoriesModel
+                        var article = new AuthorsAndCategoriesModel
                         {
                             Category = category,
                             Author = null
-                        });
+                        };
+
+                        if (savedUserCategories.EqualsHelper(article.Category))
+                        {
+                            article.IsActive = true;
+                        }
+
+                        articles.Add(article);
                     }
 
                     tab.AuthorsAndСategories.ReplaceRange(articles);
+
                     tab.IsRefreshing = false;
                 }
 
@@ -295,6 +316,11 @@ namespace HealthApp.ViewModels
             if (!string.IsNullOrWhiteSpace(result))
             {
                 var categories = JsonConvert.DeserializeObject<List<Category>>(result);
+
+                categories.ForEach((category) =>
+                {
+                    //category.Image = $"{ApiRoutes.BaseUrl}/AuthorImages/{author.Logo}";
+                });
 
                 return categories;
             }

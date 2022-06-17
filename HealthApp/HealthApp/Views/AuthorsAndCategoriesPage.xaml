@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:local="clr-namespace:HealthApp.Views.Components.AuthorsAndCategoriesComponents" 
+             xmlns:local="clr-namespace:HealthApp.Views.Components.AuthorAndCategoryComponents" 
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
              xmlns:controls="clr-namespace:HealthApp.Controls" 
              xmlns:vm="clr-namespace:HealthApp.ViewModels"
@@ -14,7 +14,7 @@
     
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:AuthorsAndCategoriesComponentsDataTemplateSelector x:Key="AuthorsAndCategoriesDataTemplateSelector"/>
+            <local:AuthorAndCategoryComponentsDataTemplateSelector x:Key="AuthorAndCategoryDataTemplateSelector"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -35,14 +35,13 @@
                                 BackgroundColor="{DynamicResource PageBackgroundColor}"
                                 IsVerticalSwipeEnabled="False"
                                 ItemsSource="{Binding TabAuthorsAndCategoriesItems}"
-                                SelectedItem="{Binding CurrentTab}"
-                                SwipeThresholdDistance="50">
+                                SelectedItem="{Binding CurrentTab}">
                 <cards:CarouselView.ItemTemplate>
                     <DataTemplate>
                         <ContentView>
                             <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
                                   Padding="10,0">
-                                <CollectionView ItemTemplate="{StaticResource AuthorsAndCategoriesDataTemplateSelector}"
+                                <CollectionView ItemTemplate="{StaticResource AuthorAndCategoryDataTemplateSelector}"
                                                 ItemsSource="{Binding AuthorsAndСategories}"
                                                 SelectionMode="None">
                                     <CollectionView.ItemsLayout>
