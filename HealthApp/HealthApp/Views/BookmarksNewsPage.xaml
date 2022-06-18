@@ -33,10 +33,14 @@
                     <DataTemplate>
                         <ListView CachingStrategy="RecycleElement"
                                   HasUnevenRows="True"
-                                  ItemTemplate="{StaticResource FeedNewsComponentsDataTemplateSelector}"
                                   ItemsSource="{Binding Records}"
                                   SelectionMode="None"
                                   SeparatorVisibility="None">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="tes"></Label>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </DataTemplate>
                 </cards:CarouselView.ItemTemplate>

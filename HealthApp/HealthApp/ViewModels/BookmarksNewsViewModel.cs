@@ -60,12 +60,24 @@ namespace HealthApp.ViewModels
 
         private async Task LoadRecordsContentDataAsync()
         {
-            var records = await GetBookmarkRecordsAsync();
+            var bookmarks = await GetBookmarksAsync();
 
-            BookmarkModel.Records.AddRange(records);
+            var test = new List<Record>();
+
+            foreach (var t in bookmarks)
+            {
+                test.Add(t.Record);
+            }
+
+            BookmarkModel.Records.AddRange(test);
+
+            //foreach (var record in records)
+            //{ 
+            //    BookmarkModel.Records.Add(record.Record);
+            //}
         }
 
-        private async Task<List<Record>> GetBookmarkRecordsAsync()
+        private async Task<List<Bookmark>> GetBookmarksAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetBookmarks;
 
@@ -73,12 +85,12 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+                var records = JsonConvert.DeserializeObject<List<Bookmark>>(result);
 
                 records.ForEach((record) =>
                 {
-                    record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
-                    record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
+                    record.Record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Record.Image}";
+                    record.Record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Record.Author.Logo}";
                 });
 
                 return records;
