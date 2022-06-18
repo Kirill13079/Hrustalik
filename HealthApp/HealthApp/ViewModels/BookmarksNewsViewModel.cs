@@ -70,11 +70,6 @@ namespace HealthApp.ViewModels
             }
 
             BookmarkModel.Records.AddRange(test);
-
-            //foreach (var record in records)
-            //{ 
-            //    BookmarkModel.Records.Add(record.Record);
-            //}
         }
 
         private async Task<List<Bookmark>> GetBookmarksAsync()
@@ -85,6 +80,13 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
+                if (result == "Invalid User")
+                {
+                    BookmarkModel.IsAuthorized = false;
+
+                    return null;
+                }
+
                 var records = JsonConvert.DeserializeObject<List<Bookmark>>(result);
 
                 records.ForEach((record) =>

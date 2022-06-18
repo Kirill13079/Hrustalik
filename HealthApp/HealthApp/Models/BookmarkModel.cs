@@ -54,6 +54,7 @@ namespace HealthApp.Models
             Records = new ObservableRangeCollection<Record>();
 
             IsBusy = true;
+            IsAuthorized = true;
         }
     }
 }
