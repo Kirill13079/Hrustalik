@@ -27,24 +27,17 @@
 
     <ContentPage.Content>
         <Grid>
-            <cards:CarouselView x:Name="mainScrollView"
-                                IsVerticalSwipeEnabled="False">
-                <cards:CarouselView.ItemTemplate>
+            <CollectionView x:Name="mainScrollView">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ListView CachingStrategy="RecycleElement"
-                                  HasUnevenRows="True"
-                                  ItemsSource="{Binding Records}"
-                                  SelectionMode="None"
-                                  SeparatorVisibility="None">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Text="tes"></Label>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <StackLayout BindableLayout.ItemsSource="{Binding Records}"
+                                     BindableLayout.ItemTemplateSelector="{StaticResource FeedNewsComponentsDataTemplateSelector}"
+                                     Spacing="0"
+                                     Padding="10,0">
+                        </StackLayout>
                     </DataTemplate>
-                </cards:CarouselView.ItemTemplate>
-            </cards:CarouselView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

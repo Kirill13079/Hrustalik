@@ -156,6 +156,11 @@ namespace HealthApp.API.Controllers.API
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
+            if (user == null)
+            {
+                return NotFound("Invalid User");
+            }
+
             var wishlist = _context.Bookmarks
                 .Where(x => x.Customer.Email == user.Email)
                 .Include(x => x.Record)
