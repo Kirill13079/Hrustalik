@@ -60,16 +60,23 @@ namespace HealthApp.ViewModels
 
         private async Task LoadRecordsContentDataAsync()
         {
+            BookmarkModel.IsBusy = true;
+
             var bookmarks = await GetBookmarksAsync();
 
             var test = new List<Record>();
 
-            foreach (var t in bookmarks)
+            if (bookmarks != null)
             {
-                test.Add(t.Record);
+                foreach (var t in bookmarks)
+                {
+                    test.Add(t.Record);
+                }
             }
 
             BookmarkModel.Records.AddRange(test);
+
+            BookmarkModel.IsBusy = false;
         }
 
         private async Task<List<Bookmark>> GetBookmarksAsync()
@@ -80,13 +87,6 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                if (result == "Invalid User")
-                {
-                    BookmarkModel.IsAuthorized = false;
-
-                    return null;
-                }
-
                 var records = JsonConvert.DeserializeObject<List<Bookmark>>(result);
 
                 records.ForEach((record) =>

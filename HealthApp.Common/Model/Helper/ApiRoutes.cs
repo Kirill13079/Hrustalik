@@ -6,7 +6,8 @@
 
         public const string Register = "api/user/register";
         public const string Login = "api/user/login";
-        public const string AddBookmark = "api/user/bookmark";
+        public const string AddBookmark = "api/user/bookmark/add";
+        public const string RemoveBookmark = "api/user/bookmark/delete";
 
         public const string GetBookmarks = "api/user/bookmark";
         public const string GetCustomer = "api/user/customer";

@@ -30,10 +30,15 @@
             <CollectionView x:Name="mainScrollView">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout BindableLayout.ItemsSource="{Binding Records}"
+                        <StackLayout>
+                            <StackLayout BindableLayout.ItemsSource="{Binding Records}"
                                      BindableLayout.ItemTemplateSelector="{StaticResource FeedNewsComponentsDataTemplateSelector}"
                                      Spacing="0"
                                      Padding="10,0">
+                            </StackLayout>
+                            <ActivityIndicator HorizontalOptions="Center"
+                                               IsRunning="{Binding IsBusy}"
+                                               VerticalOptions="Center" />
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

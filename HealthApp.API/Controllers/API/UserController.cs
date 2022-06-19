@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -150,6 +151,36 @@ namespace HealthApp.API.Controllers.API
             }
         }
 
+        [HttpPost]
+        [Route(ApiRoutes.RemoveBookmark)]
+        public async Task<ActionResult> RemoveBookmark(int? id)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var bookmark = _context.Bookmarks
+                .Where(x => x.Customer.Email == user.Email && x.Id == id)
+                .FirstOrDefault();
+
+            if (bookmark != null)
+            {
+                _context.Bookmarks.Remove(bookmark);
+
+                await _context.SaveChangesAsync();
+
+                return Ok("Bookmark deleted");
+            }
+            else 
+            {
+                return NotFound("Bookmark not found");
+            }
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route(ApiRoutes.GetBookmarks)]
         public async Task<ActionResult> GetBookmarks()
@@ -158,7 +189,7 @@ namespace HealthApp.API.Controllers.API
 
             if (user == null)
             {
-                return NotFound("Invalid User");
+                return NotFound("User not found");
             }
 
             var wishlist = _context.Bookmarks
@@ -166,6 +197,7 @@ namespace HealthApp.API.Controllers.API
                 .Include(x => x.Record)
                 .Include(x => x.Record.Author)
                 .Include(x => x.Record.Category)
+                //.Include(x => x.Customer)
                 .ToList();
 
             return Ok(wishlist);
@@ -177,6 +209,7 @@ namespace HealthApp.API.Controllers.API
         {
             var user = await _userManager
                 .GetUserAsync(HttpContext.User);
+
             var customer = _context.Customers
                 .FirstOrDefault(x => x.Email == user.Email);
 
