@@ -16,11 +16,7 @@ namespace HealthApp.Views
 
             var bindingContext = BindingContext as ViewModels.BookmarksNewsViewModel;
 
-            var bindingObject = new List<BookmarkModel>();
-
-            bindingObject.Add(bindingContext.BookmarkModel);
-
-            mainScrollView.ItemsSource = bindingObject;
+            listView.RefreshCommand = bindingContext.RefreshCommand;
         }
     }
 }

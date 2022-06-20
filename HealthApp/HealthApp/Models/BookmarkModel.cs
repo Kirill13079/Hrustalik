@@ -38,6 +38,17 @@ namespace HealthApp.Models
             }
         }
 
+        private bool _isEmpty;
+        public bool IsEmpty
+        {
+            get { return _isEmpty; }
+            set
+            {
+                _isEmpty = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool _isAuthorized;
         public bool IsAuthorized
         {

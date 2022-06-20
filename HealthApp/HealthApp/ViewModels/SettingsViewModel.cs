@@ -15,8 +15,19 @@ namespace HealthApp.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private static readonly SettingsViewModel _instance = new SettingsViewModel();
-        public static SettingsViewModel Instance => _instance;
+        private static SettingsViewModel _instance;
+        public static SettingsViewModel Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new SettingsViewModel();
+                }
+
+                return _instance;
+            }
+        }
 
         private Customer _customer;
         public Customer Customer 
@@ -93,6 +104,8 @@ namespace HealthApp.ViewModels
 
                 Settings.ClearSecureSorage();
                 Settings.RemoveSetting(Settings.AppPrefrences.token);
+
+                _ = BookmarksNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
 
                 Customer = null;
                 IsLoggedIn = false;

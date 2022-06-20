@@ -41,6 +41,16 @@ namespace HealthApp.ViewModels
             }
         }
 
+        public ICommand ReloadCommand => new Command(async () =>
+        {
+            await LoadRecordsContentDataAsync().ConfigureAwait(false);
+        });
+
+        public ICommand RefreshCommand => new Command(async () =>
+        {
+            await LoadRecordsContentDataAsync(isRefreshing: true);
+        });
+
         public BookmarksNewsViewModel()
         {
             BookmarkModel = new BookmarkModel();
@@ -58,25 +68,68 @@ namespace HealthApp.ViewModels
             await LoadRecordsContentDataAsync().ConfigureAwait(false);
         }
 
-        private async Task LoadRecordsContentDataAsync()
+        private async Task LoadRecordsContentDataAsync(bool isRefreshing = false)
         {
-            BookmarkModel.IsBusy = true;
+            BookmarkModel.HasError = false;
+            BookmarkModel.IsEmpty = false;
 
-            var bookmarks = await GetBookmarksAsync();
-
-            var test = new List<Record>();
-
-            if (bookmarks != null)
+            try
             {
-                foreach (var t in bookmarks)
+                if (BookmarkModel.Records.Count == 0)
                 {
-                    test.Add(t.Record);
+                    BookmarkModel.IsBusy = true;
+
+                    var bookmarks = await GetBookmarksAsync();
+
+                    var records = new List<Record>();
+
+                    if (bookmarks != null)
+                    {
+                        foreach (var bookmark in bookmarks)
+                        {
+                            records.Add(bookmark.Record);
+                        }
+                    }
+
+                    BookmarkModel.Records.AddRange(records);
+
+                    BookmarkModel.IsBusy = false;
+                }
+                else if (isRefreshing)
+                {
+                    BookmarkModel.IsRefreshing = true;
+
+                    var bookmarks = await GetBookmarksAsync();
+
+                    var records = new List<Record>();
+
+                    if (bookmarks != null)
+                    {
+                        foreach (var bookmark in bookmarks)
+                        {
+                            records.Add(bookmark.Record);
+                        }
+                    }
+
+                    BookmarkModel.Records.ReplaceRange(records);
+
+                    BookmarkModel.IsRefreshing = false;
+                }
+
+                if (BookmarkModel.Records.Count == 0 && BookmarkModel.IsAuthorized)
+                {
+                    BookmarkModel.IsEmpty = true;
                 }
             }
-
-            BookmarkModel.Records.AddRange(test);
-
-            BookmarkModel.IsBusy = false;
+            catch
+            {
+                BookmarkModel.HasError = true;
+            }
+            finally
+            {
+                BookmarkModel.IsRefreshing = false;
+                BookmarkModel.IsBusy = false;
+            }
         }
 
         private async Task<List<Bookmark>> GetBookmarksAsync()
@@ -87,18 +140,22 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var records = JsonConvert.DeserializeObject<List<Bookmark>>(result);
+                var bookmarks = JsonConvert.DeserializeObject<List<Bookmark>>(result);
 
-                records.ForEach((record) =>
+                bookmarks.ForEach((bookmark) =>
                 {
-                    record.Record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Record.Image}";
-                    record.Record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Record.Author.Logo}";
+                    bookmark.Record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{bookmark.Record.Image}";
+                    bookmark.Record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{bookmark.Record.Author.Logo}";
                 });
 
-                return records;
+                BookmarkModel.IsAuthorized = true;
+
+                return bookmarks;
             }
             else
             {
+                BookmarkModel.IsAuthorized = false;
+
                 return null;
             }
         }

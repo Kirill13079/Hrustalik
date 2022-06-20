@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:feedNews="clr-namespace:HealthApp.Views.Components.FeedNewsComponents"
-             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+             xmlns:local="clr-namespace:HealthApp.Views.Components.CategoryNewsComponents"
              x:Class="HealthApp.Views.BookmarksNewsPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     
@@ -21,28 +20,79 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <feedNews:FeedNewsComponentsDataTemplateSelector x:Key="FeedNewsComponentsDataTemplateSelector"/>
+            <local:CategoryNewsComponentsDataTemplateSelector x:Key="NewsDataTemplateSelector"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid>
-            <CollectionView x:Name="mainScrollView">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout>
-                            <StackLayout BindableLayout.ItemsSource="{Binding Records}"
-                                     BindableLayout.ItemTemplateSelector="{StaticResource FeedNewsComponentsDataTemplateSelector}"
-                                     Spacing="0"
-                                     Padding="10,0">
-                            </StackLayout>
-                            <ActivityIndicator HorizontalOptions="Center"
-                                               IsRunning="{Binding IsBusy}"
-                                               VerticalOptions="Center" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+        <Grid Padding="10,0">
+            <!-- records -->
+            <ListView x:Name="listView"
+                      CachingStrategy="RecycleElement"
+                      HasUnevenRows="True"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding BookmarkModel.IsRefreshing, Mode=OneWay}"
+                      ItemsSource="{Binding BookmarkModel.Records}"
+                      ItemTemplate="{StaticResource NewsDataTemplateSelector}"
+                      SelectionMode="None"
+                      RefreshControlColor="{DynamicResource AccentColor}"
+                      SeparatorVisibility="None">
+            </ListView>
+            <!-- is authorized -->
+            <StackLayout HorizontalOptions="Center"
+                         VerticalOptions="Center">
+                <StackLayout.Triggers>
+                    <DataTrigger Binding="{Binding BookmarkModel.IsAuthorized}"
+                                 TargetType="StackLayout"
+                                 Value="True">
+                        <Setter Property="IsVisible" 
+                                Value="False"/>
+                    </DataTrigger>
+                </StackLayout.Triggers>
+                <StackLayout>
+                    <Label FontAttributes="Bold"
+                           FontSize="25"
+                           HorizontalTextAlignment="Center"
+                           Text="Вы не авторизованы"
+                           TextColor="Gray" />
+                    <Label FontAttributes="Bold"
+                           FontSize="25"
+                           HorizontalTextAlignment="Center"
+                           Text="Выполните вход в Ваш аккаунт"
+                           TextColor="Gray" />
+                </StackLayout>
+            </StackLayout>
+            <!-- is empty -->
+            <StackLayout HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         IsVisible="{Binding BookmarkModel.IsEmpty}">
+                <StackLayout>
+                    <Label FontAttributes="Bold"
+                           FontSize="25"
+                           HorizontalTextAlignment="Center"
+                           Text="В закладках ничего нет"
+                           TextColor="Gray" />
+                </StackLayout>
+            </StackLayout>
+            <!-- has error -->
+            <StackLayout HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         IsVisible="{Binding BookmarkModel.HasError}">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ReloadCommand}"/>
+                </StackLayout.GestureRecognizers>
+                <StackLayout>
+                    <Label FontAttributes="Bold"
+                           FontSize="25"
+                           HorizontalTextAlignment="Center"
+                           Text="Что то пошло не так"
+                           TextColor="Gray" />
+                </StackLayout>
+            </StackLayout>
+            <!-- loader -->
+            <ActivityIndicator HorizontalOptions="Center"
+                               IsRunning="{Binding BookmarkModel.IsBusy}"
+                               VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

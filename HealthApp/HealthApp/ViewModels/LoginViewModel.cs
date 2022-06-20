@@ -14,15 +14,9 @@ namespace HealthApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        /// <summary>
-        /// Получить экземпляр этого класса
-        /// </summary>
         private static readonly LoginViewModel _instance = new LoginViewModel();
         public static LoginViewModel Instance => _instance;
 
-        /// <summary>
-        /// Текущий пользователь
-        /// </summary>
         private Customer _customer;
         public Customer Customer
         {
@@ -34,20 +28,13 @@ namespace HealthApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Текущий email
-        /// </summary>
         private string _email = "kirill.zhenkevich13@gmail.com";
-
         public string Email
         {
             get => _email;
             set => _email = value;
         }
 
-        /// <summary>
-        /// Текущий пароль
-        /// </summary>
         private string _password = "qwaserdf13QQ??";
         public string Password
         {
@@ -55,9 +42,6 @@ namespace HealthApp.ViewModels
             set => _password = value;
         }
 
-        /// <summary>
-        /// Команда авторизации пользователя
-        /// </summary>
         public ICommand LogInCommand => new Command(async () => 
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.Login;
@@ -78,6 +62,8 @@ namespace HealthApp.ViewModels
                 SettingsViewModel.Instance.IsLoggedIn = true;
 
                 Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
+
+                _ = BookmarksNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
 
                 Navigation.GoBack();
             }
