@@ -78,8 +78,8 @@ namespace HealthApp.ViewModels
         {
             _savedUserAuthors = new List<Author>();
             _savedUserCategories = new List<Category>();
-            TabCategoriesRecords = new ObservableRangeCollection<TabModel>();
 
+            TabCategoriesRecords = new ObservableRangeCollection<TabModel>();
             CurrentTab = new TabModel();
 
             _ = GetData();
@@ -128,17 +128,32 @@ namespace HealthApp.ViewModels
             {
                 if (tab.Records.Count == 0)
                 {
+                    if (isRefreshing)
+                    {
+                        tab.IsRefreshing = true;
+                    }
+
                     tab.IsBusy = true;
 
                     _savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
-                    var articles = await GetCategoryRecordsAsync(tab.Page);
+                    var bookmarks = await GetBookmarksAsync();
+                    var records = await GetCategoryRecordsAsync(tab.Page);
 
                     Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
+                    Func<Record, bool> isBookmarkRecord = (Record record) => bookmarks.Where(boomark => boomark.Record.Id == record.Id).Any();
 
-                    articles.RemoveAll(article => removedAuthors(article.Author));
+                    records.RemoveAll(record => removedAuthors(record.Author));
 
-                    tab.Records.AddRange(articles);
+                    foreach (var record in records)
+                    {
+                        if (isBookmarkRecord(record))
+                        {
+                            record.IsBookmark = true;
+                        }
+                    }
+                        
+                    tab.Records.AddRange(records);
 
                     tab.IsBusy = false;
                 }
@@ -148,29 +163,40 @@ namespace HealthApp.ViewModels
 
                     _savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
-                    var articles = await GetCategoryRecordsAsync(tab.Page);
+                    var bookmarks = await GetBookmarksAsync();
+                    var records = await GetCategoryRecordsAsync(tab.Page);
 
                     Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
+                    Func<Record, bool> isBookmarkRecord = (Record record) => bookmarks.Where(boomark => boomark.Record.Id == record.Id).Any();
 
-                    articles.RemoveAll(article => removedAuthors(article.Author));
+                    records.RemoveAll(record => removedAuthors(record.Author));
 
-                    tab.Records.ReplaceRange(articles);
+                    foreach (var record in records)
+                    {
+                        if (isBookmarkRecord(record))
+                        {
+                            record.IsBookmark = true;
+                        }
+                    }
+
+                    tab.Records.ReplaceRange(records);
 
                     tab.IsRefreshing = false;
                 }
 
                 if (tab.Records.Count == 0)
                 {
-                    tab.IsRefreshing = false;
-                    tab.IsBusy = false;
                     tab.HasError = true;
                 }
             }
             catch
             {
+                tab.HasError = true;
+            }
+            finally 
+            {
                 tab.IsRefreshing = false;
                 tab.IsBusy = false;
-                tab.HasError = true;
             }
         }
 
@@ -209,6 +235,30 @@ namespace HealthApp.ViewModels
                 var categories = JsonConvert.DeserializeObject<List<Category>>(result);
 
                 return categories;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private async Task<List<Bookmark>> GetBookmarksAsync()
+        {
+            string url = ApiRoutes.BaseUrl + ApiRoutes.GetBookmarks;
+
+            var result = await ApiCaller.Get(url);
+
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                var bookmarks = JsonConvert.DeserializeObject<List<Bookmark>>(result);
+
+                bookmarks.ForEach((bookmark) =>
+                {
+                    bookmark.Record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{bookmark.Record.Image}";
+                    bookmark.Record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{bookmark.Record.Author.Logo}";
+                });
+
+                return bookmarks;
             }
             else
             {

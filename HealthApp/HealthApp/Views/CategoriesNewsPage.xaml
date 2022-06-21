@@ -20,6 +20,7 @@
     <ContentPage.Content>
         <Grid RowSpacing="0"
               RowDefinitions="45,*">
+            <!-- tab bar items -->
             <ScrollView x:Name="scrollView"
                             Grid.Row="0"
                             HorizontalScrollBarVisibility="Never"
@@ -29,6 +30,7 @@
                                                 Items="{Binding TabCategoriesRecords}"
                                                 CurrentItem="{Binding CurrentTab}"/>
             </ScrollView>
+            <!-- content -->
             <cards:CarouselView  x:Name="carouselView"
                                  Grid.Row="1"
                                  BackgroundColor="{DynamicResource PageBackgroundColor}"
@@ -40,9 +42,11 @@
                         <ContentView>
                             <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
                                   Padding="10,0">
+                                <!-- records  -->
                                 <ListView CachingStrategy="RecycleElement"
                                           HasUnevenRows="True"
                                           IsPullToRefreshEnabled="True"
+                                          VerticalScrollBarVisibility="Never"
                                           IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
                                           ItemTemplate="{StaticResource NewsDataTemplateSelector}"
                                           ItemsSource="{Binding Records}"
@@ -51,6 +55,7 @@
                                           RefreshControlColor="{DynamicResource AccentColor}"
                                           SeparatorVisibility="None">
                                 </ListView>
+                                <!-- has error -->
                                 <StackLayout HorizontalOptions="Center"
                                              IsVisible="{Binding HasError}"
                                              VerticalOptions="Center">

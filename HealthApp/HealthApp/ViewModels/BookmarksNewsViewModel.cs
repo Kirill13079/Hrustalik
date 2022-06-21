@@ -77,6 +77,11 @@ namespace HealthApp.ViewModels
             {
                 if (BookmarkModel.Records.Count == 0)
                 {
+                    if (isRefreshing)
+                    {
+                        BookmarkModel.IsRefreshing = true;
+                    }
+
                     BookmarkModel.IsBusy = true;
 
                     var bookmarks = await GetBookmarksAsync();
@@ -121,7 +126,7 @@ namespace HealthApp.ViewModels
                     BookmarkModel.IsEmpty = true;
                 }
             }
-            catch
+            catch 
             {
                 BookmarkModel.HasError = true;
             }

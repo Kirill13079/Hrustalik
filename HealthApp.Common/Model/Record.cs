@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealthApp.Common.Model
 {
@@ -25,6 +26,9 @@ namespace HealthApp.Common.Model
         public bool IsPopular { get; set; }
 
         public bool IsYoutube { get; set; }
+
+        [NotMapped]
+        public bool IsBookmark { get; set; }
 
         public string Source { get; set; }
 

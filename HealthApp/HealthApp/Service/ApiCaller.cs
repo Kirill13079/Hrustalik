@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using HealthApp.Helpers;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using static HealthApp.Helpers.DialogsHelper;
 
 namespace HealthApp.Service
 {
@@ -25,15 +25,26 @@ namespace HealthApp.Service
                 var json = JsonConvert.SerializeObject(model);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var request = await client.PostAsync(url, content);
+                try
+                {
+                    var request = await client.PostAsync(url, content);
 
-                if (request.IsSuccessStatusCode)
-                {
-                    return await request.Content.ReadAsStringAsync();
+                    if (request.IsSuccessStatusCode)
+                    {
+                        return await request.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        HandleDialogMessage(Errors.UndefinedError);
+
+                        return null;
+                    }
                 }
-                else
+                catch 
                 {
-                    return null; 
+                    HandleDialogMessage(Errors.NetworkError);
+                    
+                    return null;
                 }
             }
         }
@@ -57,7 +68,7 @@ namespace HealthApp.Service
                 }
                 else
                 {
-                    return null; 
+                    return null;
                 }
             }
         }

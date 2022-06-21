@@ -10,9 +10,7 @@ namespace HealthApp.Helpers
         public enum Errors
         {
             NetworkError,
-            Defined,
-            UndefinedError,
-            InputError
+            UndefinedError
         }
 
         static CancellationTokenSource cts = null;
@@ -20,37 +18,33 @@ namespace HealthApp.Helpers
         public static void CancelActionSheet()
         {
             if (cts?.IsCancellationRequested ?? true)
-                return;
+            { 
+                return; 
+            }
 
             cts.Cancel();
         }
 
-        static readonly string UndefinedError = "Something went wrong, please try again later.";
-        static readonly string NetworkError = "Network Error.";
-        static readonly string InputError = " is required.";
+        static readonly string UndefinedError = "Что-то пошло не так. Пожалуйста, повторите попытку позже.";
+        static readonly string NetworkError = "Сетевая ошибка.";
 
         public static void HandleDialogMessage(Errors error, string message = "")
         {
             switch (error)
             {
                 case Errors.NetworkError:
-                    message = "    " + NetworkError + "    ";
+                    message = NetworkError;
                     break;
                 case Errors.UndefinedError:
-                    message = "    " + UndefinedError + "    ";
-                    break;
-                case Errors.Defined:
-                    message = "    " + message + "    ";
-                    break;
-                case Errors.InputError:
-                    message = "    " + message + InputError + "    ";
+                    message = UndefinedError;
                     break;
             }
+
             UserDialogs.Instance.Toast(new ToastConfig(message)
-            .SetBackgroundColor(Color.FromHex("#333333"))
-            .SetMessageTextColor(Color.White)
-            .SetDuration(TimeSpan.FromSeconds(3))
-            .SetPosition(ToastPosition.Bottom)
+                .SetBackgroundColor(Color.FromHex("#333333"))
+                .SetMessageTextColor(Color.White)
+                .SetDuration(TimeSpan.FromSeconds(3))
+                .SetPosition(ToastPosition.Bottom)
             );
         }
 

@@ -35,6 +35,7 @@
     <None Remove="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <None Remove="Resources\Fonts\Gilroy-UltraLight.ttf" />
     <None Remove="Resources\Icons\bookmark.svg" />
+    <None Remove="Resources\Icons\bookmarkFull.svg" />
     <None Remove="Resources\Icons\chat.svg" />
     <None Remove="Resources\Icons\key.svg" />
     <None Remove="Resources\Icons\link.svg" />
@@ -70,6 +71,7 @@
     <EmbeddedResource Include="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-UltraLight.ttf" />
     <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
+    <EmbeddedResource Include="Resources\Icons\bookmarkFull.svg" />
     <EmbeddedResource Include="Resources\Icons\chat.svg" />
     <EmbeddedResource Include="Resources\Icons\key.svg" />
     <EmbeddedResource Include="Resources\Icons\link.svg" />

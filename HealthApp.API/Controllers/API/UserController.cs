@@ -152,7 +152,7 @@ namespace HealthApp.API.Controllers.API
         }
 
         [HttpPost]
-        [Route(ApiRoutes.RemoveBookmark)]
+        [Route(ApiRoutes.DeleteBookmark)]
         public async Task<ActionResult> RemoveBookmark(int? id)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -163,7 +163,7 @@ namespace HealthApp.API.Controllers.API
             }
 
             var bookmark = _context.Bookmarks
-                .Where(x => x.Customer.Email == user.Email && x.Id == id)
+                .Where(x => x.Customer.Email == user.Email && x.Record.Id == id)
                 .FirstOrDefault();
 
             if (bookmark != null)
@@ -197,7 +197,6 @@ namespace HealthApp.API.Controllers.API
                 .Include(x => x.Record)
                 .Include(x => x.Record.Author)
                 .Include(x => x.Record.Category)
-                //.Include(x => x.Customer)
                 .ToList();
 
             return Ok(wishlist);
