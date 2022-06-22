@@ -161,7 +161,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<List<Record>> GetRecordsAsync()
+        private async Task<List<RecordModel>> GetRecordsAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetRecords;
 
@@ -169,7 +169,7 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+                var records = JsonConvert.DeserializeObject<List<RecordModel>>(result);
 
                 records.ForEach((record) =>
                 {
@@ -185,7 +185,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<Record> GetHotRecordAsync()
+        private async Task<RecordModel> GetHotRecordAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetHotRecord;
 
@@ -193,7 +193,7 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var record = JsonConvert.DeserializeObject<Record>(result);
+                var record = JsonConvert.DeserializeObject<RecordModel>(result);
 
                 record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
                 record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
@@ -206,7 +206,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<List<Record>> GetPopularsRecordAsync()
+        private async Task<List<RecordModel>> GetPopularsRecordAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.GetPopularRecords;
 
@@ -214,7 +214,7 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+                var records = JsonConvert.DeserializeObject<List<RecordModel>>(result);
 
                 records.ForEach((record) =>
                 {

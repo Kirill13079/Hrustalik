@@ -4,8 +4,8 @@
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:controls="clr-namespace:HealthApp.Controls"
-                  xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-                  x:Class="HealthApp.Views.Components.PopupComponents.NewsPopup">
+                  xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" 
+                  x:Class="HealthApp.Views.Components.PopupComponents.CategoryNewsPopup">
 
     <popup:PopupPage.Animation>
         <animations:MoveAnimation DurationIn="250"
@@ -30,10 +30,14 @@
                    HasShadow="False">
                 <Grid ColumnDefinitions="*"
                       RowDefinitions="*,*,*">
+                    <!-- share button -->
                     <StackLayout Grid.Column="0" 
                                  Orientation="Horizontal"
                                  Padding="20,0"
                                  xtoll:TouchEffect.NativeAnimation="True">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShareRecordModelTapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
                         <controls:TintedCachedImage WidthRequest="25" 
                                                     HeightRequest="25"                                                       
                                                     SvgSource="HealthApp.Resources.Icons.send.svg"
@@ -44,21 +48,29 @@
                                HorizontalOptions="Start"
                                Text="Поделиться"/>
                     </StackLayout>
-                    <StackLayout Grid.Column="0"
+                    <!-- add/delete bookmark button -->
+                    <StackLayout x:Name="bookmark"
+                                 Grid.Column="0"
                                  Grid.Row="1"
                                  Orientation="Horizontal"
                                  Padding="20,0"
                                  xtoll:TouchEffect.NativeAnimation="True">
-                        <controls:TintedCachedImage WidthRequest="25" 
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="AddOrDeleteBookmarkRecordTapped"/>
+                        </StackLayout.GestureRecognizers>
+                        <controls:TintedCachedImage x:Name="bookmarkImage" 
+                                                    WidthRequest="25" 
                                                     HeightRequest="25"                                                       
-                                                    SvgSource="HealthApp.Resources.Icons.bookmark.svg"
+                                                    SvgSource="HealthApp.Resources.Icons.like.svg"
                                                     TintColor="#666472"/>
-                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                        <Label x:Name="bookmarkLablel"
+                               FontSize="{DynamicResource BodyLabelFontSize}"
                                Margin="10,0"
                                VerticalOptions="Center" 
                                HorizontalOptions="Start"
-                               Text="Сохранить"/>
+                               Text="В закладки"/>
                     </StackLayout>
+                    <!-- open link button -->
                     <StackLayout Grid.Column="0"
                                  Grid.Row="2"
                                  Orientation="Horizontal"

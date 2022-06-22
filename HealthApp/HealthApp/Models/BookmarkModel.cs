@@ -5,8 +5,8 @@ namespace HealthApp.Models
 {
     public class BookmarkModel : BaseViewModel
     {
-        private ObservableRangeCollection<Record> _records;
-        public ObservableRangeCollection<Record> Records
+        private ObservableRangeCollection<RecordModel> _records;
+        public ObservableRangeCollection<RecordModel> Records
         {
             get { return _records; }
             set
@@ -62,7 +62,7 @@ namespace HealthApp.Models
 
         public BookmarkModel()
         {
-            Records = new ObservableRangeCollection<Record>();
+            Records = new ObservableRangeCollection<RecordModel>();
 
             IsBusy = true;
             IsAuthorized = true;

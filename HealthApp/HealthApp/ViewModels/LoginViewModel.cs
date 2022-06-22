@@ -64,6 +64,7 @@ namespace HealthApp.ViewModels
                 Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
 
                 _ = BookmarksNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
+                _ = CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
 
                 Navigation.GoBack();
             }

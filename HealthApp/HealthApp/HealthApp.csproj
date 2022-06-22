@@ -38,6 +38,8 @@
     <None Remove="Resources\Icons\bookmarkFull.svg" />
     <None Remove="Resources\Icons\chat.svg" />
     <None Remove="Resources\Icons\key.svg" />
+    <None Remove="Resources\Icons\like.svg" />
+    <None Remove="Resources\Icons\likeFull.svg" />
     <None Remove="Resources\Icons\link.svg" />
     <None Remove="Resources\Icons\more.svg" />
     <None Remove="Resources\Icons\navigate.svg" />
@@ -74,6 +76,8 @@
     <EmbeddedResource Include="Resources\Icons\bookmarkFull.svg" />
     <EmbeddedResource Include="Resources\Icons\chat.svg" />
     <EmbeddedResource Include="Resources\Icons\key.svg" />
+    <EmbeddedResource Include="Resources\Icons\like.svg" />
+    <EmbeddedResource Include="Resources\Icons\likeFull.svg" />
     <EmbeddedResource Include="Resources\Icons\link.svg" />
     <EmbeddedResource Include="Resources\Icons\more.svg" />
     <EmbeddedResource Include="Resources\Icons\navigate.svg" />
@@ -113,6 +117,9 @@
     </Compile>
     <Compile Update="Views\CategoriesNewsPage.xaml.cs">
       <DependentUpon>CategoriesNewsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Components\PopupComponents\CategoryNewsPopup.xaml.cs">
+      <DependentUpon>CategoryNewsPopup.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -162,7 +169,7 @@
     <EmbeddedResource Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\PopupComponents\NewsPopup.xaml">
+    <EmbeddedResource Update="Views\Components\PopupComponents\CategoryNewsPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">

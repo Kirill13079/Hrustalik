@@ -82,10 +82,10 @@ namespace HealthApp.ViewModels
             TabCategoriesRecords = new ObservableRangeCollection<TabModel>();
             CurrentTab = new TabModel();
 
-            _ = GetData();
+            _ = GetDataAsync();
         }
 
-        public async Task GetData()
+        public async Task GetDataAsync()
         {
             if (TabCategoriesRecords.Any())
             {
@@ -141,15 +141,18 @@ namespace HealthApp.ViewModels
                     var records = await GetCategoryRecordsAsync(tab.Page);
 
                     Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
-                    Func<Record, bool> isBookmarkRecord = (Record record) => bookmarks.Where(boomark => boomark.Record.Id == record.Id).Any();
+                    Func<RecordModel, bool> isBookmarkRecord = (RecordModel record) => bookmarks.Where(boomark => boomark.Record.Id == record.Id).Any();
 
                     records.RemoveAll(record => removedAuthors(record.Author));
 
-                    foreach (var record in records)
+                    if (bookmarks != null)
                     {
-                        if (isBookmarkRecord(record))
+                        foreach (var record in records)
                         {
-                            record.IsBookmark = true;
+                            if (isBookmarkRecord(record))
+                            {
+                                record.IsBookmark = true;
+                            }
                         }
                     }
                         
@@ -167,15 +170,18 @@ namespace HealthApp.ViewModels
                     var records = await GetCategoryRecordsAsync(tab.Page);
 
                     Predicate<Author> removedAuthors = (Author author) => !_savedUserAuthors.EqualsHelper(author);
-                    Func<Record, bool> isBookmarkRecord = (Record record) => bookmarks.Where(boomark => boomark.Record.Id == record.Id).Any();
+                    Func<RecordModel, bool> isBookmarkRecord = (RecordModel record) => bookmarks.Where(boomark => boomark.Record.Id == record.Id).Any();
 
                     records.RemoveAll(record => removedAuthors(record.Author));
 
-                    foreach (var record in records)
+                    if (bookmarks != null)
                     {
-                        if (isBookmarkRecord(record))
+                        foreach (var record in records)
                         {
-                            record.IsBookmark = true;
+                            if (isBookmarkRecord(record))
+                            {
+                                record.IsBookmark = true;
+                            }
                         }
                     }
 
@@ -200,7 +206,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<List<Record>> GetCategoryRecordsAsync(int categoryId)
+        private async Task<List<RecordModel>> GetCategoryRecordsAsync(int categoryId)
         {
             string url = $"{ApiRoutes.BaseUrl}{ApiRoutes.GetCategoryRecords}?id={categoryId}";
 
@@ -208,7 +214,7 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(result))
             {
-                var records = JsonConvert.DeserializeObject<List<Record>>(result);
+                var records = JsonConvert.DeserializeObject<List<RecordModel>>(result);
 
                 records.ForEach((record) =>
                 {

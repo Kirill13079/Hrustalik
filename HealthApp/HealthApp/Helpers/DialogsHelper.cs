@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HealthApp.Helpers
@@ -56,5 +58,14 @@ namespace HealthApp.Helpers
             MaskType = MaskType.Black,
             Title = null
         });
+
+        public static async Task ShareText(string text, string uri)
+        {
+            await Share.RequestAsync(new ShareTextRequest
+            {
+                Uri = uri,
+                Title = text
+            });
+        }
     }
 }

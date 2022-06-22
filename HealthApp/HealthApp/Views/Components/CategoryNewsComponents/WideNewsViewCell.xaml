@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
-          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
           xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
           xmlns:controls="clr-namespace:HealthApp.Controls"
-          xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
           x:Class="HealthApp.Views.Components.CategoryNewsComponents.WideNewsViewCell">
 
     <Frame BackgroundColor="{DynamicResource ComponentColor}"
@@ -17,10 +17,11 @@
                 <!-- content -->
                 <Grid RowDefinitions="90, 175">
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RecordTapped"/>
+                        <TapGestureRecognizer Tapped="RecordModelTapped"/>
                     </Grid.GestureRecognizers>
                     <!-- description, author, date -->
                     <StackLayout Orientation="Vertical">
+                        <!-- description -->
                         <Label x:Name="description"
                                FontFamily="Bold"
                                LineBreakMode="TailTruncation"
@@ -32,6 +33,7 @@
                             <StackLayout Orientation="Horizontal"
                                          WidthRequest="150"
                                          HorizontalOptions="StartAndExpand">
+                                <!-- author image -->
                                 <Frame Padding="0"
                                        CornerRadius="10"
                                        xtoll:TouchEffect.NativeAnimation="True">
@@ -42,6 +44,7 @@
                                                                 HeightRequest="20"
                                                                 WidthRequest="20"/>
                                 </Frame>
+                                <!-- author name -->
                                 <Label x:Name="published" 
                                        FontSize="{StaticResource SmallLabelFontSize}"
                                        TextColor="{DynamicResource AccentColor}"
@@ -51,6 +54,7 @@
                                        VerticalOptions="Center">
                                 </Label>
                             </StackLayout>
+                            <!-- data -->
                             <Label x:Name="data"
                                    FontFamily="Regular"
                                    LineBreakMode="TailTruncation"
@@ -61,7 +65,7 @@
                             </Label>
                         </StackLayout>
                     </StackLayout>
-                    <!-- image -->
+                    <!-- image record -->
                     <Frame Grid.Row="1" 
                            BackgroundColor="{DynamicResource ImageBackgroundColor}"
                            CornerRadius="10"
@@ -76,12 +80,16 @@
                 <!-- buttons -->
                 <StackLayout Padding="0,5,0,0"
                              Orientation="Horizontal">
-                    <!-- share -->
-                    <Frame Padding="5"
+                    <!-- share button -->
+                    <Frame x:Name="share" 
+                           Padding="5"
                            xtoll:TouchEffect.NativeAnimation="True"
                            CornerRadius="10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShareRecordModelTapped"/>
+                        </Frame.GestureRecognizers>
                         <StackLayout Orientation="Horizontal">
-                            <controls:TintedCachedImage WidthRequest="25" 
+                            <controls:TintedCachedImage x:Name="shareImage" WidthRequest="25" 
                                                         HeightRequest="25"                                                       
                                                         SvgSource="HealthApp.Resources.Icons.send.svg"
                                                         TintColor="{DynamicResource AccentColor}"/>
@@ -95,38 +103,26 @@
                             </Label>
                         </StackLayout>
                     </Frame>
-                    <!-- add bookmark -->
-                    <Frame x:Name="addBookmark"
-                           Padding="5"
-                           xtoll:TouchEffect.NativeAnimation="True"
-                           HorizontalOptions="EndAndExpand"
-                           CornerRadius="10">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="AddBookmarkRecordTapped"/>
-                        </Frame.GestureRecognizers>
-                        <StackLayout Orientation="Horizontal">
-                            <controls:TintedCachedImage WidthRequest="25" 
-                                                        HeightRequest="25"                                                       
-                                                        SvgSource="HealthApp.Resources.Icons.bookmark.svg"
-                                                        TintColor="{DynamicResource AccentColor}"/>
-                        </StackLayout>
-                    </Frame>
-                    <!-- delete bookmark -->
-                    <Frame x:Name="deleteBookmark"
-                           Padding="5"
-                           xtoll:TouchEffect.NativeAnimation="True"
-                           HorizontalOptions="EndAndExpand"
-                           CornerRadius="10">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="DeleteBookmarkRecordTapped"/>
-                        </Frame.GestureRecognizers>
-                        <StackLayout Orientation="Horizontal">
-                            <controls:TintedCachedImage WidthRequest="25" 
-                                                        HeightRequest="25"                                                       
-                                                        SvgSource="HealthApp.Resources.Icons.bookmarkFull.svg"
-                                                        TintColor="{DynamicResource AccentColor}"/>
-                        </StackLayout>
-                    </Frame>
+                    <Grid HorizontalOptions="EndAndExpand">
+                        <!-- add/delete bookmark button -->
+                        <Frame x:Name="bookmark"
+                               Padding="5"
+                               xtoll:TouchEffect.NativeAnimation="True"
+                               HorizontalOptions="EndAndExpand"
+                               CornerRadius="10"
+                               IsVisible="True">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddOrDeleteBookmarkRecordTapped"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal">
+                                <controls:TintedCachedImage x:Name="bookmarkImage" 
+                                                            WidthRequest="25" 
+                                                            HeightRequest="25"     
+                                                            SvgSource="HealthApp.Resources.Icons.like.svg"
+                                                            TintColor="{DynamicResource AccentColor}"/>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

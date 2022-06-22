@@ -1,4 +1,5 @@
 ﻿using HealthApp.Extensions;
+using HealthApp.Models;
 using HealthApp.Service;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -21,7 +22,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
             image.Source = null;
 
-            var bindingContext = BindingContext as Common.Model.Record;
+            var bindingContext = BindingContext as RecordModel;
 
             image.Source = bindingContext.Image;
             description.Text = bindingContext.Name;
@@ -32,23 +33,21 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var obj = (sender as Frame).BindingContext as Common.Model.Record;
+            var record = (sender as Frame).BindingContext as RecordModel;
 
-            var parentBindingContext = newsViewCell.Parent.Parent.BindingContext;
-
-            if (obj != null)
+            if (record != null)
             {
-                await PopupNavigation.Instance.PushAsync(new PopupComponents.NewsPopup());
+                await PopupNavigation.Instance.PushAsync(new PopupComponents.CategoryNewsPopup(record));
             }
         }
 
         private void TappedRecord(object sender, EventArgs e)
         {
-            var obj = (sender as Frame).BindingContext as Common.Model.Record;
+            var record = (sender as Frame).BindingContext as RecordModel;
 
-            if (obj != null)
+            if (record != null)
             {
-                Navigation.NavigateTo("news", obj);
+                Navigation.NavigateTo("news", record);
             }
         }
     }

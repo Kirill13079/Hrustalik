@@ -106,6 +106,7 @@ namespace HealthApp.ViewModels
                 Settings.RemoveSetting(Settings.AppPrefrences.token);
 
                 _ = BookmarksNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
+                _ = CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
 
                 Customer = null;
                 IsLoggedIn = false;

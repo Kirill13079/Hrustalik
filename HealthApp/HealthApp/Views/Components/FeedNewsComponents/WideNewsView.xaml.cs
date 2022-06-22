@@ -1,4 +1,5 @@
 ﻿using HealthApp.Extensions;
+using HealthApp.Models;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,7 +20,7 @@ namespace HealthApp.Views.Components.FeedNewsComponents
 
             image.Source = null;
 
-            var bindingContext = BindingContext as Common.Model.Record;
+            var bindingContext = BindingContext as RecordModel;
 
             image.Source = bindingContext.Image;
             description.Text = bindingContext.Name;
@@ -30,7 +31,7 @@ namespace HealthApp.Views.Components.FeedNewsComponents
 
         private void TappedRecord(object sender, EventArgs e)
         {
-            var obj = (sender as Frame).BindingContext as Common.Model.Record;
+            var obj = (sender as Frame).BindingContext as RecordModel;
 
             if (obj != null)
             {

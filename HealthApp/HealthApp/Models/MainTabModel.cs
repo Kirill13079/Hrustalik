@@ -5,8 +5,8 @@ namespace HealthApp.Models
 {
     public class MainTabModel : BaseViewModel
     {
-        private Record _hotRecord;
-        public Record HotRecord
+        private RecordModel _hotRecord;
+        public RecordModel HotRecord
         {
             get => _hotRecord;
             set 
@@ -27,8 +27,8 @@ namespace HealthApp.Models
             }
         }
 
-        private ObservableRangeCollection<Record> _records;
-        public ObservableRangeCollection<Record> Records
+        private ObservableRangeCollection<RecordModel> _records;
+        public ObservableRangeCollection<RecordModel> Records
         {
             get { return _records; }
             set
@@ -63,8 +63,8 @@ namespace HealthApp.Models
         public MainTabModel()
         {
             SubTabModel = new ObservableRangeCollection<TabModel>();
-            Records = new ObservableRangeCollection<Record>();
-            HotRecord = new Record();
+            Records = new ObservableRangeCollection<RecordModel>();
+            HotRecord = new RecordModel();
 
             IsBusy = true;
         }

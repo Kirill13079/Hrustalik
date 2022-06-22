@@ -1,5 +1,5 @@
-﻿using Rg.Plugins.Popup.Services;
-using System;
+﻿using System;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +18,7 @@ namespace HealthApp.Views
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await PopupNavigation.Instance.PushAsync(new Components.PopupComponents.NewsPopup());
+            await PopupNavigation.Instance.PushAsync(new Components.PopupComponents.CategoryNewsPopup(vm.SelectedRecord));
         }
     }
 }

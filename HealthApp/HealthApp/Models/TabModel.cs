@@ -39,8 +39,8 @@ namespace HealthApp.Models
             }
         }
 
-        private ObservableRangeCollection<Record> _records;
-        public ObservableRangeCollection<Record> Records
+        private ObservableRangeCollection<RecordModel> _records;
+        public ObservableRangeCollection<RecordModel> Records
         {
             get { return _records; }
             set
@@ -52,7 +52,7 @@ namespace HealthApp.Models
 
         public TabModel()
         {
-            Records = new ObservableRangeCollection<Record>();
+            Records = new ObservableRangeCollection<RecordModel>();
 
             IsBusy = true;
         }

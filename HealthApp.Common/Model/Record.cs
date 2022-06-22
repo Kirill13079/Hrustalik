@@ -27,9 +27,6 @@ namespace HealthApp.Common.Model
 
         public bool IsYoutube { get; set; }
 
-        [NotMapped]
-        public bool IsBookmark { get; set; }
-
         public string Source { get; set; }
 
         public DateTimeOffset DateAdded { get; set; }

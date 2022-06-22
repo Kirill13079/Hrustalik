@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using HealthApp.Models;
+using Xamarin.Forms;
 
 namespace HealthApp.Views.Components.CategoryNewsComponents
 {
@@ -15,7 +16,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (((Common.Model.Record)item).IsHot)
+            if (!((RecordModel)item).IsArticle)
             {
                 return _wideNewsView;
             }

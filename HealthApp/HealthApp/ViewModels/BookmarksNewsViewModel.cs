@@ -86,13 +86,13 @@ namespace HealthApp.ViewModels
 
                     var bookmarks = await GetBookmarksAsync();
 
-                    var records = new List<Record>();
+                    var records = new List<RecordModel>();
 
                     if (bookmarks != null)
                     {
                         foreach (var bookmark in bookmarks)
                         {
-                            records.Add(bookmark.Record);
+                            records.Add((RecordModel)bookmark.Record);
                         }
                     }
 
@@ -106,13 +106,13 @@ namespace HealthApp.ViewModels
 
                     var bookmarks = await GetBookmarksAsync();
 
-                    var records = new List<Record>();
+                    var records = new List<RecordModel>();
 
                     if (bookmarks != null)
                     {
                         foreach (var bookmark in bookmarks)
                         {
-                            records.Add(bookmark.Record);
+                            records.Add((RecordModel)bookmark.Record);
                         }
                     }
 

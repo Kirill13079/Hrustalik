@@ -36,7 +36,7 @@ namespace HealthApp.Helpers
 
             Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
 
-            CategoriesNewsViewModel.Instance.GetData().ConfigureAwait(false);
+            CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
             MainNewsViewModel.Instance.GetData().ConfigureAwait(false);
         }
 
@@ -52,7 +52,7 @@ namespace HealthApp.Helpers
             Settings.RemoveSetting(Settings.AppPrefrences.Authors);
             Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
 
-            CategoriesNewsViewModel.Instance.GetData().ConfigureAwait(false);
+            CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
             MainNewsViewModel.Instance.GetData().ConfigureAwait(false);
         }
     }
