@@ -37,7 +37,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
             if (record != null)
             {
-                await PopupNavigation.Instance.PushAsync(new PopupComponents.CategoryNewsPopup(record));
+                await PopupNavigation.Instance.PushAsync(new PopupComponents.NewsPopup(record));
             }
         }
 
@@ -47,7 +47,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
             if (record != null)
             {
-                Navigation.NavigateTo("news", record);
+                Navigation.NavigateTo("news", record, "category");
             }
         }
     }

@@ -6,6 +6,9 @@
              xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:convert="clr-namespace:HealthApp.Converts"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:controls="clr-namespace:HealthApp.Controls"
              x:Class="HealthApp.Views.MainNewsPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
@@ -31,7 +34,59 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid>
+        <StackLayout xct:StateLayout.CurrentState="{Binding CurrentState}"
+                     xct:StateLayout.AnimateStateChanges="False">
+            
+            <!-- skeleton loader -->
+            <xct:StateLayout.StateViews>
+                <xct:StateView StateKey="Loading">
+                    <Grid ColumnDefinitions="*"
+                          RowDefinitions="220,202,*"
+                          ColumnSpacing="10"
+                          RowSpacing="15"
+                          Padding="0,0,0,5">
+                        <controls:SkeletonView Grid.Column="0"
+                                               Grid.Row="0"
+                                               Margin="10,0"
+                                               CornerRadius="15"
+                                               HorizontalOptions="FillAndExpand"
+                                               BackgroundColor="{DynamicResource ComponentColor}"/>
+                        <ScrollView Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    HorizontalScrollBarVisibility="Never">
+                            <Grid ColumnDefinitions="*,*,*"
+                                  VerticalOptions="FillAndExpand"
+                                  Padding="10,0,0,0">
+                                <controls:SkeletonView BackgroundColor="{DynamicResource ComponentColor}"
+                                                       CornerRadius="15"
+                                                       WidthRequest="160"
+                                                       VerticalOptions="FillAndExpand"
+                                                       Margin="0,0,5,0"/>
+                                <controls:SkeletonView Grid.Column ="1" 
+                                                       BackgroundColor="{DynamicResource ComponentColor}"
+                                                       CornerRadius="15"
+                                                       WidthRequest="160"
+                                                       VerticalOptions="FillAndExpand"
+                                                       Margin="0,0,5,0"/>
+                                <controls:SkeletonView Grid.Column ="2" 
+                                                       BackgroundColor="{DynamicResource ComponentColor}"
+                                                       CornerRadius="15"
+                                                       WidthRequest="160"
+                                                       VerticalOptions="FillAndExpand"
+                                                       Margin="0,0,5,0"/>
+                            </Grid>
+                        </ScrollView>
+                        <StackLayout Grid.Row="2"
+                                     Padding="10,0">
+                            <controls:SkeletonView HeightRequest="320"
+                                                   BackgroundColor="{DynamicResource ComponentColor}"
+                                                   CornerRadius="15"
+                                                   HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Grid>
+                </xct:StateView>
+            </xct:StateLayout.StateViews>
+            
             <CollectionView x:Name="mainScrollView"
                             VerticalScrollBarVisibility="Never">
                 <CollectionView.Header>
@@ -43,8 +98,8 @@
                                           Margin="10,0"
                                           CornerRadius="15">
                             <ffimageloading:CachedImage Source="{Binding MainTabModel.HotRecord.Image}" 
-                                                        Aspect="AspectFill"
                                                         BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                                        Aspect="AspectFill"
                                                         DownsampleToViewSize="True"
                                                         DownsampleUseDipUnits="True"/>
                         </pnck:PancakeView>
@@ -60,7 +115,8 @@
                                     <pnck:GradientStop Color="Transparent" Offset="1" />
                                 </pnck:GradientStopCollection>
                             </pnck:PancakeView.BackgroundGradientStops>
-                            <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand">
+                            <StackLayout Orientation="Vertical" 
+                                         VerticalOptions="EndAndExpand">
                                 <Label Text="{Binding MainTabModel.HotRecord.Category.Name}"
                                        FontFamily="Regular"
                                        LineBreakMode="TailTruncation"
@@ -123,7 +179,8 @@
                                                           ItemTemplate="{StaticResource PopularNewsDataTemplateSelector}"
                                                           ItemsSource="{Binding Records}"
                                                           SelectionMode="None"
-                                                          SeparatorVisibility="None">
+                                                          SeparatorVisibility="None"
+                                                          HorizontalScrollBarVisibility="Never">
                                                 </ListView>
                                                 <Frame HorizontalOptions="Fill"
                                                        IsVisible="{Binding HasError}"
@@ -142,14 +199,29 @@
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout BindableLayout.ItemsSource="{Binding Records}"
-                                     BindableLayout.ItemTemplateSelector="{StaticResource FeedNewsComponentsDataTemplateSelector}"
-                                     Spacing="0"
-                                     Padding="10,0">
-                        </StackLayout>
+                        <Grid>
+                            <!-- records -->
+                            <StackLayout BindableLayout.ItemsSource="{Binding Records}"
+                                             BindableLayout.ItemTemplateSelector="{StaticResource FeedNewsComponentsDataTemplateSelector}"
+                                             Spacing="0"
+                                             Padding="10,0">
+                            </StackLayout>
+                            <!-- has error -->
+                            <StackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         IsVisible="{Binding HasError}">
+                                <StackLayout>
+                                    <Label FontAttributes="Bold"
+                                           FontSize="25"
+                                           HorizontalTextAlignment="Center"
+                                           Text="Что то пошло не так"
+                                           TextColor="Gray" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

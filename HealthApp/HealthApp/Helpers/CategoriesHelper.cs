@@ -35,9 +35,6 @@ namespace HealthApp.Helpers
             string userCategoriesJson = JsonConvert.SerializeObject(_savedUserCategories);
 
             Settings.AddSetting(Settings.AppPrefrences.Categories, userCategoriesJson);
-
-            CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
-            MainNewsViewModel.Instance.GetData().ConfigureAwait(false);
         }
 
         public static void RemoveUserCategory(Category category)
@@ -51,9 +48,6 @@ namespace HealthApp.Helpers
 
             Settings.RemoveSetting(Settings.AppPrefrences.Categories);
             Settings.AddSetting(Settings.AppPrefrences.Categories, userCategoriesJson);
-
-            CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
-            MainNewsViewModel.Instance.GetData().ConfigureAwait(false);
         }
     }
 }

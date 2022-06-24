@@ -1,6 +1,12 @@
-﻿using HealthApp.Extensions;
+﻿using HealthApp.Common.Model;
+using HealthApp.Common.Model.Helper;
+using HealthApp.Extensions;
+using HealthApp.Helpers;
 using HealthApp.Models;
+using HealthApp.Service;
+using HealthApp.ViewModels.Main;
 using System;
+using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,6 +15,9 @@ namespace HealthApp.Views.Components.FeedNewsComponents
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WideNewsView : ContentView
     {
+        private const uint AnimationSpeed = 100;
+        private RecordModel _bindingContext = null;
+
         public WideNewsView()
         {
             InitializeComponent();
@@ -20,23 +29,70 @@ namespace HealthApp.Views.Components.FeedNewsComponents
 
             image.Source = null;
 
-            var bindingContext = BindingContext as RecordModel;
+            _bindingContext = BindingContext as RecordModel;
 
-            image.Source = bindingContext.Image;
-            description.Text = bindingContext.Name;
-            data.Text = bindingContext.DateAdded.UtcDateTime.ToRelativeDateString(true);
-            authorImage.Source = bindingContext.Author.Logo;
-            published.Text = bindingContext.Author.Name;
+            image.Source = _bindingContext.Image;
+            description.Text = _bindingContext.Name;
+            data.Text = _bindingContext.DateAdded.UtcDateTime.ToRelativeDateString(true);
+            authorImage.Source = _bindingContext.Author.Logo;
+            published.Text = _bindingContext.Author.Name;
+            bookmarkImage.SvgSource = _bindingContext.IsBookmark
+                ? "HealthApp.Resources.Icons.likeFull.svg"
+                : "HealthApp.Resources.Icons.like.svg";
+
+            _bindingContext.PropertyChanged += BindingContextPropertyChanged;
         }
 
-        private void TappedRecord(object sender, EventArgs e)
+        private void BindingContextPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var obj = (sender as Frame).BindingContext as RecordModel;
+            bookmarkImage.SvgSource = _bindingContext.IsBookmark
+                ? "HealthApp.Resources.Icons.likeFull.svg"
+                : "HealthApp.Resources.Icons.like.svg";
+        }
 
-            if (obj != null)
+        private void RecordModelTapped(object sender, EventArgs e)
+        {
+            Service.Navigation.NavigateTo("news", _bindingContext, "main");
+        }
+
+        private async void ShareRecordModelTapped(object sender, EventArgs e)
+        {
+            await DialogsHelper.ShareText(_bindingContext.Name, _bindingContext.Source);
+        }
+
+        private async void AddOrDeleteBookmarkRecordTapped(object sender, EventArgs e)
+        {
+            bool isLiked = _bindingContext.IsBookmark;
+            string url;
+
+            if (_bindingContext.IsBookmark)
             {
-                Service.Navigation.NavigateTo("news", obj);
+                url = ApiRoutes.BaseUrl + ApiRoutes.DeleteBookmark + $"/?id={_bindingContext.Id}";
+
+                var response = await ApiCaller.Post(url, _bindingContext.Id);
+
+                if (!string.IsNullOrWhiteSpace(response))
+                {
+                    isLiked = false;
+                }
             }
+            else
+            {
+                url = ApiRoutes.BaseUrl + ApiRoutes.AddBookmark;
+
+                var bookmark = new Bookmark { Record = _bindingContext };
+                var response = await ApiCaller.Post(url, bookmark);
+
+                if (!string.IsNullOrWhiteSpace(response))
+                {
+                    isLiked = true;
+                }
+            }
+
+            MainViewModel.Instance.SetLikeRecord(_bindingContext, isLiked);
+
+            await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
+            await bookmarkImage.ScaleTo(1, AnimationSpeed);
         }
     }
 }

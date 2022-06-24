@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using HealthApp.Common.Model;
 using System;
 using HealthApp.Common.Model.Response;
+using HealthApp.ViewModels.Main;
+using HealthApp.Helpers;
 
 namespace HealthApp.ViewModels
 {
@@ -56,6 +58,8 @@ namespace HealthApp.ViewModels
 
             if (!string.IsNullOrWhiteSpace(response))
             {
+                DialogsHelper.ProgressDialog.Show();
+
                 var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
 
                 SettingsViewModel.Instance.Customer = loginResponse.Customer;
@@ -63,10 +67,11 @@ namespace HealthApp.ViewModels
 
                 Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
 
-                _ = BookmarksNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
-                _ = CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
+                await MainViewModel.Instance.GetDataAsync();
 
                 Navigation.GoBack();
+
+                DialogsHelper.ProgressDialog.Hide();
             }
             else
             {

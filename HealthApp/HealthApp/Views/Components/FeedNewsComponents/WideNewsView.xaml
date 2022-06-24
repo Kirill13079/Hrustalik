@@ -12,102 +12,119 @@
            Margin="0,5"
            CornerRadius="15"
            VerticalOptions="Start">
-        <Frame.GestureRecognizers>
-            <TapGestureRecognizer Tapped="TappedRecord"/>
-        </Frame.GestureRecognizers>
-        <Grid RowDefinitions="90,*,Auto">
+        <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Vertical">
-                <Label x:Name="description"
-                       FontFamily="Bold"
-                       LineBreakMode="TailTruncation"
-                       MaxLines="3"
-                       FontSize="{StaticResource HeadLabelFontSize}">
-                </Label>
-                <StackLayout Orientation="Horizontal"
-                             VerticalOptions="EndAndExpand">
-                    <StackLayout Orientation="Horizontal"
-                                 WidthRequest="150"
-                                 HorizontalOptions="StartAndExpand">
-                        <Frame Padding="0"
-                               CornerRadius="10"
-                               xtoll:TouchEffect.NativeAnimation="True">
-                            <ffimageloading:CachedImage x:Name="authorImage"
-                                                        Aspect="AspectFill"
-                                                        DownsampleToViewSize="True"
-                                                        DownsampleUseDipUnits="True"
-                                                        HeightRequest="20"
-                                                        WidthRequest="20"/>
-                        </Frame>
-                        <Label x:Name="published" 
-                               FontSize="{StaticResource SmallLabelFontSize}"
-                               TextColor="{DynamicResource AccentColor}"
-                               FontFamily="Medium"
+                <!-- content-->
+                <Grid RowDefinitions="90, 175">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RecordModelTapped"/>
+                    </Grid.GestureRecognizers>
+                    <!-- description, author, date -->
+                    <StackLayout Orientation="Vertical">
+                        <!-- description -->
+                        <Label x:Name="description"
+                               FontFamily="Bold"
                                LineBreakMode="TailTruncation"
-                               MaxLines="1"
-                               VerticalOptions="Center">
+                               MaxLines="3"
+                               FontSize="{StaticResource HeadLabelFontSize}">
                         </Label>
+                        <StackLayout Orientation="Horizontal"
+                                     VerticalOptions="EndAndExpand">
+                            <StackLayout Orientation="Horizontal"
+                                         WidthRequest="150"
+                                         HorizontalOptions="StartAndExpand">
+                                <!-- author image -->
+                                <Frame Padding="0"
+                                       CornerRadius="10"
+                                       xtoll:TouchEffect.NativeAnimation="True">
+                                    <ffimageloading:CachedImage x:Name="authorImage"
+                                                                Aspect="AspectFill"
+                                                                DownsampleToViewSize="True"
+                                                                DownsampleUseDipUnits="True"
+                                                                HeightRequest="20"
+                                                                WidthRequest="20"/>
+                                </Frame>
+                                <!-- author name -->
+                                <Label x:Name="published" 
+                                       FontSize="{StaticResource SmallLabelFontSize}"
+                                       TextColor="{DynamicResource AccentColor}"
+                                       FontFamily="Medium"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1"
+                                       VerticalOptions="Center">
+                                </Label>
+                            </StackLayout>
+                            <!-- data -->
+                            <Label x:Name="data"
+                                   FontFamily="Regular"
+                                   LineBreakMode="TailTruncation"
+                                   TextColor="{DynamicResource SkeletonColor}"
+                                   MaxLines="1"
+                                   VerticalOptions="Center"
+                                   FontSize="{StaticResource SmallLabelFontSize}">
+                            </Label>
+                        </StackLayout>
                     </StackLayout>
-                    <Label x:Name="data"
-                           FontFamily="Regular"
-                           LineBreakMode="TailTruncation"
-                           TextColor="{DynamicResource SkeletonColor}"
-                           MaxLines="1"
-                           VerticalOptions="Center"
-                           FontSize="{StaticResource SmallLabelFontSize}">
-                    </Label>
+                    <!-- image record -->
+                    <Frame Grid.Row="1" 
+                           BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                           CornerRadius="10"
+                           Padding="0">
+                        <ffimageloading:CachedImage x:Name="image"
+                                                    Aspect="AspectFill"
+                                                    BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                                    DownsampleToViewSize="True"
+                                                    DownsampleUseDipUnits="True" />
+                    </Frame>
+                </Grid>
+                <!-- buttons -->
+                <StackLayout Padding="0,5,0,0"
+                             Orientation="Horizontal">
+                    <!-- share button -->
+                    <Frame x:Name="share" 
+                           Padding="5"
+                           xtoll:TouchEffect.NativeAnimation="True"
+                           CornerRadius="10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShareRecordModelTapped"/>
+                        </Frame.GestureRecognizers>
+                        <StackLayout Orientation="Horizontal">
+                            <controls:TintedCachedImage x:Name="shareImage" WidthRequest="25" 
+                                                        HeightRequest="25"                                                       
+                                                        SvgSource="HealthApp.Resources.Icons.send.svg"
+                                                        TintColor="{DynamicResource AccentColor}"/>
+                            <Label FontFamily="Medium"
+                                   Text="Поделиться"
+                                   LineBreakMode="TailTruncation"
+                                   VerticalOptions="Center"
+                                   TextColor="{DynamicResource AccentColor}"
+                                   MaxLines="1"
+                                   FontSize="{StaticResource SmallLabelFontSize}">
+                            </Label>
+                        </StackLayout>
+                    </Frame>
+                    <Grid HorizontalOptions="EndAndExpand">
+                        <!-- add/delete bookmark button -->
+                        <Frame x:Name="bookmark"
+                               Padding="5"
+                               xtoll:TouchEffect.NativeAnimation="True"
+                               HorizontalOptions="EndAndExpand"
+                               CornerRadius="10"
+                               IsVisible="True">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AddOrDeleteBookmarkRecordTapped"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal">
+                                <controls:TintedCachedImage x:Name="bookmarkImage" 
+                                                            WidthRequest="25" 
+                                                            HeightRequest="25"     
+                                                            SvgSource="HealthApp.Resources.Icons.like.svg"
+                                                            TintColor="{DynamicResource AccentColor}"/>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
                 </StackLayout>
             </StackLayout>
-            <Frame Grid.Row="1" 
-                   BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                   CornerRadius="10"
-                   Padding="0">
-                <ffimageloading:CachedImage x:Name="image"
-                                            Aspect="AspectFill"
-                                            BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                                            DownsampleToViewSize="True"
-                                            DownsampleUseDipUnits="True" />
-            </Frame>
-            <StackLayout Grid.Row="2"
-                         Padding="0,5,0,0"
-                         Orientation="Horizontal">
-                <Frame Padding="5"
-                       xtoll:TouchEffect.NativeAnimation="True"
-                       CornerRadius="10">
-                    <StackLayout Orientation="Horizontal">
-                        <controls:TintedCachedImage WidthRequest="25" 
-                                                    HeightRequest="25"                                                       
-                                                    SvgSource="HealthApp.Resources.Icons.send.svg"
-                                                    TintColor="{DynamicResource AccentColor}"/>
-                        <Label FontFamily="Medium"
-                               Text="Поделиться"
-                               LineBreakMode="TailTruncation"
-                               VerticalOptions="Center"
-                               TextColor="{DynamicResource AccentColor}"
-                               MaxLines="1"
-                               FontSize="{StaticResource SmallLabelFontSize}">
-                        </Label>
-                    </StackLayout>
-                </Frame>
-                <Frame Padding="5"
-                       xtoll:TouchEffect.NativeAnimation="True"
-                       HorizontalOptions="EndAndExpand"
-                       CornerRadius="10">
-                    <StackLayout Orientation="Horizontal">
-                        <controls:TintedCachedImage WidthRequest="25" 
-                                                    HeightRequest="25"                                                       
-                                                    SvgSource="HealthApp.Resources.Icons.bookmark.svg"
-                                                    TintColor="{DynamicResource AccentColor}"/>
-                        <Label FontFamily="Medium"
-                               Text="Сохранить"
-                               LineBreakMode="TailTruncation"
-                               VerticalOptions="Center"
-                               TextColor="{DynamicResource AccentColor}"
-                               MaxLines="1"
-                               FontSize="{StaticResource SmallLabelFontSize}">
-                        </Label>
-                    </StackLayout>
-                </Frame>
-            </StackLayout>
-        </Grid>
+        </StackLayout>
     </Frame>
 </ContentView>

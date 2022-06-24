@@ -75,10 +75,10 @@ namespace HealthApp.ViewModels
             TabAuthorsAndCategoriesItems = new ObservableRangeCollection<AuthorAndCategoryTabModel>();
             CurrentTab = new AuthorAndCategoryTabModel();
 
-            _ = GetData();
+            _ = GetDataAsync();
         }
 
-        private async Task GetData()
+        private async Task GetDataAsync()
         {
             if (TabAuthorsAndCategoriesItems.Any())
             {

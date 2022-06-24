@@ -5,7 +5,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:controls="clr-namespace:HealthApp.Controls"
                   xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" 
-                  x:Class="HealthApp.Views.Components.PopupComponents.CategoryNewsPopup">
+                  x:Class="HealthApp.Views.Components.PopupComponents.NewsPopup">
 
     <popup:PopupPage.Animation>
         <animations:MoveAnimation DurationIn="250"
@@ -76,6 +76,9 @@
                                  Orientation="Horizontal"
                                  Padding="20,0"
                                  xtoll:TouchEffect.NativeAnimation="True">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OpenLinkRecordTapped"/>
+                        </StackLayout.GestureRecognizers>
                         <controls:TintedCachedImage WidthRequest="25" 
                                                     HeightRequest="25"                                                       
                                                     SvgSource="HealthApp.Resources.Icons.link.svg"

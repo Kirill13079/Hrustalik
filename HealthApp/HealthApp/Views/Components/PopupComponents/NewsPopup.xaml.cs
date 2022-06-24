@@ -1,28 +1,26 @@
 ﻿using System;
-using System.Linq;
 using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
-using HealthApp.ViewModels;
+using HealthApp.ViewModels.Main;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HealthApp.Views.Components.PopupComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CategoryNewsPopup
+    public partial class NewsPopup
     {
         private const uint AnimationSpeed = 100;
         private RecordModel _currentRecord = null;
 
-        public CategoryNewsPopup(RecordModel currentRecord)
+        public NewsPopup(RecordModel currentRecord)
         {
             InitializeComponent();
 
-            _currentRecord = CategoriesNewsViewModel.Instance.CurrentTab.Records
-                .FirstOrDefault(x => x.Equals(currentRecord));
+            _currentRecord = currentRecord;
 
             bookmarkImage.SvgSource = _currentRecord.IsBookmark
                 ? "HealthApp.Resources.Icons.likeFull.svg"
@@ -39,50 +37,54 @@ namespace HealthApp.Views.Components.PopupComponents
 
         private async void AddOrDeleteBookmarkRecordTapped(object sender, EventArgs e)
         {
-            bool @checked = true;
+            bool isLiked = _currentRecord.IsBookmark;
             string url;
 
             if (_currentRecord.IsBookmark)
             {
                 url = ApiRoutes.BaseUrl + ApiRoutes.DeleteBookmark + $"/?id={_currentRecord.Id}";
 
-                if (_currentRecord != null)
-                {
-                    var response = await ApiCaller.Post(url, _currentRecord.Id);
+                var response = await ApiCaller.Post(url, _currentRecord.Id);
 
-                    if (!string.IsNullOrWhiteSpace(response))
-                    {
-                        @checked = false;
-                    }
+                if (!string.IsNullOrWhiteSpace(response))
+                {
+                    isLiked = false;
                 }
             }
             else 
             {
                 url = ApiRoutes.BaseUrl + ApiRoutes.AddBookmark;
 
-                if (_currentRecord != null)
-                {
-                    var bookmark = new Bookmark { Record = _currentRecord };
-                    var response = await ApiCaller.Post(url, bookmark);
+                var bookmark = new Bookmark { Record = _currentRecord };
+                var response = await ApiCaller.Post(url, bookmark);
 
-                    if (!string.IsNullOrWhiteSpace(response))
-                    {
-                        @checked = true;
-                    }
+                if (!string.IsNullOrWhiteSpace(response))
+                {
+                    isLiked = true;
                 }
             }
 
-            _currentRecord.IsBookmark = @checked;
+            MainViewModel.Instance.SetLikeRecord(_currentRecord, isLiked);
 
-            bookmarkImage.SvgSource = @checked
+            _currentRecord.IsBookmark = isLiked;
+
+            bookmarkImage.SvgSource = isLiked
                 ? "HealthApp.Resources.Icons.likeFull.svg"
                 : "HealthApp.Resources.Icons.like.svg";
-            bookmarkLablel.Text = @checked
+            bookmarkLablel.Text = isLiked
                 ? "Убрать из закладок"
                 : "В закладки";
 
             await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
             await bookmarkImage.ScaleTo(1, AnimationSpeed);
+        }
+
+        private async void OpenLinkRecordTapped(object sender, EventArgs e)
+        {
+            //await PopupNavigation.Instance.PopAsync();
+            await Navigation.PushAsync(new WebNewsPage(_currentRecord));
+
+            //await DialogsHelper.OpenBrowser(_currentRecord.Source);
         }
     }
 }

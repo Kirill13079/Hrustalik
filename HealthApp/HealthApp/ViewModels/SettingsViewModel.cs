@@ -4,6 +4,7 @@ using HealthApp.Common.Model.Helper;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
+using HealthApp.ViewModels.Main;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using System;
@@ -105,8 +106,7 @@ namespace HealthApp.ViewModels
                 Settings.ClearSecureSorage();
                 Settings.RemoveSetting(Settings.AppPrefrences.token);
 
-                _ = BookmarksNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
-                _ = CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
+                await MainViewModel.Instance.GetDataAsync();
 
                 Customer = null;
                 IsLoggedIn = false;

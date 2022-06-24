@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
+using HealthApp.ViewModels.Main;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -41,7 +43,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
             _bindingContext.PropertyChanged += BindingContextPropertyChanged;
         }
 
-        private void BindingContextPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void BindingContextPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             bookmarkImage.SvgSource = _bindingContext.IsBookmark 
                 ? "HealthApp.Resources.Icons.likeFull.svg" 
@@ -50,65 +52,47 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         private void RecordModelTapped(object sender, EventArgs e)
         {
-            var record = (sender as Grid).BindingContext as RecordModel;
-
-            if (record != null)
-            {
-                Navigation.NavigateTo("news", record);
-            }
+            Service.Navigation.NavigateTo("news", _bindingContext, "category");
         }
 
         private async void ShareRecordModelTapped(object sender, EventArgs e)
         {
-            var record = (sender as Frame).BindingContext as RecordModel;
-
-            if (record != null)
-            {
-                await DialogsHelper.ShareText(record.Name, record.Source);
-            }
+            await DialogsHelper.ShareText(_bindingContext.Name, _bindingContext.Source);
         }
 
         private async void AddOrDeleteBookmarkRecordTapped(object sender, EventArgs e)
         {
-            var record = (sender as Frame).BindingContext as RecordModel;
-
+            bool isLiked = _bindingContext.IsBookmark;
             string url;
 
             if (_bindingContext.IsBookmark)
             {
-                url = ApiRoutes.BaseUrl + ApiRoutes.DeleteBookmark + $"/?id={record.Id}";
+                url = ApiRoutes.BaseUrl + ApiRoutes.DeleteBookmark + $"/?id={_bindingContext.Id}";
 
-                if (record != null)
+                var response = await ApiCaller.Post(url, _bindingContext.Id);
+
+                if (!string.IsNullOrWhiteSpace(response))
                 {
-                    var response = await ApiCaller.Post(url, record.Id);
-
-                    if (!string.IsNullOrWhiteSpace(response))
-                    {
-                        _bindingContext.IsBookmark = false;
-
-                        await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
-                        await bookmarkImage.ScaleTo(1, AnimationSpeed);
-                    }
+                    isLiked = false;
                 }
             }
-            else 
-            { 
+            else
+            {
                 url = ApiRoutes.BaseUrl + ApiRoutes.AddBookmark;
 
-                if (record != null)
+                var bookmark = new Bookmark { Record = _bindingContext };
+                var response = await ApiCaller.Post(url, bookmark);
+
+                if (!string.IsNullOrWhiteSpace(response))
                 {
-                    var bookmark = new Bookmark { Record = record };
-                    var response = await ApiCaller.Post(url, bookmark);
-
-                    if (!string.IsNullOrWhiteSpace(response))
-                    {
-                        _bindingContext.IsBookmark = true;
-
-                        await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
-                        await bookmarkImage.ScaleTo(1, AnimationSpeed);
-                    }
+                    isLiked = true;
                 }
             }
+
+            MainViewModel.Instance.SetLikeRecord(_bindingContext, isLiked);
+
+            await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
+            await bookmarkImage.ScaleTo(1, AnimationSpeed);
         }
     }
 }

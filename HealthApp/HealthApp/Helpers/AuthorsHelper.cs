@@ -35,9 +35,6 @@ namespace HealthApp.Helpers
             string userAuthorsJson = JsonConvert.SerializeObject(_savedUserAuthors);
 
             Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
-
-            CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
-            MainNewsViewModel.Instance.GetData().ConfigureAwait(false);
         }
 
         public static void RemoveUserAuthors(Author author)
@@ -51,9 +48,6 @@ namespace HealthApp.Helpers
 
             Settings.RemoveSetting(Settings.AppPrefrences.Authors);
             Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
-
-            CategoriesNewsViewModel.Instance.GetDataAsync().ConfigureAwait(false);
-            MainNewsViewModel.Instance.GetData().ConfigureAwait(false);
         }
     }
 }

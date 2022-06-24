@@ -1,4 +1,5 @@
 ﻿using HealthApp.Models;
+using HealthApp.ViewModels.Main;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,9 +13,9 @@ namespace HealthApp.Views
         {
             InitializeComponent();
 
-            BindingContext = ViewModels.MainNewsViewModel.Instance;
+            BindingContext = MainViewModel.Instance;
 
-            var bindingContext = BindingContext as ViewModels.MainNewsViewModel;
+            var bindingContext = BindingContext as MainViewModel;
 
             var bindingObject = new List<MainTabModel>();
 

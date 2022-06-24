@@ -1,6 +1,7 @@
 ﻿using HealthApp.Common.Model;
 using HealthApp.Helpers;
 using HealthApp.Models;
+using HealthApp.ViewModels.Main;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -53,6 +54,12 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 
                 AuthorsHelper.AddUserAuthors(_bindingContext.Author);
             }
+
+            DialogsHelper.ProgressDialog.Show();
+
+            await MainViewModel.Instance.GetDataAsync();
+
+            DialogsHelper.ProgressDialog.Hide();
 
             checkbox.IsActive = _bindingContext.IsActive;
         }

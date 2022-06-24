@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthApp.Views.WebNewsPage">
+    <ContentPage.Content>
+        <Grid BackgroundColor="{DynamicResource ShellBackgroundColor}"
+              RowSpacing="0"
+              RowDefinitions="Auto,*">
+            <ProgressBar x:Name="progressBar"
+                         Grid.Row="0"
+                         BackgroundColor="Transparent"/>
+            <WebView x:Name="webView"
+                     Grid.Row="1"
+                     BackgroundColor="Transparent"
+                     HorizontalOptions="FillAndExpand"
+                     Navigated="WebView_Navigated"
+                     Navigating="WebView_Navigating"
+                     VerticalOptions="FillAndExpand"
+                     Visual="Material" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

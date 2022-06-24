@@ -18,7 +18,7 @@ namespace HealthApp.Views
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            await PopupNavigation.Instance.PushAsync(new Components.PopupComponents.CategoryNewsPopup(vm.SelectedRecord));
+            await PopupNavigation.Instance.PushAsync(new Components.PopupComponents.NewsPopup(vm.SelectedRecord));
         }
     }
 }
