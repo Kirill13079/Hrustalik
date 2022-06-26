@@ -1,7 +1,6 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
 using HealthApp.Extensions;
-using HealthApp.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -9,45 +8,43 @@ namespace HealthApp.Helpers
 {
     public static class AuthorsHelper
     {
-        private static List<Author> _savedUserAuthors = new List<Author>();
-
-        public static List<Author> SavedUserAuthors => _savedUserAuthors;
+        public static List<Author> SavedUserAuthors { get; private set; } = new List<Author>();
 
         public static List<Author> GetSavedUserAuthors()
         {
-            string savedUserAuthors = Settings.GetSetting(Settings.AppPrefrences.Authors);
+            string savedUserAuthors = Settings.GetSetting(prefrence: Settings.AppPrefrences.Authors);
 
             if (savedUserAuthors != null)
             {
-                _savedUserAuthors = JsonConvert.DeserializeObject<List<Author>>(savedUserAuthors);
+                SavedUserAuthors = JsonConvert.DeserializeObject<List<Author>>(savedUserAuthors);
             }
 
-            return _savedUserAuthors;
+            return SavedUserAuthors;
         }
 
         public static void AddUserAuthors(Author author)
         {
-            if (!_savedUserAuthors.EqualsHelper(author))
+            if (!SavedUserAuthors.EqualsHelper(author))
             {
-                _savedUserAuthors.Add(author);
+                SavedUserAuthors.Add(author);
             }
 
-            string userAuthorsJson = JsonConvert.SerializeObject(_savedUserAuthors);
+            string userAuthorsJson = JsonConvert.SerializeObject(SavedUserAuthors);
 
-            Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.Authors, setting: userAuthorsJson);
         }
 
         public static void RemoveUserAuthors(Author author)
         {
-            if (_savedUserAuthors.EqualsHelper(author))
+            if (SavedUserAuthors.EqualsHelper(author))
             {
-                _savedUserAuthors.Remove(author);
+                _ = SavedUserAuthors.Remove(author);
             }
 
-            string userAuthorsJson = JsonConvert.SerializeObject(_savedUserAuthors);
+            string userAuthorsJson = JsonConvert.SerializeObject(SavedUserAuthors);
 
-            Settings.RemoveSetting(Settings.AppPrefrences.Authors);
-            Settings.AddSetting(Settings.AppPrefrences.Authors, userAuthorsJson);
+            Settings.RemoveSetting(prefrence: Settings.AppPrefrences.Authors);
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.Authors, setting: userAuthorsJson);
         }
     }
 }

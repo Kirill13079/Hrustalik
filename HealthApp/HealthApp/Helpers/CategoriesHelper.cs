@@ -1,7 +1,6 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
 using HealthApp.Extensions;
-using HealthApp.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -9,45 +8,43 @@ namespace HealthApp.Helpers
 {
     public static class CategoriesHelper
     {
-        private static List<Category> _savedUserCategories = new List<Category>();
-
-        public static List<Category> SavedUserCategories => _savedUserCategories;
+        public static List<Category> SavedUserCategories { get; private set; } = new List<Category>();
 
         public static List<Category> GetSavedUserCategories()
         {
-            string savedUserCategories = Settings.GetSetting(Settings.AppPrefrences.Categories);
+            string savedUserCategories = Settings.GetSetting(prefrence: Settings.AppPrefrences.Categories);
 
             if (savedUserCategories != null)
             {
-                _savedUserCategories = JsonConvert.DeserializeObject<List<Category>>(savedUserCategories);
+                SavedUserCategories = JsonConvert.DeserializeObject<List<Category>>(savedUserCategories);
             }
 
-            return _savedUserCategories;
+            return SavedUserCategories;
         }
 
         public static void AddUserCategory(Category category)
         {
-            if (!_savedUserCategories.EqualsHelper(category))
+            if (!SavedUserCategories.EqualsHelper(category))
             {
-                _savedUserCategories.Add(category);
+                SavedUserCategories.Add(category);
             }
 
-            string userCategoriesJson = JsonConvert.SerializeObject(_savedUserCategories);
+            string userCategoriesJson = JsonConvert.SerializeObject(SavedUserCategories);
 
             Settings.AddSetting(Settings.AppPrefrences.Categories, userCategoriesJson);
         }
 
         public static void RemoveUserCategory(Category category)
         {
-            if (_savedUserCategories.EqualsHelper(category))
+            if (SavedUserCategories.EqualsHelper(category))
             {
-                _savedUserCategories.Remove(category);
+                _ = SavedUserCategories.Remove(category);
             }
 
-            string userCategoriesJson = JsonConvert.SerializeObject(_savedUserCategories);
+            string userCategoriesJson = JsonConvert.SerializeObject(SavedUserCategories);
 
-            Settings.RemoveSetting(Settings.AppPrefrences.Categories);
-            Settings.AddSetting(Settings.AppPrefrences.Categories, userCategoriesJson);
+            Settings.RemoveSetting(prefrence: Settings.AppPrefrences.Categories);
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.Categories, setting: userCategoriesJson);
         }
     }
 }

@@ -15,20 +15,20 @@ namespace HealthApp.Helpers
             UndefinedError
         }
 
-        static CancellationTokenSource cts = null;
+        static readonly CancellationTokenSource cts = null;
 
         public static void CancelActionSheet()
         {
             if (cts?.IsCancellationRequested ?? true)
-            { 
-                return; 
+            {
+                return;
             }
 
             cts.Cancel();
         }
 
-        static readonly string UndefinedError = "Что-то пошло не так. Пожалуйста, повторите попытку позже.";
-        static readonly string NetworkError = "Сетевая ошибка.";
+        private static readonly string UndefinedError = "Что-то пошло не так. Пожалуйста, повторите попытку позже.";
+        private static readonly string NetworkError = "Сетевая ошибка.";
 
         public static void HandleDialogMessage(Errors error, string message = "")
         {
@@ -40,9 +40,11 @@ namespace HealthApp.Helpers
                 case Errors.UndefinedError:
                     message = UndefinedError;
                     break;
+                default:
+                    break;
             }
 
-            UserDialogs.Instance.Toast(new ToastConfig(message)
+            _ = UserDialogs.Instance.Toast(new ToastConfig(message)
                 .SetBackgroundColor(Color.FromHex("#333333"))
                 .SetMessageTextColor(Color.White)
                 .SetDuration(TimeSpan.FromSeconds(3))
@@ -50,7 +52,7 @@ namespace HealthApp.Helpers
             );
         }
 
-        public static IProgressDialog ProgressDialog = UserDialogs.Instance.Progress(new ProgressDialogConfig
+        public static IProgressDialog ProgressDialog = UserDialogs.Instance.Progress(config: new ProgressDialogConfig
         {
             AutoShow = false,
             CancelText = "Cancel",
@@ -61,7 +63,7 @@ namespace HealthApp.Helpers
 
         public static async Task ShareText(string text, string uri)
         {
-            await Share.RequestAsync(new ShareTextRequest
+            await Share.RequestAsync(request: new ShareTextRequest
             {
                 Uri = uri,
                 Title = text

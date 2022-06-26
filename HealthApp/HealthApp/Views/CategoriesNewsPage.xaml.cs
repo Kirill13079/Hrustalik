@@ -1,4 +1,4 @@
-﻿using HealthApp.ViewModels.Main;
+﻿using HealthApp.ViewModels;
 using System;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -24,7 +24,7 @@ namespace HealthApp.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     var bindingContext = BindingContext as MainViewModel;
-                    var selectedIndex = bindingContext.TabCategoriesRecords.IndexOf(bindingContext.CurrentTab);
+                    var selectedIndex = bindingContext.TabCategories.IndexOf(bindingContext.CurrentCategoryTab);
 
                     await scrollView.ScrollToAsync(60 * selectedIndex, scrollView.ContentSize.Width - scrollView.Width, true);
                 });

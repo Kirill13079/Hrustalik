@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using HealthApp.Common.Model;
 using System;
 using HealthApp.Common.Model.Response;
-using HealthApp.ViewModels.Main;
+using HealthApp.ViewModels;
 using HealthApp.Helpers;
 
 namespace HealthApp.ViewModels

@@ -4,7 +4,7 @@ using HealthApp.Common.Model.Helper;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
-using HealthApp.ViewModels.Main;
+using HealthApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -49,6 +49,8 @@ namespace HealthApp.Views.Components.PopupComponents
                 if (!string.IsNullOrWhiteSpace(response))
                 {
                     isLiked = false;
+
+                    MainViewModel.Instance.LikeRecordCommand.Execute(_currentRecord);
                 }
             }
             else 
@@ -61,10 +63,10 @@ namespace HealthApp.Views.Components.PopupComponents
                 if (!string.IsNullOrWhiteSpace(response))
                 {
                     isLiked = true;
+
+                    MainViewModel.Instance.LikeRecordCommand.Execute(_currentRecord);
                 }
             }
-
-            MainViewModel.Instance.SetLikeRecord(_currentRecord, isLiked);
 
             _currentRecord.IsBookmark = isLiked;
 

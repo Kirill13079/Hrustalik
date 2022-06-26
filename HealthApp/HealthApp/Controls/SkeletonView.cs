@@ -9,9 +9,9 @@ namespace HealthApp.Controls
         {
             Device.StartTimer(TimeSpan.FromSeconds(0.5), () =>
             {
-                this.FadeTo(0.5, 750, Easing.BounceOut).ContinueWith((x) =>
+                _ = this.FadeTo(0.5, 750, Easing.BounceOut).ContinueWith((x) =>
                 {
-                    this.FadeTo(1, 750, Easing.BounceOut);
+                    _ = this.FadeTo(1, 750, Easing.BounceOut);
                 });
 
                 return true;

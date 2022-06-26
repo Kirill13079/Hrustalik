@@ -6,7 +6,7 @@ using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
-using HealthApp.ViewModels.Main;
+using HealthApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -52,7 +52,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         private void RecordModelTapped(object sender, EventArgs e)
         {
-            Service.Navigation.NavigateTo("news", _bindingContext, "category");
+            Navigation.NavigateTo("news", _bindingContext, "category");
         }
 
         private async void ShareRecordModelTapped(object sender, EventArgs e)
@@ -62,7 +62,6 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         private async void AddOrDeleteBookmarkRecordTapped(object sender, EventArgs e)
         {
-            bool isLiked = _bindingContext.IsBookmark;
             string url;
 
             if (_bindingContext.IsBookmark)
@@ -73,7 +72,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {
-                    isLiked = false;
+                    MainViewModel.Instance.LikeRecordCommand.Execute(_bindingContext);
                 }
             }
             else
@@ -85,11 +84,9 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {
-                    isLiked = true;
+                    MainViewModel.Instance.LikeRecordCommand.Execute(_bindingContext);
                 }
             }
-
-            MainViewModel.Instance.SetLikeRecord(_bindingContext, isLiked);
 
             await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
             await bookmarkImage.ScaleTo(1, AnimationSpeed);

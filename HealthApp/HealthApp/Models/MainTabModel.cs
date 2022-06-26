@@ -1,5 +1,4 @@
-﻿using HealthApp.Common.Model;
-using MvvmHelpers;
+﻿using MvvmHelpers;
 
 namespace HealthApp.Models
 {
@@ -9,8 +8,8 @@ namespace HealthApp.Models
         public RecordModel HotRecord
         {
             get => _hotRecord;
-            set 
-            { 
+            set
+            {
                 _hotRecord = value;
                 OnPropertyChanged();
             }
@@ -41,7 +40,7 @@ namespace HealthApp.Models
         private bool _hasError;
         public bool HasError
         {
-            get { return _hasError; }
+            get => _hasError; 
             set
             {
                 _hasError = value;
@@ -52,7 +51,7 @@ namespace HealthApp.Models
         private bool _isRefreshing;
         public bool IsRefreshing
         {
-            get { return _isRefreshing; }
+            get => _isRefreshing; 
             set
             {
                 _isRefreshing = value;

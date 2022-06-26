@@ -4,9 +4,6 @@ namespace HealthApp.Models
 {
     public class ThemeModel : BaseViewModel
     {
-        /// <summary>
-        /// Используется для проверки активности текущей темы
-        /// </summary>
         private bool _isActive;
         public bool IsActive 
         { 

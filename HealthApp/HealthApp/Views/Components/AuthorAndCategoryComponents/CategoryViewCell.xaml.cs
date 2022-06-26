@@ -1,6 +1,6 @@
 ﻿using HealthApp.Helpers;
 using HealthApp.Models;
-using HealthApp.ViewModels.Main;
+using HealthApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -10,7 +10,8 @@ namespace HealthApp.Controls
         public static readonly BindableProperty ItemsProperty = BindableProperty.Create(
             nameof(Items), 
             typeof(IEnumerable), 
-            typeof(CarouselIndicatorView), null);
+            typeof(CarouselIndicatorView), 
+            null);
 
         public static readonly BindableProperty CurrentItemProperty = BindableProperty.Create(
             nameof(CurrentItem), 
@@ -22,14 +23,14 @@ namespace HealthApp.Controls
 
         public IEnumerable Items
         {
-            get { return (IEnumerable)GetValue(ItemsProperty); }
-            set { SetValue(ItemsProperty, value); }
+            get => (IEnumerable)GetValue(ItemsProperty);
+            set => SetValue(ItemsProperty, value);
         }
 
         public object CurrentItem
         {
-            get { return GetValue(CurrentItemProperty); }
-            set { SetValue(CurrentItemProperty, value); }
+            get => GetValue(CurrentItemProperty);
+            set => SetValue(CurrentItemProperty, value);
         }
 
         public CarouselIndicatorView()
@@ -48,7 +49,7 @@ namespace HealthApp.Controls
 
                 if (newValue == tabGesture.CommandParameter)
                 {
-                    x.MoveActiveIndicator(label);
+                    x.MoveActiveIndicator(target: label);
 
                     return;
                 }
@@ -57,9 +58,9 @@ namespace HealthApp.Controls
 
         private void MoveActiveIndicator(Label target)
         {
-            var width = target.Width - activeIndicator.Width;
+            double width = target.Width - activeIndicator.Width;
 
-            activeIndicator.TranslateTo(target.X + (width / 2), 0, 100, Easing.Linear);
+            _ = activeIndicator.TranslateTo(x: target.X + (width / 2), y: 0, length: 100, easing: Easing.Linear);
 
             if (Parent.Parent.Parent is Views.CategoriesNewsPage)
             {
@@ -74,7 +75,7 @@ namespace HealthApp.Controls
 
         private void ChangeTab(object sender, System.EventArgs e)
         {
-            foreach (var item in Items)
+            foreach (object item in Items)
             {
                 if (item == ((TappedEventArgs)e).Parameter)
                 {

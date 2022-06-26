@@ -26,24 +26,19 @@ namespace HealthApp.AppSettings
 
         public static void AddSetting(AppPrefrences prefrence, string setting)
         {
-            Preferences.Set(EnumsHelper.ConvertToString(prefrence), setting);
+            Preferences.Set(key: EnumsHelper.ConvertToString(prefrence), value: setting);
         }
 
         public static string GetSetting(AppPrefrences prefrence)
         {
-            bool hasKey = Preferences.ContainsKey(EnumsHelper.ConvertToString(prefrence));
+            bool hasKey = Preferences.ContainsKey(key: EnumsHelper.ConvertToString(eff: prefrence));
 
-            if (hasKey)
-            {
-                return Preferences.Get(EnumsHelper.ConvertToString(prefrence), null);
-            }
-
-            return null;
+            return hasKey ? Preferences.Get(key: EnumsHelper.ConvertToString(prefrence), defaultValue: null) : null;
         }
 
         public static void RemoveSetting(AppPrefrences prefrence)
         {
-            Preferences.Remove(EnumsHelper.ConvertToString(prefrence));
+            Preferences.Remove(EnumsHelper.ConvertToString(eff: prefrence));
         }
 
         public static void ClearSettings()
@@ -55,7 +50,7 @@ namespace HealthApp.AppSettings
         {
             try
             {
-                await SecureStorage.SetAsync(EnumsHelper.ConvertToString(prefrence), setting);
+                await SecureStorage.SetAsync(key: EnumsHelper.ConvertToString(prefrence), value: setting);
             }
             catch (Exception ex)
             {
@@ -65,12 +60,12 @@ namespace HealthApp.AppSettings
 
         public static async Task<string> GetSecureSetting(AppPrefrences prefrence)
         {
-            return await SecureStorage.GetAsync(EnumsHelper.ConvertToString(prefrence));
+            return await SecureStorage.GetAsync(key: EnumsHelper.ConvertToString(eff: prefrence));
         }
 
         public static void RemoveSecureSetting(AppPrefrences prefrence)
         {
-            SecureStorage.Remove(EnumsHelper.ConvertToString(prefrence));
+            _ = SecureStorage.Remove(key: EnumsHelper.ConvertToString(eff: prefrence));
         }
 
         public static void ClearSecureSorage()

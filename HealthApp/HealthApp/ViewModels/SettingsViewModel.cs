@@ -4,7 +4,7 @@ using HealthApp.Common.Model.Helper;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
-using HealthApp.ViewModels.Main;
+using HealthApp.ViewModels;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using System;

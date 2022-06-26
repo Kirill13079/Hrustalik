@@ -1,5 +1,4 @@
-﻿using HealthApp.Common.Model;
-using MvvmHelpers;
+﻿using MvvmHelpers;
 
 namespace HealthApp.Models
 {
@@ -8,7 +7,7 @@ namespace HealthApp.Models
         private ObservableRangeCollection<RecordModel> _records;
         public ObservableRangeCollection<RecordModel> Records
         {
-            get { return _records; }
+            get => _records; 
             set
             {
                 _records = value;
@@ -19,7 +18,7 @@ namespace HealthApp.Models
         private bool _hasError;
         public bool HasError
         {
-            get { return _hasError; }
+            get => _hasError; 
             set
             {
                 _hasError = value;
@@ -30,7 +29,7 @@ namespace HealthApp.Models
         private bool _isRefreshing;
         public bool IsRefreshing
         {
-            get { return _isRefreshing; }
+            get => _isRefreshing; 
             set
             {
                 _isRefreshing = value;
@@ -41,7 +40,7 @@ namespace HealthApp.Models
         private bool _isEmpty;
         public bool IsEmpty
         {
-            get { return _isEmpty; }
+            get => _isEmpty;
             set
             {
                 _isEmpty = value;
@@ -52,7 +51,7 @@ namespace HealthApp.Models
         private bool _isAuthorized;
         public bool IsAuthorized
         {
-            get { return _isAuthorized; }
+            get => _isAuthorized; 
             set
             {
                 _isAuthorized = value;

@@ -17,16 +17,16 @@ namespace HealthApp.Controls
             propertyChanged: UpdateColor);
 
         public static BindableProperty SvgSourceProperty = BindableProperty.Create(
-            nameof(TintColor), 
-            typeof(string), 
-            typeof(TintedCachedImage), 
-            null, 
+            nameof(TintColor),
+            typeof(string),
+            typeof(TintedCachedImage),
+            null,
             propertyChanged: UpdateSvg);
 
         public Color TintColor
         {
-            get => (Color)GetValue(TintColorProperty); 
-            set => SetValue(TintColorProperty, value); 
+            get => (Color)GetValue(TintColorProperty);
+            set => SetValue(TintColorProperty, value);
         }
 
         public string SvgSource
@@ -46,7 +46,11 @@ namespace HealthApp.Controls
 
                 var transformations = new List<ITransformation>()
                 {
-                    new TintTransformation((int)(newcolor.R * 255), (int)(newcolor.G * 255), (int)(newcolor.B * 255), (int)(newcolor.A * 255))
+                    new TintTransformation(
+                        r: (int)(newcolor.R * 255),
+                        g: (int)(newcolor.G * 255),
+                        b: (int)(newcolor.B * 255),
+                        a: (int)(newcolor.A * 255))
                     {
                         EnableSolidColor = true
                     }
@@ -60,7 +64,7 @@ namespace HealthApp.Controls
         {
             var _instance = bindable as TintedCachedImage;
 
-            _instance.Source = SvgImageSource.FromResource((string)newVal);
+            _instance.Source = SvgImageSource.FromResource(resource: (string)newVal);
         }
     }
 }

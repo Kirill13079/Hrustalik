@@ -6,7 +6,7 @@ namespace HealthApp.Extensions
     {
         public static bool EqualsHelper<T>(this List<T> items, object obj)
         {
-            foreach (var item in items)
+            foreach (T item in items)
             {
                 if (item.Equals(obj))
                 {

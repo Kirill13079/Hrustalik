@@ -1,5 +1,5 @@
 ﻿using HealthApp.Models;
-using HealthApp.ViewModels.Main;
+using HealthApp.ViewModels;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

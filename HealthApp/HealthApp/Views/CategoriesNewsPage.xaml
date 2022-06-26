@@ -27,16 +27,16 @@
                             Orientation="Horizontal"
                             BackgroundColor="{DynamicResource PageBackgroundColor}">
                 <controls:CarouselIndicatorView x:Name="carousel"
-                                                Items="{Binding TabCategoriesRecords}"
-                                                CurrentItem="{Binding CurrentTab}"/>
+                                                Items="{Binding TabCategories}"
+                                                CurrentItem="{Binding CurrentCategoryTab}"/>
             </ScrollView>
             <!-- content -->
             <cards:CarouselView  x:Name="carouselView"
                                  Grid.Row="1"
                                  BackgroundColor="{DynamicResource PageBackgroundColor}"
                                  IsVerticalSwipeEnabled="False"
-                                 ItemsSource="{Binding TabCategoriesRecords}"
-                                 SelectedItem="{Binding CurrentTab}">
+                                 ItemsSource="{Binding TabCategories}"
+                                 SelectedItem="{Binding CurrentCategoryTab}">
                 <cards:CarouselView.ItemTemplate>
                     <DataTemplate>
                         <ContentView>
@@ -50,7 +50,7 @@
                                           IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
                                           ItemTemplate="{StaticResource NewsDataTemplateSelector}"
                                           ItemsSource="{Binding Records}"
-                                          RefreshCommand="{Binding Path=BindingContext.RefreshCommand, Source={x:Reference carouselView}}"
+                                          RefreshCommand="{Binding Path=BindingContext.RefreshCategoryCommand, Source={x:Reference carouselView}}"
                                           SelectionMode="None"
                                           RefreshControlColor="{DynamicResource AccentColor}"
                                           SeparatorVisibility="None">
@@ -60,7 +60,7 @@
                                              IsVisible="{Binding HasError}"
                                              VerticalOptions="Center">
                                     <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCommand, Source={x:Reference carouselView}}" />
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCategoryCommand, Source={x:Reference carouselView}}" />
                                     </StackLayout.GestureRecognizers>
                                     <Label FontFamily="Bold"
                                            FontSize="55"

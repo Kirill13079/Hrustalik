@@ -1,8 +1,5 @@
 ﻿using HealthApp.Common.Model;
 using MvvmHelpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HealthApp.Models
 {
@@ -11,15 +8,23 @@ namespace HealthApp.Models
         private Category _category;
         public Category Category
         {
-            get { return _category; }
-            set { _category = value; }
+            get => _category;
+            set
+            { 
+                _category = value;
+                OnPropertyChanged();
+            }
         }
 
         private Author _author;
         public Author Author
         {
-            get { return _author; }
-            set { _author = value; }
+            get => _author;
+            set 
+            { 
+                _author = value;
+                OnPropertyChanged();
+            }
         }
 
         private bool _isActive;
@@ -50,7 +55,7 @@ namespace HealthApp.Models
         private bool _hasError;
         public bool HasError
         {
-            get { return _hasError; }
+            get => _hasError; 
             set
             {
                 _hasError = value;
@@ -61,7 +66,7 @@ namespace HealthApp.Models
         private bool _isRefreshing;
         public bool IsRefreshing
         {
-            get { return _isRefreshing; }
+            get => _isRefreshing;
             set
             {
                 _isRefreshing = value;
@@ -72,7 +77,7 @@ namespace HealthApp.Models
         private ObservableRangeCollection<AuthorsAndCategoriesModel> _authorsAndСategories;
         public ObservableRangeCollection<AuthorsAndCategoriesModel> AuthorsAndСategories
         {
-            get { return _authorsAndСategories; }
+            get => _authorsAndСategories;
             set
             {
                 _authorsAndСategories = value;

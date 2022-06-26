@@ -10,7 +10,7 @@ namespace HealthApp.Helpers
     {
         public static void GetAppTheme()
         {
-            string theme = Settings.GetSetting(Settings.AppPrefrences.AppTheme);
+            string theme = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppTheme);
 
             if (theme != null)
             {
@@ -41,17 +41,23 @@ namespace HealthApp.Helpers
         public static void ChangeToLightTheme()
         {
             Application.Current.Resources = new LightTheme();
+
             DependencyService.Get<IStatusBar>().ChangeStatusBarColorToWhite();
 
-            Settings.AddSetting(Settings.AppPrefrences.AppTheme, EnumsHelper.ConvertToString(Settings.Theme.LightTheme));
+            Settings.AddSetting(
+                prefrence: Settings.AppPrefrences.AppTheme, 
+                setting: EnumsHelper.ConvertToString(eff: Settings.Theme.LightTheme));
         }
 
         public static void ChangeToDarkTheme()
         {
             Application.Current.Resources = new DarkTheme();
+
             DependencyService.Get<IStatusBar>().ChangeStatusBarColorToBlack();
 
-            Settings.AddSetting(Settings.AppPrefrences.AppTheme, EnumsHelper.ConvertToString(Settings.Theme.DarkTheme));
+            Settings.AddSetting(
+                prefrence: Settings.AppPrefrences.AppTheme, 
+                setting: EnumsHelper.ConvertToString(eff: Settings.Theme.DarkTheme));
         }
 
         public static void ChangeToSystemPreferredTheme()
@@ -71,7 +77,9 @@ namespace HealthApp.Helpers
                 ChangeToLightTheme();
             }
 
-            Settings.AddSetting(Settings.AppPrefrences.AppTheme, EnumsHelper.ConvertToString(Settings.Theme.SystemPreferred));
+            Settings.AddSetting(
+                prefrence: Settings.AppPrefrences.AppTheme, 
+                setting: EnumsHelper.ConvertToString(eff: Settings.Theme.SystemPreferred));
         }
     }
 }
