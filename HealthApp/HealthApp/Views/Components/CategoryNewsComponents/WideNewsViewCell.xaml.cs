@@ -73,8 +73,8 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {
-                    App.ViewModelLocator.MainVm.LikeRecordCommand.Execute(_bindingContext);
                     App.ViewModelLocator.CategoryVm.LikeRecordCommand.Execute(_bindingContext);
+                    App.ViewModelLocator.MainVm.LikeRecordCommand.Execute(_bindingContext);
                     App.ViewModelLocator.BookmarkVm.LikeRecordCommand.Execute(_bindingContext);
                 }
             }
@@ -87,8 +87,8 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {
-                    App.ViewModelLocator.MainVm.LikeRecordCommand.Execute(_bindingContext);
                     App.ViewModelLocator.CategoryVm.LikeRecordCommand.Execute(_bindingContext);
+                    App.ViewModelLocator.MainVm.LikeRecordCommand.Execute(_bindingContext);
                     App.ViewModelLocator.BookmarkVm.LikeRecordCommand.Execute(_bindingContext);
                 }
             }
