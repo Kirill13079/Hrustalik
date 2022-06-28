@@ -2,6 +2,7 @@
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.ViewModels;
+using HealthApp.ViewModels.Data;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AuthorViewCell : Grid
     {
-        private AuthorsAndCategoriesModel _bindingContext;
+        private AuthorAndCategoryViewModel _bindingContext;
 
         public AuthorViewCell()
         {
@@ -21,7 +22,7 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
         {
             base.OnBindingContextChanged();
 
-            _bindingContext = BindingContext as AuthorsAndCategoriesModel;
+            _bindingContext = BindingContext as AuthorAndCategoryViewModel;
 
             if (_bindingContext != null)
             {
@@ -57,7 +58,7 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 
             DialogsHelper.ProgressDialog.Show();
 
-            await MainViewModel.Instance.GetDataAsync();
+            await App.ViewModelLocator.MainVm.GetDataAsync();
 
             DialogsHelper.ProgressDialog.Hide();
 

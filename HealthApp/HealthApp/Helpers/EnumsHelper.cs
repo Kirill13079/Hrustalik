@@ -1,4 +1,5 @@
 ﻿using HealthApp.Models;
+using HealthApp.ViewModels.Data;
 using System;
 
 namespace HealthApp.Helpers
@@ -15,7 +16,7 @@ namespace HealthApp.Helpers
             return (EnumType)Enum.Parse(typeof(EnumType), enumValue);
         }
 
-        public static EnumType ConvertToEnum<EnumType>(this ThemeModel themeModel)
+        public static EnumType ConvertToEnum<EnumType>(this AppThemeViewModel themeModel)
         {
             return (EnumType)Enum.Parse(typeof(EnumType), themeModel.Title);
         }

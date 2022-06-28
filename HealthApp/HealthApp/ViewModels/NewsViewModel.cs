@@ -1,4 +1,5 @@
 ﻿using HealthApp.Models;
+using HealthApp.ViewModels.Data;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using System;
@@ -9,7 +10,7 @@ namespace HealthApp.ViewModels
     [QueryProperty("Parameter", "parameter")]
     public class NewsViewModel : BaseViewModel
     {
-        public RecordModel SelectedRecord { get; set; }
+        public RecordViewModel SelectedRecord { get; set; }
 
         private string parameter;
         public string Parameter
@@ -18,7 +19,7 @@ namespace HealthApp.ViewModels
             set
             {
                 parameter = Uri.UnescapeDataString(value);
-                SelectedRecord = JsonConvert.DeserializeObject<RecordModel>(parameter);
+                SelectedRecord = JsonConvert.DeserializeObject<RecordViewModel>(parameter);
             }
         }
 

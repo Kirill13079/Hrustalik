@@ -17,20 +17,43 @@
     <TabBar>
         <ShellContent Title="Новости"
                       Route="news"
-                      Icon="menu.svg"
-                      ContentTemplate="{DataTemplate views:MainNewsPage}">
+                      ContentTemplate="{DataTemplate views:MainPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialIcon"
+                                 Color="White"
+                                 Glyph="&#xeaa2;">
+                </FontImageSource>
+            </ShellContent.Icon>
         </ShellContent>
         <ShellContent Title="Категории"
                       Route="categories"
-                      ContentTemplate="{DataTemplate views:CategoriesNewsPage}">
+                      ContentTemplate="{DataTemplate views:CategoriesPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialIcon"
+                                 Color="White"
+                                 Glyph="&#xe1eb;">
+                </FontImageSource>
+            </ShellContent.Icon>
         </ShellContent>
         <ShellContent Title="Закладки"
                       Route="bookmarks"
-                      ContentTemplate="{DataTemplate views:BookmarksNewsPage}">
+                      ContentTemplate="{DataTemplate views:BookmarksPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialIcon"
+                                 Color="White"
+                                 Glyph="&#xe87d;">
+                </FontImageSource>
+            </ShellContent.Icon>
         </ShellContent>
         <ShellContent Title="Настройки"
                       Route="settings"
                       ContentTemplate="{DataTemplate views:SettingsPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialIcon"
+                                 Color="White"
+                                 Glyph="&#xe8b8;">
+                </FontImageSource>
+            </ShellContent.Icon>
         </ShellContent>
     </TabBar>
 </Shell>

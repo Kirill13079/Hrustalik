@@ -2,14 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:popularNews="clr-namespace:HealthApp.Views.Components.PopularNewsComponents" 
-             xmlns:feedNews="clr-namespace:HealthApp.Views.Components.FeedNewsComponents"
+             xmlns:feedNews="clr-namespace:HealthApp.Views.Components.MainNewsComponents"
              xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:convert="clr-namespace:HealthApp.Converts"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
              xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:controls="clr-namespace:HealthApp.Controls"
-             x:Class="HealthApp.Views.MainNewsPage"
+             x:Class="HealthApp.Views.MainPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <Shell.TitleView>
@@ -86,7 +86,6 @@
                     </Grid>
                 </xct:StateView>
             </xct:StateLayout.StateViews>
-            
             <CollectionView x:Name="mainScrollView"
                             VerticalScrollBarVisibility="Never">
                 <CollectionView.Header>
@@ -97,7 +96,7 @@
                                           Padding="0"
                                           Margin="10,0"
                                           CornerRadius="15">
-                            <ffimageloading:CachedImage Source="{Binding MainTabModel.HotRecord.Image}" 
+                            <ffimageloading:CachedImage Source="{Binding MainTab.HotRecord.Image}" 
                                                         BackgroundColor="{DynamicResource ImageBackgroundColor}"
                                                         Aspect="AspectFill"
                                                         DownsampleToViewSize="True"
@@ -117,13 +116,13 @@
                             </pnck:PancakeView.BackgroundGradientStops>
                             <StackLayout Orientation="Vertical" 
                                          VerticalOptions="EndAndExpand">
-                                <Label Text="{Binding MainTabModel.HotRecord.Category.Name}"
+                                <Label Text="{Binding MainTab.HotRecord.Category.Name}"
                                        FontFamily="Regular"
                                        LineBreakMode="TailTruncation"
                                        MaxLines="1"
                                        TextColor="White"
                                        FontSize="{StaticResource SmallLabelFontSize}"/>
-                                <Label Text="{Binding MainTabModel.HotRecord.Name}"  
+                                <Label Text="{Binding MainTab.HotRecord.Name}"  
                                        FontFamily="Bold"
                                        LineBreakMode="TailTruncation"
                                        MaxLines="5"
@@ -133,14 +132,14 @@
                                     <StackLayout Orientation="Horizontal">
                                          <Frame Padding="0"
                                                CornerRadius="10">
-                                            <ffimageloading:CachedImage Source="{Binding MainTabModel.HotRecord.Author.Logo}" 
+                                            <ffimageloading:CachedImage Source="{Binding MainTab.HotRecord.Author.Logo}" 
                                                                         Aspect="AspectFill"
                                                                         DownsampleToViewSize="True"
                                                                         DownsampleUseDipUnits="True"
                                                                         HeightRequest="20"
                                                                         WidthRequest="20"/>
                                         </Frame>
-                                        <Label Text="{Binding MainTabModel.HotRecord.Author.Name}"
+                                        <Label Text="{Binding MainTab.HotRecord.Author.Name}"
                                                FontSize="{StaticResource SmallLabelFontSize}"
                                                TextColor="{DynamicResource AccentColor}"
                                                FontFamily="Medium"
@@ -149,7 +148,7 @@
                                                VerticalOptions="Center">
                                         </Label>
                                     </StackLayout>
-                                    <Label Text="{Binding MainTabModel.HotRecord.DateAdded, Converter={StaticResource DateConvert}}"
+                                    <Label Text="{Binding MainTab.HotRecord.DateAdded, Converter={StaticResource DateConvert}}"
                                            FontFamily="Regular"
                                            LineBreakMode="TailTruncation"
                                            TextColor="{DynamicResource SkeletonColor}"
@@ -166,7 +165,7 @@
                                     BackgroundColor="{DynamicResource PageBackgroundColor}"
                                     Orientation="Horizontal"
                                     HorizontalScrollBarVisibility="Never">
-                            <FlexLayout BindableLayout.ItemsSource="{Binding MainTabModel.SubTabModel}"
+                            <FlexLayout BindableLayout.ItemsSource="{Binding MainTab.SubTabModel}"
                                         Margin="10,0,0,0">
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>

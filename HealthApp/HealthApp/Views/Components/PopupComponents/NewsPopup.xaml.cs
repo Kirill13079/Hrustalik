@@ -5,6 +5,7 @@ using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
 using HealthApp.ViewModels;
+using HealthApp.ViewModels.Data;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,9 +15,9 @@ namespace HealthApp.Views.Components.PopupComponents
     public partial class NewsPopup
     {
         private const uint AnimationSpeed = 100;
-        private RecordModel _currentRecord = null;
+        private RecordViewModel _currentRecord = null;
 
-        public NewsPopup(RecordModel currentRecord)
+        public NewsPopup(RecordViewModel currentRecord)
         {
             InitializeComponent();
 
@@ -50,7 +51,9 @@ namespace HealthApp.Views.Components.PopupComponents
                 {
                     isLiked = false;
 
-                    MainViewModel.Instance.LikeRecordCommand.Execute(_currentRecord);
+                    App.ViewModelLocator.MainVm.LikeRecordCommand.Execute(_currentRecord);
+                    App.ViewModelLocator.CategoryVm.LikeRecordCommand.Execute(_currentRecord);
+                    App.ViewModelLocator.BookmarkVm.LikeRecordCommand.Execute(_currentRecord);
                 }
             }
             else 
@@ -64,7 +67,9 @@ namespace HealthApp.Views.Components.PopupComponents
                 {
                     isLiked = true;
 
-                    MainViewModel.Instance.LikeRecordCommand.Execute(_currentRecord);
+                    App.ViewModelLocator.MainVm.LikeRecordCommand.Execute(_currentRecord);
+                    App.ViewModelLocator.CategoryVm.LikeRecordCommand.Execute(_currentRecord);
+                    App.ViewModelLocator.BookmarkVm.LikeRecordCommand.Execute(_currentRecord);
                 }
             }
 
@@ -84,7 +89,7 @@ namespace HealthApp.Views.Components.PopupComponents
         private async void OpenLinkRecordTapped(object sender, EventArgs e)
         {
             //await PopupNavigation.Instance.PopAsync();
-            await Navigation.PushAsync(new WebNewsPage(_currentRecord));
+            await Navigation.PushAsync(new WebPage(_currentRecord));
 
             //await DialogsHelper.OpenBrowser(_currentRecord.Source);
         }

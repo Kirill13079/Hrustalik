@@ -1,5 +1,5 @@
-﻿using HealthApp.Models;
-using HealthApp.ViewModels;
+﻿using HealthApp.ViewModels;
+using HealthApp.ViewModels.Data;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,7 +15,7 @@ namespace HealthApp.Views
         {
             InitializeComponent();
 
-            BindingContext = ViewModels.SettingsViewModel.Instance;
+            BindingContext = App.ViewModelLocator.SettingsVM;
 
             _bindingContext = BindingContext as ViewModels.SettingsViewModel;
 
@@ -24,13 +24,11 @@ namespace HealthApp.Views
             SetCurrentThemeCheckbox(_bindingContext, currentThemeTitle);
         }
 
-
-
         private void Theme_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             var checkBox = (CheckBox)sender;
 
-            var themeModel = (ThemeModel)checkBox.BindingContext;
+            var themeModel = (AppThemeViewModel)checkBox.BindingContext;
 
             if (themeModel.IsActive)
             {
@@ -38,11 +36,11 @@ namespace HealthApp.Views
 
                 _bindingContext.ThemeChangeCommand.Execute(themeModel);
             }
+
+            //return;
         }
 
-        private void ResetСheckboxState(
-            SettingsViewModel bindingContext,
-            ThemeModel activeTheme)
+        private void ResetСheckboxState(SettingsViewModel bindingContext, AppThemeViewModel activeTheme)
         {
             foreach (var themeModel in bindingContext.ThemeItems)
             {
@@ -53,9 +51,7 @@ namespace HealthApp.Views
             }
         }
 
-        private void SetCurrentThemeCheckbox(
-            SettingsViewModel bindingContext, 
-            string currentThemeTitle)
+        private void SetCurrentThemeCheckbox(SettingsViewModel bindingContext, string currentThemeTitle)
         {
             var currentThemeModel = bindingContext.ThemeItems
                 .Where(x => x.Title == currentThemeTitle)

@@ -5,6 +5,7 @@ using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.Service;
+using HealthApp.ViewModels.Data;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -17,10 +18,8 @@ namespace HealthApp.ViewModels
 {
     public class AuthorsAndCategoriesViewModel : BaseViewModel
     {
-        public static AuthorsAndCategoriesViewModel Instance => new AuthorsAndCategoriesViewModel();
-
-        private ObservableRangeCollection<AuthorAndCategoryTabModel> _tabAuthorsAndCategoriesItems;
-        public ObservableRangeCollection<AuthorAndCategoryTabModel> TabAuthorsAndCategoriesItems
+        private ObservableRangeCollection<AuthorAndCategoryModel> _tabAuthorsAndCategoriesItems;
+        public ObservableRangeCollection<AuthorAndCategoryModel> TabAuthorsAndCategoriesItems
         {
             get => _tabAuthorsAndCategoriesItems;
             set
@@ -30,8 +29,8 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private AuthorAndCategoryTabModel _currentTab;
-        public AuthorAndCategoryTabModel CurrentTab
+        private AuthorAndCategoryModel _currentTab;
+        public AuthorAndCategoryModel CurrentTab
         {
             get => _currentTab;
             set
@@ -72,10 +71,10 @@ namespace HealthApp.ViewModels
 
         public AuthorsAndCategoriesViewModel()
         {
-            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<AuthorAndCategoryTabModel>();
-            CurrentTab = new AuthorAndCategoryTabModel();
+            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<AuthorAndCategoryModel>();
+            CurrentTab = new AuthorAndCategoryModel();
 
-            _ = GetDataAsync();
+            _ = GetDataAsync().ConfigureAwait(false);
         }
 
         private async Task GetDataAsync()
@@ -85,23 +84,21 @@ namespace HealthApp.ViewModels
                 TabAuthorsAndCategoriesItems.Clear();
             }
 
-            var tabModel = new ObservableRangeCollection<AuthorAndCategoryTabModel>()
+            var tabModel = new ObservableRangeCollection<AuthorAndCategoryModel>()
             {
                 {
-                    new AuthorAndCategoryTabModel
+                    new AuthorAndCategoryModel
                     {
                         Title = "Категории"
                     }
                 },
                 {
-                    new AuthorAndCategoryTabModel
+                    new AuthorAndCategoryModel
                     {
                         Title = "Авторы"
                     }
                 }
             };
-
-            await Task.Delay(250);
 
             TabAuthorsAndCategoriesItems = tabModel;
             CurrentTab = TabAuthorsAndCategoriesItems[0];
@@ -120,7 +117,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task LoadAuhorsContentData(AuthorAndCategoryTabModel tab, bool isRefreshing = false)
+        private async Task LoadAuhorsContentData(AuthorAndCategoryModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -134,12 +131,12 @@ namespace HealthApp.ViewModels
 
                     var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
-                    var articles = new List<AuthorsAndCategoriesModel>();
+                    var articles = new List<AuthorAndCategoryViewModel>();
 
                     foreach (var author in authors)
                     {
-                        var article = new AuthorsAndCategoriesModel 
-                        { 
+                        var article = new AuthorAndCategoryViewModel
+                        {
                             Category = null, 
                             Author = author 
                         };
@@ -164,11 +161,11 @@ namespace HealthApp.ViewModels
 
                     var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
-                    var articles = new List<AuthorsAndCategoriesModel>();
+                    var articles = new List<AuthorAndCategoryViewModel>();
 
                     foreach (var author in authors)
                     {
-                        var article = new AuthorsAndCategoriesModel
+                        var article = new AuthorAndCategoryViewModel
                         {
                             Category = null,
                             Author = author
@@ -202,7 +199,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task LoadCategoriesContentData(AuthorAndCategoryTabModel tab, bool isRefreshing = false)
+        private async Task LoadCategoriesContentData(AuthorAndCategoryModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -216,11 +213,11 @@ namespace HealthApp.ViewModels
 
                     var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                    var articles = new List<AuthorsAndCategoriesModel>();
+                    var articles = new List<AuthorAndCategoryViewModel>();
 
                     foreach (var category in categories)
                     {
-                        var article = new AuthorsAndCategoriesModel
+                        var article = new AuthorAndCategoryViewModel
                         {
                             Category = category,
                             Author = null
@@ -246,11 +243,11 @@ namespace HealthApp.ViewModels
 
                     var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                    var articles = new List<AuthorsAndCategoriesModel>();
+                    var articles = new List<AuthorAndCategoryViewModel>();
 
                     foreach (var category in categories)
                     {
-                        var article = new AuthorsAndCategoriesModel
+                        var article = new AuthorAndCategoryViewModel
                         {
                             Category = category,
                             Author = null

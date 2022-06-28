@@ -1,7 +1,9 @@
-﻿using HealthApp.Common.Model;
+﻿using HealthApp.AppSettings;
+using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Interfaces;
 using HealthApp.Models;
+using HealthApp.ViewModels.Data;
 using MonkeyCache.FileStore;
 using Newtonsoft.Json;
 using System;
@@ -17,6 +19,38 @@ namespace HealthApp.Service
         public ApiManager()
         {
             Barrel.ApplicationId = "CachingData";
+        }
+
+        public async Task<Customer> GetCustomerAsync()
+        {
+            try
+            {
+                string token = Settings.GetSetting(prefrence: Settings.AppPrefrences.token);
+                
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    string url = ApiRoutes.BaseUrl + ApiRoutes.GetCustomer;
+
+                    var response = await ApiCaller.Get(url);
+
+                    if (!string.IsNullOrWhiteSpace(response))
+                    {
+                        var customer = JsonConvert.DeserializeObject<Customer>(response);
+
+                        return customer;
+                    }
+                    else 
+                    {
+                        Settings.RemoveSetting(prefrence: Settings.AppPrefrences.token);
+                    }
+                }
+            }
+            catch 
+            {
+            
+            }
+
+            return null;
         }
 
         public async Task<List<Bookmark>> GetBookmarksAsync()
@@ -87,7 +121,7 @@ namespace HealthApp.Service
             return null;
         }
 
-        public async Task<List<RecordModel>> GetCategoryRecordsAsync(int categoryId)
+        public async Task<List<RecordViewModel>> GetCategoryRecordsAsync(int categoryId)
         {
             try
             {
@@ -96,14 +130,14 @@ namespace HealthApp.Service
                 if (Connectivity.NetworkAccess != NetworkAccess.Internet
                     && !Barrel.Current.IsExpired(key: url))
                 {
-                    return Barrel.Current.Get<List<RecordModel>>(key: url);
+                    return Barrel.Current.Get<List<RecordViewModel>>(key: url);
                 }
 
                 var result = await ApiCaller.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var records = JsonConvert.DeserializeObject<List<RecordModel>>(result);
+                    var records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
 
                     records.ForEach((record) =>
                     {
@@ -124,7 +158,7 @@ namespace HealthApp.Service
             return null;
         }
 
-        public async Task<RecordModel> GetHotRecordAsync()
+        public async Task<RecordViewModel> GetHotRecordAsync()
         {
             try
             {
@@ -133,14 +167,14 @@ namespace HealthApp.Service
                 if (Connectivity.NetworkAccess != NetworkAccess.Internet
                     && !Barrel.Current.IsExpired(key: url))
                 {
-                    return Barrel.Current.Get<RecordModel>(key: url);
+                    return Barrel.Current.Get<RecordViewModel>(key: url);
                 }
 
                 var result = await ApiCaller.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var record = JsonConvert.DeserializeObject<RecordModel>(result);
+                    var record = JsonConvert.DeserializeObject<RecordViewModel>(result);
 
                     record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
                     record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
@@ -158,7 +192,7 @@ namespace HealthApp.Service
             return null;
         }
 
-        public async Task<List<RecordModel>> GetPopularsRecordsAsync(int skipRecords, int takeRecord)
+        public async Task<List<RecordViewModel>> GetPopularsRecordsAsync(int skipRecords, int takeRecord)
         {
             try
             {
@@ -167,14 +201,14 @@ namespace HealthApp.Service
                 if (Connectivity.NetworkAccess != NetworkAccess.Internet
                     && !Barrel.Current.IsExpired(key: url))
                 {
-                    return Barrel.Current.Get<List<RecordModel>>(key: url);
+                    return Barrel.Current.Get<List<RecordViewModel>>(key: url);
                 }
 
                 var result = await ApiCaller.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var records = JsonConvert.DeserializeObject<List<RecordModel>>(result);
+                    var records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
 
                     records.ForEach((record) =>
                     {
@@ -197,7 +231,7 @@ namespace HealthApp.Service
             return null;
         }
 
-        public async Task<List<RecordModel>> GetRecordsAsync()
+        public async Task<List<RecordViewModel>> GetRecordsAsync()
         {
             try
             {
@@ -206,14 +240,14 @@ namespace HealthApp.Service
                 if (Connectivity.NetworkAccess != NetworkAccess.Internet
                     && !Barrel.Current.IsExpired(key: url))
                 {
-                    return Barrel.Current.Get<List<RecordModel>>(key: url);
+                    return Barrel.Current.Get<List<RecordViewModel>>(key: url);
                 }
 
                 var result = await ApiCaller.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var records = JsonConvert.DeserializeObject<List<RecordModel>>(result);
+                    var records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
 
                     records.ForEach((record) =>
                     {

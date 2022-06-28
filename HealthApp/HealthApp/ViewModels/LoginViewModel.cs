@@ -11,14 +11,12 @@ using System;
 using HealthApp.Common.Model.Response;
 using HealthApp.ViewModels;
 using HealthApp.Helpers;
+using Xamarin.Essentials;
 
 namespace HealthApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        private static readonly LoginViewModel _instance = new LoginViewModel();
-        public static LoginViewModel Instance => _instance;
-
         private Customer _customer;
         public Customer Customer
         {
@@ -62,14 +60,19 @@ namespace HealthApp.ViewModels
 
                 var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
 
-                SettingsViewModel.Instance.Customer = loginResponse.Customer;
-                SettingsViewModel.Instance.IsLoggedIn = true;
+                App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
+                App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
 
                 Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
 
-                await MainViewModel.Instance.GetDataAsync();
+                await App.ViewModelLocator.MainVm.GetDataAsync();
+                await App.ViewModelLocator.CategoryVm.GetDataAsync();
+                await App.ViewModelLocator.BookmarkVm.GetDataAsync();
 
-                Navigation.GoBack();
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Navigation.GoBack();
+                });
 
                 DialogsHelper.ProgressDialog.Hide();
             }

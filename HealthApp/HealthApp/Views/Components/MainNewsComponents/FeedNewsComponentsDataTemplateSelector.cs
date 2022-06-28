@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace HealthApp.Views.Components.FeedNewsComponents
+namespace HealthApp.Views.Components.MainNewsComponents
 {
     public class FeedNewsComponentsDataTemplateSelector : DataTemplateSelector
     {

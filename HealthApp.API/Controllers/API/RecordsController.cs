@@ -2,8 +2,6 @@
 using HealthApp.Common.Model.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,10 +21,10 @@ namespace HealthApp.API.Controllers.API
         public async Task<IActionResult> GetNews()
         {
             var arrivals = _context.Records
-                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    //.Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => !x.IsHot)
                     .Where(x => !x.IsArticle)
-                    .Where(x => !x.IsYoutube)
+                    //.Where(x => !x.IsYoutube)
                     .Include(x => x.Category)
                     .Include(x => x.Author)
                     .OrderBy(x => x.DateAdded);
@@ -39,7 +37,7 @@ namespace HealthApp.API.Controllers.API
         public IActionResult GetHotRecord()
         {
             var arrival = _context.Records
-                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    //.Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsHot)
                     .Include(x => x.Category)
                     .Include(x => x.Author)
@@ -53,7 +51,7 @@ namespace HealthApp.API.Controllers.API
         public async Task<IActionResult> GetArticleRecords()
         {
             var arrivals = _context.Records
-                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    //.Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsArticle)
                     .Include(x => x.Category)
                     .Include(x => x.Author);
@@ -66,7 +64,7 @@ namespace HealthApp.API.Controllers.API
         public IActionResult GetPopularRecords()
         {
             var arrivals = _context.Records
-                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    //.Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsPopular)
                     .Include(x => x.Category)
                     .Include(x => x.Author)
@@ -80,7 +78,7 @@ namespace HealthApp.API.Controllers.API
         public IActionResult GetYoutubeRecords()
         {
             var arrivals = _context.Records
-                    .Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
+                    //.Where(x => x.DateAdded > DateTimeOffset.Now.AddDays(-30))
                     .Where(x => x.IsYoutube)
                     .Include(x => x.Category)
                     .Include(x => x.Author);

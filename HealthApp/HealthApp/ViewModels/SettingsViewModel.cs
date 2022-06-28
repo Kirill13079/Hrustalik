@@ -1,34 +1,20 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
-using HealthApp.Common.Model.Helper;
 using HealthApp.Helpers;
-using HealthApp.Models;
+using HealthApp.Interfaces;
 using HealthApp.Service;
-using HealthApp.ViewModels;
+using HealthApp.ViewModels.Data;
 using MvvmHelpers;
-using Newtonsoft.Json;
-using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private static SettingsViewModel _instance;
-        public static SettingsViewModel Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new SettingsViewModel();
-                }
-
-                return _instance;
-            }
-        }
+        private readonly IApiManager _apiManager = new ApiManager();
 
         private Customer _customer;
         public Customer Customer 
@@ -41,19 +27,19 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private ObservableRangeCollection<ThemeModel> _themeItems = new ObservableRangeCollection<ThemeModel>()
+        private ObservableRangeCollection<AppThemeViewModel> _themeItems = new ObservableRangeCollection<AppThemeViewModel>()
         {
             {
-                new ThemeModel { Title = "LightTheme", Subtitle = "Светлая"}
+                new AppThemeViewModel { Title = "LightTheme", Subtitle = "Светлая"}
             },
             {
-                new ThemeModel { Title = "DarkTheme", Subtitle = "Темная"}
+                new AppThemeViewModel { Title = "DarkTheme", Subtitle = "Темная"}
             },
             {
-                new ThemeModel { Title = "SystemPreferred", Subtitle = "Системная"}
+                new AppThemeViewModel { Title = "SystemPreferred", Subtitle = "Системная"}
             }
         };
-        public ObservableRangeCollection<ThemeModel> ThemeItems
+        public ObservableRangeCollection<AppThemeViewModel> ThemeItems
         {
             get => _themeItems;
             set
@@ -76,7 +62,7 @@ namespace HealthApp.ViewModels
 
         public ICommand ThemeChangeCommand => new Command((obj) =>
         {
-            var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>((ThemeModel)obj);
+            var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>((AppThemeViewModel)obj);
 
             switch (appTheme)
             {
@@ -103,15 +89,19 @@ namespace HealthApp.ViewModels
             {
                 DialogsHelper.ProgressDialog.Show();
 
-                Settings.ClearSecureSorage();
                 Settings.RemoveSetting(Settings.AppPrefrences.token);
 
-                await MainViewModel.Instance.GetDataAsync();
+                await App.ViewModelLocator.MainVm.GetDataAsync();
+                await App.ViewModelLocator.CategoryVm.GetDataAsync();
+                await App.ViewModelLocator.BookmarkVm.GetDataAsync();
 
                 Customer = null;
                 IsLoggedIn = false;
 
-                Navigation.NavigateTo("login", Customer);
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Navigation.NavigateTo("login", Customer);
+                });
 
                 DialogsHelper.ProgressDialog.Hide();
             }
@@ -131,48 +121,25 @@ namespace HealthApp.ViewModels
         {
             Customer = new Customer();
 
-            _ = GetSettings();
+            _ = GetSettingsAsync().ConfigureAwait(false);
         }
 
         public string GetTheme()
         {
             string theme = Settings.GetSetting(Settings.AppPrefrences.AppTheme);
-
             var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>(theme);
 
-            return EnumsHelper.ConvertToString(appTheme);
+            return EnumsHelper.ConvertToString(eff: appTheme);
         }
 
-        private async Task GetSettings()
+        private async Task GetSettingsAsync()
         {
-            await GetCustomer().ConfigureAwait(false);
-        }
+            var customer = await _apiManager.GetCustomerAsync();
 
-        private async Task GetCustomer()
-        {
-            string token = Settings.GetSetting(Settings.AppPrefrences.token);
-
-            if (!string.IsNullOrWhiteSpace(token))
+            if (customer != null)
             {
-                string url = ApiRoutes.BaseUrl + ApiRoutes.GetCustomer;
-
-                var response = await ApiCaller.Get(url);
-
-                if (!string.IsNullOrWhiteSpace(response))
-                {
-                    var customer = JsonConvert.DeserializeObject<Customer>(response);
-
-                    Customer = customer;
-
-                    IsLoggedIn = true;
-                }
-                else 
-                {
-                    IsLoggedIn = false;
-
-                    Settings.ClearSecureSorage();
-                    Settings.RemoveSetting(Settings.AppPrefrences.token);
-                }
+                Customer = customer;
+                IsLoggedIn = true;
             }
             else
             {

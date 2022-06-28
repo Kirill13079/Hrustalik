@@ -16,7 +16,7 @@ namespace HealthApp.Views
         {
             InitializeComponent();
 
-            BindingContext = ViewModels.LoginViewModel.Instance;
+            BindingContext = App.ViewModelLocator.LoginVm;
         }
     }
 }

@@ -34,6 +34,7 @@
     <None Remove="Resources\Fonts\Gilroy-Thin.ttf" />
     <None Remove="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <None Remove="Resources\Fonts\Gilroy-UltraLight.ttf" />
+    <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
     <None Remove="Resources\Icons\bookmark.svg" />
     <None Remove="Resources\Icons\bookmarkFull.svg" />
     <None Remove="Resources\Icons\chat.svg" />
@@ -72,6 +73,7 @@
     <EmbeddedResource Include="Resources\Fonts\Gilroy-Thin.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-UltraLight.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialIcons-Regular.ttf" />
     <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
     <EmbeddedResource Include="Resources\Icons\bookmarkFull.svg" />
     <EmbeddedResource Include="Resources\Icons\chat.svg" />
@@ -113,12 +115,6 @@
     <Compile Update="Controls\CircleCheckboxView.xaml.cs">
       <DependentUpon>CircleCheckboxView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\BookmarksNewsPage.xaml.cs">
-      <DependentUpon>BookmarksNewsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\CategoriesNewsPage.xaml.cs">
-      <DependentUpon>CategoriesNewsPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -141,12 +137,12 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AuthorsAndCategoriesPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\BookmarksNewsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <EmbeddedResource Update="Views\BookmarksPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CategoriesNewsPage.xaml">
+    <EmbeddedResource Update="Views\CategoriesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\AuthorAndCategoryComponents\AuthorViewCell.xaml">
@@ -155,13 +151,16 @@
     <EmbeddedResource Update="Views\Components\AuthorAndCategoryComponents\CategoryViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Components\BookmarkNewsComponents\BookmarkViewCell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\CategoryNewsComponents\NormalNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\CategoryNewsComponents\WideNewsViewCell.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\FeedNewsComponents\WideNewsView.xaml">
+    <EmbeddedResource Update="Views\Components\MainNewsComponents\WideNewsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\PopularNewsComponents\PopularNewsViewCell.xaml">
@@ -173,7 +172,7 @@
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainNewsPage.xaml">
+    <EmbeddedResource Update="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewsPage.xaml">
@@ -182,7 +181,7 @@
     <EmbeddedResource Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\WebNewsPage.xaml">
+    <EmbeddedResource Update="Views\WebPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

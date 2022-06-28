@@ -1,11 +1,12 @@
-﻿using MvvmHelpers;
+﻿using HealthApp.ViewModels.Data;
+using MvvmHelpers;
 
 namespace HealthApp.Models
 {
     public class MainTabModel : BaseViewModel
     {
-        private RecordModel _hotRecord;
-        public RecordModel HotRecord
+        private RecordViewModel _hotRecord;
+        public RecordViewModel HotRecord
         {
             get => _hotRecord;
             set
@@ -26,8 +27,8 @@ namespace HealthApp.Models
             }
         }
 
-        private ObservableRangeCollection<RecordModel> _records;
-        public ObservableRangeCollection<RecordModel> Records
+        private ObservableRangeCollection<RecordViewModel> _records;
+        public ObservableRangeCollection<RecordViewModel> Records
         {
             get { return _records; }
             set
@@ -62,8 +63,8 @@ namespace HealthApp.Models
         public MainTabModel()
         {
             SubTabModel = new ObservableRangeCollection<TabModel>();
-            Records = new ObservableRangeCollection<RecordModel>();
-            HotRecord = new RecordModel();
+            Records = new ObservableRangeCollection<RecordViewModel>();
+            HotRecord = new RecordViewModel();
 
             IsBusy = true;
         }

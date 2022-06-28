@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using HealthApp.Common.Model;
+﻿using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Extensions;
 using HealthApp.Helpers;
@@ -8,18 +6,20 @@ using HealthApp.Models;
 using HealthApp.Service;
 using HealthApp.ViewModels;
 using HealthApp.ViewModels.Data;
+using System;
+using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace HealthApp.Views.Components.CategoryNewsComponents
+namespace HealthApp.Views.Components.MainNewsComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class WideNewsViewCell : ViewCell
+    public partial class WideNewsView : ContentView
     {
         private const uint AnimationSpeed = 100;
         private RecordViewModel _bindingContext = null;
 
-        public WideNewsViewCell()
+        public WideNewsView()
         {
             InitializeComponent();
         }
@@ -46,14 +46,14 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         private void BindingContextPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            bookmarkImage.SvgSource = _bindingContext.IsBookmark 
-                ? "HealthApp.Resources.Icons.likeFull.svg" 
+            bookmarkImage.SvgSource = _bindingContext.IsBookmark
+                ? "HealthApp.Resources.Icons.likeFull.svg"
                 : "HealthApp.Resources.Icons.like.svg";
         }
 
         private void RecordModelTapped(object sender, EventArgs e)
         {
-            Navigation.NavigateTo("news", _bindingContext, "category");
+            Service.Navigation.NavigateTo("news", _bindingContext, "main");
         }
 
         private async void ShareRecordModelTapped(object sender, EventArgs e)

@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace HealthApp.Models
+namespace HealthApp.ViewModels.Data
 {
-    public class RecordModel : Record, INotifyPropertyChanged
+    public class RecordViewModel : Record, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -29,7 +29,7 @@ namespace HealthApp.Models
             return Id.GetHashCode();
         }
 
-        protected static bool EqualsHelper(RecordModel first, RecordModel second)
+        protected static bool EqualsHelper(RecordViewModel first, RecordViewModel second)
         {
             return first.Id == second.Id;
         }
@@ -41,7 +41,7 @@ namespace HealthApp.Models
                 return true;
             }
 
-            var other = obj as RecordModel;
+            var other = obj as RecordViewModel;
 
             if (other == null)
             {

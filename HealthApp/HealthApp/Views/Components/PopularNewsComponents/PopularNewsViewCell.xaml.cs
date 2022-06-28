@@ -1,5 +1,6 @@
 ﻿using HealthApp.Models;
 using HealthApp.Service;
+using HealthApp.ViewModels.Data;
 using Rg.Plugins.Popup.Services;
 using System;
 using Xamarin.Forms;
@@ -22,7 +23,7 @@ namespace HealthApp.Views.Components.PopularNewsComponents
 
             image.Source = null;
 
-            var bindingContext = BindingContext as RecordModel;
+            var bindingContext = BindingContext as RecordViewModel;
 
             image.Source = bindingContext.Image;
             description.Text = bindingContext.Name;
@@ -30,7 +31,7 @@ namespace HealthApp.Views.Components.PopularNewsComponents
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var obj = (sender as PancakeView).BindingContext as RecordModel;
+            var obj = (sender as PancakeView).BindingContext as RecordViewModel;
 
             var parentBindingContext = popularNewsViewCell.Parent.Parent.BindingContext;
 

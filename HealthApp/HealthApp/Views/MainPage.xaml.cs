@@ -7,19 +7,19 @@ using Xamarin.Forms.Xaml;
 namespace HealthApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainNewsPage : ContentPage
+    public partial class MainPage : ContentPage
     {
-        public MainNewsPage()
+        public MainPage()
         {
             InitializeComponent();
 
-            BindingContext = MainViewModel.Instance;
+            BindingContext = App.ViewModelLocator.MainVm;
 
             var bindingContext = BindingContext as MainViewModel;
 
             var bindingObject = new List<MainTabModel>();
 
-            bindingObject.Add(bindingContext.MainTabModel);
+            bindingObject.Add(bindingContext.MainTab);
 
             mainScrollView.ItemsSource = bindingObject;
         }

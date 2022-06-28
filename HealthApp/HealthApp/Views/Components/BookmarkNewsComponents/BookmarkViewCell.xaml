@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+          xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
+          xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:controls="clr-namespace:HealthApp.Controls"
+          x:Class="HealthApp.Views.Components.BookmarkNewsComponents.BookmarkViewCell">
+    <SwipeView BackgroundColor="{DynamicResource PageBackgroundColor}">
+        <SwipeView.RightItems>
+            <SwipeItems Mode="Reveal">
+                <SwipeItemView>
+                    <Frame x:Name="bookmark"
+                               Padding="5"
+                               xtoll:TouchEffect.NativeAnimation="True"
+                               HorizontalOptions="EndAndExpand"
+                               CornerRadius="10"
+                               IsVisible="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="AddOrDeleteBookmarkRecordTapped"/>
+                        </Frame.GestureRecognizers>
+                        <StackLayout Orientation="Horizontal">
+                            <controls:TintedCachedImage x:Name="bookmarkImage" 
+                                                            WidthRequest="25" 
+                                                            HeightRequest="25"     
+                                                            SvgSource="HealthApp.Resources.Icons.like.svg"
+                                                            TintColor="{DynamicResource AccentColor}"/>
+                        </StackLayout>
+                    </Frame>
+                </SwipeItemView>
+            </SwipeItems>
+        </SwipeView.RightItems>
+        <Frame BackgroundColor="{DynamicResource ComponentColor}"
+           Padding="20"
+           HeightRequest="60"
+           Margin="0,5"
+           CornerRadius="15"
+           VerticalOptions="Start">
+            <Grid ColumnDefinitions="60,*"
+              RowDefinitions="*,20">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="RecordModelTapped"/>
+                </Grid.GestureRecognizers>
+                <Frame BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                   CornerRadius="5"
+                   Padding="0"
+                   Grid.RowSpan="2"
+                   HasShadow="False">
+                    <ffimageloading:CachedImage x:Name="image"
+                                            Aspect="AspectFill"
+                                            BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                            DownsampleToViewSize="True"
+                                            DownsampleUseDipUnits="True" />
+                </Frame>
+                <Label x:Name="description"
+                   Grid.Column="1"
+                   FontFamily="Bold"
+                   LineBreakMode="TailTruncation"
+                   MaxLines="2"
+                   FontSize="{StaticResource BodyLabelFontSize}">
+                </Label>
+                <StackLayout Grid.Column="1"
+                         Grid.Row="1"
+                         Orientation="Horizontal">
+                    <Frame Padding="0"
+                       CornerRadius="10"
+                       xtoll:TouchEffect.NativeAnimation="True">
+                        <ffimageloading:CachedImage x:Name="authorImage"
+                                                BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                                Aspect="AspectFill"
+                                                DownsampleToViewSize="True"
+                                                DownsampleUseDipUnits="True"
+                                                HeightRequest="20"
+                                                WidthRequest="20"/>
+                    </Frame>
+                    <Label x:Name="published" 
+                       FontSize="{StaticResource SmallLabelFontSize}"
+                       TextColor="{DynamicResource AccentColor}"
+                       FontFamily="Medium"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="1"
+                       VerticalOptions="Center">
+                    </Label>
+                    <Label x:Name="data"
+                       FontFamily="Regular"
+                       LineBreakMode="TailTruncation"
+                       TextColor="{DynamicResource SkeletonColor}"
+                       MaxLines="1"
+                       VerticalOptions="Center"
+                       HorizontalOptions="EndAndExpand"
+                       FontSize="{StaticResource SmallLabelFontSize}">
+                    </Label>
+                </StackLayout>
+            </Grid>
+        </Frame>
+    </SwipeView>
+</ViewCell>

@@ -2,6 +2,7 @@
 using HealthApp.Service;
 using Xamarin.Forms;
 
+[assembly: ExportFont("MaterialIcons-Regular.ttf", Alias = "MaterialIcon")]
 [assembly: ExportFont("FontAwesome-Regular.ttf", Alias = "AwesomeRegular")]
 [assembly: ExportFont("FontAwesome-Solid.ttf", Alias = "AwesomeSolid")]
 [assembly: ExportFont("Gilroy-Black.ttf", Alias = "Black")]
@@ -14,17 +15,18 @@ namespace HealthApp
 {
     public partial class App : Application
     {
-        public Util Util { get; set; }
+        private static ViewModelLocator _viewModelLocator;
+        public static ViewModelLocator ViewModelLocator => _viewModelLocator ?? (_viewModelLocator = new ViewModelLocator());
 
         public App()
         {
             InitializeComponent();
 
-            InitializeComponent();
-
-            Device.SetFlags(new[] { "SwipeView_Experimental", "CollectionView_Experimental" });
-
-            Util = new Util();
+            Device.SetFlags(new[] 
+            { 
+                "SwipeView_Experimental", 
+                "CollectionView_Experimental" 
+            });
 
             MainPage = new AppShell();
         }

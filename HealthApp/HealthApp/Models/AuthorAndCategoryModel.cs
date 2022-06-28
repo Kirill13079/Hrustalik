@@ -3,10 +3,10 @@ using MvvmHelpers;
 
 namespace HealthApp.Models
 {
-    public class TabModel : BaseViewModel
+    public class AuthorAndCategoryModel : BaseViewModel
     {
         public int _page;
-        public int Page 
+        public int Page
         {
             get => _page;
             set
@@ -19,7 +19,7 @@ namespace HealthApp.Models
         private bool _hasError;
         public bool HasError
         {
-            get => _hasError;
+            get => _hasError; 
             set
             {
                 _hasError = value;
@@ -30,7 +30,7 @@ namespace HealthApp.Models
         private bool _isRefreshing;
         public bool IsRefreshing
         {
-            get => _isRefreshing; 
+            get => _isRefreshing;
             set
             {
                 _isRefreshing = value;
@@ -38,20 +38,20 @@ namespace HealthApp.Models
             }
         }
 
-        private ObservableRangeCollection<RecordViewModel> _records;
-        public ObservableRangeCollection<RecordViewModel> Records
+        private ObservableRangeCollection<AuthorAndCategoryViewModel> _authorsAndСategories;
+        public ObservableRangeCollection<AuthorAndCategoryViewModel> AuthorsAndСategories
         {
-            get => _records; 
+            get => _authorsAndСategories;
             set
             {
-                _records = value;
+                _authorsAndСategories = value;
                 OnPropertyChanged();
             }
         }
 
-        public TabModel()
+        public AuthorAndCategoryModel()
         {
-            Records = new ObservableRangeCollection<RecordViewModel>();
+            AuthorsAndСategories = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
             IsBusy = true;
         }

@@ -1,6 +1,7 @@
 ﻿using HealthApp.Extensions;
 using HealthApp.Models;
 using HealthApp.Service;
+using HealthApp.ViewModels.Data;
 using Rg.Plugins.Popup.Services;
 using System;
 using Xamarin.Forms;
@@ -22,7 +23,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
             image.Source = null;
 
-            var bindingContext = BindingContext as RecordModel;
+            var bindingContext = BindingContext as RecordViewModel;
 
             image.Source = bindingContext.Image;
             description.Text = bindingContext.Name;
@@ -33,7 +34,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var record = (sender as Frame).BindingContext as RecordModel;
+            var record = (sender as Frame).BindingContext as RecordViewModel;
 
             if (record != null)
             {
@@ -43,7 +44,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
         private void TappedRecord(object sender, EventArgs e)
         {
-            var record = (sender as Frame).BindingContext as RecordModel;
+            var record = (sender as Frame).BindingContext as RecordViewModel;
 
             if (record != null)
             {

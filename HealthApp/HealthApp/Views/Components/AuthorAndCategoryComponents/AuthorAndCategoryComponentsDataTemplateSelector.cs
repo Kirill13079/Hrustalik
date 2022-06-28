@@ -1,4 +1,5 @@
 ﻿using HealthApp.Models;
+using HealthApp.ViewModels.Data;
 using Xamarin.Forms;
 
 namespace HealthApp.Views.Components.AuthorAndCategoryComponents
@@ -16,7 +17,7 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (((AuthorsAndCategoriesModel)item).Category != null)
+            if (((AuthorAndCategoryViewModel)item).Category != null)
             {
                 return _categoriesViewCell;
             }

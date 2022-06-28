@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:local="clr-namespace:HealthApp.Views.Components.CategoryNewsComponents"
-             x:Class="HealthApp.Views.BookmarksNewsPage"
+             xmlns:local="clr-namespace:HealthApp.Views.Components.BookmarkNewsComponents"
+             x:Class="HealthApp.Views.BookmarksPage"
+             xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     
     <Shell.TitleView>
@@ -20,7 +22,7 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:CategoryNewsComponentsDataTemplateSelector x:Key="NewsDataTemplateSelector"/>
+            <local:BookmarkNewsComponentsDataTemplateSelector x:Key="RecordDataTemplateSelector"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -31,18 +33,18 @@
                       CachingStrategy="RecycleElement"
                       HasUnevenRows="True"
                       IsPullToRefreshEnabled="True"
-                      IsRefreshing="{Binding BookmarkModel.IsRefreshing, Mode=OneWay}"
-                      ItemsSource="{Binding BookmarkModel.Records}"
-                      ItemTemplate="{StaticResource NewsDataTemplateSelector}"
+                      IsRefreshing="{Binding BookmarkTab.IsRefreshing, Mode=OneWay}"
+                      ItemsSource="{Binding BookmarkTab.Records}"
+                      ItemTemplate="{StaticResource RecordDataTemplateSelector}"
                       SelectionMode="None"
                       RefreshControlColor="{DynamicResource AccentColor}"
-                      SeparatorVisibility="None">
-            </ListView>
+                      VerticalScrollBarVisibility="Never"
+                      SeparatorVisibility="None"/>
             <!-- is authorized -->
             <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center">
                 <StackLayout.Triggers>
-                    <DataTrigger Binding="{Binding BookmarkModel.IsAuthorized}"
+                    <DataTrigger Binding="{Binding BookmarkTab.IsAuthorized}"
                                  TargetType="StackLayout"
                                  Value="True">
                         <Setter Property="IsVisible" 
@@ -65,7 +67,7 @@
             <!-- is empty -->
             <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center"
-                         IsVisible="{Binding BookmarkModel.IsEmpty}">
+                         IsVisible="{Binding BookmarkTab.IsEmpty}">
                 <StackLayout>
                     <Label FontAttributes="Bold"
                            FontSize="25"
@@ -77,10 +79,7 @@
             <!-- has error -->
             <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center"
-                         IsVisible="{Binding BookmarkModel.HasError}">
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ReloadCommand}"/>
-                </StackLayout.GestureRecognizers>
+                         IsVisible="{Binding BookmarkTab.HasError}">
                 <StackLayout>
                     <Label FontAttributes="Bold"
                            FontSize="25"
@@ -91,7 +90,7 @@
             </StackLayout>
             <!-- loader -->
             <ActivityIndicator HorizontalOptions="Center"
-                               IsRunning="{Binding BookmarkModel.IsBusy}"
+                               IsRunning="{Binding BookmarkTab.IsBusy}"
                                VerticalOptions="Center" />
         </Grid>
     </ContentPage.Content>

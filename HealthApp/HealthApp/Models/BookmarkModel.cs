@@ -1,11 +1,12 @@
-﻿using MvvmHelpers;
+﻿using HealthApp.ViewModels.Data;
+using MvvmHelpers;
 
 namespace HealthApp.Models
 {
     public class BookmarkModel : BaseViewModel
     {
-        private ObservableRangeCollection<RecordModel> _records;
-        public ObservableRangeCollection<RecordModel> Records
+        private ObservableRangeCollection<RecordViewModel> _records;
+        public ObservableRangeCollection<RecordViewModel> Records
         {
             get => _records; 
             set
@@ -61,7 +62,7 @@ namespace HealthApp.Models
 
         public BookmarkModel()
         {
-            Records = new ObservableRangeCollection<RecordModel>();
+            Records = new ObservableRangeCollection<RecordViewModel>();
 
             IsBusy = true;
             IsAuthorized = true;
