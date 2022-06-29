@@ -3,6 +3,7 @@ using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.ViewModels;
 using HealthApp.ViewModels.Data;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -58,7 +59,14 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 
             DialogsHelper.ProgressDialog.Show();
 
-            await App.ViewModelLocator.MainVm.GetDataAsync();
+            Task[] tasks =
+            {
+                App.ViewModelLocator.MainVm.GetDataAsync(),
+                App.ViewModelLocator.CategoryVm.GetDataAsync(),
+                App.ViewModelLocator.BookmarkVm.GetDataAsync()
+            };
+
+            await Task.WhenAll(tasks);
 
             DialogsHelper.ProgressDialog.Hide();
 

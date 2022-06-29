@@ -30,6 +30,12 @@ namespace HealthApp.ViewModels.Base
 
         public ICommand ReloadCommand { get; set; }
 
+        public ICommand SignOutCommand { get; set; }
+
+        public ICommand LoginCommand { get; set; }
+
+        public ICommand AuthorizationCommand { get; set; }
+
         public ViewBaseModel()
         {
 

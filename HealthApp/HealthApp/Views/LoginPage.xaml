@@ -86,7 +86,7 @@
                                          Padding="20,0"
                                          xtoll:TouchEffect.NativeAnimation="True">
                                 <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding LogInCommand}"/>
+                                    <TapGestureRecognizer Command="{Binding AuthorizationCommand}"/>
                                 </StackLayout.GestureRecognizers>
                                 <Label FontSize="16"
                                        VerticalOptions="Center" 

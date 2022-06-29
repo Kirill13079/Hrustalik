@@ -267,5 +267,41 @@ namespace HealthApp.Service
 
             return null;
         }
+
+        public async Task<List<Author>> GetAuthorsAsync()
+        {
+            try
+            {
+                string url = ApiRoutes.BaseUrl + ApiRoutes.GetAuthors;
+
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet
+                    && !Barrel.Current.IsExpired(key: url))
+                {
+                    return Barrel.Current.Get<List<Author>>(key: url);
+                }
+
+                var result = await ApiCaller.Get(url);
+
+                if (!string.IsNullOrWhiteSpace(result))
+                {
+                    var authors = JsonConvert.DeserializeObject<List<Author>>(result);
+
+                    authors.ForEach((author) =>
+                    {
+                        author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{author.Logo}";
+                    });
+
+                    Barrel.Current.Add(key: url, data: authors, expireIn: TimeSpan.FromDays(1));
+
+                    return authors;
+                }
+            }
+            catch
+            {
+            
+            }
+
+            return null;
+        }
     }
 }

@@ -21,5 +21,7 @@ namespace HealthApp.Interfaces
         Task<List<Bookmark>> GetBookmarksAsync();
 
         Task<Customer> GetCustomerAsync();
+
+        Task<List<Author>> GetAuthorsAsync();
     }
 }

@@ -34,7 +34,6 @@
                    FontFamily="Bold"
                    LineBreakMode="TailTruncation"
                    MaxLines="2"
-                   TextColor="White"
                    FontSize="{StaticResource HeadLabelFontSize}"/>
         </StackLayout>
     </Frame>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HealthApp.ViewModels;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,6 +8,8 @@ namespace HealthApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AuthorsAndCategoriesPage : ContentPage
     {
+        private readonly AuthorsAndCategoriesViewModel _bindingContext;
+
         public ICommand ScrollListCommand { get; set; }
 
         public AuthorsAndCategoriesPage()
@@ -21,11 +19,15 @@ namespace HealthApp.Views
             Shell.SetNavBarIsVisible(this, false);
             Shell.SetTabBarIsVisible(this, false);
 
+            BindingContext = App.ViewModelLocator.AuthorsAndCategoriesVm;
+
+            _bindingContext = BindingContext as AuthorsAndCategoriesViewModel;
+
             ScrollListCommand = new Command(() =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    var selectedIndex = vm.TabAuthorsAndCategoriesItems.IndexOf(vm.CurrentTab);
+                    var selectedIndex = _bindingContext.TabAuthorsAndCategoriesItems.IndexOf(_bindingContext.CurrentTab);
 
                     await scrollView.ScrollToAsync(60 * selectedIndex, scrollView.ContentSize.Width - scrollView.Width, true);
                 });

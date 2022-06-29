@@ -9,7 +9,8 @@ namespace HealthApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage : ContentPage
     {
-        private SettingsViewModel _bindingContext;
+        private readonly SettingsViewModel _bindingContext;
+        private AppThemeViewModel _currentAppTheme = new AppThemeViewModel();
 
         public SettingsPage()
         {
@@ -17,51 +18,25 @@ namespace HealthApp.Views
 
             BindingContext = App.ViewModelLocator.SettingsVM;
 
-            _bindingContext = BindingContext as ViewModels.SettingsViewModel;
-
-            string currentThemeTitle = _bindingContext.GetTheme();
-
-            SetCurrentThemeCheckbox(_bindingContext, currentThemeTitle);
+            _bindingContext = BindingContext as SettingsViewModel;
+            _currentAppTheme = _bindingContext.AppThemeItems.FirstOrDefault(theme => theme.IsActive);
         }
 
-        private void Theme_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        private void AppThemeTapped(object sender, System.EventArgs e)
         {
-            var checkBox = (CheckBox)sender;
+            var frame = (Frame)sender;
+            var appTheme = (AppThemeViewModel)frame.BindingContext;
 
-            var themeModel = (AppThemeViewModel)checkBox.BindingContext;
-
-            if (themeModel.IsActive)
+            if (appTheme != null)
             {
-                ResetСheckboxState(_bindingContext, themeModel);
-
-                _bindingContext.ThemeChangeCommand.Execute(themeModel);
-            }
-
-            //return;
-        }
-
-        private void ResetСheckboxState(SettingsViewModel bindingContext, AppThemeViewModel activeTheme)
-        {
-            foreach (var themeModel in bindingContext.ThemeItems)
-            {
-                if (themeModel != activeTheme)
+                if (appTheme != _currentAppTheme)
                 {
-                    themeModel.IsActive = false;
-                }
-            }
-        }
+                    appTheme.IsActive = true;
+                    _currentAppTheme.IsActive = false;
 
-        private void SetCurrentThemeCheckbox(SettingsViewModel bindingContext, string currentThemeTitle)
-        {
-            var currentThemeModel = bindingContext.ThemeItems
-                .Where(x => x.Title == currentThemeTitle)
-                .FirstOrDefault();
+                    _currentAppTheme = appTheme;
 
-            foreach (var themeModel in bindingContext.ThemeItems)
-            {
-                if (themeModel == currentThemeModel)
-                {
-                    themeModel.IsActive = true;
+                    _bindingContext.AppThemeChangedCommand.Execute(_currentAppTheme);
                 }
             }
         }

@@ -2,47 +2,46 @@
 using HealthApp.Common.Model.Helper;
 using HealthApp.Common.Model.Request;
 using HealthApp.Service;
-using MvvmHelpers;
-using System.Windows.Input;
 using Xamarin.Forms;
 using Newtonsoft.Json;
-using HealthApp.Common.Model;
-using System;
 using HealthApp.Common.Model.Response;
-using HealthApp.ViewModels;
 using HealthApp.Helpers;
 using Xamarin.Essentials;
+using HealthApp.ViewModels.Base;
+using System.Threading.Tasks;
 
 namespace HealthApp.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : ViewBaseModel
     {
-        private Customer _customer;
-        public Customer Customer
-        {
-            get => _customer;
-            set
-            {
-                _customer = value;
-                OnPropertyChanged();
-            }
-        }
-
         private string _email = "kirill.zhenkevich13@gmail.com";
         public string Email
         {
             get => _email;
-            set => _email = value;
+            set
+            {
+                _email = value;
+                OnPropertyChanged();
+            }
         }
 
         private string _password = "qwaserdf13QQ??";
         public string Password
         {
             get => _password;
-            set => _password = value;
+            set
+            {
+                _password = value;
+                OnPropertyChanged();
+            }
         }
 
-        public ICommand LogInCommand => new Command(async () => 
+        public LoginViewModel()
+        {
+            AuthorizationCommand = new Command(async () => await AuthorizationCommandHadlerAsync());
+        }
+
+        private async Task AuthorizationCommandHadlerAsync()
         {
             string url = ApiRoutes.BaseUrl + ApiRoutes.Login;
 
@@ -65,9 +64,14 @@ namespace HealthApp.ViewModels
 
                 Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
 
-                await App.ViewModelLocator.MainVm.GetDataAsync();
-                await App.ViewModelLocator.CategoryVm.GetDataAsync();
-                await App.ViewModelLocator.BookmarkVm.GetDataAsync();
+                Task[] tasks =
+                {
+                    App.ViewModelLocator.MainVm.GetDataAsync(),
+                    App.ViewModelLocator.CategoryVm.GetDataAsync(),
+                    App.ViewModelLocator.BookmarkVm.GetDataAsync()
+                };
+
+                await Task.WhenAll(tasks);
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
@@ -80,6 +84,6 @@ namespace HealthApp.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Вход", "Во время входа в систему произошла ошибка", "Понятно");
             }
-        });
+        }
     }
 }

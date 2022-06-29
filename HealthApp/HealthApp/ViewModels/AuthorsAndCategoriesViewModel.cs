@@ -1,24 +1,18 @@
-﻿using HealthApp.AppSettings;
-using HealthApp.Common.Model;
-using HealthApp.Common.Model.Helper;
-using HealthApp.Extensions;
+﻿using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Models;
-using HealthApp.Service;
+using HealthApp.ViewModels.Base;
 using HealthApp.ViewModels.Data;
 using MvvmHelpers;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
-    public class AuthorsAndCategoriesViewModel : BaseViewModel
+    public class AuthorsAndCategoriesViewModel : ViewBaseModel
     {
-        private ObservableRangeCollection<AuthorAndCategoryModel> _tabAuthorsAndCategoriesItems;
+        private ObservableRangeCollection<AuthorAndCategoryModel> _tabAuthorsAndCategoriesItems = new ObservableRangeCollection<AuthorAndCategoryModel>();
         public ObservableRangeCollection<AuthorAndCategoryModel> TabAuthorsAndCategoriesItems
         {
             get => _tabAuthorsAndCategoriesItems;
@@ -29,7 +23,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private AuthorAndCategoryModel _currentTab;
+        private AuthorAndCategoryModel _currentTab = new AuthorAndCategoryModel();
         public AuthorAndCategoryModel CurrentTab
         {
             get => _currentTab;
@@ -40,39 +34,10 @@ namespace HealthApp.ViewModels
             }
         }
 
-        public ICommand RefreshCommand => new Command(async () =>
-        {
-            switch (CurrentTab.Title.ToLower())
-            {
-                case "категории":
-                    await LoadCategoriesContentData(CurrentTab).ConfigureAwait(false);
-                    break;
-                case "авторы":
-                    await LoadAuhorsContentData(CurrentTab).ConfigureAwait(false);
-                    break;
-            }
-        });
-
-        public ICommand ReloadCommand => new Command(async () =>
-        {
-            foreach (var tab in TabAuthorsAndCategoriesItems)
-            {
-                switch (tab.Title.ToLower())
-                {
-                    case "категории":
-                        await LoadCategoriesContentData(tab).ConfigureAwait(false);
-                        break;
-                    case "авторы":
-                        await LoadAuhorsContentData(tab).ConfigureAwait(false);
-                        break;
-                }
-            }
-        });
-
         public AuthorsAndCategoriesViewModel()
         {
-            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<AuthorAndCategoryModel>();
-            CurrentTab = new AuthorAndCategoryModel();
+            ReloadCommand = new Command(async () => await ReloadCommandHandlerAsync());
+            RefreshCommand = new Command(async () => await RefreshCommandHandlerAsync());
 
             _ = GetDataAsync().ConfigureAwait(false);
         }
@@ -84,23 +49,8 @@ namespace HealthApp.ViewModels
                 TabAuthorsAndCategoriesItems.Clear();
             }
 
-            var tabModel = new ObservableRangeCollection<AuthorAndCategoryModel>()
-            {
-                {
-                    new AuthorAndCategoryModel
-                    {
-                        Title = "Категории"
-                    }
-                },
-                {
-                    new AuthorAndCategoryModel
-                    {
-                        Title = "Авторы"
-                    }
-                }
-            };
+            SetTabAuthorsAndCategoriesItems();
 
-            TabAuthorsAndCategoriesItems = tabModel;
             CurrentTab = TabAuthorsAndCategoriesItems[0];
 
             foreach (var tab in TabAuthorsAndCategoriesItems)
@@ -108,16 +58,18 @@ namespace HealthApp.ViewModels
                 switch (tab.Title.ToLower())
                 {
                     case "категории":
-                        await LoadCategoriesContentData(tab).ConfigureAwait(false);
+                        await LoadCategoryContentDataAsync(tab).ConfigureAwait(false);
                         break;
                     case "авторы":
-                        await LoadAuhorsContentData(tab).ConfigureAwait(false);
+                        await LoadAuhorContentDataAsync(tab).ConfigureAwait(false);
+                        break;
+                    default:
                         break;
                 }
             }
         }
 
-        private async Task LoadAuhorsContentData(AuthorAndCategoryModel tab, bool isRefreshing = false)
+        private async Task LoadAuhorContentDataAsync(AuthorAndCategoryModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -127,18 +79,18 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var authors = await GetAuthorsAsync();
+                    var authors = await ApiManager.GetAuthorsAsync();
 
                     var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
-                    var articles = new List<AuthorAndCategoryViewModel>();
+                    var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
                     foreach (var author in authors)
                     {
                         var article = new AuthorAndCategoryViewModel
                         {
-                            Category = null, 
-                            Author = author 
+                            Category = null,
+                            Author = author
                         };
 
                         if (savedUserAuthors.EqualsHelper(article.Author))
@@ -157,11 +109,11 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var authors = await GetAuthorsAsync();
+                    var authors = await ApiManager.GetAuthorsAsync();
 
                     var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
 
-                    var articles = new List<AuthorAndCategoryViewModel>();
+                    var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
                     foreach (var author in authors)
                     {
@@ -199,7 +151,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task LoadCategoriesContentData(AuthorAndCategoryModel tab, bool isRefreshing = false)
+        private async Task LoadCategoryContentDataAsync(AuthorAndCategoryModel tab, bool isRefreshing = false)
         {
             tab.HasError = false;
 
@@ -209,11 +161,11 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var categories = await GetCategoriesAsync();
+                    var categories = await ApiManager.GetCategoriesAsync();
 
                     var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                    var articles = new List<AuthorAndCategoryViewModel>();
+                    var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
                     foreach (var category in categories)
                     {
@@ -239,11 +191,11 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var categories = await GetCategoriesAsync();
+                    var categories = await ApiManager.GetCategoriesAsync();
 
                     var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                    var articles = new List<AuthorAndCategoryViewModel>();
+                    var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
                     foreach (var category in categories)
                     {
@@ -281,49 +233,55 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<List<Author>> GetAuthorsAsync()
+        private void SetTabAuthorsAndCategoriesItems()
         {
-            string url = ApiRoutes.BaseUrl + ApiRoutes.GetAuthors;
-
-            var result = await ApiCaller.Get(url);
-
-            if (!string.IsNullOrWhiteSpace(result))
+            TabAuthorsAndCategoriesItems = new ObservableRangeCollection<AuthorAndCategoryModel>()
             {
-                var authors = JsonConvert.DeserializeObject<List<Author>>(result);
-
-                authors.ForEach((author) =>
                 {
-                    author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{author.Logo}";
-                });
+                    new AuthorAndCategoryModel
+                    {
+                        Title = "Категории"
+                    }
+                },
+                {
+                    new AuthorAndCategoryModel
+                    {
+                        Title = "Авторы"
+                    }
+                }
+            };
+        }
 
-                return authors;
-            }
-            else
+        private async Task ReloadCommandHandlerAsync()
+        {
+            foreach (var tab in TabAuthorsAndCategoriesItems)
             {
-                return null;
+                switch (tab.Title.ToLower())
+                {
+                    case "категории":
+                        await LoadCategoryContentDataAsync(tab).ConfigureAwait(false);
+                        break;
+                    case "авторы":
+                        await LoadAuhorContentDataAsync(tab).ConfigureAwait(false);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
-        private async Task<List<Category>> GetCategoriesAsync()
+        private async Task RefreshCommandHandlerAsync()
         {
-            string url = ApiRoutes.BaseUrl + ApiRoutes.GetCategories;
-
-            var result = await ApiCaller.Get(url);
-
-            if (!string.IsNullOrWhiteSpace(result))
+            switch (CurrentTab.Title.ToLower())
             {
-                var categories = JsonConvert.DeserializeObject<List<Category>>(result);
-
-                categories.ForEach((category) =>
-                {
-                    //category.Image = $"{ApiRoutes.BaseUrl}/AuthorImages/{author.Logo}";
-                });
-
-                return categories;
-            }
-            else
-            {
-                return null;
+                case "категории":
+                    await LoadCategoryContentDataAsync(CurrentTab).ConfigureAwait(false);
+                    break;
+                case "авторы":
+                    await LoadAuhorContentDataAsync(CurrentTab).ConfigureAwait(false);
+                    break;
+                default:
+                    break;
             }
         }
     }

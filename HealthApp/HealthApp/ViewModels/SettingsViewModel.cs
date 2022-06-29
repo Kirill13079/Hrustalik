@@ -1,8 +1,8 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
 using HealthApp.Helpers;
-using HealthApp.Interfaces;
 using HealthApp.Service;
+using HealthApp.ViewModels.Base;
 using HealthApp.ViewModels.Data;
 using MvvmHelpers;
 using System.Threading.Tasks;
@@ -12,39 +12,26 @@ using Xamarin.Forms;
 
 namespace HealthApp.ViewModels
 {
-    public class SettingsViewModel : BaseViewModel
+    public class SettingsViewModel : ViewBaseModel
     {
-        private readonly IApiManager _apiManager = new ApiManager();
-
-        private Customer _customer;
-        public Customer Customer 
-        { 
-            get =>  _customer;
-            set 
+        private Customer _customer = new Customer();
+        public Customer Customer
+        {
+            get => _customer;
+            set
             {
-                _customer = value; 
+                _customer = value;
                 OnPropertyChanged();
             }
         }
 
-        private ObservableRangeCollection<AppThemeViewModel> _themeItems = new ObservableRangeCollection<AppThemeViewModel>()
+        private ObservableRangeCollection<AppThemeViewModel> _appThemeItems;
+        public ObservableRangeCollection<AppThemeViewModel> AppThemeItems
         {
-            {
-                new AppThemeViewModel { Title = "LightTheme", Subtitle = "Светлая"}
-            },
-            {
-                new AppThemeViewModel { Title = "DarkTheme", Subtitle = "Темная"}
-            },
-            {
-                new AppThemeViewModel { Title = "SystemPreferred", Subtitle = "Системная"}
-            }
-        };
-        public ObservableRangeCollection<AppThemeViewModel> ThemeItems
-        {
-            get => _themeItems;
+            get => _appThemeItems;
             set
             {
-                _themeItems = value;
+                _appThemeItems = value;
                 OnPropertyChanged();
             }
         }
@@ -52,7 +39,7 @@ namespace HealthApp.ViewModels
         private bool _isLoggedIn;
         public bool IsLoggedIn
         {
-            get { return _isLoggedIn; }
+            get => _isLoggedIn;
             set
             {
                 _isLoggedIn = value;
@@ -60,9 +47,76 @@ namespace HealthApp.ViewModels
             }
         }
 
-        public ICommand ThemeChangeCommand => new Command((obj) =>
+        public ICommand AppThemeChangedCommand { get; set; }
+
+        public ICommand OpenAuthorsAndCategoriesPageCommand { get; set; }
+
+        public SettingsViewModel()
         {
-            var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>((AppThemeViewModel)obj);
+            LoginCommand = new Command(LoginCommandHadler);
+            SignOutCommand = new Command(async () => await SignOutCommandHandlerAsync());
+            OpenAuthorsAndCategoriesPageCommand = new Command(OpenAuthorsAndCategoriesPageCommandHadler);
+            AppThemeChangedCommand = new Command<AppThemeViewModel>(theme => AppThemeChangedCommandHandler(theme));
+
+            _ = GetSettingsAsync().ConfigureAwait(false);
+        }
+
+        private async Task GetSettingsAsync()
+        {
+            var customer = await ApiManager.GetCustomerAsync();
+
+            string theme = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppTheme);
+
+            if (customer != null)
+            {
+                Customer = customer;
+
+                IsLoggedIn = true;
+            }
+            else
+            {
+                IsLoggedIn = false;
+            }
+
+            SetAppThemeItems();
+
+            foreach (var appTheme in AppThemeItems)
+            {
+                appTheme.IsActive = appTheme.Title == theme;
+            }
+        }
+
+        private void SetAppThemeItems()
+        {
+            AppThemeItems = new ObservableRangeCollection<AppThemeViewModel>()
+            {
+                {
+                    new AppThemeViewModel
+                    {
+                        Title = "LightTheme",
+                        Subtitle = "Светлая"
+                    }
+                },
+                {
+                    new AppThemeViewModel
+                    {
+                        Title = "DarkTheme",
+                        Subtitle = "Темная"
+                    }
+                },
+                {
+                    new AppThemeViewModel
+                    {
+                        Title = "SystemPreferred",
+                        Subtitle = "Системная"
+                    }
+                }
+            };
+        }
+
+        private void AppThemeChangedCommandHandler(AppThemeViewModel theme)
+        {
+            var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>(theme);
 
             switch (appTheme)
             {
@@ -79,9 +133,9 @@ namespace HealthApp.ViewModels
                     ThemesHelper.ChangeToSystemPreferredTheme();
                     break;
             }
-        });
+        }
 
-        public Command SignOutCommand => new Command(async () =>
+        private async Task SignOutCommandHandlerAsync()
         {
             bool action = await Application.Current.MainPage.DisplayAlert("Выйти?", "Вы уверены, что хотите выйти?", "Да", "Нет");
 
@@ -91,9 +145,14 @@ namespace HealthApp.ViewModels
 
                 Settings.RemoveSetting(Settings.AppPrefrences.token);
 
-                await App.ViewModelLocator.MainVm.GetDataAsync();
-                await App.ViewModelLocator.CategoryVm.GetDataAsync();
-                await App.ViewModelLocator.BookmarkVm.GetDataAsync();
+                Task[] tasks =
+                {
+                    App.ViewModelLocator.MainVm.GetDataAsync(),
+                    App.ViewModelLocator.CategoryVm.GetDataAsync(),
+                    App.ViewModelLocator.BookmarkVm.GetDataAsync()
+                };
+
+                await Task.WhenAll(tasks);
 
                 Customer = null;
                 IsLoggedIn = false;
@@ -105,46 +164,16 @@ namespace HealthApp.ViewModels
 
                 DialogsHelper.ProgressDialog.Hide();
             }
-        });
+        }
 
-        public Command LogInPageCommand => new Command(() => 
+        private void LoginCommandHadler()
         {
             Navigation.NavigateTo("login", Customer);
-        });
+        }
 
-        public Command AuthorsAndCategoriesPageCommand => new Command(() =>
+        private void OpenAuthorsAndCategoriesPageCommandHadler()
         {
             Navigation.NavigateTo("authorsAndCategories");
-        });
-
-        public SettingsViewModel()
-        {
-            Customer = new Customer();
-
-            _ = GetSettingsAsync().ConfigureAwait(false);
-        }
-
-        public string GetTheme()
-        {
-            string theme = Settings.GetSetting(Settings.AppPrefrences.AppTheme);
-            var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>(theme);
-
-            return EnumsHelper.ConvertToString(eff: appTheme);
-        }
-
-        private async Task GetSettingsAsync()
-        {
-            var customer = await _apiManager.GetCustomerAsync();
-
-            if (customer != null)
-            {
-                Customer = customer;
-                IsLoggedIn = true;
-            }
-            else
-            {
-                IsLoggedIn = false;
-            }
         }
     }
 }

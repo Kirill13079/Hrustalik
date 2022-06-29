@@ -8,9 +8,9 @@
              x:Class="HealthApp.Views.AuthorsAndCategoriesPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <vm:AuthorsAndCategoriesViewModel x:Name="vm"/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     
     <ContentPage.Resources>
         <ResourceDictionary>

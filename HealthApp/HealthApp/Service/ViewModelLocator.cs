@@ -18,6 +18,8 @@ namespace HealthApp.Service
 
         public LoginViewModel LoginVm => new LoginViewModel();
 
+        public AuthorsAndCategoriesViewModel AuthorsAndCategoriesVm => new AuthorsAndCategoriesViewModel();
+
         public ViewModelLocator()
         {
             _mainVm = new MainViewModel();
