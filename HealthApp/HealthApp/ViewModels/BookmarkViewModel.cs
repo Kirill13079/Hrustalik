@@ -25,26 +25,8 @@ namespace HealthApp.ViewModels
 
         public BookmarkViewModel()
         {
-            RefreshCommand = new Command(async () => 
-            {
-                await LoadBookmarkContentDataAsync(isRefreshing: true);
-            });
-
-            LikeRecordCommand = new Command<RecordViewModel>(likedRecord =>
-            {
-                bool isLikedRecord(RecordViewModel record) => record.Equals(likedRecord);
-
-                var bookmarkRecord = BookmarkTab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
-
-                if (bookmarkRecord != null)
-                {
-                    _ = BookmarkTab.Records.Remove(bookmarkRecord);
-                }
-                else
-                {
-                    BookmarkTab.Records.Add(likedRecord);
-                }
-            });
+            RefreshCommand = new Command(async () => await RefreshCommandHandlerAsync());
+            LikeRecordCommand = new Command<RecordViewModel>(likedRecord => LikedRecordCommandHandler(likedRecord));
 
             _ = GetDataAsync().ConfigureAwait(false);
         }
@@ -145,6 +127,27 @@ namespace HealthApp.ViewModels
             {
                 BookmarkTab.IsRefreshing = false;
                 BookmarkTab.IsBusy = false;
+            }
+        }
+
+        private async Task RefreshCommandHandlerAsync()
+        {
+            await LoadBookmarkContentDataAsync(isRefreshing: true);
+        }
+
+        private void LikedRecordCommandHandler(RecordViewModel likedRecord)
+        {
+            bool isLikedRecord(RecordViewModel record) => record.Equals(likedRecord);
+
+            var bookmarkRecord = BookmarkTab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
+
+            if (bookmarkRecord != null)
+            {
+                _ = BookmarkTab.Records.Remove(bookmarkRecord);
+            }
+            else
+            {
+                BookmarkTab.Records.Add(likedRecord);
             }
         }
     }

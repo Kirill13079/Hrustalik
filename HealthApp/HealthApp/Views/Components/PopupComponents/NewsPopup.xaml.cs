@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Helpers;
-using HealthApp.Models;
 using HealthApp.Service;
-using HealthApp.ViewModels;
 using HealthApp.ViewModels.Data;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -82,16 +83,19 @@ namespace HealthApp.Views.Components.PopupComponents
                 ? "Убрать из закладок"
                 : "В закладки";
 
-            await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
-            await bookmarkImage.ScaleTo(1, AnimationSpeed);
+            _ = await bookmarkImage.ScaleTo(scale: 1.2, length: AnimationSpeed);
+            _ = await bookmarkImage.ScaleTo(scale: 1, length: AnimationSpeed);
         }
 
         private async void OpenLinkRecordTapped(object sender, EventArgs e)
         {
-            //await PopupNavigation.Instance.PopAsync();
-            await Navigation.PushAsync(new WebPage(_currentRecord));
+            await Service.Navigation.NavigateRemovePopupPageAsync(this);
 
-            //await DialogsHelper.OpenBrowser(_currentRecord.Source);
+            DialogsHelper.ProgressDialog.Show();
+
+            await PopupNavigation.Instance.PushAsync(new WebPage(_currentRecord));
+
+            DialogsHelper.ProgressDialog.Hide();
         }
     }
 }

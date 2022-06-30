@@ -55,7 +55,7 @@ namespace HealthApp.ViewModels
         {
             LoginCommand = new Command(LoginCommandHadler);
             SignOutCommand = new Command(async () => await SignOutCommandHandlerAsync());
-            OpenAuthorsAndCategoriesPageCommand = new Command(OpenAuthorsAndCategoriesPageCommandHadler);
+            OpenAuthorsAndCategoriesPageCommand = new Command(async() => await OpenAuthorsAndCategoriesPageCommandHadlerAsync());
             AppThemeChangedCommand = new Command<AppThemeViewModel>(theme => AppThemeChangedCommandHandler(theme));
 
             _ = GetSettingsAsync().ConfigureAwait(false);
@@ -159,7 +159,7 @@ namespace HealthApp.ViewModels
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    Navigation.NavigateTo("login", Customer);
+                    Navigation.NavigateToAsync("login", Customer);
                 });
 
                 DialogsHelper.ProgressDialog.Hide();
@@ -168,12 +168,18 @@ namespace HealthApp.ViewModels
 
         private void LoginCommandHadler()
         {
-            Navigation.NavigateTo("login", Customer);
+            Navigation.NavigateToAsync("login", Customer);
         }
 
-        private void OpenAuthorsAndCategoriesPageCommandHadler()
+        private async Task OpenAuthorsAndCategoriesPageCommandHadlerAsync()
         {
-            Navigation.NavigateTo("authorsAndCategories");
+            DialogsHelper.ProgressDialog.Show();
+
+            await Task.Delay(100); // show UI
+
+            await Navigation.NavigateToAsync("authorsAndCategories");
+
+            DialogsHelper.ProgressDialog.Hide();
         }
     }
 }

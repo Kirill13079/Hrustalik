@@ -75,7 +75,7 @@ namespace HealthApp.ViewModels
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    Navigation.GoBack();
+                    Navigation.GoBackAsync();
                 });
 
                 DialogsHelper.ProgressDialog.Hide();

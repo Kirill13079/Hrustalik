@@ -25,14 +25,14 @@
             <Grid RowDefinitions="320,*"
                   RowSpacing="30">
                 <pnck:PancakeView Padding="0"
-                                  CornerRadius="15">
+                                  CornerRadius="15,15,0,0">
                     <ffimageloading:CachedImage Source="{Binding SelectedRecord.Image}" 
                                             Aspect="AspectFill"
                                             DownsampleToViewSize="True"
                                             DownsampleUseDipUnits="True"/>
                 </pnck:PancakeView>
                 <pnck:PancakeView Grid.Row="0" 
-                              CornerRadius="15"
+                              CornerRadius="15,15,0,0"
                               InputTransparent="True"
                               BackgroundGradientEndPoint="0,1"
                               Padding="20,10">

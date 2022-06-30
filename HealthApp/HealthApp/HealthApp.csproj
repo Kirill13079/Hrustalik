@@ -35,9 +35,11 @@
     <None Remove="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <None Remove="Resources\Fonts\Gilroy-UltraLight.ttf" />
     <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
+    <None Remove="Resources\Icons\arrowBack.svg" />
     <None Remove="Resources\Icons\bookmark.svg" />
     <None Remove="Resources\Icons\bookmarkFull.svg" />
     <None Remove="Resources\Icons\chat.svg" />
+    <None Remove="Resources\Icons\close.svg" />
     <None Remove="Resources\Icons\emergency.svg" />
     <None Remove="Resources\Icons\key.svg" />
     <None Remove="Resources\Icons\like.svg" />
@@ -75,9 +77,11 @@
     <EmbeddedResource Include="Resources\Fonts\Gilroy-ThinItalic.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Gilroy-UltraLight.ttf" />
     <EmbeddedResource Include="Resources\Fonts\MaterialIcons-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Icons\arrowBack.svg" />
     <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
     <EmbeddedResource Include="Resources\Icons\bookmarkFull.svg" />
     <EmbeddedResource Include="Resources\Icons\chat.svg" />
+    <EmbeddedResource Include="Resources\Icons\close.svg" />
     <EmbeddedResource Include="Resources\Icons\emergency.svg" />
     <EmbeddedResource Include="Resources\Icons\key.svg" />
     <EmbeddedResource Include="Resources\Icons\like.svg" />

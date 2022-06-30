@@ -1,25 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthApp.Views.WebPage">
-    <ContentPage.Content>
-        <!-- content -->
-        <Grid BackgroundColor="{DynamicResource ShellBackgroundColor}"
-              RowSpacing="0"
-              RowDefinitions="Auto,*">
-            <!-- progress bar -->
-            <ProgressBar x:Name="progressBar"
-                         Grid.Row="0"
-                         BackgroundColor="Transparent"/>
-            <!-- web view -->
-            <WebView x:Name="webView"
-                     Grid.Row="1"
-                     BackgroundColor="Transparent"
-                     HorizontalOptions="FillAndExpand"
-                     Navigated="WebViewNavigated"
-                     Navigating="WebViewNavigating"
-                     VerticalOptions="FillAndExpand"
-                     Visual="Material" />
-        </Grid>
-    </ContentPage.Content>
-</ContentPage>
+<popup:PopupPage  xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                  xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:behavior="clr-namespace:HealthApp.Controls.Behaviors"
+                  xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" 
+                  xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+                  x:Class="HealthApp.Views.WebPage">
+
+    <popup:PopupPage.Animation>
+        <animations:MoveAnimation DurationIn="250"
+                                  DurationOut="250"
+                                  EasingIn="Linear"
+                                  EasingOut="Linear"
+                                  HasBackgroundAnimation="True"
+                                  PositionIn="Bottom"
+                                  PositionOut="Bottom" />
+    </popup:PopupPage.Animation>
+
+    <!-- content -->
+    <StackLayout x:Name="content" 
+                 VerticalOptions="End"
+                 Orientation="Vertical"
+                 HeightRequest="600"
+                 Spacing="0">
+        <ContentView BackgroundColor="Transparent">
+            <ContentView.Behaviors>
+                <behavior:SwipeDownToClosePopupPage CloseAction="SwipeDownToClosePopupPageCloseAction"
+                                                    ClosingEdge="0"
+                                                    ClosingTimeInMs="400"/>
+            </ContentView.Behaviors>
+            <StackLayout Spacing="0">
+                <!-- header -->
+                <pnck:PancakeView x:Name="header"
+                                  BackgroundColor="{DynamicResource ShellBackgroundColor}"
+                                  Padding="0,10,0,10"
+                                  Margin="0"
+                                  HeightRequest="40"
+                                  CornerRadius="15,15,0,0">
+                    <!-- swiper + title -->
+                    <StackLayout Orientation="Vertical"
+                                 Spacing="0">
+                        <!-- swiper -->
+                        <Frame x:Name="swiper"
+                               VerticalOptions="StartAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               HeightRequest="5"
+                               WidthRequest="100"
+                               BackgroundColor="{DynamicResource SkeletonColor}"
+                               Padding="0">
+                        </Frame>
+                        <!-- title -->
+                        <Frame Padding="5"
+                               CornerRadius="2"
+                               HasShadow="False">
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="10,5,10,5">
+                                <!--<ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
+                                                                  HeightRequest="24"                                                       
+                                                                  Source="resource://HealthApp.Resources.Icons.link.svg"/>-->
+                                <Label x:Name="title" 
+                                       FontFamily="Bold"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1"
+                                       FontSize="{StaticResource HeadLabelFontSize}"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="Start"
+                                       Margin="0">
+                                </Label>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </pnck:PancakeView>
+                <!-- progeress bar -->
+                <StackLayout Padding="0" 
+                             BackgroundColor="{DynamicResource ComponentColor}"
+                             HeightRequest="1">
+                    <ProgressBar x:Name="progressBar"                    
+                                 HeightRequest="1"
+                                 BackgroundColor="Transparent"/>
+                </StackLayout>
+                <!-- web view -->
+                <StackLayout Orientation="Vertical"
+                             Padding="10,10,10,0"
+                             BackgroundColor="{DynamicResource ShellBackgroundColor}">
+                    <pnck:PancakeView Padding="0"
+                                      CornerRadius="15,15,0,0">
+                        <StackLayout Spacing="0">
+                            <WebView x:Name="webView"
+                                     HeightRequest="540"
+                                     BackgroundColor="{DynamicResource ComponentColor}"
+                                     HorizontalOptions="FillAndExpand"
+                                     Navigated="WebViewNavigated"
+                                     Navigating="WebViewNavigating"
+                                     VerticalOptions="FillAndExpand"
+                                     Visual="Material" />
+                        </StackLayout>
+                    </pnck:PancakeView>
+                </StackLayout>
+            </StackLayout>
+        </ContentView>
+    </StackLayout>
+</popup:PopupPage>

@@ -48,7 +48,7 @@ namespace HealthApp.Views.Components.CategoryNewsComponents
 
             if (record != null)
             {
-                Navigation.NavigateTo("news", record, "category");
+                Navigation.NavigateToAsync("news", record, "category");
             }
         }
     }

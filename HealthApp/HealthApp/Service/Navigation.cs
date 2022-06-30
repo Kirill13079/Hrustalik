@@ -1,19 +1,16 @@
 ﻿using Newtonsoft.Json;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HealthApp.Service
 {
     public class Navigation
     {
-        /// <summary>
-        /// Метод навигации, c параметрами
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="route">Путь к модели</param>
-        /// <param name="model">Передаваемая модель в представление</param>
-        /// <param name="title">Заголовок представления</param>
-        public static async void NavigateTo<T>(string route, T model, string title = null)
+        public static async void NavigateToAsync<T>(string route, T model, string title = null)
         {
             var parameter = string.Empty;
 
@@ -30,12 +27,7 @@ namespace HealthApp.Service
             Shell.Current.FlyoutIsPresented = false;
         }
 
-        /// <summary>
-        /// Метод навигации, без параметров
-        /// </summary>
-        /// <param name="route">Путь к модели</param>
-        /// <param name="title">Заголовок представления</param>
-        public static async void NavigateTo(string route, string title = null)
+        public static async Task NavigateToAsync(string route, string title = null)
         {
             ShellNavigationState state = Shell.Current.CurrentState;
 
@@ -44,12 +36,17 @@ namespace HealthApp.Service
             Shell.Current.FlyoutIsPresented = false;
         }
 
-        /// <summary>
-        /// Метод навигации, вернуться назад
-        /// </summary>
-        public static async void GoBack()
+        public static async Task NavigateRemovePopupPageAsync(PopupPage popupPage)
         {
-            await Shell.Current.GoToAsync($"..");
+            if (PopupNavigation.Instance.PopupStack.Any(predicate: page => page.Equals(popupPage)))
+            {
+                await PopupNavigation.Instance.RemovePageAsync(popupPage, true);
+            }
+        }
+
+        public static async void GoBackAsync()
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

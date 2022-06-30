@@ -37,36 +37,9 @@ namespace HealthApp.ViewModels
 
         public CategoryViewModel()
         {
-            RefreshCommand = new Command(async () =>
-            {
-                await LoadCategoryContentDataAsync(CurrentCategoryTab, true);
-            });
-
-            ReloadCommand = new Command(async () =>
-            {
-                foreach (var tab in CategoriesTab)
-                { 
-                    await LoadCategoryContentDataAsync(tab).ConfigureAwait(false); 
-                }
-            });
-
-            LikeRecordCommand = new Command<RecordViewModel>(likedRecord => 
-            {
-                bool isLikedRecord(RecordViewModel record) => record.Equals(likedRecord);
-
-                foreach (var tab in CategoriesTab)
-                {
-                    if (tab.Records.Count > 0)
-                    {
-                        var categoryRecord = tab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
-
-                        if (categoryRecord != null)
-                        {
-                            categoryRecord.IsBookmark = !categoryRecord.IsBookmark;
-                        }
-                    }
-                }
-            });
+            RefreshCommand = new Command(async () => await RefreshCommandHandlerAsync());
+            ReloadCommand = new Command(async () => await ReloadCommandHandlerAsync());
+            LikeRecordCommand = new Command<RecordViewModel>(likedRecord => LikeRecordCommandHandler(likedRecord));
 
             _ = GetDataAsync().ConfigureAwait(false);
         }
@@ -88,6 +61,7 @@ namespace HealthApp.ViewModels
             }
 
             var categories = await ApiManager.GetCategoriesAsync();
+
             var tabItems = new ObservableRangeCollection<TabModel>();
 
             if (categories != null)
@@ -200,6 +174,37 @@ namespace HealthApp.ViewModels
             {
                 tab.IsRefreshing = false;
                 tab.IsBusy = false;
+            }
+        }
+
+        private async Task RefreshCommandHandlerAsync()
+        {
+            await LoadCategoryContentDataAsync(CurrentCategoryTab, true);
+        }
+
+        private async Task ReloadCommandHandlerAsync()
+        {
+            foreach (var tab in CategoriesTab)
+            {
+                await LoadCategoryContentDataAsync(tab).ConfigureAwait(false);
+            }
+        }
+
+        private void LikeRecordCommandHandler(RecordViewModel likedRecord)
+        {
+            bool isLikedRecord(RecordViewModel record) => record.Equals(likedRecord);
+
+            foreach (var tab in CategoriesTab)
+            {
+                if (tab.Records.Count > 0)
+                {
+                    var categoryRecord = tab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
+
+                    if (categoryRecord != null)
+                    {
+                        categoryRecord.IsBookmark = !categoryRecord.IsBookmark;
+                    }
+                }
             }
         }
     }

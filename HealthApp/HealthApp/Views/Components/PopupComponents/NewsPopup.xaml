@@ -5,6 +5,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:controls="clr-namespace:HealthApp.Controls"
                   xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" 
+                  xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
                   x:Class="HealthApp.Views.Components.PopupComponents.NewsPopup">
 
     <popup:PopupPage.Animation>
@@ -22,12 +23,11 @@
           VerticalOptions="End">
         <StackLayout Spacing="5"
                      HeightRequest="-1">
-            <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                   Margin="0,0"
-                   Padding="0"
-                   CornerRadius="15"
-                   HeightRequest="180"   
-                   HasShadow="False">
+            <pnck:PancakeView BackgroundColor="{DynamicResource ComponentColor}"
+                              Margin="0,0"
+                              Padding="0"
+                              CornerRadius="15,15,0,0"
+                              HeightRequest="180">
                 <Grid ColumnDefinitions="*"
                       RowDefinitions="*,*,*">
                     <!-- share button -->
@@ -36,7 +36,7 @@
                                  Padding="20,0"
                                  xtoll:TouchEffect.NativeAnimation="True">
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ShareRecordModelTapped"></TapGestureRecognizer>
+                            <TapGestureRecognizer Tapped="ShareRecordModelTapped"/>
                         </StackLayout.GestureRecognizers>
                         <controls:TintedCachedImage WidthRequest="25" 
                                                     HeightRequest="25"                                                       
@@ -90,7 +90,7 @@
                                Text="Источник"/>
                     </StackLayout>
                 </Grid>
-            </Frame>
+            </pnck:PancakeView>
         </StackLayout>
     </Grid>
 </popup:PopupPage>

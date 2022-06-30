@@ -53,7 +53,7 @@ namespace HealthApp.Views.Components.MainNewsComponents
 
         private void RecordModelTapped(object sender, EventArgs e)
         {
-            Service.Navigation.NavigateTo("news", _bindingContext, "main");
+            Service.Navigation.NavigateToAsync("news", _bindingContext, "main");
         }
 
         private async void ShareRecordModelTapped(object sender, EventArgs e)

@@ -44,7 +44,7 @@ namespace HealthApp.Views.Components.BookmarkNewsComponents
 
         private void RecordModelTapped(object sender, EventArgs e)
         {
-            Navigation.NavigateTo("news", _bindingContext, "category");
+            Navigation.NavigateToAsync("news", _bindingContext, "category");
         }
 
         private async void AddOrDeleteBookmarkRecordTapped(object sender, EventArgs e)

@@ -37,7 +37,7 @@ namespace HealthApp.Views.Components.PopularNewsComponents
 
             if (obj != null)
             {
-                Navigation.NavigateTo("news", obj, "main");
+                Navigation.NavigateToAsync("news", obj, "main");
             }
         }
     }

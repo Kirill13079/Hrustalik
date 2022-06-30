@@ -25,22 +25,8 @@ namespace HealthApp.ViewModels
 
         public MainViewModel()
         {
-            RefreshCommand = new Command(async () =>
-            {
-                await LoadMainContentDataAsync();
-            });
-
-            LikeRecordCommand = new Command<RecordViewModel>(likedRecord =>
-            {
-                bool isLikedRecord(RecordViewModel record) => record.Equals(likedRecord);
-
-                var mainRecord = MainTab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
-
-                if (mainRecord != null)
-                {
-                    mainRecord.IsBookmark = !mainRecord.IsBookmark;
-                }
-            });
+            RefreshCommand = new Command(async () => await RefreshCommandHandlerAsync());
+            LikeRecordCommand = new Command<RecordViewModel>(likedRecord => LikeRecordCommandHandler(likedRecord));
 
             _ = GetDataAsync().ConfigureAwait(false);
         }
@@ -89,7 +75,6 @@ namespace HealthApp.ViewModels
                 skipRecords++;
             }
         }
-
 
         private async Task LoadMainContentDataAsync()
         {
@@ -187,6 +172,23 @@ namespace HealthApp.ViewModels
                 tab.IsBusy = false;
                 tab.HasError = true;
             }
+        }
+
+        private void LikeRecordCommandHandler(RecordViewModel likedRecord)
+        {
+            bool isLikedRecord(RecordViewModel record) => record.Equals(likedRecord);
+
+            var mainRecord = MainTab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
+
+            if (mainRecord != null)
+            {
+                mainRecord.IsBookmark = !mainRecord.IsBookmark;
+            }
+        }
+
+        private async Task RefreshCommandHandlerAsync()
+        {
+            await LoadMainContentDataAsync();
         }
     }
 }
