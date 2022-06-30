@@ -68,7 +68,10 @@ namespace HealthApp.ViewModels
             {
                 var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                _ = categories.RemoveAll(match: category => !savedUserCategories.EqualsHelper(category));
+                if (savedUserCategories.Any())
+                {
+                    _ = categories.RemoveAll(match: category => !savedUserCategories.EqualsHelper(category));
+                }
 
                 foreach (var category in categories)
                 {
@@ -117,7 +120,10 @@ namespace HealthApp.ViewModels
                     var bookmarks = await ApiManager.GetBookmarksAsync();
                     var records = await ApiManager.GetCategoryRecordsAsync(categoryId: tab.Page);
 
-                    _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+                    if (savedUserAuthors.Any())
+                    { 
+                        _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author)); 
+                    }
 
                     if (bookmarks != null)
                     {
@@ -143,7 +149,10 @@ namespace HealthApp.ViewModels
                     var bookmarks = await ApiManager.GetBookmarksAsync();
                     var records = await ApiManager.GetCategoryRecordsAsync(categoryId: tab.Page);
 
-                    _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+                    if (savedUserAuthors.Any())
+                    {
+                        _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+                    }
 
                     if (bookmarks != null)
                     {

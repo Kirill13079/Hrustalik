@@ -44,9 +44,7 @@ namespace HealthApp.Helpers
 
             DependencyService.Get<IStatusBar>().ChangeStatusBarColorToWhite();
 
-            Settings.AddSetting(
-                prefrence: Settings.AppPrefrences.AppTheme, 
-                setting: EnumsHelper.ConvertToString(eff: Settings.Theme.LightTheme));
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumsHelper.ConvertToString(eff: Settings.Theme.LightTheme));
         }
 
         public static void ChangeToDarkTheme()
@@ -55,9 +53,7 @@ namespace HealthApp.Helpers
 
             DependencyService.Get<IStatusBar>().ChangeStatusBarColorToBlack();
 
-            Settings.AddSetting(
-                prefrence: Settings.AppPrefrences.AppTheme, 
-                setting: EnumsHelper.ConvertToString(eff: Settings.Theme.DarkTheme));
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumsHelper.ConvertToString(eff: Settings.Theme.DarkTheme));
         }
 
         public static void ChangeToSystemPreferredTheme()
@@ -77,9 +73,7 @@ namespace HealthApp.Helpers
                 ChangeToLightTheme();
             }
 
-            Settings.AddSetting(
-                prefrence: Settings.AppPrefrences.AppTheme, 
-                setting: EnumsHelper.ConvertToString(eff: Settings.Theme.SystemPreferred));
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumsHelper.ConvertToString(eff: Settings.Theme.SystemPreferred));
         }
     }
 }

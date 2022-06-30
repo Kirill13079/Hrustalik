@@ -90,8 +90,15 @@ namespace HealthApp.ViewModels
                 var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
                 var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
-                _ = records.RemoveAll(match: record => !savedUserCategories.EqualsHelper(record.Category));
+                if (savedUserAuthors.Any())
+                { 
+                    _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author)); 
+                }
+
+                if (savedUserCategories.Any())
+                {
+                    _ = records.RemoveAll(match: record => !savedUserCategories.EqualsHelper(record.Category)); 
+                }
 
                 if (bookmarks != null)
                 {
@@ -135,8 +142,15 @@ namespace HealthApp.ViewModels
                     var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
                     var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                    _ = records.RemoveAll(match: record => !savedUserCategories.EqualsHelper(record.Category));
-                    _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+                    if (savedUserCategories.Any())
+                    {
+                        _ = records.RemoveAll(match: record => !savedUserCategories.EqualsHelper(record.Category));
+                    }
+
+                    if (savedUserAuthors.Any())
+                    {
+                        _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+                    }
 
                     tab.Records.AddRange(records);
 
@@ -151,8 +165,15 @@ namespace HealthApp.ViewModels
                     var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
                     var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
 
-                    _ = records.RemoveAll(match: record => !savedUserCategories.EqualsHelper(record.Category));
-                    _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+                    if (savedUserCategories.Any())
+                    {
+                        _ = records.RemoveAll(match: record => !savedUserCategories.EqualsHelper(record.Category));
+                    }
+
+                    if (savedUserAuthors.Any())
+                    {
+                        _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+                    }
 
                     tab.Records.ReplaceRange(records);
 
