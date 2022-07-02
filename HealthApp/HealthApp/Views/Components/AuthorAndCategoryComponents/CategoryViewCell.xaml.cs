@@ -34,7 +34,7 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 
         private async void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
-            CategoriesHelper.GetSavedUserCategories();
+            await CategoriesHelper.GetSavedUserCategoriesAsync();
 
             if (_bindingContext.IsActive)
             {

@@ -29,7 +29,7 @@ namespace HealthApp.Views.Components.BookmarkNewsComponents
             authorImage.Source = _bindingContext.Author.Logo;
             published.Text = _bindingContext.Author.Name;
             description.Text = _bindingContext.Name;
-            data.Text = _bindingContext.DateAdded.UtcDateTime.ToRelativeDateString(true);
+            categoryTitle.Text = $"#{_bindingContext.Category.Name}";
             bookmarkImage.SvgSource = _bindingContext.IsBookmark
                 ? "HealthApp.Resources.Icons.likeFull.svg"
                 : "HealthApp.Resources.Icons.like.svg";
@@ -51,8 +51,8 @@ namespace HealthApp.Views.Components.BookmarkNewsComponents
         {
             string url;
 
-            await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
-            await bookmarkImage.ScaleTo(1, AnimationSpeed);
+            _ = await bookmarkImage.ScaleTo(1.2, AnimationSpeed);
+            _ = await bookmarkImage.ScaleTo(1, AnimationSpeed);
 
             if (_bindingContext.IsBookmark)
             {

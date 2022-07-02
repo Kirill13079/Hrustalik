@@ -88,6 +88,8 @@ namespace HealthApp.ViewModels
 
         private void SetAppThemeItems()
         {
+            ThemesHelper.GetAppTheme();
+
             AppThemeItems = new ObservableRangeCollection<AppThemeViewModel>()
             {
                 {

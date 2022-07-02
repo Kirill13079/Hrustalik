@@ -80,8 +80,7 @@ namespace HealthApp.ViewModels
                     tab.IsBusy = true;
 
                     var authors = await ApiManager.GetAuthorsAsync();
-
-                    var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
+                    var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
 
                     var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
@@ -110,8 +109,7 @@ namespace HealthApp.ViewModels
                     tab.IsRefreshing = true;
 
                     var authors = await ApiManager.GetAuthorsAsync();
-
-                    var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
+                    var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
 
                     var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
@@ -162,8 +160,7 @@ namespace HealthApp.ViewModels
                     tab.IsBusy = true;
 
                     var categories = await ApiManager.GetCategoriesAsync();
-
-                    var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
+                    var savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
 
                     var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
@@ -192,8 +189,7 @@ namespace HealthApp.ViewModels
                     tab.IsRefreshing = true;
 
                     var categories = await ApiManager.GetCategoriesAsync();
-
-                    var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
+                    var savedUserCategories = await CategoriesHelper .GetSavedUserCategoriesAsync();
 
                     var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 

@@ -1,22 +1,40 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
 using HealthApp.Extensions;
+using HealthApp.Interfaces;
+using HealthApp.Service;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HealthApp.Helpers
 {
     public static class AuthorsHelper
     {
+        private static readonly IApiManager _apiManager = new ApiManager();
+
         public static List<Author> SavedUserAuthors { get; private set; } = new List<Author>();
 
-        public static List<Author> GetSavedUserAuthors()
+        public async static Task<List<Author>> GetSavedUserAuthorsAsync()
         {
             string savedUserAuthors = Settings.GetSetting(prefrence: Settings.AppPrefrences.Authors);
 
             if (savedUserAuthors != null)
             {
                 SavedUserAuthors = JsonConvert.DeserializeObject<List<Author>>(savedUserAuthors);
+            }
+            else
+            {
+                var authors = await _apiManager.GetAuthorsAsync();
+
+                if (authors != null)
+                {
+                    string userAuthorsDefaultJson = JsonConvert.SerializeObject(authors);
+
+                    Settings.AddSetting(prefrence: Settings.AppPrefrences.Authors, setting: userAuthorsDefaultJson);
+
+                    SavedUserAuthors = authors;
+                }
             }
 
             return SavedUserAuthors;

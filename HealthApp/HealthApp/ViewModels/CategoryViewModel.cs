@@ -66,37 +66,29 @@ namespace HealthApp.ViewModels
 
             if (categories != null)
             {
-                var savedUserCategories = CategoriesHelper.GetSavedUserCategories();
+                var savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
 
-                if (savedUserCategories.Any())
-                {
-                    _ = categories.RemoveAll(match: category => !savedUserCategories.EqualsHelper(category));
-                }
+                _ = categories.RemoveAll(match: category => !savedUserCategories.EqualsHelper(category));
 
-                foreach (var category in categories)
+                if (categories.Count > 0)
                 {
-                    tabItems.Add(new TabModel
+                    foreach (var category in categories)
                     {
-                        Title = category.Name,
-                        Page = category.Id
-                    });
-                }
+                        tabItems.Add(new TabModel
+                        {
+                            Title = category.Name,
+                            Page = category.Id
+                        });
+                    }
 
-                CategoriesTab = tabItems;
-                CurrentCategoryTab = CategoriesTab[0];
+                    CategoriesTab = tabItems;
+                    CurrentCategoryTab = CategoriesTab[0];
 
-                foreach (var tab in CategoriesTab)
-                {
-                    await LoadCategoryContentDataAsync(tab).ConfigureAwait(false);
+                    foreach (var tab in CategoriesTab)
+                    {
+                        await LoadCategoryContentDataAsync(tab).ConfigureAwait(false);
+                    }
                 }
-            }
-            else
-            {
-                tabItems.Add(new TabModel
-                {
-                    Title = "",
-                    Page = 0
-                });
             }
         }
 
@@ -115,7 +107,7 @@ namespace HealthApp.ViewModels
 
                     tab.IsBusy = true;
 
-                    var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
+                    var savedUserAuthors =  await AuthorsHelper.GetSavedUserAuthorsAsync();
 
                     var bookmarks = await ApiManager.GetBookmarksAsync();
                     var records = await ApiManager.GetCategoryRecordsAsync(categoryId: tab.Page);
@@ -144,8 +136,7 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var savedUserAuthors = AuthorsHelper.GetSavedUserAuthors();
-
+                    var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
                     var bookmarks = await ApiManager.GetBookmarksAsync();
                     var records = await ApiManager.GetCategoryRecordsAsync(categoryId: tab.Page);
 

@@ -27,7 +27,7 @@ namespace HealthApp.Views
             var frame = (Frame)sender;
             var appTheme = (AppThemeViewModel)frame.BindingContext;
 
-            if (appTheme != null)
+            if (appTheme != null && _currentAppTheme != null)
             {
                 if (appTheme != _currentAppTheme)
                 {
