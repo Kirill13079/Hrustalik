@@ -63,9 +63,7 @@ namespace HealthApp.ViewModels
 
         private async Task GetSettingsAsync()
         {
-            var customer = await ApiManager.GetCustomerAsync();
-
-            string theme = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppTheme);
+            var customer = await ApiManager.GetCustomerAsync();;
 
             if (customer != null)
             {
@@ -79,6 +77,8 @@ namespace HealthApp.ViewModels
             }
 
             SetAppThemeItems();
+
+            string theme = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppTheme);
 
             foreach (var appTheme in AppThemeItems)
             {

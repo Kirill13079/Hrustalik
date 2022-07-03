@@ -99,6 +99,9 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+# secret keys
+HealthApp.Common/Constants.cs
+
 # Chutzpah Test files
 _Chutzpah*
 

@@ -70,7 +70,7 @@ namespace HealthApp.Helpers
             }
             else
             {
-                ChangeToLightTheme();
+                ChangeToDarkTheme();
             }
 
             Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumsHelper.ConvertToString(eff: Settings.Theme.SystemPreferred));

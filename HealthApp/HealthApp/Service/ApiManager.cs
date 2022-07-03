@@ -2,7 +2,6 @@
 using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Interfaces;
-using HealthApp.Models;
 using HealthApp.ViewModels.Data;
 using MonkeyCache.FileStore;
 using Newtonsoft.Json;
