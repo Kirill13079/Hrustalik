@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HealthApp.Common;
 using HealthApp.Handlers;
+using HealthApp.ViewModels;
 using Xamarin.Auth;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,56 +14,63 @@ namespace HealthApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        private OAuthGoogleLogInHandler _oAuthGoogleLogInHandler;
+        //private OAuthGoogleLogInHandler _oAuthGoogleLogInHandler;
+        private LoginViewModel _bindingContext = null;
 
         public LoginPage()
         {
             InitializeComponent();
 
             BindingContext = App.ViewModelLocator.LoginVm;
+            _bindingContext = BindingContext as LoginViewModel;
         }
 
-        [Obsolete]
         private void GoogleAuthorizationTapped(object sender, System.EventArgs e)
         {
-            _oAuthGoogleLogInHandler = new OAuthGoogleLogInHandler();
-
-            _oAuthGoogleLogInHandler.OAuthLogInResponseSuccessEvent += OAuthLogInResponseSuccess;
-            _oAuthGoogleLogInHandler.OAuthLogInResponseErrorEvent += OAuthLogInResponseError;
-
-            _oAuthGoogleLogInHandler.HandleOAuthLogIn();
+            _bindingContext?.GoogleAuthorizationCommand.Execute(null);
         }
 
-        [Obsolete]
-        async void OAuthLogInResponseSuccess(object sender, OAuthLogInResponseEventArgs e)
-        {
-            if (_oAuthGoogleLogInHandler != null)
-            {
-                _oAuthGoogleLogInHandler.OAuthLogInResponseSuccessEvent -= OAuthLogInResponseSuccess;
-                _oAuthGoogleLogInHandler.OAuthLogInResponseErrorEvent -= OAuthLogInResponseError;
-            }
+        //[Obsolete]
+        //private void GoogleAuthorizationTapped(object sender, System.EventArgs e)
+        //{
+        //    _oAuthGoogleLogInHandler = new OAuthGoogleLogInHandler();
 
-            AccountStore store = AccountStore.Create();
+        //    _oAuthGoogleLogInHandler.OAuthLogInResponseSuccessEvent += OAuthLogInResponseSuccess;
+        //    _oAuthGoogleLogInHandler.OAuthLogInResponseErrorEvent += OAuthLogInResponseError;
 
-            IEnumerable<Account> account = store.FindAccountsForService(Constants.AppName);
+        //    _oAuthGoogleLogInHandler.HandleOAuthLogIn();
+        //}
 
-            await FetchUserDataAsync(account.ElementAt(0));
-        }
+        //[Obsolete]
+        //async void OAuthLogInResponseSuccess(object sender, OAuthLogInResponseEventArgs e)
+        //{
+        //    if (_oAuthGoogleLogInHandler != null)
+        //    {
+        //        _oAuthGoogleLogInHandler.OAuthLogInResponseSuccessEvent -= OAuthLogInResponseSuccess;
+        //        _oAuthGoogleLogInHandler.OAuthLogInResponseErrorEvent -= OAuthLogInResponseError;
+        //    }
 
-        void OAuthLogInResponseError(object sender, OAuthLogInResponseEventArgs e)
-        {
-            Console.WriteLine("OAuthLogInResponseError");
-        }
+        //    AccountStore store = AccountStore.Create();
 
-        private async Task FetchUserDataAsync(Account account)
-        {
-            var request = new OAuth2Request("GET", new Uri(Constants.GoogleUserInfoUrl), null, account);
-            var response = await request.GetResponseAsync();
+        //    IEnumerable<Account> account = store.FindAccountsForService(Constants.AppName);
 
-            if (response != null)
-            {
-                string userJson = await response.GetResponseTextAsync();
-            }
-        }
+        //    await FetchUserDataAsync(account.ElementAt(0));
+        //}
+
+        //void OAuthLogInResponseError(object sender, OAuthLogInResponseEventArgs e)
+        //{
+        //    Console.WriteLine("OAuthLogInResponseError");
+        //}
+
+        //private async Task FetchUserDataAsync(Account account)
+        //{
+        //    var request = new OAuth2Request("GET", new Uri(Constants.GoogleUserInfoUrl), null, account);
+        //    var response = await request.GetResponseAsync();
+
+        //    if (response != null)
+        //    {
+        //        string userJson = await response.GetResponseTextAsync();
+        //    }
+        //}
     }
 }

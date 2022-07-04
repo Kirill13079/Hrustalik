@@ -45,6 +45,14 @@ namespace HealthApp.API.Controllers.API
                 Email = login.Email
             };
 
+            var existingUser = await _userManager
+                .FindByEmailAsync(user.Email);
+
+            if (existingUser != null)
+            {
+                return NotFound("Email is used");
+            }
+
             var result = await _userManager
                 .CreateAsync(user, login.Password);
 
@@ -64,7 +72,11 @@ namespace HealthApp.API.Controllers.API
 
                     if (await _context.SaveChangesAsync() > 0)
                     {
-                        return Ok(customer);
+                        return Ok(new
+                        {
+                            customer,
+                            token = user.GetJwtToken()
+                        });
                     }
                 }
             }

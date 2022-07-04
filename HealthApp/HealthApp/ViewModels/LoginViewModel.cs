@@ -9,6 +9,9 @@ using HealthApp.Helpers;
 using Xamarin.Essentials;
 using HealthApp.ViewModels.Base;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System;
+using HealthApp.Common;
 
 namespace HealthApp.ViewModels
 {
@@ -36,9 +39,48 @@ namespace HealthApp.ViewModels
             }
         }
 
+        private string _accessToken = string.Empty;
+        public string AccessToken
+        {
+            get => _accessToken;
+            set
+            {
+                _accessToken = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public ICommand GoogleAuthorizationCommand { get; }
+
         public LoginViewModel()
         {
             AuthorizationCommand = new Command(async () => await AuthorizationCommandHadlerAsync());
+            GoogleAuthorizationCommand = new Command(async () => await GoogleAuthorizationCommandHandlerAsync("Google"));
+        }
+
+        private async Task GoogleAuthorizationCommandHandlerAsync(string scheme)
+        {
+            try
+            {
+                WebAuthenticatorResult result = null;
+
+                if (scheme.Equals("Google"))
+                {
+                    var authUrl = new Uri($"{Constants.AuthenticationUrl}{scheme}");
+                    var callbackUrl = new Uri("xamarinessentials://");
+
+                    result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
+                }
+
+                AccessToken = result?.AccessToken ?? result?.IdToken;
+            }
+            catch (Exception ex)
+            {
+                AccessToken = string.Empty;
+
+                await Application.Current.MainPage.DisplayAlert("Вход", $"Во время входа в систему произошла ошибка {ex.Message}", "Понятно");
+            }
         }
 
         private async Task AuthorizationCommandHadlerAsync()

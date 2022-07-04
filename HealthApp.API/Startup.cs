@@ -30,8 +30,8 @@ namespace HealthApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    IoCContainer.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(IoCContainer.Configuration
+                .GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -42,6 +42,7 @@ namespace HealthApp.API
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+            .AddCookie()
             .AddJwtBearer(option =>
             {
                 option.TokenValidationParameters = new TokenValidationParameters
@@ -54,6 +55,12 @@ namespace HealthApp.API
                     ValidAudience = IoCContainer.Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoCContainer.Configuration["JWT:SecretKey"]))
                 };
+            })
+            .AddGoogle(google =>
+            {
+                google.ClientId = IoCContainer.Configuration["ClientId"];
+                google.ClientSecret = IoCContainer.Configuration["ClientSecret"];
+                google.SaveTokens = true;
             });
 
             services.AddControllersWithViews();
@@ -71,6 +78,7 @@ namespace HealthApp.API
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -84,6 +92,7 @@ namespace HealthApp.API
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                
                 endpoints.MapRazorPages();
             });
         }
