@@ -1,20 +1,18 @@
 using HealthApp.API.Data;
 using HealthApp.API.IoC;
 using HealthApp.API.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,15 +35,19 @@ namespace HealthApp.API
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication(x =>
+            _ = services.AddAuthentication(options =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddCookie()
-            .AddJwtBearer(option =>
+            .AddCookie(options =>
             {
-                option.TokenValidationParameters = new TokenValidationParameters
+                //options.LoginPath = "/account/google-login";
+                options.Cookie.IsEssential = true;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = true,
                     ValidateIssuer = true,
@@ -56,11 +58,12 @@ namespace HealthApp.API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoCContainer.Configuration["JWT:SecretKey"]))
                 };
             })
-            .AddGoogle(google =>
+            .AddGoogle(options =>
             {
-                google.ClientId = IoCContainer.Configuration["ClientId"];
-                google.ClientSecret = IoCContainer.Configuration["ClientSecret"];
-                google.SaveTokens = true;
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.ClientId = IoCContainer.Configuration["Google:ClientId"];
+                options.ClientSecret = IoCContainer.Configuration["Google:ClientSecret"];
+                options.SaveTokens = true;
             });
 
             services.AddControllersWithViews();

@@ -67,13 +67,15 @@ namespace HealthApp.ViewModels
 
                 if (scheme.Equals("Google"))
                 {
-                    var authUrl = new Uri($"{Constants.AuthenticationUrl}{scheme}");
-                    var callbackUrl = new Uri("xamarinessentials://");
+                    var authUrl = new Uri($"{ApiRoutes.BaseUrl}{ApiRoutes.Account}/{scheme}");
+                    var callbackUrl = new Uri($"{Constants.CallbackDataSchema}://");
 
                     result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
                 }
 
                 AccessToken = result?.AccessToken ?? result?.IdToken;
+
+                await Application.Current.MainPage.DisplayAlert("Вход", $"{AccessToken}", "Понятно");
             }
             catch (Exception ex)
             {

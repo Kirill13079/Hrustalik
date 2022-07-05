@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HealthApp.API.Controllers
 {
+    [Authorize]
     public class RecordsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +24,7 @@ namespace HealthApp.API.Controllers
             _environment = environment;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Records.ToListAsync());

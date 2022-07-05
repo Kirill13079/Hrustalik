@@ -2,12 +2,9 @@
 {
     public static class ApiRoutes
     {
-
-#if DEBUG
-        public const string BaseUrl = "http://localhost:54019";
-#else
         public const string BaseUrl = "http://hrustalik.by/";
-#endif
+
+        public const string Account = "account";
 
         public const string Register = "api/user/register";
         public const string Login = "api/user/login";
