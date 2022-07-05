@@ -17,10 +17,11 @@ namespace HealthApp.API.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AccountController(ApplicationDbContext context, UserManager<User> userManager)
+        public AccountController(ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
