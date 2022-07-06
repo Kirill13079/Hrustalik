@@ -2,7 +2,7 @@
 {
     public static class ApiRoutes
     {
-        public const string BaseUrl = "http://hrustalik.by/";
+        public const string BaseUrl = "https://hrustalik.by/";
 
         public const string MobileAuth = "mobileauth";
 
