@@ -28,31 +28,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (signInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item ml-auto">
-                                <form method="post" asp-controller="account" asp-action="logout">
-                                    <button type="submit" style="width:auto"
-                                            class="nav-link btn btn-link py-0">
-                                        @User.Identity.Name
-                                    </button>
-                                </form>
-                            </li>
-                        }
-
-                        else
-                        {
-                            <li class="nav-item ml-auto">
-                                <a class="nav-link text-dark" asp-controller="account" asp-action="register">
-                                    Регистрация
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="account" asp-action="login">
-                                    Логин
-                                </a>
-                            </li>
-                        }
                     </ul>
                 </div>
             </div>

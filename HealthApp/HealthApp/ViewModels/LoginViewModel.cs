@@ -50,7 +50,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-
         public ICommand GoogleAuthorizationCommand { get; }
 
         public LoginViewModel()
@@ -67,7 +66,7 @@ namespace HealthApp.ViewModels
 
                 if (scheme.Equals("Google"))
                 {
-                    var authUrl = new Uri($"{ApiRoutes.BaseUrl}{ApiRoutes.Account}/{scheme}");
+                    var authUrl = new Uri($"{ApiRoutes.BaseUrl}{ApiRoutes.MobileAuth}/{scheme}");
                     var callbackUrl = new Uri($"{Constants.CallbackDataSchema}://");
 
                     result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);

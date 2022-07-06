@@ -4,7 +4,7 @@
     {
         public const string BaseUrl = "http://hrustalik.by/";
 
-        public const string Account = "account";
+        public const string MobileAuth = "mobileauth";
 
         public const string Register = "api/user/register";
         public const string Login = "api/user/login";

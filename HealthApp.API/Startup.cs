@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,12 @@ namespace HealthApp.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(IoCContainer.Configuration
                 .GetConnectionString("DefaultConnection")));
@@ -34,37 +41,32 @@ namespace HealthApp.API
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            _ = services.AddAuthentication(options =>
+            
+            services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddCookie(options =>
-            {
-                //options.LoginPath = "/account/google-login";
-                options.Cookie.IsEssential = true;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+                .AddCookie()
+                .AddJwtBearer(options => 
                 {
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = IoCContainer.Configuration["JWT:Issuer"],
-                    ValidAudience = IoCContainer.Configuration["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoCContainer.Configuration["JWT:SecretKey"]))
-                };
-            })
-            .AddGoogle(options =>
-            {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.ClientId = IoCContainer.Configuration["Google:ClientId"];
-                options.ClientSecret = IoCContainer.Configuration["Google:ClientSecret"];
-                options.SaveTokens = true;
-            });
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = IoCContainer.Configuration["JWT:Issuer"],
+                        ValidAudience = IoCContainer.Configuration["JWT:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoCContainer.Configuration["JWT:SecretKey"]))
+                    };
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = IoCContainer.Configuration["Google:ClientId"];
+                    options.ClientSecret = IoCContainer.Configuration["Google:ClientSecret"];
+                    options.SaveTokens = true;
+                });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
