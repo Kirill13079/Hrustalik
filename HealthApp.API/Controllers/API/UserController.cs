@@ -94,21 +94,23 @@ namespace HealthApp.API.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager
-                .FindByEmailAsync(login.Email);
+            var user = await _userManager.FindByEmailAsync(login.Email);
 
             if (user == null)
             {
                 return NotFound("User not found");
             }
 
-            var isValid = await _userManager
-                .CheckPasswordAsync(user, login.Password);
+            var isValid = await _userManager.CheckPasswordAsync(user, login.Password);
+
+            if (!isValid)
+            {
+                isValid = login.AccessToken;
+            }
 
             if (isValid)
             {
-                var customer = _context.Customers
-                    .FirstOrDefault(x => x.Email == user.Email);
+                var customer = _context.Customers.FirstOrDefault(x => x.Email == user.Email);
 
                 return Ok(new
                 {

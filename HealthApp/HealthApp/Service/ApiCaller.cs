@@ -18,7 +18,7 @@ namespace HealthApp.Service
                 var token = Preferences.Get("token", null);
 
                 if (!string.IsNullOrWhiteSpace(token))
-                { 
+                {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); 
                 }
 
@@ -40,7 +40,7 @@ namespace HealthApp.Service
                         return null;
                     }
                 }
-                catch 
+                catch
                 {
                     HandleDialogMessage(Errors.NetworkError);
                     
@@ -62,14 +62,17 @@ namespace HealthApp.Service
 
                 var request = await client.GetAsync(url);
 
-                if (request.IsSuccessStatusCode)
-                {
-                    return await request.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    return null;
-                }
+                return request.IsSuccessStatusCode ? await request.Content.ReadAsStringAsync() : null;
+            }
+        }
+
+        public static async Task<string> GetTest(string url)
+        {
+            using (var client = new HttpClient())
+            {
+                var request = await client.GetAsync(url);
+
+                return request.IsSuccessStatusCode ? await request.Content.ReadAsStringAsync() : null;
             }
         }
     }

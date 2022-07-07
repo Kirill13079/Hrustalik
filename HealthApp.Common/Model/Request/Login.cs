@@ -9,5 +9,8 @@ namespace HealthApp.Common.Model.Request
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public bool AccessToken { get; set; } = false;
     }
 }

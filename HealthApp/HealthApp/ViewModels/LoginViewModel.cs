@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
 using HealthApp.Common;
+using System.Net.Http;
+using HealthApp.Models;
 
 namespace HealthApp.ViewModels
 {
@@ -39,17 +41,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private string _accessToken = string.Empty;
-        public string AccessToken
-        {
-            get => _accessToken;
-            set
-            {
-                _accessToken = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ICommand GoogleAuthorizationCommand { get; }
 
         public LoginViewModel()
@@ -72,14 +63,56 @@ namespace HealthApp.ViewModels
                     result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
                 }
 
-                AccessToken = result?.AccessToken ?? result?.IdToken;
+                if (result != null)
+                {
+                    string authToken = result?.AccessToken ?? result?.IdToken;
 
-                await Application.Current.MainPage.DisplayAlert("Вход", $"{AccessToken}", "Понятно");
+                    if (!string.IsNullOrWhiteSpace(authToken))
+                    {
+                        var googleResponse = await GetInfoGoogleUserAsync(authToken);
+
+                        if (googleResponse != null)
+                        {
+                            string url = ApiRoutes.BaseUrl + ApiRoutes.Login;
+
+                            var userInfo = new Login
+                            {
+                                Email = googleResponse.Email,
+                                Password = authToken,
+                                AccessToken = true
+                            };
+
+                            var response = await ApiCaller.Post(url, userInfo);
+
+                            if (!string.IsNullOrWhiteSpace(response))
+                            {
+                                var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
+
+                                App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
+                                App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
+
+                                Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
+
+                                Task[] tasks =
+                                {
+                    App.ViewModelLocator.MainVm.GetDataAsync(),
+                    App.ViewModelLocator.CategoryVm.GetDataAsync(),
+                    App.ViewModelLocator.BookmarkVm.GetDataAsync()
+                };
+
+                                await Task.WhenAll(tasks);
+
+                                MainThread.BeginInvokeOnMainThread(() =>
+                                {
+                                    Navigation.GoBackAsync();
+                                });
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                AccessToken = string.Empty;
-
                 await Application.Current.MainPage.DisplayAlert("Вход", $"Во время входа в систему произошла ошибка {ex.Message}", "Понятно");
             }
         }
@@ -127,6 +160,20 @@ namespace HealthApp.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Вход", "Во время входа в систему произошла ошибка", "Понятно");
             }
+        }
+
+        private async Task<GoogleResponseModel> GetInfoGoogleUserAsync(string authToken)
+        {
+            var response = await ApiCaller.GetTest(ApiRoutes.GoogleAuth + authToken);
+
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                var googleUserJson = JsonConvert.DeserializeObject<GoogleResponseModel>(response);
+
+                return googleUserJson;
+            }
+
+            return null;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HealthApp.API.Data;
 using HealthApp.API.Models;
 using HealthApp.Common;
+using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -44,6 +45,39 @@ namespace HealthApp.API.Controllers.API
                 var email = string.Empty;
 
                 email = claims?.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
+
+                if (!string.IsNullOrWhiteSpace(email))
+                {
+                    var user = new User
+                    {
+                        UserName = email,
+                        Email = email
+                    };
+
+                    var existingUser = await _userManager.FindByEmailAsync(user.Email);
+
+                    if (existingUser == null)
+                    {
+                        var result = await _userManager.CreateAsync(user, auth.Properties.GetTokenValue("access_token"));
+
+                        if (result.Succeeded)
+                        {
+                            var createdUser = await _userManager.FindByEmailAsync(user.Email);
+
+                            if (createdUser != null)
+                            {
+                                var customer = new Customer
+                                {
+                                    Email = createdUser.Email
+                                };
+
+                                _ = _context.Customers.Add(customer);
+
+                                _ = await _context.SaveChangesAsync();
+                            }
+                        }
+                    }
+                }
 
                 var qs = new Dictionary<string, string>
                 {

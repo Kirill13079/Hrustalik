@@ -5,6 +5,7 @@
         public const string BaseUrl = "https://hrustalik.by/";
 
         public const string MobileAuth = "mobileauth";
+        public const string GoogleAuth = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=";
 
         public const string Register = "api/user/register";
         public const string Login = "api/user/login";
