@@ -12,14 +12,16 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
 using HealthApp.Common;
-using System.Net.Http;
 using HealthApp.Models;
+using Rg.Plugins.Popup.Extensions;
+using HealthApp.Views.Dialogs;
+using Rg.Plugins.Popup.Services;
 
 namespace HealthApp.ViewModels
 {
     public class LoginViewModel : ViewBaseModel
     {
-        private string _email = "kirill.zhenkevich13@gmail.com";
+        private string _email;
         public string Email
         {
             get => _email;
@@ -30,7 +32,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private string _password = "qwaserdf13QQ??";
+        private string _password;
         public string Password
         {
             get => _password;
@@ -45,8 +47,22 @@ namespace HealthApp.ViewModels
 
         public LoginViewModel()
         {
-            AuthorizationCommand = new Command(async () => await AuthorizationCommandHadlerAsync());
-            GoogleAuthorizationCommand = new Command(async () => await GoogleAuthorizationCommandHandlerAsync("Google"));
+            AuthorizationCommand = new Command(async () =>
+            {
+                DialogsHelper.ProgressDialog.Show();
+
+                await AuthorizationCommandHadlerAsync();
+
+                DialogsHelper.ProgressDialog.Hide();
+            });
+            GoogleAuthorizationCommand = new Command(async () =>
+            {
+                DialogsHelper.ProgressDialog.Show();
+
+                await GoogleAuthorizationCommandHandlerAsync("Google");
+
+                DialogsHelper.ProgressDialog.Hide();
+            });
         }
 
         private async Task GoogleAuthorizationCommandHandlerAsync(string scheme)
@@ -73,8 +89,6 @@ namespace HealthApp.ViewModels
 
                         if (googleResponse != null)
                         {
-                            string url = ApiRoutes.BaseUrl + ApiRoutes.Login;
-
                             var userInfo = new Login
                             {
                                 Email = googleResponse.Email,
@@ -82,30 +96,11 @@ namespace HealthApp.ViewModels
                                 AccessToken = true
                             };
 
-                            var response = await ApiCaller.Post(url, userInfo);
+                            bool isLogin = await LoginUserAsync(userInfo);
 
-                            if (!string.IsNullOrWhiteSpace(response))
+                            if (!isLogin)
                             {
-                                var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
-
-                                App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
-                                App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
-
-                                Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
-
-                                Task[] tasks =
-                                {
-                    App.ViewModelLocator.MainVm.GetDataAsync(),
-                    App.ViewModelLocator.CategoryVm.GetDataAsync(),
-                    App.ViewModelLocator.BookmarkVm.GetDataAsync()
-                };
-
-                                await Task.WhenAll(tasks);
-
-                                MainThread.BeginInvokeOnMainThread(() =>
-                                {
-                                    Navigation.GoBackAsync();
-                                });
+                                await DialogsHelper.DisplayAlert("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
                             }
                         }
                     }
@@ -113,13 +108,18 @@ namespace HealthApp.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Вход", $"Во время входа в систему произошла ошибка {ex.Message}", "Понятно");
+                await DialogsHelper.DisplayAlert("Вход в систему", $"Во время входа в систему произошла ошибка: {ex.Message.ToLower()}", "Понятно");
             }
         }
 
         private async Task AuthorizationCommandHadlerAsync()
         {
-            string url = ApiRoutes.BaseUrl + ApiRoutes.Login;
+            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            {
+                await DialogsHelper.DisplayAlert("Вход в систему", "Для входа в систему необходимо заполнить все поля", "Понятно");
+
+                return;
+            }
 
             var userInfo = new Login
             {
@@ -127,39 +127,50 @@ namespace HealthApp.ViewModels
                 Password = Password
             };
 
-            var response = await ApiCaller.Post(url, userInfo);
+            bool isLogin = await LoginUserAsync(userInfo);
 
-            if (!string.IsNullOrWhiteSpace(response))
+            if (!isLogin)
             {
-                DialogsHelper.ProgressDialog.Show();
-
-                var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
-
-                App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
-                App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
-
-                Settings.AddSetting(Settings.AppPrefrences.token, loginResponse.Token);
-
-                Task[] tasks =
-                {
-                    App.ViewModelLocator.MainVm.GetDataAsync(),
-                    App.ViewModelLocator.CategoryVm.GetDataAsync(),
-                    App.ViewModelLocator.BookmarkVm.GetDataAsync()
-                };
-
-                await Task.WhenAll(tasks);
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    Navigation.GoBackAsync();
-                });
-
-                DialogsHelper.ProgressDialog.Hide();
+                await DialogsHelper.DisplayAlert("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
             }
-            else
+        }
+
+        private async Task<bool> LoginUserAsync(Login userInfo)
+        {
+            string url = ApiRoutes.BaseUrl + ApiRoutes.Login;
+
+            if (userInfo != null)
             {
-                await Application.Current.MainPage.DisplayAlert("Вход", "Во время входа в систему произошла ошибка", "Понятно");
+                var response = await ApiCaller.Post(url, userInfo);
+
+                if (!string.IsNullOrWhiteSpace(response))
+                {
+                    var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
+
+                    App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
+                    App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
+
+                    Settings.AddSetting(prefrence: Settings.AppPrefrences.token, setting: loginResponse.Token);
+
+                    Task[] tasks =
+                    {
+                        App.ViewModelLocator.MainVm.GetDataAsync(),
+                        App.ViewModelLocator.CategoryVm.GetDataAsync(),
+                        App.ViewModelLocator.BookmarkVm.GetDataAsync()
+                    };
+
+                    await Task.WhenAll(tasks);
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        Navigation.GoBackAsync();
+                    });
+
+                    return true;
+                }
             }
+
+            return false;
         }
 
         private async Task<GoogleResponseModel> GetInfoGoogleUserAsync(string authToken)

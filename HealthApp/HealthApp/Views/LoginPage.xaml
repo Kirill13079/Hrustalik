@@ -72,7 +72,7 @@
                 <StackLayout Grid.Row="1"
                              Spacing="5"
                              HeightRequest="-1"
-                             Padding="0,0,0,30">
+                             Padding="0,0,0,0">
                     <Frame BackgroundColor="{DynamicResource AccentColor}"
                            Margin="10,0"
                            Padding="0"
@@ -88,7 +88,7 @@
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding AuthorizationCommand}"/>
                                 </StackLayout.GestureRecognizers>
-                                <Label FontSize="16"
+                                <Label FontSize="{StaticResource BodyLabelFontSize}"
                                        VerticalOptions="Center" 
                                        HorizontalOptions="CenterAndExpand"
                                        FontFamily="Bold"
@@ -101,7 +101,7 @@
                 <StackLayout Grid.Row="2"
                              Spacing="5"
                              HeightRequest="-1"
-                             Padding="0,0,0,30">
+                             Padding="0,0,0,0">
                     <Frame BackgroundColor="{DynamicResource AccentColor}"
                            Margin="10,0"
                            Padding="0"
@@ -117,7 +117,7 @@
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="GoogleAuthorizationTapped"/>
                                 </StackLayout.GestureRecognizers>
-                                <Label FontSize="16"
+                                <Label FontSize="{StaticResource BodyLabelFontSize}"
                                        VerticalOptions="Center" 
                                        HorizontalOptions="CenterAndExpand"
                                        FontFamily="Bold"
@@ -126,6 +126,22 @@
                             </StackLayout>
                         </Grid>
                     </Frame>
+                </StackLayout>
+                <StackLayout Grid.Row="3">
+                    <Label HorizontalOptions="CenterAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="У вас нет аккаунта?"
+                                      FontSize="{StaticResource SmallLabelFontSize}"
+                                      TextColor="{DynamicResource AccentColor}"
+                                      FontFamily="Bold"/>
+                                <Span Text=" Регистрация"
+                                      FontSize="{StaticResource SmallLabelFontSize}"
+                                      TextColor="{DynamicResource SkeletonColor}"
+                                      FontFamily="Bold"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 </StackLayout>
             </Grid>
         </ScrollView>
