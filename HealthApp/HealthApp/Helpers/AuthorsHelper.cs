@@ -11,7 +11,7 @@ namespace HealthApp.Helpers
 {
     public static class AuthorsHelper
     {
-        private static readonly IApiManager _apiManager = new ApiManager();
+        private static readonly IApiManager _apiManager = new ApiManagerService();
 
         public static List<Author> SavedUserAuthors { get; private set; } = new List<Author>();
 

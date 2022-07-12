@@ -66,7 +66,7 @@ namespace HealthApp.ViewModels
 
                     BookmarkTab.IsBusy = true;
 
-                    var bookmarks = await ApiManager.GetBookmarksAsync();
+                    var bookmarks = await ApiManagerService.GetBookmarksAsync();
 
                     var records = new ObservableRangeCollection<RecordViewModel>();
 
@@ -94,7 +94,7 @@ namespace HealthApp.ViewModels
                 {
                     BookmarkTab.IsRefreshing = true;
 
-                    var bookmarks = await ApiManager.GetBookmarksAsync();
+                    var bookmarks = await ApiManagerService.GetBookmarksAsync();
 
                     var records = new ObservableRangeCollection<RecordViewModel>();
 

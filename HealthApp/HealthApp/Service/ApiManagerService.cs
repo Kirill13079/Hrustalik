@@ -13,9 +13,9 @@ using Xamarin.Essentials;
 
 namespace HealthApp.Service
 {
-    public class ApiManager : IApiManager
+    public class ApiManagerService : IApiManager
     {
-        public ApiManager()
+        public ApiManagerService()
         {
             Barrel.ApplicationId = "CachingData";
         }

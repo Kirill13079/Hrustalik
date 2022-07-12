@@ -60,7 +60,7 @@ namespace HealthApp.ViewModels
                 CategoriesTab.Clear();
             }
 
-            var categories = await ApiManager.GetCategoriesAsync();
+            var categories = await ApiManagerService.GetCategoriesAsync();
 
             var tabItems = new ObservableRangeCollection<TabModel>();
 
@@ -109,8 +109,8 @@ namespace HealthApp.ViewModels
 
                     var savedUserAuthors =  await AuthorsHelper.GetSavedUserAuthorsAsync();
 
-                    var bookmarks = await ApiManager.GetBookmarksAsync();
-                    var records = await ApiManager.GetCategoryRecordsAsync(categoryId: tab.Page);
+                    var bookmarks = await ApiManagerService.GetBookmarksAsync();
+                    var records = await ApiManagerService.GetCategoryRecordsAsync(categoryId: tab.Page);
 
                     if (savedUserAuthors.Any())
                     { 
@@ -137,8 +137,8 @@ namespace HealthApp.ViewModels
                     tab.IsRefreshing = true;
 
                     var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
-                    var bookmarks = await ApiManager.GetBookmarksAsync();
-                    var records = await ApiManager.GetCategoryRecordsAsync(categoryId: tab.Page);
+                    var bookmarks = await ApiManagerService.GetBookmarksAsync();
+                    var records = await ApiManagerService.GetCategoryRecordsAsync(categoryId: tab.Page);
 
                     if (savedUserAuthors.Any())
                     {

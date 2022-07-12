@@ -63,7 +63,7 @@ namespace HealthApp.ViewModels
 
         private async Task GetSettingsAsync()
         {
-            var customer = await ApiManager.GetCustomerAsync();;
+            var customer = await ApiManagerService.GetCustomerAsync();;
 
             if (customer != null)
             {
@@ -139,13 +139,13 @@ namespace HealthApp.ViewModels
 
         private async Task SignOutCommandHandlerAsync()
         {
-            bool action = await Application.Current.MainPage.DisplayAlert("Выйти?", "Вы уверены, что хотите выйти?", "Да", "Нет");
+            bool action = await AlertDialogService.ShowDialogConfirmationAsync("Выйти?", "Вы уверены, что хотите выйти?", "Да", "Нет");
 
             if (action)
             {
                 DialogsHelper.ProgressDialog.Show();
 
-                Settings.RemoveSetting(Settings.AppPrefrences.token);
+                Settings.RemoveSetting(prefrence: Settings.AppPrefrences.token);
 
                 Task[] tasks =
                 {
@@ -161,7 +161,7 @@ namespace HealthApp.ViewModels
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    Navigation.NavigateToAsync("login", Customer);
+                    Navigation.NavigateToAsync(route: "login", model: Customer);
                 });
 
                 DialogsHelper.ProgressDialog.Hide();

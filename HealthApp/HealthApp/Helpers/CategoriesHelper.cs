@@ -11,7 +11,7 @@ namespace HealthApp.Helpers
 {
     public static class CategoriesHelper
     {
-        private static readonly IApiManager _apiManager = new ApiManager();
+        private static readonly IApiManager _apiManager = new ApiManagerService();
 
         public static List<Category> SavedUserCategories { get; private set; } = new List<Category>();
 

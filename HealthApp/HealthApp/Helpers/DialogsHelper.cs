@@ -1,6 +1,4 @@
 ﻿using Acr.UserDialogs;
-using HealthApp.Views.Dialogs;
-using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,13 +68,6 @@ namespace HealthApp.Helpers
                 Uri = uri,
                 Title = text
             });
-        }
-
-        public static async Task DisplayAlert(string title, string message, string accept)
-        {
-            var dialog = new DisplayAlertPopup(title, message, accept, "");
-
-            await Application.Current.MainPage.Navigation.PushPopupAsync(dialog);
         }
     }
 }

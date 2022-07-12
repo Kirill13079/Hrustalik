@@ -62,7 +62,7 @@ namespace HealthApp.ViewModels
                 });
             }
 
-            MainTab.HotRecord = await ApiManager.GetHotRecordAsync();
+            MainTab.HotRecord = await ApiManagerService.GetHotRecordAsync();
 
             await LoadMainContentDataAsync().ConfigureAwait(false);
 
@@ -84,8 +84,8 @@ namespace HealthApp.ViewModels
             {
                 MainTab.IsBusy = true;
 
-                var records = await ApiManager.GetRecordsAsync();
-                var bookmarks = await ApiManager.GetBookmarksAsync();
+                var records = await ApiManagerService.GetRecordsAsync();
+                var bookmarks = await ApiManagerService.GetBookmarksAsync();
                 var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
                 var savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
 
@@ -136,7 +136,7 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var records = await ApiManager.GetPopularsRecordsAsync(skipRecords, takeRecord);
+                    var records = await ApiManagerService.GetPopularsRecordsAsync(skipRecords, takeRecord);
                     var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
                     var savedUserCategories = await CategoriesHelper .GetSavedUserCategoriesAsync();
 
@@ -158,7 +158,7 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var records = await ApiManager.GetPopularsRecordsAsync(skipRecords, takeRecord);
+                    var records = await ApiManagerService.GetPopularsRecordsAsync(skipRecords, takeRecord);
                     var savedUserAuthors = await AuthorsHelper .GetSavedUserAuthorsAsync();
                     var savedUserCategories = await CategoriesHelper .GetSavedUserCategoriesAsync();
 

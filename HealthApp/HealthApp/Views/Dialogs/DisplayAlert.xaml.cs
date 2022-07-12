@@ -1,14 +1,15 @@
 ﻿using System;
+using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HealthApp.Views.Dialogs
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DisplayAlertPopup : PopupPage
+    public partial class DisplayAlert : PopupPage
     {
-        public DisplayAlertPopup(string title, string message, string accept, string cancel)
+        public DisplayAlert(string title, string message, string accept)
         {
             InitializeComponent();
 
@@ -17,9 +18,9 @@ namespace HealthApp.Views.Dialogs
             acceptLabel.Text = accept;
         }
 
-        private void OnCloseTapped(object sender, EventArgs e)
+        private async void OnCloseTapped(object sender, EventArgs e)
         {
-            _ = PopupNavigation.Instance.PopAsync();
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
         }
     }
 }

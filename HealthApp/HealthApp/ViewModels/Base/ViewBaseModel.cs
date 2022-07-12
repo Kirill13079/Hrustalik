@@ -8,7 +8,8 @@ namespace HealthApp.ViewModels.Base
 {
     public class ViewBaseModel : BaseViewModel
     {
-        protected readonly IApiManager ApiManager = new ApiManager();
+        protected readonly IApiManager ApiManagerService = new ApiManagerService();
+        protected readonly IAlertDialog AlertDialogService = new AlertDialogService();
 
         private LayoutState _currentState = LayoutState.Loading;
         public LayoutState CurrentState

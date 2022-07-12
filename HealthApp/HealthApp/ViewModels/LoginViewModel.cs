@@ -100,7 +100,7 @@ namespace HealthApp.ViewModels
 
                             if (!isLogin)
                             {
-                                await DialogsHelper.DisplayAlert("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
+                                await AlertDialogService.ShowDialogAsync("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
                             }
                         }
                     }
@@ -108,7 +108,7 @@ namespace HealthApp.ViewModels
             }
             catch (Exception ex)
             {
-                await DialogsHelper.DisplayAlert("Вход в систему", $"Во время входа в систему произошла ошибка: {ex.Message.ToLower()}", "Понятно");
+                await AlertDialogService.ShowDialogAsync("Вход в систему", $"Во время входа в систему произошла ошибка: {ex.Message.ToLower()}", "Понятно");
             }
         }
 
@@ -116,7 +116,7 @@ namespace HealthApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
             {
-                await DialogsHelper.DisplayAlert("Вход в систему", "Для входа в систему необходимо заполнить все поля", "Понятно");
+                await AlertDialogService.ShowDialogAsync("Вход в систему", "Для входа в систему необходимо заполнить все поля", "Понятно");
 
                 return;
             }
@@ -131,7 +131,7 @@ namespace HealthApp.ViewModels
 
             if (!isLogin)
             {
-                await DialogsHelper.DisplayAlert("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
+                await AlertDialogService.ShowDialogAsync("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
             }
         }
 

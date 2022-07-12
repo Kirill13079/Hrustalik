@@ -123,6 +123,9 @@
     <Compile Update="Controls\CircleCheckboxView.xaml.cs">
       <DependentUpon>CircleCheckboxView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Dialogs\DisplayAlert.xaml.cs">
+      <DependentUpon>DisplayAlert.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -177,7 +180,10 @@
     <EmbeddedResource Update="Views\Components\PopupComponents\NewsPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Dialogs\DisplayAlertPopup.xaml">
+    <EmbeddedResource Update="Views\Dialogs\DisplayAlert.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Dialogs\DisplayAlertSheet.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
