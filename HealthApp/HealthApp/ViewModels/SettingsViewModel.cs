@@ -170,7 +170,7 @@ namespace HealthApp.ViewModels
 
         private void LoginCommandHadler()
         {
-            Navigation.NavigateToAsync("login", Customer);
+            Navigation.NavigateToAsync(route: "login", model: Customer);
         }
 
         private async Task OpenAuthorsAndCategoriesPageCommandHadlerAsync()

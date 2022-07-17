@@ -13,15 +13,14 @@ using System.Windows.Input;
 using System;
 using HealthApp.Common;
 using HealthApp.Models;
-using Rg.Plugins.Popup.Extensions;
-using HealthApp.Views.Dialogs;
-using Rg.Plugins.Popup.Services;
+using Acr.UserDialogs;
+using System.Threading;
 
 namespace HealthApp.ViewModels
 {
     public class LoginViewModel : ViewBaseModel
     {
-        private string _email;
+        private string _email = "dmitry.nagu51@gmail.com";
         public string Email
         {
             get => _email;
@@ -32,7 +31,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private string _password;
+        private string _password = "qwaserdf13QQ#";
         public string Password
         {
             get => _password;
@@ -43,32 +42,85 @@ namespace HealthApp.ViewModels
             }
         }
 
+        private string _сonfirmedPassword = "qwaserdf13QQ#";
+        public string ConfirmedPassword
+        {
+            get => _сonfirmedPassword;
+            set
+            {
+                _сonfirmedPassword = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isRegistration = false;
+        public bool IsRegistration
+        {
+            get => _isRegistration;
+            set
+            {
+                _isRegistration = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand RegistrationCommand { get; }
+
         public ICommand GoogleAuthorizationCommand { get; }
 
         public LoginViewModel()
         {
             AuthorizationCommand = new Command(async () =>
             {
-                DialogsHelper.ProgressDialog.Show();
+                //DialogsHelper.ProgressDialog.Show();
+                var tokenSource = new CancellationTokenSource();
 
-                await AuthorizationCommandHadlerAsync();
+                var config = new ProgressDialogConfig()
+                {
+                    Title = "Авторизуемся",
+                    CancelText = "Отмена",
+                    IsDeterministic = false,
+                    OnCancel = tokenSource.Cancel
+                };
 
-                DialogsHelper.ProgressDialog.Hide();
+                var dialog = UserDialogs.Progress(config);
+
+                using (dialog)
+                {
+                    dialog.Show();
+
+                    await Task.Delay(10000);
+                    await AuthorizationCommandHadlerAsync();
+                }
+
+                dialog.Hide();
+
+                //DialogsHelper.ProgressDialog.Hide();
             });
             GoogleAuthorizationCommand = new Command(async () =>
             {
-                DialogsHelper.ProgressDialog.Show();
+                UserDialogs.ShowLoading();
 
-                await GoogleAuthorizationCommandHandlerAsync("Google");
+                await GoogleAuthorizationCommandHandlerAsync();
 
-                DialogsHelper.ProgressDialog.Hide();
+                UserDialogs.HideLoading();
+            });
+            RegistrationCommand = new Command(async () =>
+            {
+                UserDialogs.ShowLoading();
+
+                await RegistrationCommandHandlerAsync();
+
+                UserDialogs.HideLoading();
             });
         }
 
-        private async Task GoogleAuthorizationCommandHandlerAsync(string scheme)
+        private async Task GoogleAuthorizationCommandHandlerAsync()
         {
             try
             {
+                string scheme = "Google";
+
                 WebAuthenticatorResult result = null;
 
                 if (scheme.Equals("Google"))
@@ -96,7 +148,7 @@ namespace HealthApp.ViewModels
                                 AccessToken = true
                             };
 
-                            bool isLogin = await LoginUserAsync(userInfo);
+                            bool isLogin = await AuthorizationUserAsync(userInfo, ApiRoutes.Login);
 
                             if (!isLogin)
                             {
@@ -127,7 +179,7 @@ namespace HealthApp.ViewModels
                 Password = Password
             };
 
-            bool isLogin = await LoginUserAsync(userInfo);
+            bool isLogin = await AuthorizationUserAsync(userInfo, ApiRoutes.Login);
 
             if (!isLogin)
             {
@@ -135,39 +187,82 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private async Task<bool> LoginUserAsync(Login userInfo)
+        private async Task RegistrationCommandHandlerAsync()
         {
-            string url = ApiRoutes.BaseUrl + ApiRoutes.Login;
-
-            if (userInfo != null)
+            if (string.IsNullOrWhiteSpace(Email)
+                || string.IsNullOrWhiteSpace(Password)
+                || string.IsNullOrWhiteSpace(ConfirmedPassword))
             {
-                var response = await ApiCaller.Post(url, userInfo);
+                await AlertDialogService.ShowDialogAsync("Регистрация", "Для регистрации необходимо заполнить все поля", "Понятно");
 
-                if (!string.IsNullOrWhiteSpace(response))
+                return;
+            }
+
+            if (Password != ConfirmedPassword)
+            {
+                await AlertDialogService.ShowDialogAsync("Регистрация", "Пароли не совпадают", "Понятно");
+
+                return;
+            }
+
+            var userInfo = new Login
+            {
+                Email = Email.Trim(),
+                Password = Password
+            };
+
+            bool isRegistration = await AuthorizationUserAsync(userInfo, ApiRoutes.Register);
+
+            if (!isRegistration)
+            {
+                await AlertDialogService.ShowDialogAsync("Регистрация", "Во время регистрации произошла ошибка", "Понятно");
+            }
+        }
+
+        private async Task<bool> AuthorizationUserAsync(Login userInfo, string route)
+        {
+            if (!string.IsNullOrWhiteSpace(route))
+            {
+                string url = ApiRoutes.BaseUrl + route;
+
+                if (userInfo != null)
                 {
-                    var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
+                    var response = await ApiCaller.Post(url, userInfo);
+                    var result = await LoginResponse(response);
 
-                    App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
-                    App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
+                    return result;
+                }
+            }
 
-                    Settings.AddSetting(prefrence: Settings.AppPrefrences.token, setting: loginResponse.Token);
+            return false;
+        }
 
-                    Task[] tasks =
-                    {
+        private async Task<bool> LoginResponse(string response)
+        {
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
+
+                App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
+                App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
+
+                Settings.AddSetting(prefrence: Settings.AppPrefrences.token, setting: loginResponse.Token);
+
+                Task[] tasks =
+                {
                         App.ViewModelLocator.MainVm.GetDataAsync(),
                         App.ViewModelLocator.CategoryVm.GetDataAsync(),
                         App.ViewModelLocator.BookmarkVm.GetDataAsync()
                     };
 
-                    await Task.WhenAll(tasks);
+                await Task.WhenAll(tasks);
 
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        Navigation.GoBackAsync();
-                    });
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Navigation.GoBackAsync();
+                });
 
-                    return true;
-                }
+                return true;
             }
 
             return false;

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Acr.UserDialogs;
 using HealthApp.Interfaces;
 using HealthApp.Service;
 using MvvmHelpers;
@@ -10,6 +11,8 @@ namespace HealthApp.ViewModels.Base
     {
         protected readonly IApiManager ApiManagerService = new ApiManagerService();
         protected readonly IAlertDialog AlertDialogService = new AlertDialogService();
+
+        protected static IUserDialogs UserDialogs = Acr.UserDialogs.UserDialogs.Instance;
 
         private LayoutState _currentState = LayoutState.Loading;
         public LayoutState CurrentState

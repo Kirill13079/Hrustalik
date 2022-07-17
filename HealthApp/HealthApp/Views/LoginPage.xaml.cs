@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HealthApp.Common;
-using HealthApp.Handlers;
+using HealthApp.Helpers;
 using HealthApp.ViewModels;
-using Xamarin.Auth;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,7 +9,6 @@ namespace HealthApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        //private OAuthGoogleLogInHandler _oAuthGoogleLogInHandler;
         private LoginViewModel _bindingContext = null;
 
         public LoginPage()
@@ -25,9 +19,14 @@ namespace HealthApp.Views
             _bindingContext = BindingContext as LoginViewModel;
         }
 
-        private void GoogleAuthorizationTapped(object sender, System.EventArgs e)
+        private void GoogleAuthorizationTapped(object sender, EventArgs e)
         {
             _bindingContext?.GoogleAuthorizationCommand.Execute(null);
+        }
+
+        private void RegisterLinkTapped(object sender, EventArgs e)
+        {
+            _bindingContext.IsRegistration = true;
         }
 
         //[Obsolete]
