@@ -72,46 +72,27 @@ namespace HealthApp.ViewModels
         {
             AuthorizationCommand = new Command(async () =>
             {
-                //DialogsHelper.ProgressDialog.Show();
-                var tokenSource = new CancellationTokenSource();
+                DialogsHelper.ProgressDialog.Show();
 
-                var config = new ProgressDialogConfig()
-                {
-                    Title = "Авторизуемся",
-                    CancelText = "Отмена",
-                    IsDeterministic = false,
-                    OnCancel = tokenSource.Cancel
-                };
+                await AuthorizationCommandHadlerAsync();
 
-                var dialog = UserDialogs.Progress(config);
-
-                using (dialog)
-                {
-                    dialog.Show();
-
-                    await Task.Delay(10000);
-                    await AuthorizationCommandHadlerAsync();
-                }
-
-                dialog.Hide();
-
-                //DialogsHelper.ProgressDialog.Hide();
+                DialogsHelper.ProgressDialog.Hide();
             });
             GoogleAuthorizationCommand = new Command(async () =>
             {
-                UserDialogs.ShowLoading();
+                DialogsHelper.ProgressDialog.Show();
 
                 await GoogleAuthorizationCommandHandlerAsync();
 
-                UserDialogs.HideLoading();
+                DialogsHelper.ProgressDialog.Hide();
             });
             RegistrationCommand = new Command(async () =>
             {
-                UserDialogs.ShowLoading();
+                DialogsHelper.ProgressDialog.Show();
 
                 await RegistrationCommandHandlerAsync();
 
-                UserDialogs.HideLoading();
+                DialogsHelper.ProgressDialog.Hide();
             });
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HealthApp.Helpers;
 using HealthApp.Interfaces;
 using HealthApp.Views.Dialogs;
 using Rg.Plugins.Popup.Extensions;
@@ -13,6 +14,11 @@ namespace HealthApp.Service
 
         public async Task ShowDialogAsync(string title, string message, string accept)
         {
+            if (DialogsHelper.ProgressDialog.IsShowing)
+            {
+                DialogsHelper.ProgressDialog.Hide();
+            }
+
             var dialog = new DisplayAlert(title, message, accept);
 
             await Application.Current.MainPage.Navigation.PushPopupAsync(dialog);
