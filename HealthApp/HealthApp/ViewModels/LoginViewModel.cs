@@ -12,15 +12,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
 using HealthApp.Common;
-using HealthApp.Models;
-using Acr.UserDialogs;
-using System.Threading;
+using System.ComponentModel.DataAnnotations;
 
 namespace HealthApp.ViewModels
 {
     public class LoginViewModel : ViewBaseModel
     {
-        private string _email = "dmitry.nagu51@gmail.com";
+        private string _email;
         public string Email
         {
             get => _email;
@@ -31,7 +29,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private string _password = "qwaserdf13QQ#";
+        private string _password;
         public string Password
         {
             get => _password;
@@ -42,7 +40,7 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private string _сonfirmedPassword = "qwaserdf13QQ#";
+        private string _сonfirmedPassword;
         public string ConfirmedPassword
         {
             get => _сonfirmedPassword;
@@ -118,7 +116,7 @@ namespace HealthApp.ViewModels
 
                     if (!string.IsNullOrWhiteSpace(authToken))
                     {
-                        var googleResponse = await GetInfoGoogleUserAsync(authToken);
+                        var googleResponse = await ApiManagerService.GetInfoGoogleUserAsync(authToken);
 
                         if (googleResponse != null)
                         {
@@ -133,7 +131,7 @@ namespace HealthApp.ViewModels
 
                             if (!isLogin)
                             {
-                                await AlertDialogService.ShowDialogAsync("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
+                                await AlertDialogService.ShowDialogAsync(Title, "Во время входа в систему произошла ошибка", "Понятно");
                             }
                         }
                     }
@@ -141,62 +139,49 @@ namespace HealthApp.ViewModels
             }
             catch (Exception ex)
             {
-                await AlertDialogService.ShowDialogAsync("Вход в систему", $"Во время входа в систему произошла ошибка: {ex.Message.ToLower()}", "Понятно");
+                await AlertDialogService.ShowDialogAsync(Title, $"Во время входа в систему произошла ошибка: {ex.Message.ToLower()}", "Понятно");
             }
         }
 
         private async Task AuthorizationCommandHadlerAsync()
         {
-            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            bool isValidModel = await IsValidModelAsync();
+
+            if (isValidModel)
             {
-                await AlertDialogService.ShowDialogAsync("Вход в систему", "Для входа в систему необходимо заполнить все поля", "Понятно");
+                var userInfo = new Login
+                {
+                    Email = Email.Trim(),
+                    Password = Password
+                };
 
-                return;
-            }
+                bool isLogin = await AuthorizationUserAsync(userInfo, ApiRoutes.Login);
 
-            var userInfo = new Login
-            {
-                Email = Email.Trim(),
-                Password = Password
-            };
-
-            bool isLogin = await AuthorizationUserAsync(userInfo, ApiRoutes.Login);
-
-            if (!isLogin)
-            {
-                await AlertDialogService.ShowDialogAsync("Вход в систему", "Во время входа в систему произошла ошибка", "Понятно");
+                if (!isLogin)
+                {
+                    await AlertDialogService.ShowDialogAsync(Title, "Во время входа в систему произошла ошибка", "Понятно");
+                }
             }
         }
 
         private async Task RegistrationCommandHandlerAsync()
         {
-            if (string.IsNullOrWhiteSpace(Email)
-                || string.IsNullOrWhiteSpace(Password)
-                || string.IsNullOrWhiteSpace(ConfirmedPassword))
+            bool isValidModel = await IsValidModelAsync();
+
+            if (isValidModel)
             {
-                await AlertDialogService.ShowDialogAsync("Регистрация", "Для регистрации необходимо заполнить все поля", "Понятно");
+                var userInfo = new Login
+                {
+                    Email = Email.Trim(),
+                    Password = Password
+                };
 
-                return;
-            }
+                bool isRegistration = await AuthorizationUserAsync(userInfo, ApiRoutes.Register);
 
-            if (Password != ConfirmedPassword)
-            {
-                await AlertDialogService.ShowDialogAsync("Регистрация", "Пароли не совпадают", "Понятно");
-
-                return;
-            }
-
-            var userInfo = new Login
-            {
-                Email = Email.Trim(),
-                Password = Password
-            };
-
-            bool isRegistration = await AuthorizationUserAsync(userInfo, ApiRoutes.Register);
-
-            if (!isRegistration)
-            {
-                await AlertDialogService.ShowDialogAsync("Регистрация", "Во время регистрации произошла ошибка", "Понятно");
+                if (!isRegistration)
+                {
+                    await AlertDialogService.ShowDialogAsync(Title, "Во время регистрации произошла ошибка", "Понятно");
+                }
             }
         }
 
@@ -209,7 +194,7 @@ namespace HealthApp.ViewModels
                 if (userInfo != null)
                 {
                     var response = await ApiCaller.Post(url, userInfo);
-                    var result = await LoginResponse(response);
+                    var result = await LoginResponseAsync(response);
 
                     return result;
                 }
@@ -218,7 +203,7 @@ namespace HealthApp.ViewModels
             return false;
         }
 
-        private async Task<bool> LoginResponse(string response)
+        private async Task<bool> LoginResponseAsync(string response)
         {
             if (!string.IsNullOrWhiteSpace(response))
             {
@@ -231,10 +216,10 @@ namespace HealthApp.ViewModels
 
                 Task[] tasks =
                 {
-                        App.ViewModelLocator.MainVm.GetDataAsync(),
-                        App.ViewModelLocator.CategoryVm.GetDataAsync(),
-                        App.ViewModelLocator.BookmarkVm.GetDataAsync()
-                    };
+                    App.ViewModelLocator.MainVm.GetDataAsync(),
+                    App.ViewModelLocator.CategoryVm.GetDataAsync(),
+                    App.ViewModelLocator.BookmarkVm.GetDataAsync()
+                };
 
                 await Task.WhenAll(tasks);
 
@@ -249,18 +234,46 @@ namespace HealthApp.ViewModels
             return false;
         }
 
-        private async Task<GoogleResponseModel> GetInfoGoogleUserAsync(string authToken)
+        private async Task<bool> IsValidModelAsync()
         {
-            var response = await ApiCaller.GetTest(ApiRoutes.GoogleAuth + authToken);
-
-            if (!string.IsNullOrWhiteSpace(response))
+            if (IsRegistration)
             {
-                var googleUserJson = JsonConvert.DeserializeObject<GoogleResponseModel>(response);
+                if (string.IsNullOrWhiteSpace(Email)
+                    || string.IsNullOrWhiteSpace(Password)
+                    || string.IsNullOrWhiteSpace(ConfirmedPassword))
+                {
+                    await AlertDialogService.ShowDialogAsync(Title, "Для регистрации необходимо заполнить все поля", "Понятно");
 
-                return googleUserJson;
+                    return false;
+                }
+
+                if (Password != ConfirmedPassword)
+                {
+                    await AlertDialogService.ShowDialogAsync(Title, "Пароли не совпадают", "Понятно");
+
+                    return false;
+                }
+            }
+            else if (!IsRegistration)
+            {
+                if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+                {
+                    await AlertDialogService.ShowDialogAsync(Title, "Для входа в систему необходимо заполнить все поля", "Понятно");
+
+                    return false;
+                }
             }
 
-            return null;
+            bool isValidEmail = new EmailAddressAttribute().IsValid(Email);
+
+            if (!isValidEmail)
+            {
+                await AlertDialogService.ShowDialogAsync(Title, $"{Email} - введный email не допустим", "Понятно");
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

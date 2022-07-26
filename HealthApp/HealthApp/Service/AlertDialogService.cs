@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using HealthApp.Helpers;
 using HealthApp.Interfaces;
 using HealthApp.Views.Dialogs;

@@ -2,294 +2,365 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
-             xmlns:controls="clr-namespace:HealthApp.Controls"
-             xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:convert="clr-namespace:HealthApp.Converts"
+             xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:controls="clr-namespace:HealthApp.Controls" 
+             xmlns:bhv="clr-namespace:HealthApp.Controls.Behaviors.Entries"
              x:Class="HealthApp.Views.LoginPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <Shell.TitleView>
-        <Grid BackgroundColor="{DynamicResource PageBackgroundColor}"
-              ColumnDefinitions="4*,1*"
-              HorizontalOptions="FillAndExpand"
-              VerticalOptions="FillAndExpand">
-            <Label FontAttributes="Bold"
-                   FontSize="{StaticResource HeadLabelFontSize}"
-                   HorizontalOptions="Center"
-                   Text="Вход"
-                   VerticalOptions="Center" />
-        </Grid>
-    </Shell.TitleView>
+    <ContentPage.Resources>
+        <!-- email valid state -->
+        <convert:EmailStyleValidConverter x:Key="emailStyleConvert">
+            <!-- default email state -->
+            <convert:EmailStyleValidConverter.None>
+                <Style TargetType="controls:TintedCachedImage">
+                    <Setter Property="SvgSource" Value=""/>
+                </Style>
+            </convert:EmailStyleValidConverter.None>
+            <!-- error email state -->
+            <convert:EmailStyleValidConverter.Error>
+                <Style TargetType="controls:TintedCachedImage">
+                    <Setter Property="SvgSource" Value="HealthApp.Resources.Icons.circleError.svg" />
+                    <Setter Property="TintColor" Value="{DynamicResource ErrorColor}"/>
+                </Style>
+            </convert:EmailStyleValidConverter.Error>
+            <!-- success email state -->
+            <convert:EmailStyleValidConverter.Success>
+                <Style TargetType="controls:TintedCachedImage">
+                    <Setter Property="SvgSource" Value="HealthApp.Resources.Icons.circleSuccess.svg" />
+                    <Setter Property="TintColor" Value="{DynamicResource SuccessColor}"/>
+                </Style>
+            </convert:EmailStyleValidConverter.Success>
+        </convert:EmailStyleValidConverter>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
-        <ScrollView VerticalScrollBarVisibility="Never">
-            <StackLayout VerticalOptions="Center">
-                <!-- login content -->
-                <StackLayout>
-                    <StackLayout.Triggers>
-                        <DataTrigger Binding="{Binding IsRegistration}"
-                                     TargetType="StackLayout"
-                                     Value="False">
-                            <Setter Property="IsVisible"
-                                    Value="True"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsRegistration}" 
-                                     TargetType="StackLayout" 
-                                     Value="True">
-                            <Setter Property="IsVisible" 
-                                    Value="False"/>
-                        </DataTrigger>
-                    </StackLayout.Triggers>
-                    <!-- content -->
-                    <Grid RowSpacing="30"
-                          RowDefinitions="Auto,Auto,Auto,Auto">
-                        <!-- login content -->
-                        <StackLayout Grid.Row="0"
-                                     Spacing="5"
-                                     HeightRequest="-1">
-                            <!-- login + password -->
-                            <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                                   Margin="10,0"
-                                   Padding="0"
-                                   CornerRadius="15"
-                                   HeightRequest="120"
-                                   HasShadow="False">
-                                <Grid ColumnDefinitions="*"
-                                      RowDefinitions="*,Auto,*">
-                                    <!-- login entry + icon -->
-                                    <StackLayout Grid.Column="0" 
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0">
-                                        <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
-                                                                          HeightRequest="24"                                                       
-                                                                          Source="resource://HealthApp.Resources.Icons.person.svg"/>
-                                        <Entry Placeholder="Логин"
-                                               PlaceholderColor="{DynamicResource SkeletonColor}"
-                                               FontFamily="Medium"
-                                               HorizontalOptions="FillAndExpand"
-                                               FontSize="{DynamicResource BodyLabelFontSize}"
-                                               Text="{Binding Email}">
-                                        </Entry>
-                                    </StackLayout>
-                                    <!-- password entry + icon -->
-                                    <StackLayout Grid.Column="0"
-                                                 Grid.Row="2"
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0">
-                                        <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
-                                                                          HeightRequest="25"                                                       
-                                                                          Source="resource://HealthApp.Resources.Icons.key.svg"/>
-                                        <Entry Placeholder="Пароль"
-                                               PlaceholderColor="{DynamicResource SkeletonColor}"
-                                               FontFamily="Medium"
-                                               HorizontalOptions="FillAndExpand"
-                                               FontSize="{DynamicResource BodyLabelFontSize}"
-                                               Text="{Binding Password}"
-                                               IsPassword="True">
-                                        </Entry>
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
-                        <!-- login button -->
-                        <StackLayout Grid.Row="1"
+        <StackLayout Spacing="0">
+            <!-- navbar -->
+            <pnck:PancakeView HeightRequest="60"
+                              BackgroundColor="{DynamicResource PageBackgroundColor}"
+                              CornerRadius="0,0,15,15"
+                              Padding="0">
+                <!-- navbar content -->
+                <Grid ColumnDefinitions="60,*,60"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      ColumnSpacing="0"
+                      Padding="20,0">
+                    <!-- back button -->
+                    <StackLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackButtonTapped"/>
+                        </StackLayout.GestureRecognizers>
+                        <Frame Padding="0"
+                               HorizontalOptions="Start"
+                               VerticalOptions="CenterAndExpand">
+                            <controls:TintedCachedImage  SvgSource="HealthApp.Resources.Icons.arrowBack.svg"
+                                                         HeightRequest="25"
+                                                         WidthRequest="15"
+                                                         TintColor="{DynamicResource SecondaryColor}"
+                                                         Aspect="AspectFill">
+                            </controls:TintedCachedImage>
+                        </Frame>
+                    </StackLayout>
+                    <!-- title -->
+                    <Label Grid.Column="1" 
+                           FontAttributes="Bold"
+                           FontSize="{StaticResource HeadLabelFontSize}"
+                           HorizontalOptions="Center"
+                           Text="{Binding Title}"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </pnck:PancakeView>
+            <!-- content -->
+            <ScrollView VerticalScrollBarVisibility="Never"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="Center">
+                    <!-- login content -->
+                    <StackLayout>
+                        <StackLayout.Triggers>
+                            <DataTrigger Binding="{Binding IsRegistration}"
+                                         TargetType="StackLayout"
+                                         Value="False">
+                                <Setter Property="IsVisible"
+                                        Value="True"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsRegistration}" 
+                                         TargetType="StackLayout" 
+                                         Value="True">
+                                <Setter Property="IsVisible" 
+                                        Value="False"/>
+                            </DataTrigger>
+                        </StackLayout.Triggers>
+                        <!-- content -->
+                        <Grid RowSpacing="30"
+                              RowDefinitions="Auto,Auto,Auto,Auto">
+                            <!-- login content -->
+                            <StackLayout Grid.Row="0"
+                                         Spacing="5"
+                                         HeightRequest="-1">
+                                <!-- login + password -->
+                                <Frame BackgroundColor="{DynamicResource ComponentColor}"
+                                       Margin="10,0"
+                                       Padding="0"
+                                       CornerRadius="15"
+                                       HeightRequest="120"
+                                       HasShadow="False">
+                                    <Grid ColumnDefinitions="*"
+                                          RowDefinitions="*,Auto,*">
+                                        <!-- login entry + icon -->
+                                        <Label Text="Email не корректный" InputTransparent="True" VerticalOptions="End" HorizontalOptions="End" Padding="45,0"></Label>
+                                        <StackLayout Grid.Column="0" 
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0">
+                                            <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
+                                                                              HeightRequest="24"     
+                                                                              VerticalOptions="Center"
+                                                                              Source="resource://HealthApp.Resources.Icons.person.svg"/>
+                                            <Entry Placeholder="Логин"
+                                                   TextColor="{DynamicResource SecondaryColor}"
+                                                   PlaceholderColor="{DynamicResource SkeletonColor}"
+                                                   FontFamily="Medium"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   FontSize="{DynamicResource BodyLabelFontSize}"
+                                                   Text="{Binding Email}"
+                                                   VerticalTextAlignment="Center">
+                                                <Entry.Behaviors>
+                                                    <bhv:EmailValidatorBehavior x:Name="emailValidator"/>
+                                                </Entry.Behaviors>
+                                            </Entry>
+                                            <!-- email valid or not -->
+                                            <pnck:PancakeView VerticalOptions="Center">
+                                                <controls:TintedCachedImage Style="{Binding Source={x:Reference emailValidator}, Path=CurrentEmailState, Converter={StaticResource emailStyleConvert}}"
+                                                                            HeightRequest="25"
+                                                                            WidthRequest="25"
+                                                                            Aspect="AspectFill">
+                                                </controls:TintedCachedImage>
+                                            </pnck:PancakeView>
+                                        </StackLayout>
+                                        <!-- password entry + icon -->
+                                        <StackLayout Grid.Column="0"
+                                                     Grid.Row="2"
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0">
+                                            <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
+                                                                              HeightRequest="25"                                                       
+                                                                              Source="resource://HealthApp.Resources.Icons.key.svg"/>
+                                            <Entry Placeholder="Пароль"
+                                                   TextColor="{DynamicResource PrimaryColor}"
+                                                   PlaceholderColor="{DynamicResource SkeletonColor}"
+                                                   FontFamily="Medium"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   FontSize="{DynamicResource BodyLabelFontSize}"
+                                                   Text="{Binding Password}"
+                                                   IsPassword="True">
+                                            </Entry>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                            <!-- login button -->
+                            <StackLayout Grid.Row="1"
                                      Spacing="5"
                                      HeightRequest="-1"
                                      Padding="0,0,0,0">
-                            <Frame BackgroundColor="{DynamicResource AccentColor}"
-                                   Margin="10,0"
-                                   Padding="0"
-                                   CornerRadius="15"
-                                   HeightRequest="60"
-                                   HasShadow="False">
-                                <Grid ColumnDefinitions="*"
-                                      RowDefinitions="*">
-                                    <StackLayout Grid.Column="0" 
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0"
-                                                 xtoll:TouchEffect.NativeAnimation="True">
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AuthorizationCommand}"/>
-                                        </StackLayout.GestureRecognizers>
-                                        <Label FontSize="{StaticResource BodyLabelFontSize}"
-                                               VerticalOptions="Center" 
-                                               HorizontalOptions="CenterAndExpand"
-                                               FontFamily="Bold"
-                                               TextColor="{DynamicResource ButtonTextColor}"
-                                               Text="Вход"/>
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
-                        <!-- login with google -->
-                        <StackLayout Grid.Row="2"
-                                     Spacing="5"
-                                     HeightRequest="-1"
-                                     Padding="0,0,0,0">
-                            <Frame BackgroundColor="{DynamicResource AccentColor}"
-                                   Margin="10,0"
-                                   Padding="0"
-                                   CornerRadius="15"
-                                   HeightRequest="60"
-                                   HasShadow="False">
-                                <Grid ColumnDefinitions="*"
-                                      RowDefinitions="*">
-                                    <StackLayout Grid.Column="0" 
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0"
-                                                 xtoll:TouchEffect.NativeAnimation="True">
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="GoogleAuthorizationTapped"/>
-                                        </StackLayout.GestureRecognizers>
-                                        <Label FontSize="{StaticResource BodyLabelFontSize}"
-                                               VerticalOptions="Center" 
-                                               HorizontalOptions="CenterAndExpand"
-                                               FontFamily="Bold"
-                                               TextColor="{DynamicResource ButtonTextColor}"
-                                               Text="Войти с помощью Google"/>
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
-                        <!-- register link -->
-                        <StackLayout Grid.Row="3">
-                            <Label HorizontalOptions="CenterAndExpand">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="У вас нет аккаунта?"
-                                              FontSize="{StaticResource SmallLabelFontSize}"
-                                              TextColor="{DynamicResource AccentColor}"
-                                              FontFamily="Bold"/>
-                                        <Span Text=" Регистрация"
-                                              FontSize="{StaticResource SmallLabelFontSize}"
-                                              TextColor="{DynamicResource SkeletonColor}"
-                                              FontFamily="Bold">
-                                            <Span.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="RegisterLinkTapped"/>
-                                            </Span.GestureRecognizers>
-                                        </Span>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                        </StackLayout>
-                    </Grid>
+                                <Frame BackgroundColor="{DynamicResource AccentColor}"
+                                       Margin="10,0"
+                                       Padding="0"
+                                       CornerRadius="15"
+                                       HeightRequest="60"
+                                       HasShadow="False">
+                                    <Grid ColumnDefinitions="*"
+                                          RowDefinitions="*">
+                                        <StackLayout Grid.Column="0" 
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0"
+                                                     xtoll:TouchEffect.NativeAnimation="True">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding AuthorizationCommand}"/>
+                                            </StackLayout.GestureRecognizers>
+                                            <Label FontSize="{StaticResource BodyLabelFontSize}"
+                                                   VerticalOptions="Center" 
+                                                   HorizontalOptions="CenterAndExpand"
+                                                   FontFamily="Bold"
+                                                   TextColor="{DynamicResource ButtonTextColor}"
+                                                   Text="Вход"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                            <!-- login with google -->
+                            <StackLayout Grid.Row="2"
+                                         Spacing="5"
+                                         HeightRequest="-1"
+                                         Padding="0,0,0,0">
+                                <pnck:PancakeView BackgroundColor="{DynamicResource AccentColor}"
+                                                  Margin="10,0"
+                                                  Padding="0"
+                                                  CornerRadius="15"
+                                                  HeightRequest="60">
+                                    <Grid ColumnDefinitions="*"
+                                          RowDefinitions="*">
+                                        <StackLayout Grid.Column="0" 
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0"
+                                                     xtoll:TouchEffect.NativeAnimation="True">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnGoogleAuthorizationTapped"/>
+                                            </StackLayout.GestureRecognizers>
+                                            <Label FontSize="{StaticResource BodyLabelFontSize}"
+                                                   VerticalOptions="Center" 
+                                                   HorizontalOptions="CenterAndExpand"
+                                                   FontFamily="Bold"
+                                                   TextColor="{DynamicResource ButtonTextColor}"
+                                                   Text="Войти с помощью Google"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </pnck:PancakeView>
+                            </StackLayout>
+                            <!-- register link -->
+                            <StackLayout Grid.Row="3">
+                                <Label HorizontalOptions="CenterAndExpand">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="У вас нет аккаунта?"
+                                                  FontSize="{StaticResource SmallLabelFontSize}"
+                                                  TextColor="{DynamicResource AccentColor}"
+                                                  FontFamily="Bold"/>
+                                            <Span Text=" Регистрация"
+                                                  FontSize="{StaticResource SmallLabelFontSize}"
+                                                  TextColor="{DynamicResource SkeletonColor}"
+                                                  FontFamily="Bold">
+                                                <Span.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnRegisterLinkTapped"/>
+                                                </Span.GestureRecognizers>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                    <!-- register content -->
+                    <StackLayout>
+                        <StackLayout.Triggers>
+                            <DataTrigger Binding="{Binding IsRegistration}"
+                                         TargetType="StackLayout"
+                                         Value="False">
+                                <Setter Property="IsVisible"
+                                        Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsRegistration}" 
+                                         TargetType="StackLayout" 
+                                         Value="True">
+                                <Setter Property="IsVisible" 
+                                        Value="True"/>
+                            </DataTrigger>
+                        </StackLayout.Triggers>
+                        <!-- content -->
+                        <Grid RowSpacing="30"
+                              RowDefinitions="Auto,Auto,Auto">
+                            <!-- register content -->
+                            <StackLayout Grid.Row="0"
+                                         Spacing="5"
+                                         HeightRequest="-1">
+                                <!-- email + password + again password -->
+                                <Frame BackgroundColor="{DynamicResource ComponentColor}"
+                                       Margin="10,0"
+                                       Padding="0"
+                                       CornerRadius="15"
+                                       HeightRequest="180"
+                                       HasShadow="False">
+                                    <Grid ColumnDefinitions="*"
+                                          RowDefinitions="*,*,*">
+                                        <!-- email entry + icon -->
+                                        <StackLayout Grid.Column="0" 
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0">
+                                            <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
+                                                                              HeightRequest="24"                                                       
+                                                                              Source="resource://HealthApp.Resources.Icons.person.svg"/>
+                                            <Entry Placeholder="Email"
+                                                   PlaceholderColor="{DynamicResource SkeletonColor}"
+                                                   FontFamily="Medium"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   FontSize="{DynamicResource BodyLabelFontSize}"
+                                                   Text="{Binding Email}">
+                                            </Entry>
+                                        </StackLayout>
+                                        <!-- password entry + icon -->
+                                        <StackLayout Grid.Column="0"
+                                                     Grid.Row="1"
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0">
+                                            <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
+                                                                              HeightRequest="25"                                                       
+                                                                              Source="resource://HealthApp.Resources.Icons.key.svg"/>
+                                            <Entry Placeholder="Пароль"
+                                                   PlaceholderColor="{DynamicResource SkeletonColor}"
+                                                   FontFamily="Medium"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   FontSize="{DynamicResource BodyLabelFontSize}"
+                                                   Text="{Binding Password}"
+                                                   IsPassword="True">
+                                            </Entry>
+                                        </StackLayout>
+                                        <!-- again password entry + icon -->
+                                        <StackLayout Grid.Column="0"
+                                                     Grid.Row="2"
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0">
+                                            <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
+                                                                              HeightRequest="25"                                                       
+                                                                              Source="resource://HealthApp.Resources.Icons.key.svg"/>
+                                            <Entry Placeholder="Подтвердите пароль"
+                                                   PlaceholderColor="{DynamicResource SkeletonColor}"
+                                                   FontFamily="Medium"
+                                                   HorizontalOptions="FillAndExpand"
+                                                   FontSize="{DynamicResource BodyLabelFontSize}"
+                                                   Text="{Binding ConfirmedPassword}"
+                                                   IsPassword="True">
+                                            </Entry>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                            <!-- register button -->
+                            <StackLayout Grid.Row="1"
+                                         Spacing="5"
+                                         HeightRequest="-1"
+                                         Padding="0,0,0,0">
+                                <Frame BackgroundColor="{DynamicResource AccentColor}"
+                                       Margin="10,0"
+                                       Padding="0"
+                                       CornerRadius="15"
+                                       HeightRequest="60"
+                                       HasShadow="False">
+                                    <Grid ColumnDefinitions="*"
+                                          RowDefinitions="*">
+                                        <StackLayout Grid.Column="0" 
+                                                     Orientation="Horizontal"
+                                                     Padding="20,0"
+                                                     xtoll:TouchEffect.NativeAnimation="True">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding RegistrationCommand}"/>
+                                            </StackLayout.GestureRecognizers>
+                                            <Label FontSize="{StaticResource BodyLabelFontSize}"
+                                                   VerticalOptions="Center" 
+                                                   HorizontalOptions="CenterAndExpand"
+                                                   FontFamily="Bold"
+                                                   TextColor="{DynamicResource ButtonTextColor}"
+                                                   Text="Регистрация"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
                 </StackLayout>
-                <!-- register content -->
-                <StackLayout>
-                    <StackLayout.Triggers>
-                        <DataTrigger Binding="{Binding IsRegistration}"
-                                     TargetType="StackLayout"
-                                     Value="False">
-                            <Setter Property="IsVisible"
-                                    Value="False"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsRegistration}" 
-                                     TargetType="StackLayout" 
-                                     Value="True">
-                            <Setter Property="IsVisible" 
-                                    Value="True"/>
-                        </DataTrigger>
-                    </StackLayout.Triggers>
-                    <!-- content -->
-                    <Grid RowSpacing="30"
-                          RowDefinitions="Auto,Auto,Auto">
-                        <!-- register content -->
-                        <StackLayout Grid.Row="0"
-                                     Spacing="5"
-                                     HeightRequest="-1">
-                            <!-- email + password + again password -->
-                            <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                                   Margin="10,0"
-                                   Padding="0"
-                                   CornerRadius="15"
-                                   HeightRequest="180"
-                                   HasShadow="False">
-                                <Grid ColumnDefinitions="*"
-                                      RowDefinitions="*,*,*">
-                                    <!-- email entry + icon -->
-                                    <StackLayout Grid.Column="0" 
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0">
-                                        <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
-                                                                          HeightRequest="24"                                                       
-                                                                          Source="resource://HealthApp.Resources.Icons.person.svg"/>
-                                        <Entry Placeholder="Email"
-                                               PlaceholderColor="{DynamicResource SkeletonColor}"
-                                               FontFamily="Medium"
-                                               HorizontalOptions="FillAndExpand"
-                                               FontSize="{DynamicResource BodyLabelFontSize}"
-                                               Text="{Binding Email}">
-                                        </Entry>
-                                    </StackLayout>
-                                    <!-- password entry + icon -->
-                                    <StackLayout Grid.Column="0"
-                                                 Grid.Row="1"
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0">
-                                        <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
-                                                                          HeightRequest="25"                                                       
-                                                                          Source="resource://HealthApp.Resources.Icons.key.svg"/>
-                                        <Entry Placeholder="Пароль"
-                                               PlaceholderColor="{DynamicResource SkeletonColor}"
-                                               FontFamily="Medium"
-                                               HorizontalOptions="FillAndExpand"
-                                               FontSize="{DynamicResource BodyLabelFontSize}"
-                                               Text="{Binding Password}"
-                                               IsPassword="True">
-                                        </Entry>
-                                    </StackLayout>
-                                    <!-- again password entry + icon -->
-                                    <StackLayout Grid.Column="0"
-                                                 Grid.Row="2"
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0">
-                                        <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
-                                                                          HeightRequest="25"                                                       
-                                                                          Source="resource://HealthApp.Resources.Icons.key.svg"/>
-                                        <Entry Placeholder="Подтвердите пароль"
-                                               PlaceholderColor="{DynamicResource SkeletonColor}"
-                                               FontFamily="Medium"
-                                               HorizontalOptions="FillAndExpand"
-                                               FontSize="{DynamicResource BodyLabelFontSize}"
-                                               Text="{Binding ConfirmedPassword}"
-                                               IsPassword="True">
-                                        </Entry>
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
-                        <!-- register button -->
-                        <StackLayout Grid.Row="1"
-                                     Spacing="5"
-                                     HeightRequest="-1"
-                                     Padding="0,0,0,0">
-                            <Frame BackgroundColor="{DynamicResource AccentColor}"
-                                   Margin="10,0"
-                                   Padding="0"
-                                   CornerRadius="15"
-                                   HeightRequest="60"
-                                   HasShadow="False">
-                                <Grid ColumnDefinitions="*"
-                                      RowDefinitions="*">
-                                    <StackLayout Grid.Column="0" 
-                                                 Orientation="Horizontal"
-                                                 Padding="20,0"
-                                                 xtoll:TouchEffect.NativeAnimation="True">
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding RegistrationCommand}"/>
-                                        </StackLayout.GestureRecognizers>
-                                        <Label FontSize="{StaticResource BodyLabelFontSize}"
-                                               VerticalOptions="Center" 
-                                               HorizontalOptions="CenterAndExpand"
-                                               FontFamily="Bold"
-                                               TextColor="{DynamicResource ButtonTextColor}"
-                                               Text="Регистрация"/>
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
-                    </Grid>
-                </StackLayout>
-            </StackLayout>
-        </ScrollView>
+            </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

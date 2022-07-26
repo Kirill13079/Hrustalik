@@ -2,6 +2,7 @@
 using HealthApp.Common.Model;
 using HealthApp.Common.Model.Helper;
 using HealthApp.Interfaces;
+using HealthApp.Models;
 using HealthApp.ViewModels.Data;
 using MonkeyCache.FileStore;
 using Newtonsoft.Json;
@@ -298,6 +299,20 @@ namespace HealthApp.Service
             catch
             {
             
+            }
+
+            return null;
+        }
+
+        public async Task<GoogleResponseModel> GetInfoGoogleUserAsync(string authToken)
+        {
+            var response = await ApiCaller.GetTest(ApiRoutes.GoogleAuth + authToken);
+
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                var googleUserJson = JsonConvert.DeserializeObject<GoogleResponseModel>(response);
+
+                return googleUserJson;
             }
 
             return null;

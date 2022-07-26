@@ -23,5 +23,7 @@ namespace HealthApp.Interfaces
         Task<Customer> GetCustomerAsync();
 
         Task<List<Author>> GetAuthorsAsync();
+
+        Task<GoogleResponseModel> GetInfoGoogleUserAsync(string authToken);
     }
 }
