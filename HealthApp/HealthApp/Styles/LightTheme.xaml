@@ -11,6 +11,8 @@
     <Color x:Key="ComponentColor">White</Color>
     <Color x:Key="ImageBackgroundColor">#bcbcbc</Color>
     <Color x:Key="ButtonTextColor">White</Color>
+    <Color x:Key="SuccessColor">Green</Color>
+    <Color x:Key="ErrorColor">Red</Color>
 
     <!--  Shell  -->
     <Color x:Key="ShellDisabledColor">#8e8e8e</Color>

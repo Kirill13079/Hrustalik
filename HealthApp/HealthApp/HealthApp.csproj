@@ -39,6 +39,8 @@
     <None Remove="Resources\Icons\bookmark.svg" />
     <None Remove="Resources\Icons\bookmarkFull.svg" />
     <None Remove="Resources\Icons\chat.svg" />
+    <None Remove="Resources\Icons\circleError.svg" />
+    <None Remove="Resources\Icons\circleSuccess.svg" />
     <None Remove="Resources\Icons\close.svg" />
     <None Remove="Resources\Icons\emergency.svg" />
     <None Remove="Resources\Icons\key.svg" />
@@ -81,6 +83,8 @@
     <EmbeddedResource Include="Resources\Icons\bookmark.svg" />
     <EmbeddedResource Include="Resources\Icons\bookmarkFull.svg" />
     <EmbeddedResource Include="Resources\Icons\chat.svg" />
+    <EmbeddedResource Include="Resources\Icons\circleError.svg" />
+    <EmbeddedResource Include="Resources\Icons\circleSuccess.svg" />
     <EmbeddedResource Include="Resources\Icons\close.svg" />
     <EmbeddedResource Include="Resources\Icons\emergency.svg" />
     <EmbeddedResource Include="Resources\Icons\key.svg" />

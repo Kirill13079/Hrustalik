@@ -36,7 +36,7 @@ namespace HealthApp.Controls.Behaviors.Entries
             if (((Entry)sender).Text.Length > 0)
             {
                 bool isValid = Regex.IsMatch(
-                    input: e.NewTextValue,
+                    input: e.NewTextValue.Trim(),
                     pattern: EmailRegex,
                     options: RegexOptions.IgnoreCase,
                     matchTimeout: TimeSpan.FromMilliseconds(250));
