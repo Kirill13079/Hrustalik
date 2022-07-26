@@ -161,7 +161,7 @@ namespace HealthApp.ViewModels
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    Navigation.NavigateToAsync(route: "login", model: Customer);
+                    NavigationService.NavigateToAsync(route: "login", model: Customer);
                 });
 
                 DialogsHelper.ProgressDialog.Hide();
@@ -170,7 +170,7 @@ namespace HealthApp.ViewModels
 
         private void LoginCommandHadler()
         {
-            Navigation.NavigateToAsync(route: "login", model: Customer);
+            NavigationService.NavigateToAsync(route: "login", model: Customer);
         }
 
         private async Task OpenAuthorsAndCategoriesPageCommandHadlerAsync()
@@ -179,7 +179,7 @@ namespace HealthApp.ViewModels
 
             await Task.Delay(100); // show UI
 
-            await Navigation.NavigateToAsync("authorsAndCategories");
+            await NavigationService.NavigateToAsync("authorsAndCategories");
 
             DialogsHelper.ProgressDialog.Hide();
         }

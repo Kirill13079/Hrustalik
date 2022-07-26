@@ -37,7 +37,7 @@ namespace HealthApp.Views
 
         private void OnBackButtonTapped(object sender, EventArgs e)
         {
-            Service.Navigation.GoBackAsync();
+            Service.NavigationService.GoBackAsync();
         }
     }
 }

@@ -10,17 +10,17 @@ namespace HealthApp.Controls
     public class TintedCachedImage : CachedImage
     {
         public static BindableProperty TintColorProperty = BindableProperty.Create(
-            nameof(TintColor),
-            typeof(Color),
-            typeof(TintedCachedImage),
-            Color.Transparent,
+            propertyName: nameof(TintColor),
+            returnType: typeof(Color),
+            declaringType: typeof(TintedCachedImage),
+            defaultValue: Color.Transparent,
             propertyChanged: UpdateColor);
 
         public static BindableProperty SvgSourceProperty = BindableProperty.Create(
-            nameof(TintColor),
-            typeof(string),
-            typeof(TintedCachedImage),
-            null,
+            propertyName: nameof(TintColor),
+            returnType: typeof(string),
+            declaringType: typeof(TintedCachedImage),
+            defaultValue: null,
             propertyChanged: UpdateSvg);
 
         public Color TintColor
@@ -37,14 +37,14 @@ namespace HealthApp.Controls
 
         private static void UpdateColor(BindableObject bindable, object oldColor, object newColor)
         {
-            var oldcolor = (Color)oldColor;
-            var newcolor = (Color)newColor;
+            Color oldcolor = (Color)oldColor;
+            Color newcolor = (Color)newColor;
 
             if (!oldcolor.Equals(newcolor))
             {
-                var view = (TintedCachedImage)bindable;
+                TintedCachedImage view = (TintedCachedImage)bindable;
 
-                var transformations = new List<ITransformation>()
+                List<ITransformation> transformations = new List<ITransformation>()
                 {
                     new TintTransformation(
                         r: (int)(newcolor.R * 255),
@@ -62,7 +62,7 @@ namespace HealthApp.Controls
 
         private static void UpdateSvg(BindableObject bindable, object oldVal, object newVal)
         {
-            var _instance = bindable as TintedCachedImage;
+            TintedCachedImage _instance = bindable as TintedCachedImage;
 
             _instance.Source = SvgImageSource.FromResource(resource: (string)newVal);
         }

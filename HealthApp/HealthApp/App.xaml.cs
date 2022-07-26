@@ -15,8 +15,8 @@ namespace HealthApp
 {
     public partial class App : Application
     {
-        private static ViewModelLocator _viewModelLocator;
-        public static ViewModelLocator ViewModelLocator => _viewModelLocator ?? (_viewModelLocator = new ViewModelLocator());
+        private static ViewModelLocatorService _viewModelLocator;
+        public static ViewModelLocatorService ViewModelLocator => _viewModelLocator ?? (_viewModelLocator = new ViewModelLocatorService());
 
         public App()
         {

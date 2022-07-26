@@ -2,7 +2,7 @@
 
 namespace HealthApp.Helpers
 {
-    public class AuthenticationState
+    public class AuthenticationStateHelper
     {
         public static OAuth2Authenticator Authenticator;
     }

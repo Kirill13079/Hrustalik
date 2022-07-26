@@ -47,12 +47,12 @@ namespace HealthApp.Views
 
         private async void CloseWebTapped(object sender, System.EventArgs e)
         {
-            await Service.Navigation.NavigateRemovePopupPageAsync(this);
+            await Service.NavigationService.NavigateRemovePopupPageAsync(this);
         }
 
         private async void SwipeDownToClosePopupPageCloseAction()
         {
-            await Service.Navigation.NavigateRemovePopupPageAsync(this);
+            await Service.NavigationService.NavigateRemovePopupPageAsync(this);
         }
     }
 }

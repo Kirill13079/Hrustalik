@@ -53,7 +53,7 @@ namespace HealthApp.Views.Components.MainNewsComponents
 
         private void RecordModelTapped(object sender, EventArgs e)
         {
-            Service.Navigation.NavigateToAsync("news", _bindingContext, "main");
+            Service.NavigationService.NavigateToAsync("news", _bindingContext, "main");
         }
 
         private async void ShareRecordModelTapped(object sender, EventArgs e)
@@ -69,7 +69,7 @@ namespace HealthApp.Views.Components.MainNewsComponents
             {
                 url = ApiRoutes.BaseUrl + ApiRoutes.DeleteBookmark + $"/?id={_bindingContext.Id}";
 
-                var response = await ApiCaller.Post(url, _bindingContext.Id);
+                var response = await ApiCallerService.Post(url, _bindingContext.Id);
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {
@@ -83,7 +83,7 @@ namespace HealthApp.Views.Components.MainNewsComponents
                 url = ApiRoutes.BaseUrl + ApiRoutes.AddBookmark;
 
                 var bookmark = new Bookmark { Record = _bindingContext };
-                var response = await ApiCaller.Post(url, bookmark);
+                var response = await ApiCallerService.Post(url, bookmark);
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {

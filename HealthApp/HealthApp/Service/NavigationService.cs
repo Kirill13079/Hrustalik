@@ -8,11 +8,11 @@ using Xamarin.Forms;
 
 namespace HealthApp.Service
 {
-    public class Navigation
+    public class NavigationService
     {
         public static async void NavigateToAsync<T>(string route, T model, string title = null)
         {
-            var parameter = string.Empty;
+            string parameter = string.Empty;
 
             if (model != null)
             {
@@ -22,7 +22,7 @@ namespace HealthApp.Service
 
             ShellNavigationState state = Shell.Current.CurrentState;
 
-            await Shell.Current.GoToAsync($"{state.Location}/{route}?parameter={parameter}&title={title}");
+            await Shell.Current.GoToAsync(state: $"{state.Location}/{route}?parameter={parameter}&title={title}");
 
             Shell.Current.FlyoutIsPresented = false;
         }
@@ -31,7 +31,7 @@ namespace HealthApp.Service
         {
             ShellNavigationState state = Shell.Current.CurrentState;
 
-            await Shell.Current.GoToAsync($"{state.Location}/{route}?title={title}");
+            await Shell.Current.GoToAsync(state: $"{state.Location}/{route}?title={title}");
 
             Shell.Current.FlyoutIsPresented = false;
         }
@@ -40,7 +40,7 @@ namespace HealthApp.Service
         {
             if (PopupNavigation.Instance.PopupStack.Any(predicate: page => page.Equals(popupPage)))
             {
-                await PopupNavigation.Instance.RemovePageAsync(popupPage, true);
+                await PopupNavigation.Instance.RemovePageAsync(popupPage, animate: true);
             }
         }
 

@@ -2,42 +2,42 @@
 using System.Globalization;
 using Xamarin.Forms;
 
+using static HealthApp.Utils.EnumUtility;
+
 namespace HealthApp.Converts
 {
-    using static HealthApp.Utils.EnumUtility;
-
-    public class EmailStyleValidConverter : IValueConverter
+    public class EmailEntryStyleValidConverter : IValueConverter
     {
-        public Style Error { set; get; }
+        public Style ErrorStyle { set; get; }
 
-        public Style Success { set; get; }
+        public Style SuccessStyle { set; get; }
 
-        public Style None { set; get; }
+        public Style NoneStyle { set; get; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Style currentStyleState = None;
+            Style currentEmailEntryStyleState = NoneStyle;
 
             if (value is BehaviorState.EmailEntryState emailState)
             {
                 switch (emailState)
                 {
                     case BehaviorState.EmailEntryState.Error:
-                        currentStyleState = Error;
+                        currentEmailEntryStyleState = ErrorStyle;
                         break;
                     case BehaviorState.EmailEntryState.Success:
-                        currentStyleState = Success;
+                        currentEmailEntryStyleState = SuccessStyle;
                         break;
                     case BehaviorState.EmailEntryState.None:
-                        currentStyleState = None;
+                        currentEmailEntryStyleState = NoneStyle;
                         break;
                     default:
-                        currentStyleState = None;
+                        currentEmailEntryStyleState = NoneStyle;
                         break;
                 }
             }
 
-            return currentStyleState;
+            return currentEmailEntryStyleState;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

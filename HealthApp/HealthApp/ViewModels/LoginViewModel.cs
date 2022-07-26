@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System;
 using HealthApp.Common;
 using System.ComponentModel.DataAnnotations;
+using HealthApp.Models;
 
 namespace HealthApp.ViewModels
 {
@@ -104,8 +105,8 @@ namespace HealthApp.ViewModels
 
                 if (scheme.Equals("Google"))
                 {
-                    var authUrl = new Uri($"{ApiRoutes.BaseUrl}{ApiRoutes.MobileAuth}/{scheme}");
-                    var callbackUrl = new Uri($"{Constants.CallbackDataSchema}://");
+                    Uri authUrl = new Uri($"{ApiRoutes.BaseUrl}{ApiRoutes.MobileAuth}/{scheme}");
+                    Uri callbackUrl = new Uri($"{Constants.CallbackDataSchema}://");
 
                     result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
                 }
@@ -116,11 +117,11 @@ namespace HealthApp.ViewModels
 
                     if (!string.IsNullOrWhiteSpace(authToken))
                     {
-                        var googleResponse = await ApiManagerService.GetInfoGoogleUserAsync(authToken);
+                        GoogleResponseModel googleResponse = await ApiManagerService.GetInfoGoogleUserAsync(authToken);
 
                         if (googleResponse != null)
                         {
-                            var userInfo = new Login
+                            Login userInfo = new Login
                             {
                                 Email = googleResponse.Email,
                                 Password = authToken,
@@ -149,7 +150,7 @@ namespace HealthApp.ViewModels
 
             if (isValidModel)
             {
-                var userInfo = new Login
+                Login userInfo = new Login
                 {
                     Email = Email.Trim(),
                     Password = Password
@@ -170,7 +171,7 @@ namespace HealthApp.ViewModels
 
             if (isValidModel)
             {
-                var userInfo = new Login
+                Login userInfo = new Login
                 {
                     Email = Email.Trim(),
                     Password = Password
@@ -193,8 +194,9 @@ namespace HealthApp.ViewModels
 
                 if (userInfo != null)
                 {
-                    var response = await ApiCaller.Post(url, userInfo);
-                    var result = await LoginResponseAsync(response);
+                    string response = await ApiCallerService.Post(url, model: userInfo);
+
+                    bool result = await LoginResponseAsync(response);
 
                     return result;
                 }
@@ -207,7 +209,7 @@ namespace HealthApp.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(response))
             {
-                var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
+                LoginResponse loginResponse = JsonConvert.DeserializeObject<LoginResponse>(response);
 
                 App.ViewModelLocator.SettingsVM.IsLoggedIn = true;
                 App.ViewModelLocator.SettingsVM.Customer = loginResponse.Customer;
@@ -225,7 +227,7 @@ namespace HealthApp.ViewModels
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    Navigation.GoBackAsync();
+                    NavigationService.GoBackAsync();
                 });
 
                 return true;

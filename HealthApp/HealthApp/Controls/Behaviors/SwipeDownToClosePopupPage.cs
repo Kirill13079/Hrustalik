@@ -17,21 +17,9 @@ namespace HealthApp.Controls.Behaviors
             propertyName: nameof(ClosingTimeInMs),
             returnType: typeof(long),
             declaringType: typeof(SwipeDownToClosePopupPage),
-            defaultValue: Convert.ToInt64(500), 
+            defaultValue: Convert.ToInt64(500),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: ClosingTimeInMsPropertyChanged);
-
-        public double ClosingEdge
-        {
-            get => (double)GetValue(ClosingEdgeProperty);
-            set => SetValue(ClosingEdgeProperty, Convert.ToDouble(value));
-        }
-
-        public long ClosingTimeInMs
-        {
-            get => (long)GetValue(ClosingTimeInMsProperty);
-            set => SetValue(ClosingTimeInMsProperty, Convert.ToInt64(value));
-        }
 
         public event Action CloseAction;
 
@@ -45,9 +33,26 @@ namespace HealthApp.Controls.Behaviors
 
         private double _totalY;
 
+        public SwipeDownToClosePopupPage()
+        {
+            _panGestureRecognizer = new PanGestureRecognizer();
+        }
+
+        public double ClosingEdge
+        {
+            get => (double)GetValue(ClosingEdgeProperty);
+            set => SetValue(ClosingEdgeProperty, Convert.ToDouble(value));
+        }
+
+        public long ClosingTimeInMs
+        {
+            get => (long)GetValue(ClosingTimeInMsProperty);
+            set => SetValue(ClosingTimeInMsProperty, Convert.ToInt64(value));
+        }
+
         private static void ClosingEdgePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = (SwipeDownToClosePopupPage)bindable;
+            SwipeDownToClosePopupPage control = (SwipeDownToClosePopupPage)bindable;
 
             if (newValue != null)
             {
@@ -57,17 +62,12 @@ namespace HealthApp.Controls.Behaviors
 
         private static void ClosingTimeInMsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = (SwipeDownToClosePopupPage)bindable;
+            SwipeDownToClosePopupPage control = (SwipeDownToClosePopupPage)bindable;
 
             if (newValue != null)
             {
                 control.ClosingTimeInMs = Convert.ToInt64(newValue);
             }
-        }
-
-        public SwipeDownToClosePopupPage()
-        {
-            _panGestureRecognizer = new PanGestureRecognizer();
         }
 
         protected override void OnAttachedTo(View v)
@@ -90,46 +90,52 @@ namespace HealthApp.Controls.Behaviors
 
         private void Pan_PanUpdated(object sender, PanUpdatedEventArgs e)
         {
-            var v = sender as View;
+            View v = sender as View;
 
             switch (e.StatusType)
             {
                 case GestureStatus.Started:
-                    _startPanDownTime = DateTime.Now;
-                    break;
-
-                case GestureStatus.Running:
-                    _totalY = e.TotalY;
-                    if (_totalY > 0)
                     {
-                        if (Device.RuntimePlatform == Device.Android)
+                        _startPanDownTime = DateTime.Now;
+                        break;
+                    }
+                case GestureStatus.Running:
+                    {
+                        _totalY = e.TotalY;
+
+                        if (_totalY > 0)
                         {
-                            _ = v.TranslateTo(0, _totalY + v.TranslationY, 20, Easing.Linear);
+                            if (Device.RuntimePlatform == Device.Android)
+                            {
+                                _ = v.TranslateTo(0, _totalY + v.TranslationY, 20, Easing.Linear);
 
-                            _reachedEdge = _totalY + v.TranslationY > v.Height - ClosingEdge;
+                                _reachedEdge = _totalY + v.TranslationY > v.Height - ClosingEdge;
+                            }
+
+                            else
+                            {
+                                _ = v.TranslateTo(0, _totalY, 20, Easing.Linear);
+
+                                _reachedEdge = _totalY > v.Height - ClosingEdge;
+                            }
                         }
+                        break;
+                    }
+                case GestureStatus.Completed:
+                    {
+                        _endPanDownTime = DateTimeOffset.Now;
 
+                        if ((_endPanDownTime.Value.ToUnixTimeMilliseconds() - _startPanDownTime.Value.ToUnixTimeMilliseconds() < ClosingTimeInMs && _totalY > 0)
+                            || _reachedEdge)
+                        {
+                            CloseAction?.Invoke();
+                        }
                         else
                         {
-                            _ = v.TranslateTo(0, _totalY, 20, Easing.Linear);
-
-                            _reachedEdge = _totalY > v.Height - ClosingEdge;
+                            _ = v.TranslateTo(0, 0, 20, Easing.Linear);
                         }
+                        break;
                     }
-                    break;
-
-                case GestureStatus.Completed:
-                    _endPanDownTime = DateTimeOffset.Now;
-                    if ((_endPanDownTime.Value.ToUnixTimeMilliseconds() - _startPanDownTime.Value.ToUnixTimeMilliseconds() < ClosingTimeInMs && _totalY > 0)
-                        || _reachedEdge)
-                    {
-                        CloseAction?.Invoke();
-                    }
-                    else
-                    {
-                        _ = v.TranslateTo(0, 0, 20, Easing.Linear);
-                    }
-                    break;
                 case GestureStatus.Canceled:
                     break;
                 default:

@@ -11,29 +11,29 @@
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <ContentPage.Resources>
-        <!-- email valid state -->
-        <convert:EmailStyleValidConverter x:Key="emailStyleConvert">
+        <!-- email entry valid state -->
+        <convert:EmailEntryStyleValidConverter x:Key="emailStyleConvert">
             <!-- default email state -->
-            <convert:EmailStyleValidConverter.None>
+            <convert:EmailEntryStyleValidConverter.NoneStyle>
                 <Style TargetType="controls:TintedCachedImage">
                     <Setter Property="SvgSource" Value=""/>
                 </Style>
-            </convert:EmailStyleValidConverter.None>
+            </convert:EmailEntryStyleValidConverter.NoneStyle>
             <!-- error email state -->
-            <convert:EmailStyleValidConverter.Error>
+            <convert:EmailEntryStyleValidConverter.ErrorStyle>
                 <Style TargetType="controls:TintedCachedImage">
                     <Setter Property="SvgSource" Value="HealthApp.Resources.Icons.circleError.svg" />
                     <Setter Property="TintColor" Value="{DynamicResource ErrorColor}"/>
                 </Style>
-            </convert:EmailStyleValidConverter.Error>
+            </convert:EmailEntryStyleValidConverter.ErrorStyle>
             <!-- success email state -->
-            <convert:EmailStyleValidConverter.Success>
+            <convert:EmailEntryStyleValidConverter.SuccessStyle>
                 <Style TargetType="controls:TintedCachedImage">
                     <Setter Property="SvgSource" Value="HealthApp.Resources.Icons.circleSuccess.svg" />
                     <Setter Property="TintColor" Value="{DynamicResource SuccessColor}"/>
                 </Style>
-            </convert:EmailStyleValidConverter.Success>
-        </convert:EmailStyleValidConverter>
+            </convert:EmailEntryStyleValidConverter.SuccessStyle>
+        </convert:EmailEntryStyleValidConverter>
     </ContentPage.Resources>
 
     <ContentPage.Content>

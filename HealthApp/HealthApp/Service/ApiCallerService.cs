@@ -1,33 +1,35 @@
-﻿using HealthApp.Helpers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+
 using static HealthApp.Helpers.DialogsHelper;
 
 namespace HealthApp.Service
 {
-    public class ApiCaller
+    public class ApiCallerService
     {
         public static async Task<string> Post<T>(string url, T model)
         {
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
-                var token = Preferences.Get("token", null);
+                string token = Preferences.Get("Token", null);
 
                 if (!string.IsNullOrWhiteSpace(token))
                 {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); 
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "Bearer", parameter: token);
                 }
 
-                var json = JsonConvert.SerializeObject(model);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(
+                    content: JsonConvert.SerializeObject(model),
+                    encoding: Encoding.UTF8,
+                    mediaType: "application/json");
 
                 try
                 {
-                    var request = await client.PostAsync(url, content);
+                    HttpResponseMessage request = await client.PostAsync(url, content);
 
                     if (request.IsSuccessStatusCode)
                     {
@@ -43,7 +45,7 @@ namespace HealthApp.Service
                 catch
                 {
                     HandleDialogMessage(Errors.NetworkError);
-                    
+
                     return null;
                 }
             }
@@ -51,16 +53,16 @@ namespace HealthApp.Service
 
         public static async Task<string> Get(string url)
         {
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
-                var token = Preferences.Get("token", null);
+                string token = Preferences.Get("Token", null);
 
                 if (!string.IsNullOrWhiteSpace(token))
                 {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); 
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "Bearer", parameter: token);
                 }
 
-                var request = await client.GetAsync(url);
+                HttpResponseMessage request = await client.GetAsync(url);
 
                 return request.IsSuccessStatusCode ? await request.Content.ReadAsStringAsync() : null;
             }
@@ -68,9 +70,9 @@ namespace HealthApp.Service
 
         public static async Task<string> GetTest(string url)
         {
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
-                var request = await client.GetAsync(url);
+                HttpResponseMessage request = await client.GetAsync(url);
 
                 return request.IsSuccessStatusCode ? await request.Content.ReadAsStringAsync() : null;
             }

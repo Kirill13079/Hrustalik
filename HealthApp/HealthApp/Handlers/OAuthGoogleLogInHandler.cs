@@ -57,7 +57,7 @@ namespace HealthApp.Handlers
             authenticator.Completed += OnAuthCompleted;
             authenticator.Error += OnAuthError;
 
-            AuthenticationState.Authenticator = authenticator;
+            AuthenticationStateHelper.Authenticator = authenticator;
 
             var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
             presenter.Login(authenticator);

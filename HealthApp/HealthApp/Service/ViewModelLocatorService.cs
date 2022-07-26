@@ -2,7 +2,7 @@
 
 namespace HealthApp.Service
 {
-    public class ViewModelLocator
+    public class ViewModelLocatorService
     {
         private MainViewModel _mainVm;
         public MainViewModel MainVm => _mainVm ?? (_mainVm = new MainViewModel());
@@ -20,7 +20,7 @@ namespace HealthApp.Service
 
         public AuthorsAndCategoriesViewModel AuthorsAndCategoriesVm => new AuthorsAndCategoriesViewModel();
 
-        public ViewModelLocator()
+        public ViewModelLocatorService()
         {
             _mainVm = new MainViewModel();
             _categoryVm = new CategoryViewModel();

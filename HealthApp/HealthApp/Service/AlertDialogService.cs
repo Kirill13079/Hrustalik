@@ -18,7 +18,7 @@ namespace HealthApp.Service
                 DialogsHelper.ProgressDialog.Hide();
             }
 
-            var dialog = new DisplayAlert(title, message, accept);
+            DisplayAlert dialog = new DisplayAlert(title, message, accept);
 
             await Application.Current.MainPage.Navigation.PushPopupAsync(dialog);
         }
@@ -27,7 +27,7 @@ namespace HealthApp.Service
         {
             _taskCompletionSource = new TaskCompletionSource<bool>();
 
-            var dialogSheet = new DisplayAlertSheet(title, message, accept, cancel, Callback);
+            DisplayAlertSheet dialogSheet = new DisplayAlertSheet(title, message, accept, cancel, Callback);
 
             await Application.Current.MainPage.Navigation.PushPopupAsync(dialogSheet);
 

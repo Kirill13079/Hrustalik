@@ -46,7 +46,7 @@ namespace HealthApp.Views.Components.PopupComponents
             {
                 url = ApiRoutes.BaseUrl + ApiRoutes.DeleteBookmark + $"/?id={_currentRecord.Id}";
 
-                var response = await ApiCaller.Post(url, _currentRecord.Id);
+                var response = await ApiCallerService.Post(url, _currentRecord.Id);
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {
@@ -62,7 +62,7 @@ namespace HealthApp.Views.Components.PopupComponents
                 url = ApiRoutes.BaseUrl + ApiRoutes.AddBookmark;
 
                 var bookmark = new Bookmark { Record = _currentRecord };
-                var response = await ApiCaller.Post(url, bookmark);
+                var response = await ApiCallerService.Post(url, bookmark);
 
                 if (!string.IsNullOrWhiteSpace(response))
                 {
@@ -89,7 +89,7 @@ namespace HealthApp.Views.Components.PopupComponents
 
         private async void OpenLinkRecordTapped(object sender, EventArgs e)
         {
-            await Service.Navigation.NavigateRemovePopupPageAsync(this);
+            await Service.NavigationService.NavigateRemovePopupPageAsync(this);
 
             DialogsHelper.ProgressDialog.Show();
 

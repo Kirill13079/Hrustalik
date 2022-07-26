@@ -31,21 +31,21 @@ namespace HealthApp.Service
                 {
                     string url = ApiRoutes.BaseUrl + ApiRoutes.GetCustomer;
 
-                    var response = await ApiCaller.Get(url);
+                    string response = await ApiCallerService.Get(url);
 
                     if (!string.IsNullOrWhiteSpace(response))
                     {
-                        var customer = JsonConvert.DeserializeObject<Customer>(response);
+                        Customer customer = JsonConvert.DeserializeObject<Customer>(response);
 
                         return customer;
                     }
-                    else 
+                    else
                     {
                         Settings.RemoveSetting(prefrence: Settings.AppPrefrences.token);
                     }
                 }
             }
-            catch 
+            catch
             {
             
             }
@@ -65,11 +65,11 @@ namespace HealthApp.Service
                     return Barrel.Current.Get<List<Bookmark>>(key: url);
                 }
 
-                var result = await ApiCaller.Get(url);
+                string result = await ApiCallerService.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var bookmarks = JsonConvert.DeserializeObject<List<Bookmark>>(result);
+                    List<Bookmark> bookmarks = JsonConvert.DeserializeObject<List<Bookmark>>(result);
 
                     bookmarks.ForEach((bookmark) =>
                     {
@@ -82,7 +82,7 @@ namespace HealthApp.Service
                     return bookmarks;
                 }
             }
-            catch 
+            catch
             {
             
             }
@@ -102,18 +102,18 @@ namespace HealthApp.Service
                     return Barrel.Current.Get<List<Category>>(key: url);
                 }
 
-                var result = await ApiCaller.Get(url);
+                string result = await ApiCallerService.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var categories = JsonConvert.DeserializeObject<List<Category>>(result);
+                    List<Category> categories = JsonConvert.DeserializeObject<List<Category>>(result);
 
                     Barrel.Current.Add(key: url, data: categories, expireIn: TimeSpan.FromDays(1));
 
                     return categories;
                 }
             }
-            catch 
+            catch
             {
 
             }
@@ -133,11 +133,11 @@ namespace HealthApp.Service
                     return Barrel.Current.Get<List<RecordViewModel>>(key: url);
                 }
 
-                var result = await ApiCaller.Get(url);
+                string result = await ApiCallerService.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
+                    List<RecordViewModel> records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
 
                     records.ForEach((record) =>
                     {
@@ -150,9 +150,9 @@ namespace HealthApp.Service
                     return records;
                 }
             }
-            catch 
+            catch
             {
-            
+
             }
 
             return null;
@@ -170,11 +170,11 @@ namespace HealthApp.Service
                     return Barrel.Current.Get<RecordViewModel>(key: url);
                 }
 
-                var result = await ApiCaller.Get(url);
+                string result = await ApiCallerService.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var record = JsonConvert.DeserializeObject<RecordViewModel>(result);
+                    RecordViewModel record = JsonConvert.DeserializeObject<RecordViewModel>(result);
 
                     record.Image = $"{ApiRoutes.BaseUrl}/RecordImages/{record.Image}";
                     record.Author.Logo = $"{ApiRoutes.BaseUrl}/AuthorImages/{record.Author.Logo}";
@@ -204,11 +204,11 @@ namespace HealthApp.Service
                     return Barrel.Current.Get<List<RecordViewModel>>(key: url);
                 }
 
-                var result = await ApiCaller.Get(url);
+                string result = await ApiCallerService.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
+                    List<RecordViewModel> records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
 
                     records.ForEach((record) =>
                     {
@@ -223,9 +223,9 @@ namespace HealthApp.Service
                     return records;
                 }
             }
-            catch 
+            catch
             {
-            
+
             }
 
             return null;
@@ -243,11 +243,11 @@ namespace HealthApp.Service
                     return Barrel.Current.Get<List<RecordViewModel>>(key: url);
                 }
 
-                var result = await ApiCaller.Get(url);
+                string result = await ApiCallerService.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
+                    List<RecordViewModel> records = JsonConvert.DeserializeObject<List<RecordViewModel>>(result);
 
                     records.ForEach((record) =>
                     {
@@ -260,9 +260,9 @@ namespace HealthApp.Service
                     return records.ToList();
                 }
             }
-            catch 
+            catch
             {
-            
+
             }
 
             return null;
@@ -280,11 +280,11 @@ namespace HealthApp.Service
                     return Barrel.Current.Get<List<Author>>(key: url);
                 }
 
-                var result = await ApiCaller.Get(url);
+                string result = await ApiCallerService.Get(url);
 
                 if (!string.IsNullOrWhiteSpace(result))
                 {
-                    var authors = JsonConvert.DeserializeObject<List<Author>>(result);
+                    List<Author> authors = JsonConvert.DeserializeObject<List<Author>>(result);
 
                     authors.ForEach((author) =>
                     {
@@ -298,7 +298,7 @@ namespace HealthApp.Service
             }
             catch
             {
-            
+
             }
 
             return null;
@@ -306,11 +306,11 @@ namespace HealthApp.Service
 
         public async Task<GoogleResponseModel> GetInfoGoogleUserAsync(string authToken)
         {
-            var response = await ApiCaller.GetTest(ApiRoutes.GoogleAuth + authToken);
+            string response = await ApiCallerService.GetTest(ApiRoutes.GoogleAuth + authToken);
 
             if (!string.IsNullOrWhiteSpace(response))
             {
-                var googleUserJson = JsonConvert.DeserializeObject<GoogleResponseModel>(response);
+                GoogleResponseModel googleUserJson = JsonConvert.DeserializeObject<GoogleResponseModel>(response);
 
                 return googleUserJson;
             }
