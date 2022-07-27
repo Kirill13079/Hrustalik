@@ -17,7 +17,7 @@ namespace HealthApp.Views
             BindingContext = App.ViewModelLocator.LoginVm;
             _bindingContext = BindingContext as LoginViewModel;
 
-            _bindingContext.Title = "Вход";
+            _bindingContext?.СhangeStateLoginPageCommand.Execute(false);
 
             Shell.SetNavBarIsVisible(this, false);
             Shell.SetTabBarIsVisible(this, false);
@@ -30,14 +30,12 @@ namespace HealthApp.Views
 
         private void OnRegisterLinkTapped(object sender, EventArgs e)
         {
-            _bindingContext.IsRegistration = true;
-
-            _bindingContext.Title = "Регистрация";
+            _bindingContext?.СhangeStateLoginPageCommand.Execute(true);
         }
 
         private void OnBackButtonTapped(object sender, EventArgs e)
         {
-            Service.NavigationService.GoBackAsync();
+            _bindingContext?.GoBackPageCommand.Execute(null);
         }
     }
 }

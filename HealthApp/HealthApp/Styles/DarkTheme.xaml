@@ -3,12 +3,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="HealthApp.Styles.DarkTheme">
     <!--  Global  -->
+    <Color x:Key="PageBackgroundColor">#000000</Color>
+    <Color x:Key="ComponentColor">#1C1C1E</Color>
+    <Color x:Key="AccentColor">#2174F2</Color>
     <Color x:Key="PrimaryColor">Black</Color>
     <Color x:Key="SecondaryColor">White</Color>
+
     <Color x:Key="TertiaryColor">#434343</Color>
-    <Color x:Key="AccentColor">#0088cc</Color>
-    <Color x:Key="PageBackgroundColor">#212330</Color>
-    <Color x:Key="ComponentColor">#252837</Color>
     <Color x:Key="ImageBackgroundColor">#666472</Color>
     <Color x:Key="ButtonTextColor">White</Color>
     <Color x:Key="SuccessColor">Green</Color>
@@ -16,13 +17,13 @@
 
     <!--  Shell  -->
     <Color x:Key="ShellDisabledColor">Gray</Color>
-    <Color x:Key="ShellBackgroundColor">#1F1D2B</Color>
+    <Color x:Key="ShellBackgroundColor">#1C1C1E</Color>
     <Color x:Key="ShellForegroundColor">White</Color>
-    <Color x:Key="ShellTabBarBackgroundColor">#1F1D2B</Color>
+    <Color x:Key="ShellTabBarBackgroundColor">#1C1C1E</Color>
     <Color x:Key="ShellTabBarDisabledColor">Gray</Color>
     <Color x:Key="ShellTabBarForegroundColor">White</Color>
     <Color x:Key="ShellTabBarUnselectedColor">Gray</Color>
-    <Color x:Key="ShellTitleColor">#0088cc</Color>
+    <Color x:Key="ShellTitleColor">#2174F2</Color>
     <Color x:Key="ShellUnselectedColor">Gray</Color>
 
     <!--  Shimmer  -->

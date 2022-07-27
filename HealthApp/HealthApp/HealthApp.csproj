@@ -127,6 +127,11 @@
     <Compile Update="Controls\CircleCheckboxView.xaml.cs">
       <DependentUpon>CircleCheckboxView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Language\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\Dialogs\DisplayAlert.xaml.cs">
       <DependentUpon>DisplayAlert.xaml</DependentUpon>
     </Compile>
@@ -141,6 +146,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CircleCheckboxView.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Language\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Styles\DarkTheme.xaml">
       <Generator>MSBuild:Compile</Generator>

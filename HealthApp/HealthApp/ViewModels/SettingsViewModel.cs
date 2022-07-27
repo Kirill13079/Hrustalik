@@ -1,5 +1,6 @@
 ﻿using HealthApp.AppSettings;
 using HealthApp.Common.Model;
+using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Service;
 using HealthApp.ViewModels.Base;
@@ -118,7 +119,7 @@ namespace HealthApp.ViewModels
 
         private void AppThemeChangedCommandHandler(AppThemeViewModel theme)
         {
-            var appTheme = EnumsHelper.ConvertToEnum<Settings.Theme>(theme);
+            var appTheme = theme.ConvertToEnum<Settings.Theme>();
 
             switch (appTheme)
             {

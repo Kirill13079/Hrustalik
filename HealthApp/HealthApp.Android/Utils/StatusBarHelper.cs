@@ -17,11 +17,12 @@ namespace HealthApp.Droid.Utils
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    var currentWindow = GetCurrentWindow();
+                    Window currentWindow = GetCurrentWindow();
+
                     currentWindow.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
                     currentWindow.SetNavigationBarColor(Android.Graphics.Color.Black);
                     currentWindow.SetTitleColor(Android.Graphics.Color.White);
-                    currentWindow.SetStatusBarColor(Android.Graphics.Color.ParseColor("#212121"));
+                    //currentWindow.SetStatusBarColor(Android.Graphics.Color.ParseColor("#212121"));
                 });
             }
         }
@@ -33,11 +34,12 @@ namespace HealthApp.Droid.Utils
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    var currentWindow = GetCurrentWindow();
+                    Window currentWindow = GetCurrentWindow();
+
                     currentWindow.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
                     currentWindow.SetNavigationBarColor(Android.Graphics.Color.ParseColor("#e0e0e0"));
                     currentWindow.SetTitleColor(Android.Graphics.Color.Gray);
-                    currentWindow.SetStatusBarColor(Android.Graphics.Color.ParseColor("#efefef"));
+                    //currentWindow.SetStatusBarColor(Android.Graphics.Color.ParseColor("#efefef"));
                 });
             }
         }
@@ -49,7 +51,8 @@ namespace HealthApp.Droid.Utils
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    var currentWindow = GetCurrentWindow();
+                    Window currentWindow = GetCurrentWindow();
+
                     currentWindow.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
                     currentWindow.SetTitleColor(Android.Graphics.Color.Black);
                     currentWindow.SetNavigationBarColor(Android.Graphics.Color.Black);

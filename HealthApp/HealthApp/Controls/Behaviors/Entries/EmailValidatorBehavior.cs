@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using HealthApp.Utils;
 using Xamarin.Forms;
-
-using static HealthApp.Utils.EnumUtility;
 
 namespace HealthApp.Controls.Behaviors.Entries
 {

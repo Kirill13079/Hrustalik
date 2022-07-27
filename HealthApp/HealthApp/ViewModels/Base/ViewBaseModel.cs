@@ -4,6 +4,7 @@ using HealthApp.Interfaces;
 using HealthApp.Service;
 using MvvmHelpers;
 using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
 
 namespace HealthApp.ViewModels.Base
 {
@@ -40,9 +41,16 @@ namespace HealthApp.ViewModels.Base
 
         public ICommand AuthorizationCommand { get; set; }
 
+        public ICommand GoBackPageCommand { get; }
+
         public ViewBaseModel()
         {
+            GoBackPageCommand = new Command(GoBackPageCommandHandler);
+        }
 
+        private void GoBackPageCommandHandler()
+        {
+            NavigationService.GoBackAsync();
         }
     }
 }

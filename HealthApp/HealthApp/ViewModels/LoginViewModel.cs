@@ -14,6 +14,8 @@ using System;
 using HealthApp.Common;
 using System.ComponentModel.DataAnnotations;
 using HealthApp.Models;
+using HealthApp.Utils;
+using HealthApp.Extensions;
 
 namespace HealthApp.ViewModels
 {
@@ -67,6 +69,8 @@ namespace HealthApp.ViewModels
 
         public ICommand GoogleAuthorizationCommand { get; }
 
+        public ICommand СhangeStateLoginPageCommand { get; }
+
         public LoginViewModel()
         {
             AuthorizationCommand = new Command(async () =>
@@ -93,6 +97,7 @@ namespace HealthApp.ViewModels
 
                 DialogsHelper.ProgressDialog.Hide();
             });
+            СhangeStateLoginPageCommand = new Command((isRegistration) => СhangeStateLoginPageCommandHandler((bool)isRegistration));
         }
 
         private async Task GoogleAuthorizationCommandHandlerAsync()
@@ -132,7 +137,9 @@ namespace HealthApp.ViewModels
 
                             if (!isLogin)
                             {
-                                await AlertDialogService.ShowDialogAsync(Title, "Во время входа в систему произошла ошибка", "Понятно");
+                                await AlertDialogService.ShowDialogAsync(title: Title,
+                                    message: MessageEnum.Error.Login.DisplayName(),
+                                    cancel: MessageEnum.Button.OK.DisplayName());
                             }
                         }
                     }
@@ -140,8 +147,18 @@ namespace HealthApp.ViewModels
             }
             catch (Exception ex)
             {
-                await AlertDialogService.ShowDialogAsync(Title, $"Во время входа в систему произошла ошибка: {ex.Message.ToLower()}", "Понятно");
+                await AlertDialogService.ShowDialogAsync(title: Title,
+                    message: $"{MessageEnum.Error.Login.DisplayName()}: {ex.Message}",
+                    cancel: MessageEnum.Button.OK.DisplayName());
             }
+        }
+
+        private void СhangeStateLoginPageCommandHandler(bool isRegistration)
+        {
+            IsRegistration = isRegistration;
+            Title = IsRegistration
+                ? Resources.Language.Resource.Register
+                : Resources.Language.Resource.Login;
         }
 
         private async Task AuthorizationCommandHadlerAsync()
@@ -156,11 +173,13 @@ namespace HealthApp.ViewModels
                     Password = Password
                 };
 
-                bool isLogin = await AuthorizationUserAsync(userInfo, ApiRoutes.Login);
+                bool isLogin = await AuthorizationUserAsync(userInfo, route: ApiRoutes.Login);
 
                 if (!isLogin)
                 {
-                    await AlertDialogService.ShowDialogAsync(Title, "Во время входа в систему произошла ошибка", "Понятно");
+                    await AlertDialogService.ShowDialogAsync(title: Title,
+                        message: MessageEnum.Error.Login.DisplayName(),
+                        cancel: MessageEnum.Button.OK.DisplayName());
                 }
             }
         }
@@ -181,7 +200,9 @@ namespace HealthApp.ViewModels
 
                 if (!isRegistration)
                 {
-                    await AlertDialogService.ShowDialogAsync(Title, "Во время регистрации произошла ошибка", "Понятно");
+                    await AlertDialogService.ShowDialogAsync(title: Title,
+                        message: MessageEnum.Error.Register.DisplayName(),
+                        cancel: MessageEnum.Button.OK.DisplayName());
                 }
             }
         }
@@ -244,14 +265,18 @@ namespace HealthApp.ViewModels
                     || string.IsNullOrWhiteSpace(Password)
                     || string.IsNullOrWhiteSpace(ConfirmedPassword))
                 {
-                    await AlertDialogService.ShowDialogAsync(Title, "Для регистрации необходимо заполнить все поля", "Понятно");
+                    await AlertDialogService.ShowDialogAsync(title: Title,
+                        message: MessageEnum.Error.EmptyEntry.DisplayName(),
+                        cancel: MessageEnum.Button.OK.DisplayName());
 
                     return false;
                 }
 
                 if (Password != ConfirmedPassword)
                 {
-                    await AlertDialogService.ShowDialogAsync(Title, "Пароли не совпадают", "Понятно");
+                    await AlertDialogService.ShowDialogAsync(title: Title,
+                        message: MessageEnum.Error.ConfirmedPassword.DisplayName(),
+                        cancel: MessageEnum.Button.OK.DisplayName());
 
                     return false;
                 }
@@ -260,7 +285,9 @@ namespace HealthApp.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
                 {
-                    await AlertDialogService.ShowDialogAsync(Title, "Для входа в систему необходимо заполнить все поля", "Понятно");
+                    await AlertDialogService.ShowDialogAsync(title: Title,
+                        message: MessageEnum.Error.EmptyEntry.DisplayName(),
+                        cancel: MessageEnum.Button.OK.DisplayName());
 
                     return false;
                 }
@@ -270,7 +297,9 @@ namespace HealthApp.ViewModels
 
             if (!isValidEmail)
             {
-                await AlertDialogService.ShowDialogAsync(Title, $"{Email} - введный email не допустим", "Понятно");
+                await AlertDialogService.ShowDialogAsync(title: Title,
+                    message: MessageEnum.Error.CorrectEmail.DisplayName(),
+                    cancel: MessageEnum.Button.OK.DisplayName());
 
                 return false;
             }

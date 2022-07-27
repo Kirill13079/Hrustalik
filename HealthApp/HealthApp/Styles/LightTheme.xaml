@@ -3,12 +3,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="HealthApp.Styles.LightTheme">
     <!--  Global  -->
+    <Color x:Key="PageBackgroundColor">#FFFFFF</Color>
+    <Color x:Key="ComponentColor">#F2F2F7</Color>
+    <Color x:Key="AccentColor">#2174F2</Color>
     <Color x:Key="PrimaryColor">White</Color>
     <Color x:Key="SecondaryColor">Black</Color>
+
     <Color x:Key="TertiaryColor">Gray</Color>
-    <Color x:Key="AccentColor">#0088cc</Color>
-    <Color x:Key="PageBackgroundColor">#efefef</Color>
-    <Color x:Key="ComponentColor">White</Color>
     <Color x:Key="ImageBackgroundColor">#bcbcbc</Color>
     <Color x:Key="ButtonTextColor">White</Color>
     <Color x:Key="SuccessColor">Green</Color>
@@ -22,7 +23,7 @@
     <Color x:Key="ShellTabBarDisabledColor">#8e8e8e</Color>
     <Color x:Key="ShellTabBarForegroundColor">Black</Color>
     <Color x:Key="ShellTabBarUnselectedColor">#8e8e8e</Color>
-    <Color x:Key="ShellTitleColor">#0088cc</Color>
+    <Color x:Key="ShellTitleColor">#2174F2</Color>
     <Color x:Key="ShellUnselectedColor">#8e8e8e</Color>
 
     <!--  Shimmer  -->

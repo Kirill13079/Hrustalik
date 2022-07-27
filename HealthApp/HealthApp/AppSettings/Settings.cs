@@ -1,4 +1,5 @@
-﻿using HealthApp.Helpers;
+﻿using HealthApp.Extensions;
+using HealthApp.Helpers;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -26,19 +27,19 @@ namespace HealthApp.AppSettings
 
         public static void AddSetting(AppPrefrences prefrence, string setting)
         {
-            Preferences.Set(key: EnumsHelper.ConvertToString(prefrence), value: setting);
+            Preferences.Set(key: EnumExtension.ConvertToString(prefrence), value: setting);
         }
 
         public static string GetSetting(AppPrefrences prefrence)
         {
-            bool hasKey = Preferences.ContainsKey(key: EnumsHelper.ConvertToString(eff: prefrence));
+            bool hasKey = Preferences.ContainsKey(key: EnumExtension.ConvertToString(prefrence));
 
-            return hasKey ? Preferences.Get(key: EnumsHelper.ConvertToString(prefrence), defaultValue: null) : null;
+            return hasKey ? Preferences.Get(key: EnumExtension.ConvertToString(prefrence), defaultValue: null) : null;
         }
 
         public static void RemoveSetting(AppPrefrences prefrence)
         {
-            Preferences.Remove(EnumsHelper.ConvertToString(eff: prefrence));
+            Preferences.Remove(EnumExtension.ConvertToString(prefrence));
         }
 
         public static void ClearSettings()
@@ -50,7 +51,7 @@ namespace HealthApp.AppSettings
         {
             try
             {
-                await SecureStorage.SetAsync(key: EnumsHelper.ConvertToString(prefrence), value: setting);
+                await SecureStorage.SetAsync(key: EnumExtension.ConvertToString(prefrence), value: setting);
             }
             catch (Exception ex)
             {
@@ -60,12 +61,12 @@ namespace HealthApp.AppSettings
 
         public static async Task<string> GetSecureSetting(AppPrefrences prefrence)
         {
-            return await SecureStorage.GetAsync(key: EnumsHelper.ConvertToString(eff: prefrence));
+            return await SecureStorage.GetAsync(key: EnumExtension.ConvertToString(prefrence));
         }
 
         public static void RemoveSecureSetting(AppPrefrences prefrence)
         {
-            _ = SecureStorage.Remove(key: EnumsHelper.ConvertToString(eff: prefrence));
+            _ = SecureStorage.Remove(key: EnumExtension.ConvertToString(prefrence));
         }
 
         public static void ClearSecureSorage()

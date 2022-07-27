@@ -7,6 +7,7 @@
              xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:controls="clr-namespace:HealthApp.Controls" 
              xmlns:bhv="clr-namespace:HealthApp.Controls.Behaviors.Entries"
+             xmlns:lang="clr-namespace:HealthApp.Resources.Language"
              x:Class="HealthApp.Views.LoginPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
@@ -119,7 +120,7 @@
                                                                               HeightRequest="24"     
                                                                               VerticalOptions="Center"
                                                                               Source="resource://HealthApp.Resources.Icons.person.svg"/>
-                                            <Entry Placeholder="Логин"
+                                            <Entry Placeholder="{x:Static lang:Resource.PlaceholderEmail}"
                                                    TextColor="{DynamicResource SecondaryColor}"
                                                    PlaceholderColor="{DynamicResource SkeletonColor}"
                                                    FontFamily="Medium"
@@ -148,7 +149,7 @@
                                             <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
                                                                               HeightRequest="25"                                                       
                                                                               Source="resource://HealthApp.Resources.Icons.key.svg"/>
-                                            <Entry Placeholder="Пароль"
+                                            <Entry Placeholder="{x:Static lang:Resource.PlaceholderPassword}"
                                                    TextColor="{DynamicResource PrimaryColor}"
                                                    PlaceholderColor="{DynamicResource SkeletonColor}"
                                                    FontFamily="Medium"
@@ -181,12 +182,12 @@
                                             <StackLayout.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding AuthorizationCommand}"/>
                                             </StackLayout.GestureRecognizers>
-                                            <Label FontSize="{StaticResource BodyLabelFontSize}"
+                                            <Label Text="{x:Static lang:Resource.LabelLogin}"
+                                                   FontSize="{StaticResource BodyLabelFontSize}"
                                                    VerticalOptions="Center" 
                                                    HorizontalOptions="CenterAndExpand"
                                                    FontFamily="Bold"
-                                                   TextColor="{DynamicResource ButtonTextColor}"
-                                                   Text="Вход"/>
+                                                   TextColor="{DynamicResource ButtonTextColor}"/>
                                         </StackLayout>
                                     </Grid>
                                 </Frame>
@@ -210,12 +211,12 @@
                                             <StackLayout.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="OnGoogleAuthorizationTapped"/>
                                             </StackLayout.GestureRecognizers>
-                                            <Label FontSize="{StaticResource BodyLabelFontSize}"
+                                            <Label Text="{x:Static lang:Resource.LabelLoginGoogle}"
+                                                   FontSize="{StaticResource BodyLabelFontSize}"
                                                    VerticalOptions="Center" 
                                                    HorizontalOptions="CenterAndExpand"
                                                    FontFamily="Bold"
-                                                   TextColor="{DynamicResource ButtonTextColor}"
-                                                   Text="Войти с помощью Google"/>
+                                                   TextColor="{DynamicResource ButtonTextColor}"/>
                                         </StackLayout>
                                     </Grid>
                                 </pnck:PancakeView>
@@ -225,11 +226,11 @@
                                 <Label HorizontalOptions="CenterAndExpand">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="У вас нет аккаунта?"
+                                            <Span Text="{x:Static lang:Resource.LabelRegisterLinkFirst}"
                                                   FontSize="{StaticResource SmallLabelFontSize}"
                                                   TextColor="{DynamicResource AccentColor}"
                                                   FontFamily="Bold"/>
-                                            <Span Text=" Регистрация"
+                                            <Span Text="{x:Static lang:Resource.LabelRegisterLinkLast}"
                                                   FontSize="{StaticResource SmallLabelFontSize}"
                                                   TextColor="{DynamicResource SkeletonColor}"
                                                   FontFamily="Bold">
@@ -282,7 +283,7 @@
                                             <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
                                                                               HeightRequest="24"                                                       
                                                                               Source="resource://HealthApp.Resources.Icons.person.svg"/>
-                                            <Entry Placeholder="Email"
+                                            <Entry Placeholder="{x:Static lang:Resource.PlaceholderEmail}"
                                                    PlaceholderColor="{DynamicResource SkeletonColor}"
                                                    FontFamily="Medium"
                                                    HorizontalOptions="FillAndExpand"
@@ -298,7 +299,7 @@
                                             <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
                                                                               HeightRequest="25"                                                       
                                                                               Source="resource://HealthApp.Resources.Icons.key.svg"/>
-                                            <Entry Placeholder="Пароль"
+                                            <Entry Placeholder="{x:Static lang:Resource.PlaceholderPassword}"
                                                    PlaceholderColor="{DynamicResource SkeletonColor}"
                                                    FontFamily="Medium"
                                                    HorizontalOptions="FillAndExpand"
@@ -315,7 +316,7 @@
                                             <ffimageloadingsvg:SvgCachedImage WidthRequest="25" 
                                                                               HeightRequest="25"                                                       
                                                                               Source="resource://HealthApp.Resources.Icons.key.svg"/>
-                                            <Entry Placeholder="Подтвердите пароль"
+                                            <Entry Placeholder="{x:Static lang:Resource.PlaceholderConfirmedPassword}"
                                                    PlaceholderColor="{DynamicResource SkeletonColor}"
                                                    FontFamily="Medium"
                                                    HorizontalOptions="FillAndExpand"
@@ -347,12 +348,12 @@
                                             <StackLayout.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding RegistrationCommand}"/>
                                             </StackLayout.GestureRecognizers>
-                                            <Label FontSize="{StaticResource BodyLabelFontSize}"
+                                            <Label Text="{x:Static lang:Resource.LabelRegister}"
+                                                   FontSize="{StaticResource BodyLabelFontSize}"
                                                    VerticalOptions="Center" 
                                                    HorizontalOptions="CenterAndExpand"
                                                    FontFamily="Bold"
-                                                   TextColor="{DynamicResource ButtonTextColor}"
-                                                   Text="Регистрация"/>
+                                                   TextColor="{DynamicResource ButtonTextColor}"/>
                                         </StackLayout>
                                     </Grid>
                                 </Frame>
