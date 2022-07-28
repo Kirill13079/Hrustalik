@@ -154,25 +154,5 @@ namespace HealthApp.Views
                 }
             }
         }
-
-        private void LanguageTapped(object sender, EventArgs e)
-        {
-            Frame frame = (Frame)sender;
-
-            AppLanguageViewModel selectedLanguage = (AppLanguageViewModel)frame.BindingContext;
-
-            if (selectedLanguage != null)
-            {
-                if (!selectedLanguage.IsActive)
-                {
-                    foreach (AppLanguageViewModel language in _bindingContext.AppLanguageItems)
-                    {
-                        language.IsActive = language == selectedLanguage;
-                    }
-
-                    _bindingContext.AppLanguageChangedCommand.Execute(selectedLanguage);
-                }
-            }
-        }
     }
 }

@@ -30,15 +30,7 @@ namespace HealthApp
                 "CollectionView_Experimental"
             });
 
-            LocalizationResourceManager.Current.PropertyChanged += CurrentPropertyChanged;
-            LocalizationResourceManager.Current.Init(Resource.ResourceManager);
-
             MainPage = new AppShell();
-        }
-
-        private void CurrentPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Resource.Culture = LocalizationResourceManager.Current.CurrentCulture;
         }
 
         protected override void OnStart()

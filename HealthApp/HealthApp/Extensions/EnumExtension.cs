@@ -51,10 +51,5 @@ namespace HealthApp.Extensions
         {
             return (EnumType)Enum.Parse(typeof(EnumType), themeModel.Title);
         }
-
-        public static EnumType ConvertToEnum<EnumType>(this AppLanguageViewModel themeModel)
-        {
-            return (EnumType)Enum.Parse(typeof(EnumType), themeModel.Title);
-        }
     }
 }

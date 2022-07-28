@@ -30,7 +30,7 @@
                 <ScrollView x:Name="scrollContainer" 
                             VerticalScrollBarVisibility="Never">
                     <Grid RowSpacing="30"
-                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                           VerticalOptions="Start"
                           Padding="0,15,0,80">
                         <!-- login button -->
@@ -67,7 +67,7 @@
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding LoginCommand}"/>
                                         </StackLayout.GestureRecognizers>
-                                        <Label Text="{xtoll:Translate LabelLogin}"
+                                        <Label Text="{x:Static lang:Resource.LabelLogin}"
                                                FontSize="{DynamicResource BodyLabelFontSize}"
                                                Margin="0,0"
                                                FontFamily="Medium"
@@ -235,77 +235,8 @@
                                 </ScrollView>
                             </Frame>
                         </StackLayout>
-                        <!-- language -->
-                        <StackLayout Grid.Row="3"
-                                     Spacing="5"
-                                     HeightRequest="-1">
-                            <Label Text="{x:Static lang:Resource.LabelLanguage}"
-                                   Margin="10,0,0,0" 
-                                   FontFamily="Bold"
-                                   FontSize="{StaticResource HeadLabelFontSize}"/>
-                            <Frame BackgroundColor="{DynamicResource PageBackgroundColor}"
-                                   Margin="10,0,10,0"
-                                   Padding="0"
-                                   HeightRequest="40"
-                                   HasShadow="False">
-                                <ScrollView HorizontalScrollBarVisibility="Never"
-                                            Orientation="Horizontal">
-                                    <FlexLayout BindableLayout.ItemsSource="{Binding AppLanguageItems}">
-                                        <BindableLayout.ItemTemplate>
-                                            <DataTemplate>
-                                                <pnck:PancakeView Padding="0,0,10,0">
-                                                    <Grid>
-                                                        <!-- not active -->
-                                                        <Frame CornerRadius="10"
-                                                               Padding="10"
-                                                               HasShadow="False"
-                                                               xtoll:TouchEffect.NativeAnimation="True"
-                                                               BackgroundColor="{DynamicResource ComponentColor}">
-                                                            <Frame.GestureRecognizers>
-                                                                <TapGestureRecognizer Tapped="LanguageTapped"/>
-                                                            </Frame.GestureRecognizers>
-                                                            <Frame.Triggers>
-                                                                <DataTrigger Binding="{Binding IsActive}"
-                                                                             TargetType="Frame"
-                                                                             Value="False">
-                                                                    <Setter Property="IsVisible"
-                                                                            Value="True"/>
-                                                                </DataTrigger>
-                                                            </Frame.Triggers>
-                                                            <Label FontSize="{DynamicResource BodyLabelFontSize}"
-                                                                   HorizontalTextAlignment="Center"
-                                                                   VerticalTextAlignment="Center"
-                                                                   TextColor="{DynamicResource SecondaryColor}"
-                                                                   Text="{Binding Subtitle}">
-                                                            </Label>
-                                                        </Frame>
-                                                        <!-- active -->
-                                                        <Frame CornerRadius="10"
-                                                               Padding="10"
-                                                               HasShadow="False"
-                                                               xtoll:TouchEffect.NativeAnimation="True"
-                                                               BackgroundColor="{DynamicResource AccentColor}"
-                                                               IsVisible="{Binding IsActive}">
-                                                            <Frame.GestureRecognizers>
-                                                                <TapGestureRecognizer Tapped="LanguageTapped"/>
-                                                            </Frame.GestureRecognizers>
-                                                            <Label FontSize="{DynamicResource BodyLabelFontSize}"
-                                                                   HorizontalTextAlignment="Center"
-                                                                   VerticalTextAlignment="Center"
-                                                                   TextColor="{DynamicResource ButtonTextColor}"
-                                                                   Text="{Binding Subtitle}">
-                                                            </Label>
-                                                        </Frame>
-                                                    </Grid>
-                                                </pnck:PancakeView>
-                                            </DataTemplate>
-                                        </BindableLayout.ItemTemplate>
-                                    </FlexLayout>
-                                </ScrollView>
-                            </Frame>
-                        </StackLayout>
                         <!-- help -->
-                        <StackLayout Grid.Row="4"
+                        <StackLayout Grid.Row="3"
                                      Spacing="5"
                                      HeightRequest="-1">
                             <Label Text="{x:Static lang:Resource.LabelHelp}" 
@@ -354,7 +285,7 @@
                             </Frame>
                         </StackLayout>
                         <!-- sign out button -->
-                        <StackLayout Grid.Row="5"
+                        <StackLayout Grid.Row="4"
                                      Spacing="5"
                                      IsVisible="{Binding IsLoggedIn}"
                                      HeightRequest="-1"

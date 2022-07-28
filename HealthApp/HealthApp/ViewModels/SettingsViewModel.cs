@@ -38,17 +38,6 @@ namespace HealthApp.ViewModels
             }
         }
 
-        private ObservableRangeCollection<AppLanguageViewModel> _appLanguageItems;
-        public ObservableRangeCollection<AppLanguageViewModel> AppLanguageItems
-        {
-            get => _appLanguageItems;
-            set
-            {
-                _appLanguageItems = value;
-                OnPropertyChanged();
-            }
-        }
-
         private bool _isLoggedIn;
         public bool IsLoggedIn
         {
@@ -62,8 +51,6 @@ namespace HealthApp.ViewModels
 
         public ICommand AppThemeChangedCommand { get; set; }
 
-        public ICommand AppLanguageChangedCommand { get; set; }
-
         public ICommand OpenAuthorsAndCategoriesPageCommand { get; set; }
 
         public SettingsViewModel()
@@ -72,7 +59,6 @@ namespace HealthApp.ViewModels
             SignOutCommand = new Command(async () => await SignOutCommandHandlerAsync());
             OpenAuthorsAndCategoriesPageCommand = new Command(async() => await OpenAuthorsAndCategoriesPageCommandHadlerAsync());
             AppThemeChangedCommand = new Command<AppThemeViewModel>(theme => AppThemeChangedCommandHandler(theme));
-            AppLanguageChangedCommand = new Command<AppLanguageViewModel>(language => AppLanguageChangedCommandHandler(language));
 
             _ = GetSettingsAsync().ConfigureAwait(false);
         }
@@ -93,19 +79,12 @@ namespace HealthApp.ViewModels
             }
 
             SetAppThemeItems();
-            SetAppLanguageItems();
 
             string theme = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppTheme);
-            string language = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppLanguage);
 
             foreach (AppThemeViewModel appTheme in AppThemeItems)
             {
                 appTheme.IsActive = appTheme.Title == theme;
-            }
-
-            foreach (AppLanguageViewModel appLanguage in AppLanguageItems)
-            {
-                appLanguage.IsActive = appLanguage.Title == language;
             }
         }
 
@@ -139,29 +118,6 @@ namespace HealthApp.ViewModels
             };
         }
 
-        private void SetAppLanguageItems()
-        {
-            LanguageHelper.GetAppLanguage();
-
-            AppLanguageItems = new ObservableRangeCollection<AppLanguageViewModel>()
-            {
-                {
-                    new AppLanguageViewModel
-                    {
-                        Title = LanguageEnum.Language.English.ConvertToString(),
-                        Subtitle = LanguageEnum.Language.English.DisplayName()
-                    }
-                },
-                {
-                    new AppLanguageViewModel
-                    {
-                        Title = LanguageEnum.Language.Russian.ConvertToString(),
-                        Subtitle = LanguageEnum.Language.Russian.DisplayName()
-                    }
-                }
-            };
-        }
-
         private void AppThemeChangedCommandHandler(AppThemeViewModel theme)
         {
             ThemeEnum.Theme appTheme = theme.ConvertToEnum<ThemeEnum.Theme>();
@@ -181,13 +137,6 @@ namespace HealthApp.ViewModels
                     ThemeHelper.ChangeToSystemPreferredTheme();
                     break;
             }
-        }
-
-        private void AppLanguageChangedCommandHandler(AppLanguageViewModel language)
-        {
-            LanguageEnum.Language appLanguage = language.ConvertToEnum<LanguageEnum.Language>();
-
-            LanguageHelper.ChangeLanguage(appLanguage);
         }
 
         private async Task SignOutCommandHandlerAsync()

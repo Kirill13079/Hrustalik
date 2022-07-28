@@ -11,7 +11,6 @@ namespace HealthApp.AppSettings
         public enum AppPrefrences
         {
             AppTheme,
-            AppLanguage,
             User,
             Authors,
             Categories,
