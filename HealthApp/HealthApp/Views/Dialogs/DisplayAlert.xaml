@@ -20,7 +20,7 @@
     <pnck:PancakeView HeightRequest="-1"
                       VerticalOptions="Center"
                       CornerRadius="15"
-                      BackgroundColor="{DynamicResource PageBackgroundColor}"
+                      BackgroundColor="{DynamicResource ComponentColor}"
                       Margin="20"
                       Padding="0">
         <!-- content -->

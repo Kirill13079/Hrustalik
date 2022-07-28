@@ -70,6 +70,15 @@ namespace HealthApp.Resources.Language {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Темная.
+        /// </summary>
+        public static string DarkTheme {
+            get {
+                return ResourceManager.GetString("DarkTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Пароли не совпадают.
         /// </summary>
         public static string ErrorConfirmedPassword {
@@ -124,6 +133,42 @@ namespace HealthApp.Resources.Language {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Категории и авторы.
+        /// </summary>
+        public static string LabelCategoryAndAuthor {
+            get {
+                return ResourceManager.GetString("LabelCategoryAndAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Политика конфиденциальности.
+        /// </summary>
+        public static string LabelCopyrating {
+            get {
+                return ResourceManager.GetString("LabelCopyrating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Помощь.
+        /// </summary>
+        public static string LabelHelp {
+            get {
+                return ResourceManager.GetString("LabelHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Язык.
+        /// </summary>
+        public static string LabelLanguage {
+            get {
+                return ResourceManager.GetString("LabelLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Вход.
         /// </summary>
         public static string LabelLogin {
@@ -138,6 +183,42 @@ namespace HealthApp.Resources.Language {
         public static string LabelLoginGoogle {
             get {
                 return ResourceManager.GetString("LabelLoginGoogle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выйти.
+        /// </summary>
+        public static string LabelLogout {
+            get {
+                return ResourceManager.GetString("LabelLogout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Общие.
+        /// </summary>
+        public static string LabelMoreSettings {
+            get {
+                return ResourceManager.GetString("LabelMoreSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Уведомления.
+        /// </summary>
+        public static string LabelNotification {
+            get {
+                return ResourceManager.GetString("LabelNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Задать вопрос.
+        /// </summary>
+        public static string LabelQuestion {
+            get {
+                return ResourceManager.GetString("LabelQuestion", resourceCulture);
             }
         }
         
@@ -165,6 +246,51 @@ namespace HealthApp.Resources.Language {
         public static string LabelRegisterLinkLast {
             get {
                 return ResourceManager.GetString("LabelRegisterLinkLast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Настройки.
+        /// </summary>
+        public static string LabelSetting {
+            get {
+                return ResourceManager.GetString("LabelSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Тема.
+        /// </summary>
+        public static string LabelTheme {
+            get {
+                return ResourceManager.GetString("LabelTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Англиский.
+        /// </summary>
+        public static string LanguageEnglish {
+            get {
+                return ResourceManager.GetString("LanguageEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Русский.
+        /// </summary>
+        public static string LanguageRussian {
+            get {
+                return ResourceManager.GetString("LanguageRussian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Светлая.
+        /// </summary>
+        public static string LightTheme {
+            get {
+                return ResourceManager.GetString("LightTheme", resourceCulture);
             }
         }
         
@@ -210,6 +336,15 @@ namespace HealthApp.Resources.Language {
         public static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Системная.
+        /// </summary>
+        public static string SystemTheme {
+            get {
+                return ResourceManager.GetString("SystemTheme", resourceCulture);
             }
         }
     }

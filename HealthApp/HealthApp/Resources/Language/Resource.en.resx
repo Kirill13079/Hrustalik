@@ -118,99 +118,99 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ButtonOK" xml:space="preserve">
-    <value>Понятно</value>
+    <value>Okay</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Темная</value>
+    <value>Dark</value>
   </data>
   <data name="ErrorConfirmedPassword" xml:space="preserve">
-    <value>Пароли не совпадают</value>
+    <value>Passwords don't match</value>
   </data>
   <data name="ErrorCorrectEmail" xml:space="preserve">
-    <value>Введный email не существует</value>
+    <value>The entered email does not exist</value>
   </data>
   <data name="ErrorEmptyEntry" xml:space="preserve">
-    <value>Необходимо заполнить все поля</value>
+    <value>It is necessary to fill in all fields</value>
   </data>
   <data name="ErrorLogin" xml:space="preserve">
-    <value>Во время входа в систему произошла ошибка</value>
+    <value>An error occurred while logging in</value>
   </data>
   <data name="ErrorNetwork" xml:space="preserve">
-    <value>Проверьте интернет соединение</value>
+    <value>Check your internet connection</value>
   </data>
   <data name="ErrorRegister" xml:space="preserve">
-    <value>Во время регистрации произошла ошибка</value>
+    <value>An error occurred during registration</value>
   </data>
   <data name="LabelCategoryAndAuthor" xml:space="preserve">
-    <value>Категории и авторы</value>
+    <value>Categories and authors</value>
   </data>
   <data name="LabelCopyrating" xml:space="preserve">
-    <value>Политика конфиденциальности</value>
+    <value>Privacy policy</value>
   </data>
   <data name="LabelHelp" xml:space="preserve">
-    <value>Помощь</value>
+    <value>Help</value>
   </data>
   <data name="LabelLanguage" xml:space="preserve">
-    <value>Язык</value>
+    <value>Language</value>
   </data>
   <data name="LabelLogin" xml:space="preserve">
-    <value>Вход</value>
+    <value>Login</value>
   </data>
   <data name="LabelLoginGoogle" xml:space="preserve">
-    <value>Войти с помощью Google</value>
+    <value>Login with Google</value>
   </data>
   <data name="LabelLogout" xml:space="preserve">
-    <value>Выйти</value>
+    <value>Log out</value>
   </data>
   <data name="LabelMoreSettings" xml:space="preserve">
-    <value>Общие</value>
+    <value>Common</value>
   </data>
   <data name="LabelNotification" xml:space="preserve">
-    <value>Уведомления</value>
+    <value>Notifications</value>
   </data>
   <data name="LabelQuestion" xml:space="preserve">
-    <value>Задать вопрос</value>
+    <value>Ask a question</value>
   </data>
   <data name="LabelRegister" xml:space="preserve">
-    <value>Регистрация</value>
+    <value>Registration</value>
   </data>
   <data name="LabelRegisterLinkFirst" xml:space="preserve">
-    <value>У вас нет аккаунта?</value>
+    <value>Don't you have an account?</value>
   </data>
   <data name="LabelRegisterLinkLast" xml:space="preserve">
-    <value> Регистрация</value>
+    <value> Registration</value>
   </data>
   <data name="LabelSetting" xml:space="preserve">
-    <value>Настройки</value>
+    <value>Settings</value>
   </data>
   <data name="LabelTheme" xml:space="preserve">
-    <value>Тема</value>
+    <value>Theme</value>
   </data>
   <data name="LanguageEnglish" xml:space="preserve">
-    <value>Англиский</value>
+    <value>English</value>
   </data>
   <data name="LanguageRussian" xml:space="preserve">
-    <value>Русский</value>
+    <value>Russian</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Светлая</value>
+    <value>Light</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Вход</value>
+    <value>Login</value>
   </data>
   <data name="PlaceholderConfirmedPassword" xml:space="preserve">
-    <value>Подтвердите пароль</value>
+    <value>Confirm your password</value>
   </data>
   <data name="PlaceholderEmail" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="PlaceholderPassword" xml:space="preserve">
-    <value>Пароль</value>
+    <value>Password</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Регистрация</value>
+    <value>Registration</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Системная</value>
+    <value>System</value>
   </data>
 </root>

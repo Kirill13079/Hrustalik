@@ -2,12 +2,13 @@
 using HealthApp.Extensions;
 using HealthApp.Interfaces;
 using HealthApp.Styles;
+using HealthApp.Utils;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HealthApp.Helpers
 {
-    public static class ThemesHelper
+    public static class ThemeHelper
     {
         public static void GetAppTheme()
         {
@@ -15,17 +16,17 @@ namespace HealthApp.Helpers
 
             if (theme != null)
             {
-                var appTheme = theme.ConvertToEnum<Settings.Theme>();
+                ThemeEnum.Theme appTheme = theme.ConvertToEnum<ThemeEnum.Theme>();
 
                 switch (appTheme)
                 {
-                    case Settings.Theme.LightTheme:
+                    case ThemeEnum.Theme.LightTheme:
                         ChangeToLightTheme();
                         break;
-                    case Settings.Theme.DarkTheme:
+                    case ThemeEnum.Theme.DarkTheme:
                         ChangeToDarkTheme();
                         break;
-                    case Settings.Theme.SystemPreferred:
+                    case ThemeEnum.Theme.SystemPreferred:
                         ChangeToSystemPreferredTheme();
                         break;
                     default:
@@ -45,7 +46,7 @@ namespace HealthApp.Helpers
 
             DependencyService.Get<IStatusBar>().ChangeStatusBarColorToWhite();
 
-            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumExtension.ConvertToString(Settings.Theme.LightTheme));
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumExtension.ConvertToString(ThemeEnum.Theme.LightTheme));
         }
 
         public static void ChangeToDarkTheme()
@@ -54,7 +55,7 @@ namespace HealthApp.Helpers
 
             DependencyService.Get<IStatusBar>().ChangeStatusBarColorToBlack();
 
-            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumExtension.ConvertToString(Settings.Theme.DarkTheme));
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumExtension.ConvertToString(ThemeEnum.Theme.DarkTheme));
         }
 
         public static void ChangeToSystemPreferredTheme()
@@ -74,7 +75,7 @@ namespace HealthApp.Helpers
                 ChangeToDarkTheme();
             }
 
-            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumExtension.ConvertToString(Settings.Theme.SystemPreferred));
+            Settings.AddSetting(prefrence: Settings.AppPrefrences.AppTheme, setting: EnumExtension.ConvertToString(ThemeEnum.Theme.SystemPreferred));
         }
     }
 }

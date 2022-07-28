@@ -1,5 +1,4 @@
 ﻿using HealthApp.Extensions;
-using HealthApp.Helpers;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -12,17 +11,11 @@ namespace HealthApp.AppSettings
         public enum AppPrefrences
         {
             AppTheme,
+            AppLanguage,
             User,
             Authors,
             Categories,
             token
-        }
-
-        public enum Theme
-        {
-            LightTheme,
-            DarkTheme,
-            SystemPreferred
         }
 
         public static void AddSetting(AppPrefrences prefrence, string setting)

@@ -52,4 +52,28 @@ namespace HealthApp.Utils
             Layout
         }
     }
+
+    public class ThemeEnum
+    {
+        public enum Theme
+        {
+            [Display(Name = "LightTheme", ResourceType = typeof(Resources.Language.Resource))]
+            LightTheme,
+            [Display(Name = "DarkTheme", ResourceType = typeof(Resources.Language.Resource))]
+            DarkTheme,
+            [Display(Name = "SystemTheme", ResourceType = typeof(Resources.Language.Resource))]
+            SystemPreferred
+        }
+    }
+
+    public class LanguageEnum
+    {
+        public enum Language
+        {
+            [Display(Name = "LanguageEnglish", ResourceType = typeof(Resources.Language.Resource))]
+            English,
+            [Display(Name = "LanguageRussian", ResourceType = typeof(Resources.Language.Resource))]
+            Russian
+        }
+    }
 }

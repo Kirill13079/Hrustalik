@@ -1,5 +1,7 @@
-﻿using HealthApp.Helpers;
+﻿using System.ComponentModel;
+using HealthApp.Resources.Language;
 using HealthApp.Service;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 
 [assembly: ExportFont("MaterialIcons-Regular.ttf", Alias = "MaterialIcon")]
@@ -22,13 +24,21 @@ namespace HealthApp
         {
             InitializeComponent();
 
-            Device.SetFlags(new[] 
+            Device.SetFlags(new[]
             { 
-                "SwipeView_Experimental", 
-                "CollectionView_Experimental" 
+                "SwipeView_Experimental",
+                "CollectionView_Experimental"
             });
 
+            LocalizationResourceManager.Current.PropertyChanged += CurrentPropertyChanged;
+            LocalizationResourceManager.Current.Init(Resource.ResourceManager);
+
             MainPage = new AppShell();
+        }
+
+        private void CurrentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Resource.Culture = LocalizationResourceManager.Current.CurrentCulture;
         }
 
         protected override void OnStart()

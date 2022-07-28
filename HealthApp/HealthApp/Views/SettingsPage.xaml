@@ -5,29 +5,32 @@
              xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:HealthApp.Controls"
              xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:lang="clr-namespace:HealthApp.Resources.Language"
              x:Class="HealthApp.Views.SettingsPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
+
     <ContentPage.Content>
         <AbsoluteLayout BackgroundColor="{DynamicResource AccentColor}">
             <!-- header -->
             <StackLayout x:Name="headerPage"
                          AbsoluteLayout.LayoutBounds="0,0">
-                <Label x:Name="headerLabel" FontAttributes="Bold"
+                <Label x:Name="headerLabel" 
+                       Text="{x:Static lang:Resource.LabelSetting}"
+                       FontAttributes="Bold"
                        FontSize="40"
-                       TextColor="{DynamicResource SecondaryColor}"
+                       TextColor="{DynamicResource ButtonTextColor}"
                        HorizontalOptions="Start"
-                       Text="Настройки"
                        VerticalOptions="Center"/>
             </StackLayout>
             <!-- content -->
-            <pnck:PancakeView x:Name="contentFrame"
+            <pnck:PancakeView x:Name="contentPage"
                               BackgroundColor="{DynamicResource PageBackgroundColor}"
                               CornerRadius="15,15,0,0"
                               Padding="0,0,0,0">
                 <ScrollView x:Name="scrollContainer" 
                             VerticalScrollBarVisibility="Never">
                     <Grid RowSpacing="30"
-                          RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
                           VerticalOptions="Start"
                           Padding="0,15,0,80">
                         <!-- login button -->
@@ -64,12 +67,12 @@
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding LoginCommand}"/>
                                         </StackLayout.GestureRecognizers>
-                                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                                        <Label Text="{xtoll:Translate LabelLogin}"
+                                               FontSize="{DynamicResource BodyLabelFontSize}"
                                                Margin="0,0"
                                                FontFamily="Medium"
                                                VerticalOptions="Center" 
-                                               HorizontalOptions="Start"
-                                               Text="Войти"/>
+                                               HorizontalOptions="Start"/>
                                         <ffimageloadingsvg:SvgCachedImage WidthRequest="34" 
                                                                           HeightRequest="34"  
                                                                           HorizontalOptions="EndAndExpand"
@@ -110,230 +113,273 @@
                         </StackLayout>
                         <!-- settings -->
                         <StackLayout Grid.Row="1"
-                             Spacing="5"
-                             VerticalOptions="Start"
-                             HeightRequest="-1">
-                            <Label Margin="10,0,0,0" 
-                           Text="Общие"
-                           FontFamily="Bold"
-                           FontSize="{StaticResource HeadLabelFontSize}"/>
+                                     Spacing="5"
+                                     VerticalOptions="Start"
+                                     HeightRequest="-1">
+                            <Label Text="{x:Static lang:Resource.LabelMoreSettings}"
+                                   Margin="10,0,0,0" 
+                                   FontFamily="Bold"
+                                   FontSize="{StaticResource HeadLabelFontSize}"/>
                             <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                           Margin="10,0"
-                           Padding="0"
-                           CornerRadius="15"
-                           HeightRequest="120"
-                           HasShadow="False">
+                                   Margin="10,0"
+                                   Padding="0"
+                                   CornerRadius="15"
+                                   HeightRequest="120"
+                                   HasShadow="False">
                                 <Grid ColumnDefinitions="*"
-                              RowDefinitions="*,*">
+                                      RowDefinitions="*,*">
                                     <!-- notification -->
                                     <StackLayout Grid.Column="0" 
-                                         Orientation="Horizontal"
-                                         Padding="20,0"
-                                         xtoll:TouchEffect.NativeAnimation="True">
+                                                 Orientation="Horizontal"
+                                                 Padding="20,0"
+                                                 xtoll:TouchEffect.NativeAnimation="True">
                                         <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
-                                                                  HeightRequest="24"                                                       
-                                                                  Source="resource://HealthApp.Resources.Icons.notifications.svg"/>
-                                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
-                                       Margin="10,0"
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Start"
-                                       Text="Уведомления"/>
+                                                                          HeightRequest="24"                                                       
+                                                                          Source="resource://HealthApp.Resources.Icons.notifications.svg"/>
+                                        <Label Text="{x:Static lang:Resource.LabelNotification}"
+                                               FontSize="{DynamicResource BodyLabelFontSize}"
+                                               Margin="10,0"
+                                               VerticalOptions="Center" 
+                                               HorizontalOptions="Start"/>
                                     </StackLayout>
                                     <!-- categories and authors -->
                                     <StackLayout Grid.Column="0" 
-                                         Grid.Row="1"
-                                         Orientation="Horizontal"
-                                         Padding="20,0"
-                                         xtoll:TouchEffect.NativeAnimation="True">
+                                                 Grid.Row="1"
+                                                 Orientation="Horizontal"
+                                                 Padding="20,0"
+                                                 xtoll:TouchEffect.NativeAnimation="True">
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding OpenAuthorsAndCategoriesPageCommand}"/>
                                         </StackLayout.GestureRecognizers>
                                         <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
-                                                                  HeightRequest="24"                                                       
-                                                                  Source="resource://HealthApp.Resources.Icons.emergency.svg"/>
-                                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
-                                       Margin="10,0"
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Start"
-                                       FontFamily="Meduim"
-                                       Text="Категории и авторы"/>
+                                                                          HeightRequest="24"                                                       
+                                                                          Source="resource://HealthApp.Resources.Icons.emergency.svg"/>
+                                        <Label Text="{x:Static lang:Resource.LabelCategoryAndAuthor}"
+                                               FontSize="{DynamicResource BodyLabelFontSize}"
+                                               Margin="10,0"
+                                               VerticalOptions="Center" 
+                                               HorizontalOptions="Start"
+                                               FontFamily="Meduim"/>
                                     </StackLayout>
                                 </Grid>
                             </Frame>
                         </StackLayout>
                         <!-- theme -->
                         <StackLayout Grid.Row="2"
-                             Spacing="5"
-                             HeightRequest="-1">
-                            <Label Margin="10,0,0,0" 
-                                   Text="Тема"
-                           FontFamily="Bold"
-                           FontSize="{StaticResource HeadLabelFontSize}"/>
-                            <Frame BackgroundColor="{DynamicResource ComponentColor}"
+                                     Spacing="5"
+                                     HeightRequest="-1">
+                            <Label Text="{x:Static lang:Resource.LabelTheme}"
+                                   Margin="10,0,0,0" 
+                                   FontFamily="Bold"
+                                   FontSize="{StaticResource HeadLabelFontSize}"/>
+                            <Frame BackgroundColor="{DynamicResource PageBackgroundColor}"
                                    Margin="10,0,10,0"
                                    Padding="0"
-                                   CornerRadius="15"
-                                   HeightRequest="60"
+                                   HeightRequest="40"
                                    HasShadow="False">
-                                <ScrollView  HorizontalScrollBarVisibility="Never"
-                                             Orientation="Horizontal">
+                                <ScrollView HorizontalScrollBarVisibility="Never"
+                                            Orientation="Horizontal">
                                     <FlexLayout x:Name="themeList"
-                                            BindableLayout.ItemsSource="{Binding AppThemeItems}">
+                                                BindableLayout.ItemsSource="{Binding AppThemeItems}">
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate>
-                                                <pnck:PancakeView BackgroundColor="Red" Padding="20">
-                                                    <Label x:Name="themeTitle"
-                                                       Grid.Column="1"
-                                                       Padding="0,0,30,0"                                                   
-                                                       FontSize="{DynamicResource BodyLabelFontSize}"
-                                                       HeightRequest="50"
-                                                       HorizontalTextAlignment="Start"
-                                                       Text="{Binding Subtitle}"
-                                                       TextColor="{DynamicResource SecondaryColor}"
-                                                       VerticalTextAlignment="Center"/>
+                                                <pnck:PancakeView Padding="0,0,10,0">
+                                                    <Grid>
+                                                        <!-- not active -->
+                                                        <Frame CornerRadius="10"
+                                                               Padding="10"
+                                                               HasShadow="False"
+                                                               xtoll:TouchEffect.NativeAnimation="True"
+                                                               BackgroundColor="{DynamicResource ComponentColor}">
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="ThemeTapped"/>
+                                                            </Frame.GestureRecognizers>
+                                                            <Frame.Triggers>
+                                                                <DataTrigger Binding="{Binding IsActive}"
+                                                                             TargetType="Frame"
+                                                                             Value="False">
+                                                                    <Setter Property="IsVisible"
+                                                                            Value="True"/>
+                                                                </DataTrigger>
+                                                            </Frame.Triggers>
+                                                            <Label x:Name="themeTitle"                                             
+                                                                   FontSize="{DynamicResource BodyLabelFontSize}"
+                                                                   HorizontalTextAlignment="Center"
+                                                                   VerticalTextAlignment="Center"
+                                                                   TextColor="{DynamicResource SecondaryColor}"
+                                                                   Text="{Binding Subtitle}">
+                                                            </Label>
+                                                        </Frame>
+                                                        <!-- active -->
+                                                        <Frame CornerRadius="10"
+                                                               Padding="10"
+                                                               HasShadow="False"
+                                                               xtoll:TouchEffect.NativeAnimation="True"
+                                                               BackgroundColor="{DynamicResource AccentColor}"
+                                                               IsVisible="{Binding IsActive}">
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="ThemeTapped"/>
+                                                            </Frame.GestureRecognizers>
+                                                            <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                                                                   HorizontalTextAlignment="Center"
+                                                                   VerticalTextAlignment="Center"
+                                                                   TextColor="{DynamicResource ButtonTextColor}"
+                                                                   Text="{Binding Subtitle}">
+                                                            </Label>
+                                                        </Frame>
+                                                    </Grid>
                                                 </pnck:PancakeView>
                                             </DataTemplate>
                                         </BindableLayout.ItemTemplate>
                                     </FlexLayout>
                                 </ScrollView>
                             </Frame>
-                            <!--<Grid>
-                                <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                               Margin="10,0,10,0"
-                               Padding="0"
-                               CornerRadius="15"
-                               HeightRequest="60"
-                               HasShadow="False">
-                                    <ScrollView HorizontalScrollBarVisibility="Never"
-                                        Orientation="Horizontal">
-                                        <FlexLayout x:Name="themeList"
-                                            BindableLayout.ItemsSource="{Binding AppThemeItems}">
-                                            <BindableLayout.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid ColumnDefinitions="Auto,*"
-                                                         Margin="20,0,0,0">
-                                                        <CheckBox IsChecked="{Binding IsActive, Mode=OneWay}"
-                                                          IsEnabled="False"
-                                                          Color="{DynamicResource AccentColor}">
-                                                        </CheckBox>
-                                                        <Frame BackgroundColor="Transparent"
-                                                       InputTransparent="False"
-                                                       Padding="0"
-                                                       VerticalOptions="CenterAndExpand"
-                                                       HeightRequest="50">
-                                                            <Frame.GestureRecognizers>
-                                                                <TapGestureRecognizer Tapped="AppThemeTapped"/>
-                                                            </Frame.GestureRecognizers>
-                                                        </Frame>
-                                                        <Label x:Name="themeTitle"
-                                                       Grid.Column="1"
-                                                       Padding="0,0,30,0"                                                   
-                                                       FontSize="{DynamicResource BodyLabelFontSize}"
-                                                       HeightRequest="50"
-                                                       HorizontalTextAlignment="Start"
-                                                       Text="{Binding Subtitle}"
-                                                       TextColor="{DynamicResource SecondaryColor}"
-                                                       VerticalTextAlignment="Center"/>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </BindableLayout.ItemTemplate>
-                                        </FlexLayout>
-                                    </ScrollView>
-                                </Frame>
-                                <Frame Margin="10,0,9,0"
-                               Padding="0"
-                               CornerRadius="15"
-                               HeightRequest="60"
-                               WidthRequest="100"
-                               HorizontalOptions="EndAndExpand"
-                               InputTransparent="True">
-                                    <Frame.Background>
-                                        <LinearGradientBrush EndPoint="1,0">
-                                            <GradientStop Color="Transparent"
-                                                  Offset="0.1" />
-                                            <GradientStop Color="{DynamicResource ComponentColor}"
-                                                  Offset="1.0"/>
-                                        </LinearGradientBrush>
-                                    </Frame.Background>
-                                </Frame>
-                            </Grid>-->
                         </StackLayout>
-                        <!-- help  -->
+                        <!-- language -->
                         <StackLayout Grid.Row="3"
-                             Spacing="5"
-                             HeightRequest="-1">
-                            <Label Margin="10,0,0,0" 
-                           Text="Помощь"
-                           FontFamily="Bold"
-                           FontSize="{StaticResource HeadLabelFontSize}"/>
+                                     Spacing="5"
+                                     HeightRequest="-1">
+                            <Label Text="{x:Static lang:Resource.LabelLanguage}"
+                                   Margin="10,0,0,0" 
+                                   FontFamily="Bold"
+                                   FontSize="{StaticResource HeadLabelFontSize}"/>
+                            <Frame BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                   Margin="10,0,10,0"
+                                   Padding="0"
+                                   HeightRequest="40"
+                                   HasShadow="False">
+                                <ScrollView HorizontalScrollBarVisibility="Never"
+                                            Orientation="Horizontal">
+                                    <FlexLayout BindableLayout.ItemsSource="{Binding AppLanguageItems}">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <pnck:PancakeView Padding="0,0,10,0">
+                                                    <Grid>
+                                                        <!-- not active -->
+                                                        <Frame CornerRadius="10"
+                                                               Padding="10"
+                                                               HasShadow="False"
+                                                               xtoll:TouchEffect.NativeAnimation="True"
+                                                               BackgroundColor="{DynamicResource ComponentColor}">
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="LanguageTapped"/>
+                                                            </Frame.GestureRecognizers>
+                                                            <Frame.Triggers>
+                                                                <DataTrigger Binding="{Binding IsActive}"
+                                                                             TargetType="Frame"
+                                                                             Value="False">
+                                                                    <Setter Property="IsVisible"
+                                                                            Value="True"/>
+                                                                </DataTrigger>
+                                                            </Frame.Triggers>
+                                                            <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                                                                   HorizontalTextAlignment="Center"
+                                                                   VerticalTextAlignment="Center"
+                                                                   TextColor="{DynamicResource SecondaryColor}"
+                                                                   Text="{Binding Subtitle}">
+                                                            </Label>
+                                                        </Frame>
+                                                        <!-- active -->
+                                                        <Frame CornerRadius="10"
+                                                               Padding="10"
+                                                               HasShadow="False"
+                                                               xtoll:TouchEffect.NativeAnimation="True"
+                                                               BackgroundColor="{DynamicResource AccentColor}"
+                                                               IsVisible="{Binding IsActive}">
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="LanguageTapped"/>
+                                                            </Frame.GestureRecognizers>
+                                                            <Label FontSize="{DynamicResource BodyLabelFontSize}"
+                                                                   HorizontalTextAlignment="Center"
+                                                                   VerticalTextAlignment="Center"
+                                                                   TextColor="{DynamicResource ButtonTextColor}"
+                                                                   Text="{Binding Subtitle}">
+                                                            </Label>
+                                                        </Frame>
+                                                    </Grid>
+                                                </pnck:PancakeView>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </FlexLayout>
+                                </ScrollView>
+                            </Frame>
+                        </StackLayout>
+                        <!-- help -->
+                        <StackLayout Grid.Row="4"
+                                     Spacing="5"
+                                     HeightRequest="-1">
+                            <Label Text="{x:Static lang:Resource.LabelHelp}" 
+                                   Margin="10,0,0,0" 
+                                   FontFamily="Bold"
+                                   FontSize="{StaticResource HeadLabelFontSize}"/>
                             <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                           Margin="10,0"
-                           Padding="0"
-                           CornerRadius="15"
-                           HeightRequest="120"
-                           HasShadow="False">
+                                   Margin="10,0"
+                                   Padding="0"
+                                   CornerRadius="15"
+                                   HeightRequest="120"
+                                   HasShadow="False">
                                 <Grid ColumnDefinitions="*"
-                              RowDefinitions="*,*">
-                                    <!-- questions -->
+                                      RowDefinitions="*,*">
                                     <StackLayout Grid.Column="0" 
-                                         Orientation="Horizontal"
-                                         Padding="20,0"
-                                         xtoll:TouchEffect.NativeAnimation="True">
+                                                 Orientation="Horizontal"
+                                                 Padding="20,0"
+                                                 xtoll:TouchEffect.NativeAnimation="True">
                                         <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
-                                                                  HeightRequest="24"                                                       
-                                                                  Source="resource://HealthApp.Resources.Icons.chat.svg"/>
-                                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
-                                       Margin="10,0"
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Start"
-                                       Text="Задать вопрос"/>
+                                                                          HeightRequest="24"                                                       
+                                                                          Source="resource://HealthApp.Resources.Icons.chat.svg"/>
+                                        <!-- questions -->
+                                        <Label Text="{x:Static lang:Resource.LabelQuestion}"
+                                               FontSize="{DynamicResource BodyLabelFontSize}"
+                                               Margin="10,0"
+                                               VerticalOptions="Center" 
+                                               HorizontalOptions="Start"/>
                                     </StackLayout>
-                                    <!-- polictic -->
                                     <StackLayout Grid.Column="0"
-                                         Grid.Row="1"
-                                         Orientation="Horizontal"
-                                         Padding="20,0"
-                                         xtoll:TouchEffect.NativeAnimation="True">
+                                                 Grid.Row="1"
+                                                 Orientation="Horizontal"
+                                                 Padding="20,0"
+                                                 xtoll:TouchEffect.NativeAnimation="True">
                                         <controls:TintedCachedImage WidthRequest="25" 
-                                                            HeightRequest="25"                                                       
-                                                            SvgSource="HealthApp.Resources.Icons.privacy.svg"
-                                                            TintColor="#666472"/>
-                                        <Label FontSize="{DynamicResource BodyLabelFontSize}"
-                                       Margin="10,0"
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Start"
-                                       Text="Политика конфиденциальности"/>
+                                                                    HeightRequest="25"                                                       
+                                                                    SvgSource="HealthApp.Resources.Icons.privacy.svg"
+                                                                    TintColor="#666472"/>
+                                        <!-- polictic -->
+                                        <Label Text="{x:Static lang:Resource.LabelCopyrating}"
+                                               FontSize="{DynamicResource BodyLabelFontSize}"
+                                               Margin="10,0"
+                                               VerticalOptions="Center" 
+                                               HorizontalOptions="Start"/>
                                     </StackLayout>
                                 </Grid>
                             </Frame>
                         </StackLayout>
                         <!-- sign out button -->
-                        <StackLayout Grid.Row="4"
-                             Spacing="5"
-                             IsVisible="{Binding IsLoggedIn}"
-                             HeightRequest="-1"
-                             Padding="0,0,0,30">
+                        <StackLayout Grid.Row="5"
+                                     Spacing="5"
+                                     IsVisible="{Binding IsLoggedIn}"
+                                     HeightRequest="-1"
+                                     Padding="0,0,0,30">
                             <Frame BackgroundColor="{DynamicResource ComponentColor}"
-                           Margin="10,0"
-                           Padding="0"
-                           CornerRadius="15"
-                           HeightRequest="60"
-                           HasShadow="False">
+                                   Margin="10,0"
+                                   Padding="0"
+                                   CornerRadius="15"
+                                   HeightRequest="60"
+                                   HasShadow="False">
                                 <Grid ColumnDefinitions="*"
-                              RowDefinitions="*">
+                                      RowDefinitions="*">
                                     <StackLayout Grid.Column="0" 
-                                         Orientation="Horizontal"
-                                         Padding="20,0"
-                                         xtoll:TouchEffect.NativeAnimation="True">
+                                                 Orientation="Horizontal"
+                                                 Padding="20,0"
+                                                 xtoll:TouchEffect.NativeAnimation="True">
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding SignOutCommand}"/>
                                         </StackLayout.GestureRecognizers>
-                                        <Label FontSize="16"
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       FontFamily="Bold"
-                                       TextColor="Red"
-                                       Text="Выйти"/>
+                                        <Label Text="{x:Static lang:Resource.LabelLogout}"
+                                               FontSize="{StaticResource BodyLabelFontSize}"
+                                               VerticalOptions="Center" 
+                                               HorizontalOptions="CenterAndExpand"
+                                               FontFamily="Bold"
+                                               TextColor="Red"/>
                                     </StackLayout>
                                 </Grid>
                             </Frame>

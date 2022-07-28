@@ -3,6 +3,7 @@ using HealthApp.Common.Model;
 using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Service;
+using HealthApp.Utils;
 using HealthApp.ViewModels.Base;
 using HealthApp.ViewModels.Data;
 using MvvmHelpers;
@@ -37,6 +38,17 @@ namespace HealthApp.ViewModels
             }
         }
 
+        private ObservableRangeCollection<AppLanguageViewModel> _appLanguageItems;
+        public ObservableRangeCollection<AppLanguageViewModel> AppLanguageItems
+        {
+            get => _appLanguageItems;
+            set
+            {
+                _appLanguageItems = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool _isLoggedIn;
         public bool IsLoggedIn
         {
@@ -50,21 +62,24 @@ namespace HealthApp.ViewModels
 
         public ICommand AppThemeChangedCommand { get; set; }
 
+        public ICommand AppLanguageChangedCommand { get; set; }
+
         public ICommand OpenAuthorsAndCategoriesPageCommand { get; set; }
 
         public SettingsViewModel()
         {
-            LoginCommand = new Command(LoginCommandHadler);
+            LoginCommand = new Command(LoginCommandHandler);
             SignOutCommand = new Command(async () => await SignOutCommandHandlerAsync());
             OpenAuthorsAndCategoriesPageCommand = new Command(async() => await OpenAuthorsAndCategoriesPageCommandHadlerAsync());
             AppThemeChangedCommand = new Command<AppThemeViewModel>(theme => AppThemeChangedCommandHandler(theme));
+            AppLanguageChangedCommand = new Command<AppLanguageViewModel>(language => AppLanguageChangedCommandHandler(language));
 
             _ = GetSettingsAsync().ConfigureAwait(false);
         }
 
         private async Task GetSettingsAsync()
         {
-            var customer = await ApiManagerService.GetCustomerAsync();;
+            Customer customer = await ApiManagerService.GetCustomerAsync();
 
             if (customer != null)
             {
@@ -78,40 +93,70 @@ namespace HealthApp.ViewModels
             }
 
             SetAppThemeItems();
+            SetAppLanguageItems();
 
             string theme = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppTheme);
+            string language = Settings.GetSetting(prefrence: Settings.AppPrefrences.AppLanguage);
 
-            foreach (var appTheme in AppThemeItems)
+            foreach (AppThemeViewModel appTheme in AppThemeItems)
             {
                 appTheme.IsActive = appTheme.Title == theme;
+            }
+
+            foreach (AppLanguageViewModel appLanguage in AppLanguageItems)
+            {
+                appLanguage.IsActive = appLanguage.Title == language;
             }
         }
 
         private void SetAppThemeItems()
         {
-            ThemesHelper.GetAppTheme();
+            ThemeHelper.GetAppTheme();
 
             AppThemeItems = new ObservableRangeCollection<AppThemeViewModel>()
             {
                 {
                     new AppThemeViewModel
                     {
-                        Title = "LightTheme",
-                        Subtitle = "Светлая"
+                        Title = ThemeEnum.Theme.LightTheme.ConvertToString(),
+                        Subtitle = ThemeEnum.Theme.LightTheme.DisplayName()
                     }
                 },
                 {
                     new AppThemeViewModel
                     {
-                        Title = "DarkTheme",
-                        Subtitle = "Темная"
+                        Title = ThemeEnum.Theme.DarkTheme.ConvertToString(),
+                        Subtitle = ThemeEnum.Theme.DarkTheme.DisplayName()
                     }
                 },
                 {
                     new AppThemeViewModel
                     {
-                        Title = "SystemPreferred",
-                        Subtitle = "Системная"
+                        Title = ThemeEnum.Theme.SystemPreferred.ConvertToString(),
+                        Subtitle = ThemeEnum.Theme.SystemPreferred.DisplayName()
+                    }
+                }
+            };
+        }
+
+        private void SetAppLanguageItems()
+        {
+            LanguageHelper.GetAppLanguage();
+
+            AppLanguageItems = new ObservableRangeCollection<AppLanguageViewModel>()
+            {
+                {
+                    new AppLanguageViewModel
+                    {
+                        Title = LanguageEnum.Language.English.ConvertToString(),
+                        Subtitle = LanguageEnum.Language.English.DisplayName()
+                    }
+                },
+                {
+                    new AppLanguageViewModel
+                    {
+                        Title = LanguageEnum.Language.Russian.ConvertToString(),
+                        Subtitle = LanguageEnum.Language.Russian.DisplayName()
                     }
                 }
             };
@@ -119,23 +164,30 @@ namespace HealthApp.ViewModels
 
         private void AppThemeChangedCommandHandler(AppThemeViewModel theme)
         {
-            var appTheme = theme.ConvertToEnum<Settings.Theme>();
+            ThemeEnum.Theme appTheme = theme.ConvertToEnum<ThemeEnum.Theme>();
 
             switch (appTheme)
             {
-                case Settings.Theme.LightTheme:
-                    ThemesHelper.ChangeToLightTheme();
+                case ThemeEnum.Theme.LightTheme:
+                    ThemeHelper.ChangeToLightTheme();
                     break;
-                case Settings.Theme.DarkTheme:
-                    ThemesHelper.ChangeToDarkTheme();
+                case ThemeEnum.Theme.DarkTheme:
+                    ThemeHelper.ChangeToDarkTheme();
                     break;
-                case Settings.Theme.SystemPreferred:
-                    ThemesHelper.ChangeToSystemPreferredTheme();
+                case ThemeEnum.Theme.SystemPreferred:
+                    ThemeHelper.ChangeToSystemPreferredTheme();
                     break;
                 default:
-                    ThemesHelper.ChangeToSystemPreferredTheme();
+                    ThemeHelper.ChangeToSystemPreferredTheme();
                     break;
             }
+        }
+
+        private void AppLanguageChangedCommandHandler(AppLanguageViewModel language)
+        {
+            LanguageEnum.Language appLanguage = language.ConvertToEnum<LanguageEnum.Language>();
+
+            LanguageHelper.ChangeLanguage(appLanguage);
         }
 
         private async Task SignOutCommandHandlerAsync()
@@ -162,14 +214,14 @@ namespace HealthApp.ViewModels
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    NavigationService.NavigateToAsync(route: "login", model: Customer);
+                    LoginCommandHandler();
                 });
 
                 DialogsHelper.ProgressDialog.Hide();
             }
         }
 
-        private void LoginCommandHadler()
+        private void LoginCommandHandler()
         {
             NavigationService.NavigateToAsync(route: "login", model: Customer);
         }
