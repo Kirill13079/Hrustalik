@@ -37,5 +37,10 @@ namespace HealthApp.Views
         {
             _bindingContext?.GoBackPageCommand.Execute(null);
         }
+
+        private void OnLoginLinkTapped(object sender, EventArgs e)
+        {
+            _bindingContext?.СhangeStateLoginPageCommand.Execute(false);
+        }
     }
 }

@@ -88,11 +88,20 @@ namespace HealthApp.Resources.Language {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Введный email не существует.
+        ///   Ищет локализованную строку, похожую на Email не корректный.
         /// </summary>
         public static string ErrorCorrectEmail {
             get {
                 return ResourceManager.GetString("ErrorCorrectEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пароль должен содержать хотя бы один специальный символ и заглавную букву.
+        /// </summary>
+        public static string ErrorCorrectPassword {
+            get {
+                return ResourceManager.GetString("ErrorCorrectPassword", resourceCulture);
             }
         }
         
@@ -187,6 +196,24 @@ namespace HealthApp.Resources.Language {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на У Вас уже есть аккаунт?.
+        /// </summary>
+        public static string LabelLoginLinkFirst {
+            get {
+                return ResourceManager.GetString("LabelLoginLinkFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на  Войти.
+        /// </summary>
+        public static string LabelLoginLinkLast {
+            get {
+                return ResourceManager.GetString("LabelLoginLinkLast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Выйти.
         /// </summary>
         public static string LabelLogout {
@@ -232,7 +259,7 @@ namespace HealthApp.Resources.Language {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на У вас нет аккаунта?.
+        ///   Ищет локализованную строку, похожую на У Вас нет аккаунта?.
         /// </summary>
         public static string LabelRegisterLinkFirst {
             get {

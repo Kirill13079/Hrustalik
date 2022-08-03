@@ -1,54 +1,37 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using HealthApp.Common;
+using HealthApp.Controls.Base;
 using HealthApp.Utils;
 using Xamarin.Forms;
 
 namespace HealthApp.Controls.Behaviors.Entries
 {
-    public class EmailValidatorBehavior : Behavior<Entry>
+    public class EmailValidatorBehavior : BaseValidationEntryBehavior<Entry, BehaviorState.EmailState>
     {
-        private const string EmailRegex = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+        private BehaviorState.EmailState _currentState = BehaviorState.EmailState.None;
 
-        private static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly(
-            propertyName: nameof(CurrentEmailState),
-            returnType: typeof(BehaviorState.EmailEntryState),
-            declaringType: typeof(EmailValidatorBehavior),
-            defaultValue: BehaviorState.EmailEntryState.None);
-
-        public static readonly BindableProperty IsValidProperty = IsValidPropertyKey.BindableProperty;
-
-        public BehaviorState.EmailEntryState CurrentEmailState
+        public EmailValidatorBehavior()
         {
-            get => (BehaviorState.EmailEntryState)GetValue(IsValidProperty);
-            private set => SetValue(IsValidPropertyKey, value);
+            SetCurrentState(_currentState);
         }
 
-        protected override void OnAttachedTo(Entry bindable)
+        protected override void OnHandleTextChanged(object sender, TextChangedEventArgs e)
         {
-            bindable.TextChanged += HandleTextChanged;
+            bool isValid = Regex.IsMatch(
+                input: e.NewTextValue.Trim(),
+                pattern: Constants.EmailRegex,
+                options: RegexOptions.IgnoreCase,
+                matchTimeout: TimeSpan.FromMilliseconds(250));
 
-            base.OnAttachedTo(bindable);
-        }
+            _currentState = isValid ? BehaviorState.EmailState.Success : BehaviorState.EmailState.Error;
 
-        private void HandleTextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (((Entry)sender).Text.Length > 0)
+            if (((Entry)sender).Text.Length == 0)
             {
-                bool isValid = Regex.IsMatch(
-                    input: e.NewTextValue.Trim(),
-                    pattern: EmailRegex,
-                    options: RegexOptions.IgnoreCase,
-                    matchTimeout: TimeSpan.FromMilliseconds(250));
-
-                CurrentEmailState = isValid ? BehaviorState.EmailEntryState.Success : BehaviorState.EmailEntryState.Error;
+                _currentState = BehaviorState.EmailState.None;
             }
-        }
 
-        protected override void OnDetachingFrom(Entry bindable)
-        {
-            bindable.TextChanged -= HandleTextChanged;
-
-            base.OnDetachingFrom(bindable);
+            SetCurrentState(_currentState);
         }
     }
 }

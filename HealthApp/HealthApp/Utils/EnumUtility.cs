@@ -4,13 +4,21 @@ namespace HealthApp.Utils
 {
     public static class BehaviorState
     {
-        public enum EmailEntryState
+        public enum EmailState
         {
-            [Display(Description = "Entry filled in with an error")]
+            [Display(Name = "ErrorCorrectEmail", ResourceType = typeof(Resources.Language.Resource))]
             Error,
-            [Display(Description = "Entry filled in with correctly")]
             Success,
-            [Display(Description = "Default state entry")]
+            None
+        }
+
+        public enum PasswordState
+        {
+            [Display(Name = "ErrorCorrectPassword", ResourceType = typeof(Resources.Language.Resource))]
+            Error,
+            [Display(Name = "ErrorConfirmedPassword", ResourceType = typeof(Resources.Language.Resource))]
+            ConfirmedError,
+            Success,
             None
         }
     }
@@ -27,6 +35,8 @@ namespace HealthApp.Utils
             Register,
             [Display(Name = "ErrorConfirmedPassword", ResourceType = typeof(Resources.Language.Resource))]
             ConfirmedPassword,
+            [Display(Name = "ErrorCorrectPassword", ResourceType = typeof(Resources.Language.Resource))]
+            CorrectPassword,
             [Display(Name = "ErrorEmptyEntry", ResourceType = typeof(Resources.Language.Resource))]
             EmptyEntry,
             [Display(Name = "ErrorCorrectEmail", ResourceType = typeof(Resources.Language.Resource))]
@@ -63,17 +73,6 @@ namespace HealthApp.Utils
             DarkTheme,
             [Display(Name = "SystemTheme", ResourceType = typeof(Resources.Language.Resource))]
             SystemPreferred
-        }
-    }
-
-    public class LanguageEnum
-    {
-        public enum Language
-        {
-            [Display(Name = "LanguageEnglish", ResourceType = typeof(Resources.Language.Resource))]
-            English,
-            [Display(Name = "LanguageRussian", ResourceType = typeof(Resources.Language.Resource))]
-            Russian
         }
     }
 }

@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
 using HealthApp.Common;
-using System.ComponentModel.DataAnnotations;
 using HealthApp.Models;
 using HealthApp.Utils;
 using HealthApp.Extensions;
+using System.Text.RegularExpressions;
 
 namespace HealthApp.ViewModels
 {
@@ -65,19 +65,27 @@ namespace HealthApp.ViewModels
             }
         }
 
-        public ICommand RegistrationCommand { get; }
-
         public ICommand GoogleAuthorizationCommand { get; }
 
         public ICommand СhangeStateLoginPageCommand { get; }
 
         public LoginViewModel()
         {
-            AuthorizationCommand = new Command(async () =>
+            AuthorizationCommand = new Command(async (route) =>
             {
                 DialogsHelper.ProgressDialog.Show();
 
-                await AuthorizationCommandHadlerAsync();
+                switch (route)
+                {
+                    case "login":
+                        await AuthorizationCommandHadlerAsync(ApiRoutes.Login);
+                        break;
+                    case "register":
+                        await AuthorizationCommandHadlerAsync(ApiRoutes.Register);
+                        break;
+                    default:
+                        break;
+                }
 
                 DialogsHelper.ProgressDialog.Hide();
             });
@@ -86,14 +94,6 @@ namespace HealthApp.ViewModels
                 DialogsHelper.ProgressDialog.Show();
 
                 await GoogleAuthorizationCommandHandlerAsync();
-
-                DialogsHelper.ProgressDialog.Hide();
-            });
-            RegistrationCommand = new Command(async () =>
-            {
-                DialogsHelper.ProgressDialog.Show();
-
-                await RegistrationCommandHandlerAsync();
 
                 DialogsHelper.ProgressDialog.Hide();
             });
@@ -137,7 +137,8 @@ namespace HealthApp.ViewModels
 
                             if (!isLogin)
                             {
-                                await AlertDialogService.ShowDialogAsync(title: Title,
+                                await AlertDialogService.ShowDialogAsync(
+                                    title: Title,
                                     message: MessageEnum.Error.Login.DisplayName(),
                                     cancel: MessageEnum.Button.OK.DisplayName());
                             }
@@ -147,7 +148,8 @@ namespace HealthApp.ViewModels
             }
             catch (Exception ex)
             {
-                await AlertDialogService.ShowDialogAsync(title: Title,
+                await AlertDialogService.ShowDialogAsync(
+                    title: Title,
                     message: $"{MessageEnum.Error.Login.DisplayName()}: {ex.Message}",
                     cancel: MessageEnum.Button.OK.DisplayName());
             }
@@ -156,16 +158,14 @@ namespace HealthApp.ViewModels
         private void СhangeStateLoginPageCommandHandler(bool isRegistration)
         {
             IsRegistration = isRegistration;
-            Title = IsRegistration
-                ? Resources.Language.Resource.Register
-                : Resources.Language.Resource.Login;
+            Title = IsRegistration ? Resources.Language.Resource.Register : Resources.Language.Resource.Login;
         }
 
-        private async Task AuthorizationCommandHadlerAsync()
+        private async Task AuthorizationCommandHadlerAsync(string route)
         {
-            bool isValidModel = await IsValidModelAsync();
+            string validModelMessage = ValidationModel();
 
-            if (isValidModel)
+            if (string.IsNullOrWhiteSpace(validModelMessage))
             {
                 Login userInfo = new Login
                 {
@@ -173,37 +173,22 @@ namespace HealthApp.ViewModels
                     Password = Password
                 };
 
-                bool isLogin = await AuthorizationUserAsync(userInfo, route: ApiRoutes.Login);
+                bool isLogin = await AuthorizationUserAsync(userInfo, route);
 
                 if (!isLogin)
                 {
-                    await AlertDialogService.ShowDialogAsync(title: Title,
+                    await AlertDialogService.ShowDialogAsync(
+                        title: Title,
                         message: MessageEnum.Error.Login.DisplayName(),
                         cancel: MessageEnum.Button.OK.DisplayName());
                 }
             }
-        }
-
-        private async Task RegistrationCommandHandlerAsync()
-        {
-            bool isValidModel = await IsValidModelAsync();
-
-            if (isValidModel)
+            else
             {
-                Login userInfo = new Login
-                {
-                    Email = Email.Trim(),
-                    Password = Password
-                };
-
-                bool isRegistration = await AuthorizationUserAsync(userInfo, ApiRoutes.Register);
-
-                if (!isRegistration)
-                {
-                    await AlertDialogService.ShowDialogAsync(title: Title,
-                        message: MessageEnum.Error.Register.DisplayName(),
-                        cancel: MessageEnum.Button.OK.DisplayName());
-                }
+                await AlertDialogService.ShowDialogAsync(
+                            title: Title,
+                            message: validModelMessage,
+                            cancel: MessageEnum.Button.OK.DisplayName());
             }
         }
 
@@ -257,54 +242,55 @@ namespace HealthApp.ViewModels
             return false;
         }
 
-        private async Task<bool> IsValidModelAsync()
+        private string ValidationModel()
         {
+            string result = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            {
+                result = MessageEnum.Error.EmptyEntry.DisplayName();
+
+                return result;
+            }
+
             if (IsRegistration)
             {
-                if (string.IsNullOrWhiteSpace(Email)
-                    || string.IsNullOrWhiteSpace(Password)
-                    || string.IsNullOrWhiteSpace(ConfirmedPassword))
+                if (string.IsNullOrWhiteSpace(ConfirmedPassword))
                 {
-                    await AlertDialogService.ShowDialogAsync(title: Title,
-                        message: MessageEnum.Error.EmptyEntry.DisplayName(),
-                        cancel: MessageEnum.Button.OK.DisplayName());
+                    result = MessageEnum.Error.EmptyEntry.DisplayName();
 
-                    return false;
+                    return result;
                 }
 
                 if (Password != ConfirmedPassword)
                 {
-                    await AlertDialogService.ShowDialogAsync(title: Title,
-                        message: MessageEnum.Error.ConfirmedPassword.DisplayName(),
-                        cancel: MessageEnum.Button.OK.DisplayName());
+                    result = MessageEnum.Error.ConfirmedPassword.DisplayName();
 
-                    return false;
+                    return result;
                 }
-            }
-            else if (!IsRegistration)
-            {
-                if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+
+                if (!Regex.IsMatch(Password, Constants.PasswordRegex))
                 {
-                    await AlertDialogService.ShowDialogAsync(title: Title,
-                        message: MessageEnum.Error.EmptyEntry.DisplayName(),
-                        cancel: MessageEnum.Button.OK.DisplayName());
+                    result = MessageEnum.Error.CorrectPassword.DisplayName();
 
-                    return false;
+                    return result;
                 }
             }
 
-            bool isValidEmail = new EmailAddressAttribute().IsValid(Email);
+            bool isValidEmail = Regex.IsMatch(
+                input: Email.Trim(),
+                pattern: Constants.EmailRegex,
+                options: RegexOptions.IgnoreCase,
+                matchTimeout: TimeSpan.FromMilliseconds(1));
 
             if (!isValidEmail)
             {
-                await AlertDialogService.ShowDialogAsync(title: Title,
-                    message: MessageEnum.Error.CorrectEmail.DisplayName(),
-                    cancel: MessageEnum.Button.OK.DisplayName());
+                result = MessageEnum.Error.CorrectEmail.DisplayName();
 
-                return false;
+                return result;
             }
 
-            return true;
+            return result;
         }
     }
 }

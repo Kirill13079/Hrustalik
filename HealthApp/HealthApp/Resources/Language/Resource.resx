@@ -127,7 +127,10 @@
     <value>Пароли не совпадают</value>
   </data>
   <data name="ErrorCorrectEmail" xml:space="preserve">
-    <value>Введный email не существует</value>
+    <value>Email не корректный</value>
+  </data>
+  <data name="ErrorCorrectPassword" xml:space="preserve">
+    <value>Пароль должен содержать хотя бы один специальный символ и заглавную букву</value>
   </data>
   <data name="ErrorEmptyEntry" xml:space="preserve">
     <value>Необходимо заполнить все поля</value>
@@ -159,6 +162,12 @@
   <data name="LabelLoginGoogle" xml:space="preserve">
     <value>Войти с помощью Google</value>
   </data>
+  <data name="LabelLoginLinkFirst" xml:space="preserve">
+    <value>У Вас уже есть аккаунт?</value>
+  </data>
+  <data name="LabelLoginLinkLast" xml:space="preserve">
+    <value> Войти</value>
+  </data>
   <data name="LabelLogout" xml:space="preserve">
     <value>Выйти</value>
   </data>
@@ -175,7 +184,7 @@
     <value>Регистрация</value>
   </data>
   <data name="LabelRegisterLinkFirst" xml:space="preserve">
-    <value>У вас нет аккаунта?</value>
+    <value>У Вас нет аккаунта?</value>
   </data>
   <data name="LabelRegisterLinkLast" xml:space="preserve">
     <value> Регистрация</value>
