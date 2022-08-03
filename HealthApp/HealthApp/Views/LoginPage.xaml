@@ -15,7 +15,7 @@
         <convert:StyleValidConverter x:Key="entryStyleConvert">
             <convert:StyleValidConverter.NoneStyle>
                 <Style TargetType="controls:TintedCachedImage">
-                    <Setter Property="SvgSource" Value="HealthApp.Resources.Icons.circleError.svg"/>
+                    <Setter Property="SvgSource" Value=""/>
                 </Style>
             </convert:StyleValidConverter.NoneStyle>
             <convert:StyleValidConverter.ErrorStyle>
@@ -392,7 +392,8 @@
                                                        Text="{Binding ConfirmedPassword}"
                                                        IsPassword="True">
                                                     <Entry.Behaviors>
-                                                        <bhv:CompareValidationBehavior x:Name="confirmedPasswordValidator" TextTest="{Binding Password}"/>
+                                                        <bhv:CompareValidationBehavior x:Name="confirmedPasswordValidator" 
+                                                                                       TextTest="{Binding Password}"/>
                                                     </Entry.Behaviors>
                                                 </Entry>
                                                 <!-- icon confirmed password valid or not -->
