@@ -29,6 +29,8 @@ namespace HealthApp.ViewModels.Base
             }
         }
 
+        public ICommand SearchCommand { get; set; }
+
         public ICommand LikeRecordCommand { get; set; }
 
         public ICommand RefreshCommand { get; set; }

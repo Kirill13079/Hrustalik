@@ -3,37 +3,52 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
       xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
       x:Class="HealthApp.Views.Components.AuthorAndCategoryComponents.AuthorViewCell"
-      xmlns:controls="clr-namespace:HealthApp.Controls"
-      Margin="0,5">
-    <Frame HeightRequest="120"
-           Padding="20,20,20,15"
-           HasShadow="False"
-           CornerRadius="15"
-           BackgroundColor="{DynamicResource ComponentColor}">
-        <StackLayout Spacing="10">
-            <StackLayout HeightRequest="60"
-                         Orientation="Horizontal">
-                <Frame Padding="0"
-                       CornerRadius="40"
-                       WidthRequest="60"
-                       HorizontalOptions="StartAndExpand">
-                    <ffimageloading:CachedImage x:Name="authorImage" 
-                                                Aspect="AspectFill"
-                                                DownsampleToViewSize="True"
-                                                DownsampleUseDipUnits="True"
-                                                HeightRequest="60"/>
-                </Frame>
-                <controls:CircleCheckboxView x:Name="checkbox">
-                    <controls:CircleCheckboxView.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                    </controls:CircleCheckboxView.GestureRecognizers>
-                </controls:CircleCheckboxView>
-            </StackLayout>
-            <Label x:Name="name" 
-                   FontFamily="Bold"
-                   LineBreakMode="TailTruncation"
-                   MaxLines="2"
-                   FontSize="{StaticResource HeadLabelFontSize}"/>
+      xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+      xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+      xmlns:controls="clr-namespace:HealthApp.Controls">
+    <Grid RowDefinitions="100,Auto" 
+          Padding="0,10">
+        <pnck:PancakeView x:Name="circleFrame"
+                          Grid.Row="0"
+                          HeightRequest="100"
+                          WidthRequest="100"
+                          CornerRadius="100"
+                          BackgroundColor="{DynamicResource ComponentColor}"
+                          HorizontalOptions="CenterAndExpand"
+                          IsClippedToBounds="True">
+            <pnck:PancakeView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+            </pnck:PancakeView.GestureRecognizers>
+            <ffimageloading:CachedImage x:Name="authorImage"
+                                        BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                        Aspect="AspectFill"
+                                        DownsampleToViewSize="True"
+                                        DownsampleUseDipUnits="True"
+                                        HeightRequest="100"/>
+        </pnck:PancakeView>
+        <StackLayout x:Name="activeChek" 
+                     BackgroundColor="Transparent"
+                     InputTransparent="True"
+                     HorizontalOptions="CenterAndExpand">
+            <pnck:PancakeView HeightRequest="25"
+                              WidthRequest="25"
+                              HorizontalOptions="EndAndExpand"
+                              TranslationX="30"
+                              BackgroundColor="{DynamicResource AccentColor}"
+                              CornerRadius="25">
+                <controls:TintedCachedImage  SvgSource="HealthApp.Resources.Icons.done.svg"
+                                             HeightRequest="25"
+                                             WidthRequest="25"
+                                             TintColor="White"
+                                             Aspect="AspectFill">
+                </controls:TintedCachedImage>
+            </pnck:PancakeView>
         </StackLayout>
-    </Frame>
+        <Label x:Name="name" 
+               Grid.Row="1"
+               LineBreakMode="CharacterWrap"
+               HorizontalOptions="CenterAndExpand"
+               HorizontalTextAlignment="Center"
+               FontSize="{StaticResource BodyLabelFontSize}"/>
+    </Grid>
 </Grid>

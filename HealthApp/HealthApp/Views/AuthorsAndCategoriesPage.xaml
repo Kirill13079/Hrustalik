@@ -1,17 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:HealthApp.Views.Components.AuthorAndCategoryComponents" 
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
+             xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:controls="clr-namespace:HealthApp.Controls" 
-             xmlns:vm="clr-namespace:HealthApp.ViewModels"
+             xmlns:lang="clr-namespace:HealthApp.Resources.Language"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="HealthApp.Views.AuthorsAndCategoriesPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
+             BackgroundColor="{DynamicResource AccentColor}">
 
-    <!--<ContentPage.BindingContext>
-        <vm:AuthorsAndCategoriesViewModel x:Name="vm"/>
-    </ContentPage.BindingContext>-->
-    
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:AuthorAndCategoryComponentsDataTemplateSelector x:Key="AuthorAndCategoryDataTemplateSelector"/>
@@ -19,70 +16,136 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid RowSpacing="0"
-              RowDefinitions="45,*">
-            <ScrollView x:Name="scrollView"
-                        Grid.Row="0"
-                        HorizontalScrollBarVisibility="Never"
-                        Orientation="Horizontal"
-                        BackgroundColor="{DynamicResource PageBackgroundColor}">
-                <controls:CarouselIndicatorView x:Name="carousel"
-                                                Items="{Binding TabAuthorsAndCategoriesItems}"
-                                                CurrentItem="{Binding CurrentTab}"/>
-            </ScrollView>
-            <cards:CarouselView x:Name="carouselView"
-                                Grid.Row="1"
-                                BackgroundColor="{DynamicResource PageBackgroundColor}"
-                                IsVerticalSwipeEnabled="False"
-                                ItemsSource="{Binding TabAuthorsAndCategoriesItems}"
-                                SelectedItem="{Binding CurrentTab}">
-                <cards:CarouselView.ItemTemplate>
-                    <DataTemplate>
-                        <ContentView>
-                            <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
-                                  Padding="10,0">
-                                <CollectionView ItemTemplate="{StaticResource AuthorAndCategoryDataTemplateSelector}"
-                                                ItemsSource="{Binding AuthorsAndСategories}"
-                                                SelectionMode="None">
-                                    <CollectionView.ItemsLayout>
-                                        <GridItemsLayout Orientation="Vertical"
-                                                         Span="2" 
-                                                         VerticalItemSpacing="10"
-                                                         HorizontalItemSpacing="10"/>
-                                    </CollectionView.ItemsLayout>
-                                </CollectionView>
-                                <StackLayout HorizontalOptions="Center"
-                                             IsVisible="{Binding HasError}"
-                                             VerticalOptions="Center">
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCommand, Source={x:Reference carouselView}}" />
-                                    </StackLayout.GestureRecognizers>
-                                    <Label FontFamily="Bold"
-                                           FontSize="55"
-                                           HorizontalOptions="Center"
-                                           Text="wifi"
-                                           TextColor="Gray" />
-                                    <StackLayout>
-                                        <Label FontAttributes="Bold"
-                                               FontSize="25"
-                                               HorizontalTextAlignment="Center"
-                                               Text="Что-то пошло не так"
-                                               TextColor="Gray" />
-                                        <Label FontAttributes="Bold"
-                                               FontSize="25"
-                                               HorizontalTextAlignment="Center"
-                                               Text="Нажмите, чтобы повторить попытку"
-                                               TextColor="Gray" />
-                                    </StackLayout>
+        <StackLayout Spacing="0">
+            <!-- navbar -->
+            <pnck:PancakeView HeightRequest="40"
+                              CornerRadius="0"
+                              Padding="0">
+                <!-- navbar content -->
+                <ScrollView x:Name="scrollView"
+                            HorizontalScrollBarVisibility="Never"
+                            Orientation="Horizontal">
+                    <Grid x:Name="tabBar"
+                          BackgroundColor="{DynamicResource AccentColor}"
+                          RowDefinitions="40"
+                          RowSpacing="0">
+                        <!-- items tab bar -->
+                        <FlexLayout x:Name="itemsTabBar"
+                                    BindableLayout.ItemsSource="{Binding TabAuthorsAndCategoriesItems}"
+                                    JustifyContent="SpaceAround">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Padding="0,0"
+                                           FontFamily="Bold"
+                                           FontSize="{StaticResource HeadLabelFontSize}"
+                                           HorizontalTextAlignment="Center"
+                                           Text="{Binding Title}"
+                                           TextColor="White"
+                                           VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabItemTapped" 
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                        <!-- active indicator -->
+                        <BoxView x:Name="activeIndicator"
+                                 BackgroundColor="White"
+                                 HeightRequest="3"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="End"
+                                 CornerRadius="15"
+                                 WidthRequest="30"/>
+                    </Grid>
+                </ScrollView>
+            </pnck:PancakeView>
+            <!-- content -->
+            <pnck:PancakeView BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                  CornerRadius="15,15,0,0"
+                                  Padding="0,0,0,0"
+                                  VerticalOptions="FillAndExpand">
+                <StackLayout Spacing="0">
+                    <!-- search bar -->
+                    <StackLayout HeightRequest="-1"
+                                 Margin="0,10,0,0">
+                        <pnck:PancakeView BackgroundColor="{DynamicResource ComponentColor}"
+                                          Margin="10,0"
+                                          Padding="0"
+                                          CornerRadius="15"
+                                          HeightRequest="60">
+                            <Grid RowDefinitions="60">
+                                <StackLayout Padding="20,0"
+                                             Orientation="Horizontal">
+                                    <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
+                                                                      HeightRequest="24"                                                       
+                                                                      Source="resource://HealthApp.Resources.Icons.search.svg"/>
+                                    <Entry Placeholder="{x:Static lang:Resource.LabelSearch}"
+                                           PlaceholderColor="{DynamicResource SkeletonColor}"
+                                           FontFamily="Medium"
+                                           HorizontalOptions="FillAndExpand"
+                                           FontSize="{DynamicResource BodyLabelFontSize}"/>
                                 </StackLayout>
-                                <ActivityIndicator HorizontalOptions="Center"
-                                                   IsRunning="{Binding IsBusy}"
-                                                   VerticalOptions="Center" />
                             </Grid>
-                        </ContentView>
-                    </DataTemplate>
-                </cards:CarouselView.ItemTemplate>
-            </cards:CarouselView>
-        </Grid>
+                        </pnck:PancakeView>
+                    </StackLayout>
+                    <cards:CarouselView x:Name="carouselView"
+                                        BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                        IsVerticalSwipeEnabled="False"
+                                        ItemsSource="{Binding TabAuthorsAndCategoriesItems}"
+                                        SelectedItem="{Binding CurrentTab}"
+                                        ItemSwiped="carouselView_ItemSwiped"
+                                        ItemAppearing="carouselView_ItemAppearing">
+                        <cards:CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <ContentView>
+                                    <Grid BackgroundColor="{DynamicResource PageBackgroundColor}">
+                                        <CollectionView ItemTemplate="{StaticResource AuthorAndCategoryDataTemplateSelector}"
+                                                        ItemsSource="{Binding AuthorsAndСategories}"
+                                                        SelectionMode="None"
+                                                        Margin="10,0">
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout Orientation="Vertical"
+                                                                 Span="3" 
+                                                                 VerticalItemSpacing="0"
+                                                                 HorizontalItemSpacing="10"/>
+                                            </CollectionView.ItemsLayout>
+                                        </CollectionView>
+                                        <StackLayout HorizontalOptions="Center"
+                                                     IsVisible="{Binding HasError}"
+                                                     VerticalOptions="Center">
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCommand, Source={x:Reference carouselView}}" />
+                                            </StackLayout.GestureRecognizers>
+                                            <Label FontFamily="Bold"
+                                                   FontSize="55"
+                                                   HorizontalOptions="Center"
+                                                   Text="wifi"
+                                                   TextColor="Gray" />
+                                            <StackLayout>
+                                                <Label FontAttributes="Bold"
+                                                       FontSize="25"
+                                                       HorizontalTextAlignment="Center"
+                                                       Text="Что-то пошло не так"
+                                                       TextColor="Gray" />
+                                                <Label FontAttributes="Bold"
+                                                       FontSize="25"
+                                                       HorizontalTextAlignment="Center"
+                                                       Text="Нажмите, чтобы повторить попытку"
+                                                       TextColor="Gray" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <ActivityIndicator HorizontalOptions="Center"
+                                                           IsRunning="{Binding IsBusy}"
+                                                           VerticalOptions="Center" />
+                                    </Grid>
+                                </ContentView>
+                            </DataTemplate>
+                        </cards:CarouselView.ItemTemplate>
+                    </cards:CarouselView>
+                </StackLayout>
+            </pnck:PancakeView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

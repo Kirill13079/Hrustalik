@@ -61,11 +61,29 @@ namespace HealthApp.Resources.Language {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Авторы.
+        /// </summary>
+        public static string Authors {
+            get {
+                return ResourceManager.GetString("Authors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Понятно.
         /// </summary>
         public static string ButtonOK {
             get {
                 return ResourceManager.GetString("ButtonOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Категории.
+        /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
             }
         }
         
@@ -273,6 +291,15 @@ namespace HealthApp.Resources.Language {
         public static string LabelRegisterLinkLast {
             get {
                 return ResourceManager.GetString("LabelRegisterLinkLast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Поиск.
+        /// </summary>
+        public static string LabelSearch {
+            get {
+                return ResourceManager.GetString("LabelSearch", resourceCulture);
             }
         }
         

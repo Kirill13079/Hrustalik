@@ -1,37 +1,35 @@
-﻿using System;
+﻿using HealthApp.Controls.Base;
+using System;
 using Xamarin.Forms;
 
 namespace HealthApp.Controls.Behaviors
 {
-    public class SwipeDownToClosePopupPage : Behavior<View>
+    public class SwipeDownToClosePopupPage : BaseBehavior<View>
     {
-        public static readonly BindableProperty ClosingEdgeProperty = BindableProperty.Create(
+        private readonly PanGestureRecognizer _panGestureRecognizer;
+
+        private DateTimeOffset? _startPanDownTime;
+        private DateTimeOffset? _endPanDownTime;
+        private bool _reachedEdge;
+        private double _totalY;
+
+        private static BindableProperty ClosingEdgeProperty = BindableProperty.Create(
             propertyName: nameof(ClosingEdge),
             returnType: typeof(double),
             declaringType: typeof(SwipeDownToClosePopupPage),
             defaultValue: Convert.ToDouble(100),
             defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: ClosingEdgePropertyChanged);
+            propertyChanged: OnClosingEdgePropertyChanged);
 
-        public static readonly BindableProperty ClosingTimeInMsProperty = BindableProperty.Create(
+        private static BindableProperty ClosingTimeInMsProperty = BindableProperty.Create(
             propertyName: nameof(ClosingTimeInMs),
             returnType: typeof(long),
             declaringType: typeof(SwipeDownToClosePopupPage),
             defaultValue: Convert.ToInt64(500),
             defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: ClosingTimeInMsPropertyChanged);
+            propertyChanged: OnClosingTimeInMsPropertyChanged);
 
         public event Action CloseAction;
-
-        private readonly PanGestureRecognizer _panGestureRecognizer;
-
-        private bool _reachedEdge;
-
-        private DateTimeOffset? _startPanDownTime;
-
-        private DateTimeOffset? _endPanDownTime;
-
-        private double _totalY;
 
         public SwipeDownToClosePopupPage()
         {
@@ -50,7 +48,7 @@ namespace HealthApp.Controls.Behaviors
             set => SetValue(ClosingTimeInMsProperty, Convert.ToInt64(value));
         }
 
-        private static void ClosingEdgePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnClosingEdgePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             SwipeDownToClosePopupPage control = (SwipeDownToClosePopupPage)bindable;
 
@@ -60,7 +58,7 @@ namespace HealthApp.Controls.Behaviors
             }
         }
 
-        private static void ClosingTimeInMsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnClosingTimeInMsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             SwipeDownToClosePopupPage control = (SwipeDownToClosePopupPage)bindable;
 
@@ -72,23 +70,23 @@ namespace HealthApp.Controls.Behaviors
 
         protected override void OnAttachedTo(View v)
         {
-            _panGestureRecognizer.PanUpdated += Pan_PanUpdated;
+            base.OnAttachedTo(v);
+
+            _panGestureRecognizer.PanUpdated += OnPanUpdated;
 
             v.GestureRecognizers.Add(_panGestureRecognizer);
-
-            base.OnAttachedTo(v);
         }
 
         protected override void OnDetachingFrom(View v)
         {
-            _panGestureRecognizer.PanUpdated -= Pan_PanUpdated;
+            base.OnDetachingFrom(v);
+
+            _panGestureRecognizer.PanUpdated -= OnPanUpdated;
 
             _ = v.GestureRecognizers.Remove(_panGestureRecognizer);
-
-            base.OnDetachingFrom(v);
         }
 
-        private void Pan_PanUpdated(object sender, PanUpdatedEventArgs e)
+        private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
             View v = sender as View;
 

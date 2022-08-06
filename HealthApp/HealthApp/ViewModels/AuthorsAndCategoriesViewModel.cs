@@ -1,9 +1,11 @@
-﻿using HealthApp.Extensions;
+﻿using HealthApp.Common.Model;
+using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Models;
 using HealthApp.ViewModels.Base;
 using HealthApp.ViewModels.Data;
 using MvvmHelpers;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -53,7 +55,7 @@ namespace HealthApp.ViewModels
 
             CurrentTab = TabAuthorsAndCategoriesItems[0];
 
-            foreach (var tab in TabAuthorsAndCategoriesItems)
+            foreach (AuthorAndCategoryModel tab in TabAuthorsAndCategoriesItems)
             {
                 switch (tab.Title.ToLower())
                 {
@@ -79,14 +81,14 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var authors = await ApiManagerService.GetAuthorsAsync();
-                    var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
+                    List<Author> authors = await ApiManagerService.GetAuthorsAsync();
+                    List<Author> savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
 
-                    var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
+                    ObservableRangeCollection<AuthorAndCategoryViewModel> articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
-                    foreach (var author in authors)
+                    foreach (Author author in authors)
                     {
-                        var article = new AuthorAndCategoryViewModel
+                        AuthorAndCategoryViewModel article = new AuthorAndCategoryViewModel
                         {
                             Category = null,
                             Author = author
@@ -159,14 +161,14 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsBusy = true;
 
-                    var categories = await ApiManagerService.GetCategoriesAsync();
-                    var savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
+                    List<Category> categories = await ApiManagerService.GetCategoriesAsync();
+                    List<Category> savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
 
-                    var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
+                    ObservableRangeCollection<AuthorAndCategoryViewModel> articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
-                    foreach (var category in categories)
+                    foreach (Category category in categories)
                     {
-                        var article = new AuthorAndCategoryViewModel
+                        AuthorAndCategoryViewModel article = new AuthorAndCategoryViewModel
                         {
                             Category = category,
                             Author = null
@@ -188,14 +190,14 @@ namespace HealthApp.ViewModels
                 {
                     tab.IsRefreshing = true;
 
-                    var categories = await ApiManagerService.GetCategoriesAsync();
-                    var savedUserCategories = await CategoriesHelper .GetSavedUserCategoriesAsync();
+                    List<Category> categories = await ApiManagerService.GetCategoriesAsync();
+                    List<Category> savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
 
-                    var articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
+                    ObservableRangeCollection<AuthorAndCategoryViewModel> articles = new ObservableRangeCollection<AuthorAndCategoryViewModel>();
 
-                    foreach (var category in categories)
+                    foreach (Category category in categories)
                     {
-                        var article = new AuthorAndCategoryViewModel
+                        AuthorAndCategoryViewModel article = new AuthorAndCategoryViewModel
                         {
                             Category = category,
                             Author = null
@@ -250,7 +252,7 @@ namespace HealthApp.ViewModels
 
         private async Task ReloadCommandHandlerAsync()
         {
-            foreach (var tab in TabAuthorsAndCategoriesItems)
+            foreach (AuthorAndCategoryModel tab in TabAuthorsAndCategoriesItems)
             {
                 switch (tab.Title.ToLower())
                 {

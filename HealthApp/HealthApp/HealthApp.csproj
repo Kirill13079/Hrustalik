@@ -42,6 +42,7 @@
     <None Remove="Resources\Icons\circleError.svg" />
     <None Remove="Resources\Icons\circleSuccess.svg" />
     <None Remove="Resources\Icons\close.svg" />
+    <None Remove="Resources\Icons\done.svg" />
     <None Remove="Resources\Icons\emergency.svg" />
     <None Remove="Resources\Icons\key.svg" />
     <None Remove="Resources\Icons\like.svg" />
@@ -52,6 +53,7 @@
     <None Remove="Resources\Icons\notifications.svg" />
     <None Remove="Resources\Icons\person.svg" />
     <None Remove="Resources\Icons\privacy.svg" />
+    <None Remove="Resources\Icons\search.svg" />
     <None Remove="Resources\Icons\send.svg" />
   </ItemGroup>
 
@@ -86,6 +88,7 @@
     <EmbeddedResource Include="Resources\Icons\circleError.svg" />
     <EmbeddedResource Include="Resources\Icons\circleSuccess.svg" />
     <EmbeddedResource Include="Resources\Icons\close.svg" />
+    <EmbeddedResource Include="Resources\Icons\done.svg" />
     <EmbeddedResource Include="Resources\Icons\emergency.svg" />
     <EmbeddedResource Include="Resources\Icons\key.svg" />
     <EmbeddedResource Include="Resources\Icons\like.svg" />
@@ -96,6 +99,7 @@
     <EmbeddedResource Include="Resources\Icons\notifications.svg" />
     <EmbeddedResource Include="Resources\Icons\person.svg" />
     <EmbeddedResource Include="Resources\Icons\privacy.svg" />
+    <EmbeddedResource Include="Resources\Icons\search.svg" />
     <EmbeddedResource Include="Resources\Icons\send.svg" />
   </ItemGroup>
 
@@ -207,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\PrivacyPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

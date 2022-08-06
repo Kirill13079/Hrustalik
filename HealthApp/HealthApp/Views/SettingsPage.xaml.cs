@@ -1,7 +1,9 @@
 ﻿using HealthApp.Animations;
+using HealthApp.Common.Model.Helper;
 using HealthApp.Utils;
 using HealthApp.ViewModels;
 using HealthApp.ViewModels.Data;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -40,6 +42,11 @@ namespace HealthApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            if (_animation?.CurrentState != null)
+            {
+                SettingsPageSizeChanged(this, new EventArgs());
+            }
 
             SizeChanged += SettingsPageSizeChanged;
             scrollContainer.Scrolled += ScrollContainerScrolled;
@@ -153,6 +160,11 @@ namespace HealthApp.Views
                     SettingsPageSizeChanged(this, new EventArgs());
                 }
             }
+        }
+
+        private async void OnPrivacyPolicyTapped(object sender, EventArgs e)
+        {
+            await PopupNavigation.Instance.PushAsync(new PrivacyPage());
         }
     }
 }

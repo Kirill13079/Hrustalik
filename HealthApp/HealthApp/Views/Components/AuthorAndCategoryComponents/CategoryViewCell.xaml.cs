@@ -1,9 +1,13 @@
-﻿using HealthApp.Helpers;
+﻿using HealthApp.Extensions;
+using HealthApp.Helpers;
 using HealthApp.Models;
+using HealthApp.Service;
+using HealthApp.Utils;
 using HealthApp.ViewModels;
 using HealthApp.ViewModels.Data;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PancakeView;
 using Xamarin.Forms.Xaml;
 
 namespace HealthApp.Views.Components.AuthorAndCategoryComponents
@@ -27,20 +31,21 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
             if (_bindingContext != null)
             {
                 name.Text = _bindingContext.Category.Name;
-                checkbox.IsActive = _bindingContext.IsActive;
                 categoryImage.Source = _bindingContext.Category.Image;
+
+                SetBorderFrame();
             }
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
-            await CategoriesHelper.GetSavedUserCategoriesAsync();
+            _ = await CategoriesHelper.GetSavedUserCategoriesAsync();
 
             if (_bindingContext.IsActive)
             {
                 if (CategoriesHelper.SavedUserCategories.Count == 1)
                 {
-                    
+                    //await AlertDialogService.ShowDialogAsync("fdfd","dfdf","dfdfd");
                 }
                 else
                 {
@@ -69,7 +74,26 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 
             DialogsHelper.ProgressDialog.Hide();
 
-            checkbox.IsActive = _bindingContext.IsActive;
+            SetBorderFrame();
+        }
+
+        private void SetBorderFrame()
+        {
+            if (_bindingContext.IsActive)
+            {
+                circleFrame.Border = new Border
+                {
+                    Color = Color.FromHex("#2174F2"),
+                    Thickness = 5
+                };
+
+                activeChek.IsVisible = true;
+            }
+            else
+            {
+                circleFrame.Border = null;
+                activeChek.IsVisible = false;
+            }
         }
     }
 }

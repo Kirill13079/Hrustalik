@@ -5,6 +5,7 @@ using HealthApp.ViewModels;
 using HealthApp.ViewModels.Data;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PancakeView;
 using Xamarin.Forms.Xaml;
 
 namespace HealthApp.Views.Components.AuthorAndCategoryComponents
@@ -28,14 +29,15 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
             if (_bindingContext != null)
             {
                 name.Text = _bindingContext.Author.Name;
-                checkbox.IsActive = _bindingContext.IsActive;
                 authorImage.Source = _bindingContext.Author.Logo;
+
+                SetBorderFrame();
             }
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
-            await AuthorsHelper.GetSavedUserAuthorsAsync();
+            _ = await AuthorsHelper.GetSavedUserAuthorsAsync();
 
             if (_bindingContext.IsActive)
             {
@@ -70,7 +72,26 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
 
             DialogsHelper.ProgressDialog.Hide();
 
-            checkbox.IsActive = _bindingContext.IsActive;
+            SetBorderFrame();
+        }
+
+        private void SetBorderFrame()
+        {
+            if (_bindingContext.IsActive)
+            {
+                circleFrame.Border = new Border
+                {
+                    Color = Color.FromHex("#2174F2"),
+                    Thickness = 5
+                };
+
+                activeChek.IsVisible = true;
+            }
+            else
+            {
+                circleFrame.Border = null;
+                activeChek.IsVisible = false;
+            }
         }
     }
 }

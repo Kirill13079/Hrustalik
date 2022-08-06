@@ -158,8 +158,7 @@
                                                FontSize="{DynamicResource BodyLabelFontSize}"
                                                Margin="10,0"
                                                VerticalOptions="Center" 
-                                               HorizontalOptions="Start"
-                                               FontFamily="Meduim"/>
+                                               HorizontalOptions="Start"/>
                                     </StackLayout>
                                 </Grid>
                             </Frame>
@@ -270,6 +269,9 @@
                                                  Orientation="Horizontal"
                                                  Padding="20,0"
                                                  xtoll:TouchEffect.NativeAnimation="True">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnPrivacyPolicyTapped"/>
+                                        </StackLayout.GestureRecognizers>
                                         <controls:TintedCachedImage WidthRequest="25" 
                                                                     HeightRequest="25"                                                       
                                                                     SvgSource="HealthApp.Resources.Icons.privacy.svg"
