@@ -18,7 +18,7 @@ namespace HealthApp.Service
 
         public LoginViewModel LoginVm => new LoginViewModel();
 
-        public AuthorsAndCategoriesViewModel AuthorsAndCategoriesVm => new AuthorsAndCategoriesViewModel();
+        public ExtensibleViewModel AuthorsAndCategoriesVm => new ExtensibleViewModel();
 
         public ViewModelLocatorService()
         {

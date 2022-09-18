@@ -1,0 +1,189 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:HealthApp.Views.Components.ExtensibleComponents" 
+             xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
+             xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:controls="clr-namespace:HealthApp.Controls" 
+             xmlns:lang="clr-namespace:HealthApp.Resources.Language"
+             xmlns:xtoll="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HealthApp.Views.ExtensiblePage"
+             BackgroundColor="{DynamicResource AccentColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ExtensibleComponentsDataTemplateSelector x:Key="ExtensibleDataTemplateSelector"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Spacing="0">
+            <!-- navbar -->
+            <pnck:PancakeView HeightRequest="40"
+                              CornerRadius="0"
+                              Padding="0">
+                <!-- navbar content -->
+                <ScrollView x:Name="scrollView"
+                            HorizontalScrollBarVisibility="Never"
+                            Orientation="Horizontal">
+                    <Grid x:Name="tabBar"
+                          BackgroundColor="{DynamicResource AccentColor}"
+                          RowDefinitions="40"
+                          RowSpacing="0">
+                        <!-- items tab bar -->
+                        <FlexLayout x:Name="itemsTabBar"
+                                    BindableLayout.ItemsSource="{Binding TabExtensibleItems}"
+                                    JustifyContent="SpaceAround">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Padding="0,0"
+                                           FontFamily="Bold"
+                                           FontSize="{StaticResource HeadLabelFontSize}"
+                                           HorizontalTextAlignment="Center"
+                                           Text="{Binding Title}"
+                                           TextColor="White"
+                                           VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabItemTapped" 
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                        <!-- active indicator -->
+                        <BoxView x:Name="activeIndicator"
+                                 BackgroundColor="White"
+                                 HeightRequest="3"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="End"
+                                 CornerRadius="15"
+                                 WidthRequest="30"/>
+                    </Grid>
+                </ScrollView>
+            </pnck:PancakeView>
+            <!-- content -->
+            <pnck:PancakeView BackgroundColor="{DynamicResource PageBackgroundColor}"
+                              CornerRadius="15,15,0,0"
+                              Padding="0,0,0,0"
+                              VerticalOptions="FillAndExpand">
+                <StackLayout Spacing="0" >
+                    <!-- search bar + reload button -->
+                    <StackLayout HeightRequest="-1"
+                                 Orientation="Horizontal"
+                                 Spacing="0"
+                                 Margin="0,10,0,0">
+                        <!-- search -->
+                        <pnck:PancakeView BackgroundColor="{DynamicResource ComponentColor}"
+                                          Margin="10,0"
+                                          Padding="0"
+                                          CornerRadius="15"
+                                          HeightRequest="60"
+                                          HorizontalOptions="FillAndExpand">
+                            <Grid RowDefinitions="60"
+                                  ColumnDefinitions="*">
+                                <StackLayout Padding="20,0"
+                                             Orientation="Horizontal">
+                                    <ffimageloadingsvg:SvgCachedImage WidthRequest="24" 
+                                                                      HeightRequest="24"                                                       
+                                                                      Source="resource://HealthApp.Resources.Icons.search.svg"/>
+                                    <Entry Placeholder="{x:Static lang:Resource.LabelSearch}"
+                                           PlaceholderColor="{DynamicResource SkeletonColor}"
+                                           FontFamily="Medium"
+                                           HorizontalOptions="FillAndExpand"
+                                           FontSize="{DynamicResource BodyLabelFontSize}"
+                                           Text="{Binding SearchText}">
+                                    </Entry>
+                                </StackLayout>
+                            </Grid>
+                        </pnck:PancakeView>
+                    </StackLayout>
+                    <!-- content cards -->
+                    <cards:CarouselView x:Name="carouselView"
+                                        IsVerticalSwipeEnabled="True"
+                                        ItemsSource="{Binding TabExtensibleItems}"
+                                        SelectedItem="{Binding CurrentTabExtensibleItem}"
+                                        ItemSwiped="OnCarouselViewItemSwiped"
+                                        ItemAppearing="OnCarouselViewItemAppearing">
+                        <cards:CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <ContentView>
+                                    <StackLayout xct:StateLayout.CurrentState="{Binding CurrentStateTab}"
+                                                 xct:StateLayout.AnimateStateChanges="True"
+                                                 VerticalOptions="FillAndExpand">
+                                        <xct:StateLayout.StateViews>
+                                            <xct:StateView StateKey="Loading">
+                                                <Grid BackgroundColor="{DynamicResource PageBackgroundColor}">
+                                                    <StackLayout Padding="0, 10">
+                                                        <controls:SkeletonView HeightRequest="100"
+                                                                               WidthRequest="100"
+                                                                               CornerRadius="100"
+                                                                               BackgroundColor="{DynamicResource ComponentColor}"
+                                                                               HorizontalOptions="CenterAndExpand"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1"
+                                                                 Padding="0, 10">
+                                                        <controls:SkeletonView HeightRequest="100"
+                                                                               WidthRequest="100"
+                                                                               CornerRadius="100"
+                                                                               BackgroundColor="{DynamicResource ComponentColor}"
+                                                                               HorizontalOptions="CenterAndExpand"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2"
+                                                                 Padding="0, 10">
+                                                        <controls:SkeletonView HeightRequest="100"
+                                                                               WidthRequest="100"
+                                                                               CornerRadius="100"
+                                                                               BackgroundColor="{DynamicResource ComponentColor}"
+                                                                               HorizontalOptions="CenterAndExpand"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </xct:StateView>
+                                            <xct:StateView StateKey="Success">
+                                                <Grid BackgroundColor="{DynamicResource PageBackgroundColor}">
+                                                    <CollectionView ItemTemplate="{StaticResource ExtensibleDataTemplateSelector}"
+                                                                    ItemsSource="{Binding ExtensibleItems}"
+                                                                    SelectionMode="None"
+                                                                    Margin="10,0">
+                                                        <CollectionView.ItemsLayout>
+                                                            <GridItemsLayout Orientation="Vertical"
+                                                                             Span="3" 
+                                                                             VerticalItemSpacing="0"
+                                                                             HorizontalItemSpacing="10"/>
+                                                        </CollectionView.ItemsLayout>
+                                                    </CollectionView>
+                                                </Grid>
+                                            </xct:StateView>
+                                            <xct:StateView StateKey="Error" >
+                                                <StackLayout HorizontalOptions="CenterAndExpand"
+                                                             Padding="0, 10"
+                                                             VerticalOptions="FillAndExpand">
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="ReloadTapped" />
+                                                    </StackLayout.GestureRecognizers>
+                                                    <StackLayout>
+                                                        <Label FontAttributes="Bold"
+                                                               FontSize="{DynamicResource HeadLabelFontSize}"
+                                                               HorizontalTextAlignment="Center"
+                                                               Text="Что-то пошло не так"
+                                                               TextColor="{DynamicResource SkeletonColor}" />
+                                                        <Label FontAttributes="Bold"
+                                                               HorizontalTextAlignment="Center"
+                                                               Text="Нажмите чтобы повторить попытку"
+                                                               FontSize="{DynamicResource BodyLabelFontSize}"
+                                                               TextColor="{DynamicResource SkeletonColor}" />
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </xct:StateView>
+                                        </xct:StateLayout.StateViews>
+                                    </StackLayout>
+                                </ContentView>
+                            </DataTemplate>
+                        </cards:CarouselView.ItemTemplate>
+                    </cards:CarouselView>
+                </StackLayout>
+            </pnck:PancakeView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

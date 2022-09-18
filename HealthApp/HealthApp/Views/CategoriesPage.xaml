@@ -5,6 +5,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:controls="clr-namespace:HealthApp.Controls" 
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
+             xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:local="clr-namespace:HealthApp.Views.Components.CategoryNewsComponents"
              x:Class="HealthApp.Views.CategoriesPage"
              Title="Новости"
@@ -18,32 +19,78 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid RowSpacing="0"
+        <StackLayout>
+            <!-- navbar -->
+            <pnck:PancakeView HeightRequest="40"
+                              CornerRadius="0"
+                              Padding="0"
+                              BackgroundColor="{DynamicResource AccentColor}">
+                <!-- navbar content -->
+                <ScrollView x:Name="scrollView"
+                            HorizontalScrollBarVisibility="Never"
+                            Orientation="Horizontal">
+                    <Grid x:Name="tabBar"
+                          BackgroundColor="{DynamicResource AccentColor}"
+                          RowDefinitions="40"
+                          RowSpacing="0">
+                        <!-- items tab bar -->
+                        <FlexLayout x:Name="itemsTabBar"
+                                    BindableLayout.ItemsSource="{Binding CategoriesTab}"
+                                    JustifyContent="SpaceAround">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Padding="10,0"
+                                           FontFamily="Bold"
+                                           FontSize="{StaticResource HeadLabelFontSize}"
+                                           HorizontalTextAlignment="Center"
+                                           Text="{Binding Title}"
+                                           TextColor="White"
+                                           VerticalTextAlignment="Center"
+                                           >
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabItemTapped" 
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                        <!-- active indicator -->
+                        <BoxView x:Name="activeIndicator"
+                                 BackgroundColor="White"
+                                 HeightRequest="3"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="End"
+                                 CornerRadius="15"
+                                 WidthRequest="30"/>
+                    </Grid>
+                </ScrollView>
+            </pnck:PancakeView>
+        </StackLayout>
+        <!--   <Grid RowSpacing="0"
               RowDefinitions="45,*">
-            <!-- tab bar items -->
-            <ScrollView x:Name="scrollView"
+        <ScrollView x:Name="scrollView"
                             Grid.Row="0"
                             HorizontalScrollBarVisibility="Never"
                             Orientation="Horizontal"
                             BackgroundColor="{DynamicResource PageBackgroundColor}">
-                <controls:CarouselIndicatorView x:Name="carousel"
+            <controls:CarouselIndicatorView x:Name="carousel"
                                                 Items="{Binding CategoriesTab}"
                                                 CurrentItem="{Binding CurrentCategoryTab}"/>
-            </ScrollView>
-            <!-- content -->
-            <cards:CarouselView  x:Name="carouselView"
+        </ScrollView>
+        <cards:CarouselView  x:Name="carouselView"
                                  Grid.Row="1"
                                  BackgroundColor="{DynamicResource PageBackgroundColor}"
                                  IsVerticalSwipeEnabled="False"
                                  ItemsSource="{Binding CategoriesTab}"
                                  SelectedItem="{Binding CurrentCategoryTab}">
-                <cards:CarouselView.ItemTemplate>
-                    <DataTemplate>
-                        <ContentView>
-                            <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
+            <cards:CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView>
+                        <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
                                   Padding="10,0">
-                                <!-- records  -->
-                                <ListView CachingStrategy="RecycleElement"
+
+                            <ListView CachingStrategy="RecycleElement"
                                           HasUnevenRows="True"
                                           IsPullToRefreshEnabled="True"
                                           VerticalScrollBarVisibility="Never"
@@ -54,40 +101,40 @@
                                           SelectionMode="None"
                                           RefreshControlColor="{DynamicResource AccentColor}"
                                           SeparatorVisibility="None">
-                                </ListView>
-                                <!-- has error -->
-                                <StackLayout HorizontalOptions="Center"
+                            </ListView>
+
+                            <StackLayout HorizontalOptions="Center"
                                              IsVisible="{Binding HasError}"
                                              VerticalOptions="Center">
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCommand, Source={x:Reference carouselView}}" />
-                                    </StackLayout.GestureRecognizers>
-                                    <Label FontFamily="Bold"
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCommand, Source={x:Reference carouselView}}" />
+                                </StackLayout.GestureRecognizers>
+                                <Label FontFamily="Bold"
                                            FontSize="55"
                                            HorizontalOptions="Center"
                                            Text="wifi"
                                            TextColor="Gray" />
-                                    <StackLayout>
-                                        <Label FontAttributes="Bold"
+                                <StackLayout>
+                                    <Label FontAttributes="Bold"
                                                FontSize="25"
                                                HorizontalTextAlignment="Center"
                                                Text="Что-то пошло не так"
                                                TextColor="Gray" />
-                                        <Label FontAttributes="Bold"
+                                    <Label FontAttributes="Bold"
                                                FontSize="25"
                                                HorizontalTextAlignment="Center"
                                                Text="Нажмите, чтобы повторить попытку"
                                                TextColor="Gray" />
-                                    </StackLayout>
                                 </StackLayout>
-                                <ActivityIndicator HorizontalOptions="Center"
+                            </StackLayout>
+                            <ActivityIndicator HorizontalOptions="Center"
                                                    IsRunning="{Binding IsBusy}"
                                                    VerticalOptions="Center" />
-                            </Grid>
-                        </ContentView>
-                    </DataTemplate>
-                </cards:CarouselView.ItemTemplate>
-            </cards:CarouselView>
-        </Grid>
+                        </Grid>
+                    </ContentView>
+                </DataTemplate>
+            </cards:CarouselView.ItemTemplate>
+        </cards:CarouselView>
+        </Grid> -->
     </ContentPage.Content>
 </ContentPage>

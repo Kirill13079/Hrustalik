@@ -2,6 +2,17 @@
 
 namespace HealthApp.Utils
 {
+    public static class AppEnum
+    {
+        public enum App
+        {
+            [Display(Name = "Authors", ResourceType = typeof(Resources.Language.Resource))]
+            Authors,
+            [Display(Name = "Categories", ResourceType = typeof(Resources.Language.Resource))]
+            Categories,
+        }
+    }
+
     public static class BehaviorState
     {
         public enum EmailState

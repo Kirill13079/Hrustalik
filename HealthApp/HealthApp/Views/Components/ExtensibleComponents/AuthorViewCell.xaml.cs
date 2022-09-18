@@ -8,12 +8,12 @@ using Xamarin.Forms;
 using Xamarin.Forms.PancakeView;
 using Xamarin.Forms.Xaml;
 
-namespace HealthApp.Views.Components.AuthorAndCategoryComponents
+namespace HealthApp.Views.Components.ExtensibleComponents
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AuthorViewCell : Grid
     {
-        private AuthorAndCategoryViewModel _bindingContext;
+        private ExtensibleObject _bindingContext;
 
         public AuthorViewCell()
         {
@@ -24,7 +24,7 @@ namespace HealthApp.Views.Components.AuthorAndCategoryComponents
         {
             base.OnBindingContextChanged();
 
-            _bindingContext = BindingContext as AuthorAndCategoryViewModel;
+            _bindingContext = BindingContext as ExtensibleObject;
 
             if (_bindingContext != null)
             {

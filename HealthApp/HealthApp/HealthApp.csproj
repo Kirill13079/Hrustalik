@@ -136,6 +136,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\ExtensiblePage.xaml.cs">
+      <DependentUpon>ExtensiblePage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Dialogs\DisplayAlert.xaml.cs">
       <DependentUpon>DisplayAlert.xaml</DependentUpon>
     </Compile>
@@ -164,7 +167,7 @@
     <EmbeddedResource Update="Styles\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\AuthorsAndCategoriesPage.xaml">
+    <EmbeddedResource Update="Views\ExtensiblePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\BookmarksPage.xaml">
@@ -173,10 +176,10 @@
     <EmbeddedResource Update="Views\CategoriesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\AuthorAndCategoryComponents\AuthorViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\ExtensibleComponents\AuthorViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Components\AuthorAndCategoryComponents\CategoryViewCell.xaml">
+    <EmbeddedResource Update="Views\Components\ExtensibleComponents\CategoryViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Components\BookmarkNewsComponents\BookmarkViewCell.xaml">

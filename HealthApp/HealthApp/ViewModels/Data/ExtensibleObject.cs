@@ -3,7 +3,7 @@ using MvvmHelpers;
 
 namespace HealthApp.ViewModels.Data
 {
-    public class AuthorAndCategoryViewModel : ObservableObject
+    public class ExtensibleObject : ObservableObject
     {
         private Category _category;
         public Category Category

@@ -21,7 +21,7 @@ namespace HealthApp
         {
             _routes.Add("login", typeof(LoginPage));
             _routes.Add("news", typeof(NewsPage));
-            _routes.Add("authorsAndCategories", typeof(AuthorsAndCategoriesPage));
+            _routes.Add("authorsAndCategories", typeof(ExtensiblePage));
 
             foreach (var item in _routes)
             {
