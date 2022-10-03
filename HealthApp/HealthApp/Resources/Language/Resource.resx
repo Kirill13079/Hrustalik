@@ -129,6 +129,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Темная</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
   <data name="ErrorConfirmedPassword" xml:space="preserve">
     <value>Пароли не совпадают</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="ErrorRegister" xml:space="preserve">
     <value>Во время регистрации произошла ошибка</value>
+  </data>
+  <data name="ErrorServer" xml:space="preserve">
+    <value>У нас какие то проблемы ;(</value>
   </data>
   <data name="LabelCategoryAndAuthor" xml:space="preserve">
     <value>Категории и авторы</value>
@@ -179,6 +185,9 @@
   </data>
   <data name="LabelMoreSettings" xml:space="preserve">
     <value>Общие</value>
+  </data>
+  <data name="LabelNews" xml:space="preserve">
+    <value>Новости</value>
   </data>
   <data name="LabelNotification" xml:space="preserve">
     <value>Уведомления</value>

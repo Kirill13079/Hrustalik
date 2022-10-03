@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:controls="clr-namespace:HealthApp.Controls" 
              xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" 
              xmlns:pnck="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:local="clr-namespace:HealthApp.Views.Components.CategoryNewsComponents"
              x:Class="HealthApp.Views.CategoriesPage"
-             Title="Новости"
-             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             BackgroundColor="{DynamicResource AccentColor}"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              mc:Ignorable="d">
 
     <ContentPage.Resources>
@@ -19,7 +18,7 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Spacing="5">
             <!-- navbar -->
             <pnck:PancakeView HeightRequest="40"
                               CornerRadius="0"
@@ -36,7 +35,8 @@
                         <!-- items tab bar -->
                         <FlexLayout x:Name="itemsTabBar"
                                     BindableLayout.ItemsSource="{Binding CategoriesTab}"
-                                    JustifyContent="SpaceAround">
+                                    JustifyContent="SpaceAround"
+                                    Margin="0">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
                                     <Label Padding="10,0"
@@ -45,8 +45,7 @@
                                            HorizontalTextAlignment="Center"
                                            Text="{Binding Title}"
                                            TextColor="White"
-                                           VerticalTextAlignment="Center"
-                                           >
+                                           VerticalTextAlignment="Center">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnTabItemTapped" 
                                                                   CommandParameter="{Binding .}"/>
@@ -66,75 +65,59 @@
                     </Grid>
                 </ScrollView>
             </pnck:PancakeView>
+            <!-- content -->
+            <pnck:PancakeView BackgroundColor="{DynamicResource PageBackgroundColor}"
+                              CornerRadius="15,15,0,0"
+                              Padding="0,0,0,0"
+                              VerticalOptions="FillAndExpand">
+                <StackLayout Spacing="0">
+                    <cards:CarouselView x:Name="carouselView"
+                                        IsVerticalSwipeEnabled="True"
+                                        ItemsSource="{Binding CategoriesTab}"
+                                        SelectedItem="{Binding CurrentCategoryTab}"
+                                        ItemAppearing="OnCarouselViewItemAppearing">
+                        <cards:CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <ContentView Margin="10,0">
+                                    <StackLayout xct:StateLayout.CurrentState="{Binding CurrentStateTab}"
+                                                 xct:StateLayout.AnimateStateChanges="True"
+                                                 VerticalOptions="FillAndExpand">
+                                        <xct:StateLayout.StateViews>
+                                            <xct:StateView StateKey="Success">
+                                                <ListView CachingStrategy="RecycleElement"
+                                                          HasUnevenRows="True"
+                                                          IsPullToRefreshEnabled="True"
+                                                          VerticalScrollBarVisibility="Never"
+                                                          IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
+                                                          ItemTemplate="{StaticResource NewsDataTemplateSelector}"
+                                                          ItemsSource="{Binding Records}"
+                                                          RefreshCommand="{Binding Path=BindingContext.RefreshCommand, Source={x:Reference carouselView}}"
+                                                          SelectionMode="None"
+                                                          RefreshControlColor="{DynamicResource AccentColor}"
+                                                          SeparatorVisibility="None">
+                                                </ListView>
+                                            </xct:StateView>
+                                            <xct:StateView StateKey="Empty">
+                                                <StackLayout HorizontalOptions="CenterAndExpand"
+                                                             Padding="0, 10"
+                                                             VerticalOptions="FillAndExpand">
+                                                    <StackLayout>
+                                                        <Label FontAttributes="Bold"
+                                                               FontSize="{DynamicResource HeadLabelFontSize}"
+                                                               HorizontalTextAlignment="Center"
+                                                               Text="Здесь пока что ничего нет, скоро появится"
+                                                               TextColor="{DynamicResource SkeletonColor}" />
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </xct:StateView>
+                                        </xct:StateLayout.StateViews>
+                                    </StackLayout>
+                                </ContentView>
+                            </DataTemplate>
+                        </cards:CarouselView.ItemTemplate>
+                    </cards:CarouselView>
+                </StackLayout>
+            </pnck:PancakeView>
         </StackLayout>
-        <!--   <Grid RowSpacing="0"
-              RowDefinitions="45,*">
-        <ScrollView x:Name="scrollView"
-                            Grid.Row="0"
-                            HorizontalScrollBarVisibility="Never"
-                            Orientation="Horizontal"
-                            BackgroundColor="{DynamicResource PageBackgroundColor}">
-            <controls:CarouselIndicatorView x:Name="carousel"
-                                                Items="{Binding CategoriesTab}"
-                                                CurrentItem="{Binding CurrentCategoryTab}"/>
-        </ScrollView>
-        <cards:CarouselView  x:Name="carouselView"
-                                 Grid.Row="1"
-                                 BackgroundColor="{DynamicResource PageBackgroundColor}"
-                                 IsVerticalSwipeEnabled="False"
-                                 ItemsSource="{Binding CategoriesTab}"
-                                 SelectedItem="{Binding CurrentCategoryTab}">
-            <cards:CarouselView.ItemTemplate>
-                <DataTemplate>
-                    <ContentView>
-                        <Grid BackgroundColor="{DynamicResource PageBackgroundColor}" 
-                                  Padding="10,0">
-
-                            <ListView CachingStrategy="RecycleElement"
-                                          HasUnevenRows="True"
-                                          IsPullToRefreshEnabled="True"
-                                          VerticalScrollBarVisibility="Never"
-                                          IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
-                                          ItemTemplate="{StaticResource NewsDataTemplateSelector}"
-                                          ItemsSource="{Binding Records}"
-                                          RefreshCommand="{Binding Path=BindingContext.RefreshCommand, Source={x:Reference carouselView}}"
-                                          SelectionMode="None"
-                                          RefreshControlColor="{DynamicResource AccentColor}"
-                                          SeparatorVisibility="None">
-                            </ListView>
-
-                            <StackLayout HorizontalOptions="Center"
-                                             IsVisible="{Binding HasError}"
-                                             VerticalOptions="Center">
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ReloadCommand, Source={x:Reference carouselView}}" />
-                                </StackLayout.GestureRecognizers>
-                                <Label FontFamily="Bold"
-                                           FontSize="55"
-                                           HorizontalOptions="Center"
-                                           Text="wifi"
-                                           TextColor="Gray" />
-                                <StackLayout>
-                                    <Label FontAttributes="Bold"
-                                               FontSize="25"
-                                               HorizontalTextAlignment="Center"
-                                               Text="Что-то пошло не так"
-                                               TextColor="Gray" />
-                                    <Label FontAttributes="Bold"
-                                               FontSize="25"
-                                               HorizontalTextAlignment="Center"
-                                               Text="Нажмите, чтобы повторить попытку"
-                                               TextColor="Gray" />
-                                </StackLayout>
-                            </StackLayout>
-                            <ActivityIndicator HorizontalOptions="Center"
-                                                   IsRunning="{Binding IsBusy}"
-                                                   VerticalOptions="Center" />
-                        </Grid>
-                    </ContentView>
-                </DataTemplate>
-            </cards:CarouselView.ItemTemplate>
-        </cards:CarouselView>
-        </Grid> -->
     </ContentPage.Content>
 </ContentPage>

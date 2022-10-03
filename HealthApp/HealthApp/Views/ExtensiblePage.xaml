@@ -18,7 +18,7 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Spacing="0">
+        <StackLayout Spacing="5">
             <!-- navbar -->
             <pnck:PancakeView HeightRequest="40"
                               CornerRadius="0"

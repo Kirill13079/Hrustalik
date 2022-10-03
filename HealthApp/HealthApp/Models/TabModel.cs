@@ -1,12 +1,13 @@
 ﻿using HealthApp.ViewModels.Data;
 using MvvmHelpers;
+using Xamarin.CommunityToolkit.UI.Views;
 
 namespace HealthApp.Models
 {
     public class TabModel : BaseViewModel
     {
         public int _page;
-        public int Page 
+        public int Page
         {
             get => _page;
             set
@@ -30,7 +31,7 @@ namespace HealthApp.Models
         private bool _isRefreshing;
         public bool IsRefreshing
         {
-            get => _isRefreshing; 
+            get => _isRefreshing;
             set
             {
                 _isRefreshing = value;
@@ -38,10 +39,24 @@ namespace HealthApp.Models
             }
         }
 
+        private LayoutState _currentStateTab;
+        public LayoutState CurrentStateTab
+        {
+            get => _currentStateTab;
+            set
+            {
+                if (_currentStateTab != value)
+                {
+                    _currentStateTab = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private ObservableRangeCollection<RecordViewModel> _records;
         public ObservableRangeCollection<RecordViewModel> Records
         {
-            get => _records; 
+            get => _records;
             set
             {
                 _records = value;

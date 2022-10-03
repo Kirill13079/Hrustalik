@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using HealthApp.Common.Model;
 using HealthApp.Extensions;
 using HealthApp.Helpers;
 using HealthApp.Models;
@@ -13,27 +15,13 @@ namespace HealthApp.ViewModels
 {
     public class CategoryViewModel : ViewBaseModel
     {
+        #region private
+
         private ObservableRangeCollection<TabModel> _categoriesTab = new ObservableRangeCollection<TabModel>();
-        public ObservableRangeCollection<TabModel> CategoriesTab
-        {
-            get => _categoriesTab;
-            set
-            {
-                _categoriesTab = value;
-                OnPropertyChanged();
-            }
-        }
 
         private TabModel _currentCategoryTab = new TabModel();
-        public TabModel CurrentCategoryTab
-        {
-            get => _currentCategoryTab;
-            set
-            {
-                _currentCategoryTab = value;
-                OnPropertyChanged();
-            }
-        }
+
+        #endregion
 
         public CategoryViewModel()
         {
@@ -44,14 +32,40 @@ namespace HealthApp.ViewModels
             _ = GetDataAsync().ConfigureAwait(false);
         }
 
+        #region properties
+
+        public ObservableRangeCollection<TabModel> CategoriesTab
+        {
+            get => _categoriesTab;
+            set
+            {
+                _categoriesTab = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TabModel CurrentCategoryTab
+        {
+            get => _currentCategoryTab;
+            set
+            {
+                _currentCategoryTab = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region public methods
+
         public async Task GetDataAsync()
         {
-            CurrentState = LayoutState.Loading;
-
             await GetDataCategoriesAsync();
-
-            CurrentState = LayoutState.None;
         }
+
+        #endregion
+
+        #region private methods
 
         private async Task GetDataCategoriesAsync()
         {
@@ -60,19 +74,19 @@ namespace HealthApp.ViewModels
                 CategoriesTab.Clear();
             }
 
-            var categories = await ApiManagerService.GetCategoriesAsync();
+            List<Category> categories = await ApiManagerService.GetCategoriesAsync();
 
-            var tabItems = new ObservableRangeCollection<TabModel>();
+            ObservableRangeCollection<TabModel> tabItems = new ObservableRangeCollection<TabModel>();
 
             if (categories != null)
             {
-                var savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
+                List<Category> savedUserCategories = await CategoriesHelper.GetSavedUserCategoriesAsync();
 
                 _ = categories.RemoveAll(match: category => !savedUserCategories.EqualsHelper(category));
 
                 if (categories.Count > 0)
                 {
-                    foreach (var category in categories)
+                    foreach (Category category in categories)
                     {
                         tabItems.Add(new TabModel
                         {
@@ -82,9 +96,10 @@ namespace HealthApp.ViewModels
                     }
 
                     CategoriesTab = tabItems;
+
                     CurrentCategoryTab = CategoriesTab[0];
 
-                    foreach (var tab in CategoriesTab)
+                    foreach (TabModel tab in CategoriesTab)
                     {
                         await LoadCategoryContentDataAsync(tab).ConfigureAwait(false);
                     }
@@ -94,97 +109,74 @@ namespace HealthApp.ViewModels
 
         private async Task LoadCategoryContentDataAsync(TabModel tab, bool isRefreshing = false)
         {
-            tab.HasError = false;
+            tab.CurrentStateTab = LayoutState.Loading;
 
             try
             {
+                List<RecordViewModel> records = await GetCategories(tab);
+
                 if (tab.Records.Count == 0)
                 {
-                    if (isRefreshing)
-                    {
-                        tab.IsRefreshing = true;
-                    }
-
-                    tab.IsBusy = true;
-
-                    var savedUserAuthors =  await AuthorsHelper.GetSavedUserAuthorsAsync();
-
-                    var bookmarks = await ApiManagerService.GetBookmarksAsync();
-                    var records = await ApiManagerService.GetCategoryRecordsAsync(categoryId: tab.Page);
-
-                    if (savedUserAuthors.Any())
-                    { 
-                        _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author)); 
-                    }
-
-                    if (bookmarks != null)
-                    {
-                        foreach (var record in records)
-                        {
-                            if (bookmarks.Any(predicate: boomark => boomark.Record.Id == record.Id))
-                            {
-                                record.IsBookmark = true;
-                            }
-                        }
-                    }
-
                     tab.Records.AddRange(records);
-
-                    tab.IsBusy = false;
                 }
                 else if (isRefreshing)
                 {
                     tab.IsRefreshing = true;
-
-                    var savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
-                    var bookmarks = await ApiManagerService.GetBookmarksAsync();
-                    var records = await ApiManagerService.GetCategoryRecordsAsync(categoryId: tab.Page);
-
-                    if (savedUserAuthors.Any())
-                    {
-                        _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
-                    }
-
-                    if (bookmarks != null)
-                    {
-                        foreach (var record in records)
-                        {
-                            if (bookmarks.Any(predicate: boomark => boomark.Record.Id == record.Id))
-                            {
-                                record.IsBookmark = true;
-                            }
-                        }
-                    }
 
                     tab.Records.ReplaceRange(records);
 
                     tab.IsRefreshing = false;
                 }
 
-                if (tab.Records.Count == 0)
-                {
-                    tab.HasError = true;
-                }
+                tab.CurrentStateTab = tab.Records.Count == 0 ? LayoutState.Empty : LayoutState.Success;
             }
             catch
             {
-                tab.HasError = true;
+                tab.CurrentStateTab = LayoutState.Error;
             }
             finally
             {
                 tab.IsRefreshing = false;
-                tab.IsBusy = false;
             }
         }
 
+        private async Task<List<RecordViewModel>> GetCategories(TabModel tab)
+        {
+            List<Author> savedUserAuthors = await AuthorsHelper.GetSavedUserAuthorsAsync();
+            List<Bookmark> bookmarks = await ApiManagerService.GetBookmarksAsync();
+            List<RecordViewModel> records = await ApiManagerService.GetCategoryRecordsAsync(categoryId: tab.Page);
+
+            if (savedUserAuthors.Any())
+            {
+                _ = records.RemoveAll(match: record => !savedUserAuthors.EqualsHelper(record.Author));
+            }
+
+            if (bookmarks != null)
+            {
+                foreach (RecordViewModel record in records)
+                {
+                    if (bookmarks.Any(predicate: boomark => boomark.Record.Id == record.Id))
+                    {
+                        record.IsBookmark = true;
+                    }
+                }
+            }
+
+            return records;
+        }
+
+        #endregion
+
+        #region command handlers
+
         private async Task RefreshCommandHandlerAsync()
         {
-            await LoadCategoryContentDataAsync(CurrentCategoryTab, true);
+            await LoadCategoryContentDataAsync(CurrentCategoryTab, isRefreshing: true);
         }
 
         private async Task ReloadCommandHandlerAsync()
         {
-            foreach (var tab in CategoriesTab)
+            foreach (TabModel tab in CategoriesTab)
             {
                 await LoadCategoryContentDataAsync(tab).ConfigureAwait(false);
             }
@@ -192,13 +184,16 @@ namespace HealthApp.ViewModels
 
         private void LikeRecordCommandHandler(RecordViewModel likedRecord)
         {
-            bool isLikedRecord(RecordViewModel record) => record.Equals(likedRecord);
+            bool isLikedRecord(RecordViewModel record)
+            {
+                return record.Equals(likedRecord);
+            }
 
-            foreach (var tab in CategoriesTab)
+            foreach (TabModel tab in CategoriesTab)
             {
                 if (tab.Records.Count > 0)
                 {
-                    var categoryRecord = tab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
+                    RecordViewModel categoryRecord = tab.Records.FirstOrDefault(predicate: record => isLikedRecord(record));
 
                     if (categoryRecord != null)
                     {
@@ -207,5 +202,7 @@ namespace HealthApp.ViewModels
                 }
             }
         }
+
+        #endregion
     }
 }

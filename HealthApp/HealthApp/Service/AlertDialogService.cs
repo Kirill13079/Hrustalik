@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using HealthApp.Helpers;
+﻿using System;
+using System.Threading.Tasks;
 using HealthApp.Interfaces;
 using HealthApp.Views.Dialogs;
 using Rg.Plugins.Popup.Extensions;
@@ -11,25 +11,26 @@ namespace HealthApp.Service
     {
         private static TaskCompletionSource<bool> _taskCompletionSource;
 
-        public async Task ShowDialogAsync(string title, string message, string accept)
+        [Obsolete]
+        public async Task ShowDialogAsync(string title, string message)
         {
-            if (DialogsHelper.ProgressDialog.IsShowing)
-            {
-                DialogsHelper.ProgressDialog.Hide();
-            }
+            DisplayAlert.Instance.Title = title;
+            DisplayAlert.Instance.Message = message;
 
-            DisplayAlert dialog = new DisplayAlert(title, message, accept);
-
-            await Application.Current.MainPage.Navigation.PushPopupAsync(dialog);
+            await DisplayAlert.Instance.ShowAsync();
         }
 
+        [Obsolete]
         public async Task<bool> ShowDialogConfirmationAsync(string title, string message, string accept, string cancel)
         {
             _taskCompletionSource = new TaskCompletionSource<bool>();
 
-            DisplayAlertSheet dialogSheet = new DisplayAlertSheet(title, message, accept, cancel, Callback);
+            DisplayAlertSheet.Instance.Title = title;
+            DisplayAlertSheet.Instance.Message = message;
+            DisplayAlertSheet.Instance.Accept = accept;
+            DisplayAlertSheet.Instance.Cancel = cancel;
 
-            await Application.Current.MainPage.Navigation.PushPopupAsync(dialogSheet);
+            await DisplayAlertSheet.Instance.ShowAsync(Callback);
 
             return await _taskCompletionSource.Task;
         }

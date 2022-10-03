@@ -81,9 +81,9 @@ namespace HealthApp.Resources.Language {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Категории.
         /// </summary>
-        public static string Category {
+        public static string Categories {
             get {
-                return ResourceManager.GetString("Category", resourceCulture);
+                return ResourceManager.GetString("Categories", resourceCulture);
             }
         }
         
@@ -93,6 +93,15 @@ namespace HealthApp.Resources.Language {
         public static string DarkTheme {
             get {
                 return ResourceManager.GetString("DarkTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         
@@ -156,6 +165,15 @@ namespace HealthApp.Resources.Language {
         public static string ErrorRegister {
             get {
                 return ResourceManager.GetString("ErrorRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на У нас какие то проблемы ;(.
+        /// </summary>
+        public static string ErrorServer {
+            get {
+                return ResourceManager.GetString("ErrorServer", resourceCulture);
             }
         }
         
@@ -246,6 +264,15 @@ namespace HealthApp.Resources.Language {
         public static string LabelMoreSettings {
             get {
                 return ResourceManager.GetString("LabelMoreSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Новости.
+        /// </summary>
+        public static string LabelNews {
+            get {
+                return ResourceManager.GetString("LabelNews", resourceCulture);
             }
         }
         

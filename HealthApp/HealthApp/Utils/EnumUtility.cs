@@ -51,7 +51,9 @@ namespace HealthApp.Utils
             [Display(Name = "ErrorEmptyEntry", ResourceType = typeof(Resources.Language.Resource))]
             EmptyEntry,
             [Display(Name = "ErrorCorrectEmail", ResourceType = typeof(Resources.Language.Resource))]
-            CorrectEmail
+            CorrectEmail,
+            [Display(Name = "ErrorServer", ResourceType = typeof(Resources.Language.Resource))]
+            Server
         }
 
         public enum Button

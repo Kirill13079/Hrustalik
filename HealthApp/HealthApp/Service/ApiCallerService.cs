@@ -1,16 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using HealthApp.Extensions;
+using HealthApp.Interfaces;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
-using static HealthApp.Helpers.DialogsHelper;
-
 namespace HealthApp.Service
 {
     public class ApiCallerService
     {
+        private static readonly IAlertDialog _alertDialogService = new AlertDialogService();
+
         public static async Task<string> Post<T>(string url, T model)
         {
             using (HttpClient client = new HttpClient())
@@ -37,14 +39,14 @@ namespace HealthApp.Service
                     }
                     else
                     {
-                        HandleDialogMessage(Errors.UndefinedError);
+                        await _alertDialogService.ShowDialogAsync(title: Resources.Language.Resource.Error, message: request.ToString());
 
                         return null;
                     }
                 }
                 catch
                 {
-                    HandleDialogMessage(Errors.NetworkError);
+                    await _alertDialogService.ShowDialogAsync(title: Resources.Language.Resource.Error, message: Utils.MessageEnum.Error.Network.DisplayName());
 
                     return null;
                 }

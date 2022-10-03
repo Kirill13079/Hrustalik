@@ -137,10 +137,7 @@ namespace HealthApp.ViewModels
 
                             if (!isLogin)
                             {
-                                await AlertDialogService.ShowDialogAsync(
-                                    title: Title,
-                                    message: MessageEnum.Error.Login.DisplayName(),
-                                    cancel: MessageEnum.Button.OK.DisplayName());
+                                await AlertDialogService.ShowDialogAsync(title: Title, message: MessageEnum.Error.Login.DisplayName());
                             }
                         }
                     }
@@ -148,10 +145,7 @@ namespace HealthApp.ViewModels
             }
             catch (Exception ex)
             {
-                await AlertDialogService.ShowDialogAsync(
-                    title: Title,
-                    message: $"{MessageEnum.Error.Login.DisplayName()}: {ex.Message}",
-                    cancel: MessageEnum.Button.OK.DisplayName());
+                await AlertDialogService.ShowDialogAsync(title: Title, message: $"{MessageEnum.Error.Login.DisplayName()}: {ex.Message}");
             }
         }
 
@@ -177,18 +171,12 @@ namespace HealthApp.ViewModels
 
                 if (!isLogin)
                 {
-                    await AlertDialogService.ShowDialogAsync(
-                        title: Title,
-                        message: MessageEnum.Error.Login.DisplayName(),
-                        cancel: MessageEnum.Button.OK.DisplayName());
+                    await AlertDialogService.ShowDialogAsync(title: Title, message: MessageEnum.Error.Login.DisplayName());
                 }
             }
             else
             {
-                await AlertDialogService.ShowDialogAsync(
-                            title: Title,
-                            message: validModelMessage,
-                            cancel: MessageEnum.Button.OK.DisplayName());
+                await AlertDialogService.ShowDialogAsync(title: Title, message: validModelMessage);
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿using HealthApp.Models;
 using HealthApp.ViewModels;
+using PanCardView;
+using PanCardView.EventArgs;
 using System;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -70,8 +72,6 @@ namespace HealthApp.Views
                         {
                             MoveActiveIndicator(target: label);
 
-                            ScrollListCommand.Execute(null);
-
                             return;
                         }
                     }
@@ -84,6 +84,8 @@ namespace HealthApp.Views
             double width = target.Width - activeIndicator.Width;
 
             _ = activeIndicator.TranslateTo(x: target.X + (width / 2), y: 0, length: 100, easing: Easing.Linear);
+
+            ScrollListCommand.Execute(null);
         }
 
         private void OnTabItemTapped(object sender, EventArgs e)
@@ -99,6 +101,11 @@ namespace HealthApp.Views
                     return;
                 }
             }
+        }
+
+        private void OnCarouselViewItemAppearing(CardsView view, ItemAppearingEventArgs args)
+        {
+            SetCurrentActiveTabItem((TabModel)args.Item);
         }
     }
 }

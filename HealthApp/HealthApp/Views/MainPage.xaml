@@ -9,21 +9,9 @@
              xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:controls="clr-namespace:HealthApp.Controls"
+             xmlns:lang="clr-namespace:HealthApp.Resources.Language"
              x:Class="HealthApp.Views.MainPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
-
-    <Shell.TitleView>
-        <Grid BackgroundColor="{DynamicResource PageBackgroundColor}"
-              ColumnDefinitions="*,10"
-              HorizontalOptions="FillAndExpand"
-              VerticalOptions="FillAndExpand">
-            <Label FontAttributes="Bold"
-                   FontSize="{StaticResource HeadLabelFontSize}"
-                   HorizontalOptions="Center"
-                   Text="Новости"
-                   VerticalOptions="Center" />
-        </Grid>
-    </Shell.TitleView>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -34,193 +22,214 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout xct:StateLayout.CurrentState="{Binding CurrentState}"
-                     xct:StateLayout.AnimateStateChanges="False">
-            
-            <!-- skeleton loader -->
-            <xct:StateLayout.StateViews>
-                <xct:StateView StateKey="Loading">
-                    <Grid ColumnDefinitions="*"
-                          RowDefinitions="220,202,*"
-                          ColumnSpacing="10"
-                          RowSpacing="15"
-                          Padding="0,0,0,5">
-                        <controls:SkeletonView Grid.Column="0"
-                                               Grid.Row="0"
-                                               Margin="10,0"
-                                               CornerRadius="15"
-                                               HorizontalOptions="FillAndExpand"
-                                               BackgroundColor="{DynamicResource ComponentColor}"/>
-                        <ScrollView Grid.Row="1"
-                                    Orientation="Horizontal"
-                                    HorizontalScrollBarVisibility="Never">
-                            <Grid ColumnDefinitions="*,*,*"
-                                  VerticalOptions="FillAndExpand"
-                                  Padding="10,0,0,0">
-                                <controls:SkeletonView BackgroundColor="{DynamicResource ComponentColor}"
-                                                       CornerRadius="15"
-                                                       WidthRequest="160"
-                                                       VerticalOptions="FillAndExpand"
-                                                       Margin="0,0,5,0"/>
-                                <controls:SkeletonView Grid.Column ="1" 
-                                                       BackgroundColor="{DynamicResource ComponentColor}"
-                                                       CornerRadius="15"
-                                                       WidthRequest="160"
-                                                       VerticalOptions="FillAndExpand"
-                                                       Margin="0,0,5,0"/>
-                                <controls:SkeletonView Grid.Column ="2" 
-                                                       BackgroundColor="{DynamicResource ComponentColor}"
-                                                       CornerRadius="15"
-                                                       WidthRequest="160"
-                                                       VerticalOptions="FillAndExpand"
-                                                       Margin="0,0,5,0"/>
-                            </Grid>
-                        </ScrollView>
-                        <StackLayout Grid.Row="2"
-                                     Padding="10,0">
-                            <controls:SkeletonView HeightRequest="320"
-                                                   BackgroundColor="{DynamicResource ComponentColor}"
-                                                   CornerRadius="15"
-                                                   HorizontalOptions="FillAndExpand"/>
-                        </StackLayout>
-                    </Grid>
-                </xct:StateView>
-            </xct:StateLayout.StateViews>
-            <CollectionView x:Name="mainScrollView"
+        <AbsoluteLayout BackgroundColor="{DynamicResource AccentColor}">
+            <!-- header -->
+            <StackLayout x:Name="headerPage"
+                         AbsoluteLayout.LayoutBounds="0,0">
+                <Label x:Name="headerLabel" 
+                       Text="{x:Static lang:Resource.LabelNews}"
+                       FontAttributes="Bold"
+                       FontSize="40"
+                       TextColor="{DynamicResource ButtonTextColor}"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            <!-- content -->
+            <pnck:PancakeView x:Name="contentPage"
+                              BackgroundColor="{DynamicResource PageBackgroundColor}"
+                              CornerRadius="15,15,0,0"
+                              Padding="0,0,0,0">
+                <ScrollView x:Name="scrollContainer"
                             VerticalScrollBarVisibility="Never">
-                <CollectionView.Header>
-                    <Grid RowDefinitions="220,202"
-                          RowSpacing="15"
-                          Padding="0,0,0,5">
-                        <pnck:PancakeView Grid.Row="0" 
-                                          Padding="0"
-                                          Margin="10,0"
-                                          CornerRadius="15">
-                            <ffimageloading:CachedImage Source="{Binding MainTab.HotRecord.Image}" 
-                                                        BackgroundColor="{DynamicResource ImageBackgroundColor}"
-                                                        Aspect="AspectFill"
-                                                        DownsampleToViewSize="True"
-                                                        DownsampleUseDipUnits="True"/>
-                        </pnck:PancakeView>
-                        <pnck:PancakeView Grid.Row="0" 
-                                          Margin="10,0"
-                                          CornerRadius="15"
-                                          InputTransparent="True"
-                                          BackgroundGradientEndPoint="0,1"
-                                          Padding="10">
-                            <pnck:PancakeView.BackgroundGradientStops>
-                                <pnck:GradientStopCollection>
-                                    <pnck:GradientStop Color="Transparent" Offset="0" />
-                                    <pnck:GradientStop Color="Transparent" Offset="1" />
-                                </pnck:GradientStopCollection>
-                            </pnck:PancakeView.BackgroundGradientStops>
-                            <StackLayout Orientation="Vertical" 
-                                         VerticalOptions="EndAndExpand">
-                                <Label Text="{Binding MainTab.HotRecord.Category.Name}"
-                                       FontFamily="Regular"
-                                       LineBreakMode="TailTruncation"
-                                       MaxLines="1"
-                                       TextColor="White"
-                                       FontSize="{StaticResource SmallLabelFontSize}"/>
-                                <Label Text="{Binding MainTab.HotRecord.Name}"  
-                                       FontFamily="Bold"
-                                       LineBreakMode="TailTruncation"
-                                       MaxLines="5"
-                                       TextColor="White"
-                                       FontSize="{StaticResource HeadLabelFontSize}"/>
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout Orientation="Horizontal">
-                                         <Frame Padding="0"
-                                               CornerRadius="10">
-                                            <ffimageloading:CachedImage Source="{Binding MainTab.HotRecord.Author.Logo}" 
+                    <StackLayout xct:StateLayout.CurrentState="{Binding CurrentState}"
+                                 xct:StateLayout.AnimateStateChanges="False">
+                        <!-- skeleton loader -->
+                        <xct:StateLayout.StateViews>
+                            <xct:StateView StateKey="Loading">
+                                <Grid ColumnDefinitions="*"
+                                      RowDefinitions="220,202,*"
+                                      ColumnSpacing="10"
+                                      RowSpacing="15"
+                                      Padding="0,0,0,5">
+                                    <controls:SkeletonView Grid.Column="0"
+                                                           Grid.Row="0"
+                                                           Margin="10,0"
+                                                           CornerRadius="15"
+                                                           HorizontalOptions="FillAndExpand"
+                                                           BackgroundColor="{DynamicResource ComponentColor}"/>
+                                    <ScrollView Grid.Row="1"
+                                                Orientation="Horizontal"
+                                                HorizontalScrollBarVisibility="Never">
+                                        <Grid ColumnDefinitions="*,*,*"
+                                              VerticalOptions="FillAndExpand"
+                                              Padding="10,0,0,0">
+                                            <controls:SkeletonView BackgroundColor="{DynamicResource ComponentColor}"
+                                                                   CornerRadius="15"
+                                                                   WidthRequest="160"
+                                                                   VerticalOptions="FillAndExpand"
+                                                                   Margin="0,0,5,0"/>
+                                            <controls:SkeletonView Grid.Column ="1" 
+                                                                   BackgroundColor="{DynamicResource ComponentColor}"
+                                                                   CornerRadius="15"
+                                                                   WidthRequest="160"
+                                                                   VerticalOptions="FillAndExpand"
+                                                                   Margin="0,0,5,0"/>
+                                            <controls:SkeletonView Grid.Column ="2" 
+                                                                   BackgroundColor="{DynamicResource ComponentColor}"
+                                                                   CornerRadius="15"
+                                                                   WidthRequest="160"
+                                                                   VerticalOptions="FillAndExpand"
+                                                                   Margin="0,0,5,0"/>
+                                        </Grid>
+                                    </ScrollView>
+                                    <StackLayout Grid.Row="2"
+                                                 Padding="10,0">
+                                        <controls:SkeletonView HeightRequest="320"
+                                                               BackgroundColor="{DynamicResource ComponentColor}"
+                                                               CornerRadius="15"
+                                                               HorizontalOptions="FillAndExpand"/>
+                                    </StackLayout>
+                                </Grid>
+                            </xct:StateView>
+                        </xct:StateLayout.StateViews>
+                        <CollectionView x:Name="mainScrollView"
+                                        VerticalScrollBarVisibility="Never">
+                            <CollectionView.Header>
+                                <Grid RowDefinitions="220,202"
+                                      RowSpacing="15"
+                                      Padding="0,15,0,5">
+                                    <pnck:PancakeView Grid.Row="0" 
+                                                      Padding="0"
+                                                      Margin="10,0"
+                                                      CornerRadius="15">
+                                        <ffimageloading:CachedImage Source="{Binding MainTab.HotRecord.Image}" 
+                                                                    BackgroundColor="{DynamicResource ImageBackgroundColor}"
+                                                                    Aspect="AspectFill"
+                                                                    DownsampleToViewSize="True"
+                                                                    DownsampleUseDipUnits="True"/>
+                                    </pnck:PancakeView>
+                                    <pnck:PancakeView Grid.Row="0" 
+                                                      Margin="10,0"
+                                                      CornerRadius="15"
+                                                      InputTransparent="True"
+                                                      BackgroundGradientEndPoint="0,1"
+                                                      Padding="10">
+                                        <pnck:PancakeView.BackgroundGradientStops>
+                                            <pnck:GradientStopCollection>
+                                                <pnck:GradientStop Color="Transparent" Offset="0" />
+                                                <pnck:GradientStop Color="Transparent" Offset="1" />
+                                            </pnck:GradientStopCollection>
+                                        </pnck:PancakeView.BackgroundGradientStops>
+                                        <StackLayout Orientation="Vertical" 
+                                                     VerticalOptions="EndAndExpand">
+                                            <Label Text="{Binding MainTab.HotRecord.Category.Name}"
+                                                   FontFamily="Regular"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"
+                                                   TextColor="White"
+                                                   FontSize="{StaticResource SmallLabelFontSize}"/>
+                                            <Label Text="{Binding MainTab.HotRecord.Name}"  
+                                                   FontFamily="Bold"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="5"
+                                                   TextColor="White"
+                                                   FontSize="{StaticResource HeadLabelFontSize}"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Frame Padding="0"
+                                                           CornerRadius="10">
+                                                        <ffimageloading:CachedImage Source="{Binding MainTab.HotRecord.Author.Logo}" 
                                                                         Aspect="AspectFill"
                                                                         DownsampleToViewSize="True"
                                                                         DownsampleUseDipUnits="True"
                                                                         HeightRequest="20"
                                                                         WidthRequest="20"/>
-                                        </Frame>
-                                        <Label Text="{Binding MainTab.HotRecord.Author.Name}"
-                                               FontSize="{StaticResource SmallLabelFontSize}"
-                                               TextColor="{DynamicResource AccentColor}"
-                                               FontFamily="Medium"
-                                               LineBreakMode="TailTruncation"
-                                               MaxLines="1"
-                                               VerticalOptions="Center">
-                                        </Label>
-                                    </StackLayout>
-                                    <Label Text="{Binding MainTab.HotRecord.DateAdded, Converter={StaticResource DateConvert}}"
-                                           FontFamily="Regular"
-                                           LineBreakMode="TailTruncation"
-                                           TextColor="{DynamicResource SkeletonColor}"
-                                           MaxLines="1"
-                                           VerticalOptions="Center"
-                                           FontSize="{StaticResource SmallLabelFontSize}"
-                                           HorizontalOptions="EndAndExpand">
-                                    </Label>
-                                </StackLayout>
-                            </StackLayout>
-                        </pnck:PancakeView>
-                        <ScrollView x:Name="carouselPopularNewsView"
-                                    Grid.Row="1"
-                                    BackgroundColor="{DynamicResource PageBackgroundColor}"
-                                    Orientation="Horizontal"
-                                    HorizontalScrollBarVisibility="Never">
-                            <FlexLayout BindableLayout.ItemsSource="{Binding MainTab.SubTabModel}"
-                                        Margin="10,0,0,0">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <ContentView>
-                                            <Grid Padding="0,0,10,0"
-                                                  BackgroundColor="{DynamicResource PageBackgroundColor}"
-                                                  ColumnDefinitions="160">
-                                                <ListView CachingStrategy="RecycleElement"
-                                                          HasUnevenRows="True"
-                                                          ItemTemplate="{StaticResource PopularNewsDataTemplateSelector}"
-                                                          ItemsSource="{Binding Records}"
-                                                          SelectionMode="None"
-                                                          SeparatorVisibility="None"
-                                                          HorizontalScrollBarVisibility="Never">
-                                                </ListView>
-                                                <Frame HorizontalOptions="Fill"
-                                                       IsVisible="{Binding HasError}"
-                                                       VerticalOptions="Fill"
-                                                       BackgroundColor="{DynamicResource ComponentColor}"
-                                                       CornerRadius="15"
-                                                       HasShadow="False">
-                                                </Frame>
-                                            </Grid>
-                                        </ContentView>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </FlexLayout>
-                        </ScrollView>
-                    </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <!-- records -->
-                            <StackLayout BindableLayout.ItemsSource="{Binding Records}"
-                                             BindableLayout.ItemTemplateSelector="{StaticResource FeedNewsComponentsDataTemplateSelector}"
-                                             Spacing="0"
-                                             Padding="10,0">
-                            </StackLayout>
-                            <!-- has error -->
-                            <StackLayout HorizontalOptions="Center"
-                                         VerticalOptions="Center"
-                                         IsVisible="{Binding HasError}">
-                                <StackLayout>
-                                    <Label FontAttributes="Bold"
-                                           FontSize="25"
-                                           HorizontalTextAlignment="Center"
-                                           Text="Что то пошло не так"
-                                           TextColor="Gray" />
-                                </StackLayout>
-                            </StackLayout>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
+                                                    </Frame>
+                                                    <Label Text="{Binding MainTab.HotRecord.Author.Name}"
+                                                           FontSize="{StaticResource SmallLabelFontSize}"
+                                                           TextColor="{DynamicResource AccentColor}"
+                                                           FontFamily="Medium"
+                                                           LineBreakMode="TailTruncation"
+                                                           MaxLines="1"
+                                                           VerticalOptions="Center">
+                                                    </Label>
+                                                </StackLayout>
+                                                <Label Text="{Binding MainTab.HotRecord.DateAdded, Converter={StaticResource DateConvert}}"
+                                                       FontFamily="Regular"
+                                                       LineBreakMode="TailTruncation"
+                                                       TextColor="{DynamicResource SkeletonColor}"
+                                                       MaxLines="1"
+                                                       VerticalOptions="Center"
+                                                       FontSize="{StaticResource SmallLabelFontSize}"
+                                                       HorizontalOptions="EndAndExpand">
+                                                </Label>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </pnck:PancakeView>
+                                    <ScrollView x:Name="carouselPopularNewsView"
+                                                Grid.Row="1"
+                                                BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                                Orientation="Horizontal"
+                                                HorizontalScrollBarVisibility="Never">
+                                        <FlexLayout BindableLayout.ItemsSource="{Binding MainTab.SubTabModel}"
+                                                    Margin="10,0,0,0">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ContentView>
+                                                        <Grid Padding="0,0,10,0"
+                                                              BackgroundColor="{DynamicResource PageBackgroundColor}"
+                                                              ColumnDefinitions="160">
+                                                            <ListView CachingStrategy="RecycleElement"
+                                                                      HasUnevenRows="True"
+                                                                      ItemTemplate="{StaticResource PopularNewsDataTemplateSelector}"
+                                                                      ItemsSource="{Binding Records}"
+                                                                      SelectionMode="None"
+                                                                      SeparatorVisibility="None"
+                                                                      HorizontalScrollBarVisibility="Never">
+                                                            </ListView>
+                                                            <Frame HorizontalOptions="Fill"
+                                                                   IsVisible="{Binding HasError}"
+                                                                   VerticalOptions="Fill"
+                                                                   BackgroundColor="{DynamicResource ComponentColor}"
+                                                                   CornerRadius="15"
+                                                                   HasShadow="False">
+                                                            </Frame>
+                                                        </Grid>
+                                                    </ContentView>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </FlexLayout>
+                                    </ScrollView>
+                                </Grid>
+                            </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <!-- records -->
+                                        <StackLayout BindableLayout.ItemsSource="{Binding Records}"
+                                                     BindableLayout.ItemTemplateSelector="{StaticResource FeedNewsComponentsDataTemplateSelector}"
+                                                     Spacing="0"
+                                                     Padding="10,0">
+                                        </StackLayout>
+                                        <!-- has error -->
+                                        <StackLayout HorizontalOptions="Center"
+                                                     VerticalOptions="Center"
+                                                     IsVisible="{Binding HasError}">
+                                            <StackLayout>
+                                                <Label FontAttributes="Bold"
+                                                       FontSize="25"
+                                                       HorizontalTextAlignment="Center"
+                                                       Text="Что то пошло не так"
+                                                       TextColor="Gray" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </ScrollView>
+            </pnck:PancakeView>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
