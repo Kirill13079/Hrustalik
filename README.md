@@ -1,86 +1,34 @@
-# REST API
-The REST API to the app is described below.
+# Hrustalik 
+![Hrustalik](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/mipmap-hdpi/HrustalikApp.png)
+## _This is an unfinished project_ ;(
 
-## Get Records
+## Features
 
-### Request
+- Login/Registration
+- Online/Offline News Viewer
+- Bookmarking
+- Export to social networks
 
-`GET api/record/news`
+The application feature will be the application where the most accurate information and accurate news will be created.
 
-    curl -X GET http://hrustalik.by/api/record/news 
-    
-### Response
+## Tech
 
-```json
-{
-    "id": 8,
-    "name": "Врач рассказала, почему после еды может болеть голова",
-    "publication": "Мира Маркина",
-    "description": "Боль в голове после еды может быть связана с сахарным диабетом и другими нарушениями работы поджелудочной железы, отметила эксперт.",
-    "image": "6bce5fe7-ee03-4fdf-9419-3e788f77668e_96741569f77d4eb5116e6e8b0dcc80f1.jpg",
-    "isNews": true,
-    "isHot": true,
-    "isArticle": false,
-    "dateAdded": "2022-05-10T20:07:21.3041093+03:00",
-    "category": {
-        "id": 6,
-        "name": "Общая медицина"
-    }
-}
-```
+Hrustalik uses a number of open source projects to work properly:
 
-## Login
+- [MonkeyCache](https://github.com/jamesmontemagno/monkey-cache) - Easily cache any data structure for a specific amount of time in any .NET application.
+- [UserDialogs](https://github.com/aritchie/userdialogs) - A cross platform library that allows you to call for standard user dialogs from a core .net standard library.
+- [SkiaSharp](https://github.com/mono/SkiaSharp) - SkiaSharp is a cross-platform 2D graphics API for .NET platforms based on Google's Skia Graphics Library.
+- [PancakeView](https://github.com/sthewissen/Xamarin.Forms.PancakeView) - An extended ContentView for Xamarin.Forms with rounded corners, borders, shadows and more!
+- [CardsView](https://github.com/AndreiMisiukevich/CardView) - Custom controls.
+- [Skeleton](https://github.com/HorusSoftwareUY/Xamarin.Forms.Skeleton) - The new loading approach for cool apps in Xamarin Forms.
+-  [Authentication](https://github.com/dotnet/aspnetcore)
+- - Authentication Google
+- - Authentication JwtBearer
 
-### Request
+And of course Hrustalik itself is open source with a [public repository][dill] on GitHub.
 
-`POST api/user/login`
+## Demo
+![Иллюстрация к проекту](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/mipmap-hdpi/HrustalikApp.png)
 
-    curl -X POST http://hrustalik.by/api/user/login -H "Content-Type: application/json" --data-binary @- <<DATA
-    {
-        "email" : "email@gmail.com",
-        "password" : "password"
-    }
-    DATA
-    
-### Response
 
-```json
-{
-    "customer": {
-        "id": 1,
-        "firstName": null,
-        "lastName": null,
-        "email": "email@gmail.com",
-        "bookmarks": null
-    },
-    "token": "your token"
-}
-```
-
-## Registration
-
-### Request
-
-`POST api/user/register`
-
-    curl -X POST http://hrustalik.by/api/user/register -H "Content-Type: application/json" --data-binary @- <<DATA
-    {
-        "email" : "email@gmail.com",
-        "password" : "password"
-    }
-    DATA
-    
-### Response
-
-```json
-{
-    "customer": {
-        "id": 1,
-        "firstName": null,
-        "lastName": null,
-        "email": "email@gmail.com",
-        "bookmarks": null
-    }
-}
-```
-
+   [dill]: <https://github.com/Kirill13079/Hrustalik>
