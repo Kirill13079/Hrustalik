@@ -28,7 +28,19 @@ Hrustalik uses a number of open source projects to work properly:
 And of course Hrustalik itself is open source with a [public repository][dill] on GitHub.
 
 ## Demo
-![Иллюстрация к проекту](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/mipmap-hdpi/HrustalikApp.png)
+![white theme](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/55f2c59a-3a6b-4ac3-9c6d-01df3c51c114.jpg)
+![black theme](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/6e38e7d7-ad9e-4751-93ae-2effc163f322.jpg)
+
+![login](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/206524e3-e0bc-4d68-838e-fb42c2851202.jpg)
+![register](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/75c37f19-79e4-420b-a8ff-2f3f9b867f22.jpg)
+
+![categories](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/cdc3f204-add8-4a18-96e6-885b420b8442.jpg)
+![more](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/7a01d163-94d3-4ca6-a24d-a542b50a13b7.jpg)
+
+![white categories](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/6b437389-b59c-4fba-a9c4-529a982743c7.jpg)
+![white home](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/cbc621c4-836f-4afc-8d37-a1183bf03b61.jpg)
+
+![authors](https://github.com/Kirill13079/Hrustalik/blob/master/HealthApp/HealthApp.Android/Resources/9a7b4d88-26df-4e97-b035-7fd6f6cad3ab.jpg)
 
 
    [dill]: <https://github.com/Kirill13079/Hrustalik>
